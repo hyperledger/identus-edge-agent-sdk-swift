@@ -1,0 +1,2 @@
+--disable trailingCommas,unusedArguments
+--exclude Pods
