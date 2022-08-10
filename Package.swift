@@ -1,0 +1,120 @@
+// swift-tools-version: 5.6
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+    name: "AtalaPRISMSDK",
+    platforms: [.iOS(.v15), .watchOS(.v8), .macCatalyst(.v14), .macOS(.v12)],
+    products: [
+        .library(
+            name: "Domain",
+            targets: ["Domain"]
+        ),
+        .library(
+            name: "Apollo",
+            targets: ["Apollo"]
+        ),
+        .library(
+            name: "Castor",
+            targets: ["Castor"]
+        ),
+        .library(
+            name: "Pollux",
+            targets: ["Pollux"]
+        ),
+        .library(
+            name: "Mercury",
+            targets: ["Mercury"]
+        ),
+        .library(
+            name: "Pluto",
+            targets: ["Pluto"]
+        ),
+        .library(
+            name: "Builders",
+            targets: ["Builders"]
+        ),
+        .library(
+            name: "Experiences",
+            targets: ["Experiences"]
+        )
+    ],
+    dependencies: [],
+    targets: [
+        .target(
+            name: "Domain",
+            path: "Domain/Sources"
+        ),
+        .testTarget(
+            name: "DomainTests",
+            dependencies: ["Domain"],
+            path: "Domain/Tests"
+        ),
+        .target(
+            name: "Apollo",
+            dependencies: ["Domain"],
+            path: "Apollo/Sources"
+        ),
+        .testTarget(
+            name: "ApolloTests",
+            dependencies: ["Apollo"],
+            path: "Apollo/Tests"
+        ),
+        .target(
+            name: "Castor",
+            dependencies: ["Domain"],
+            path: "Castor/Sources"
+        ),
+        .testTarget(
+            name: "CastorTests",
+            dependencies: ["Castor"],
+            path: "Castor/Tests"
+        ),
+        .target(
+            name: "Pollux",
+            dependencies: ["Domain"],
+            path: "Pollux/Sources"
+        ),
+        .testTarget(
+            name: "PolluxTests",
+            dependencies: ["Pollux"],
+            path: "Pollux/Tests"
+        ),
+        .target(
+            name: "Mercury",
+            dependencies: ["Domain"],
+            path: "Mercury/Sources"
+        ),
+        .testTarget(
+            name: "MercuryTests",
+            dependencies: ["Mercury"],
+            path: "Mercury/Tests"
+        ),
+        .target(
+            name: "Pluto",
+            dependencies: ["Domain"],
+            path: "Pluto/Sources"
+        ),
+        .testTarget(
+            name: "PlutoTests",
+            dependencies: ["Pluto"],
+            path: "Pluto/Tests"
+        ),
+        .target(
+            name: "Builders",
+            dependencies: ["Domain", "Castor", "Pollux", "Mercury", "Pluto", "Apollo"],
+            path: "Builders/Sources"
+        ),
+        .target(
+            name: "Experiences",
+            dependencies: ["Domain", "Builders"],
+            path: "Experiences/Sources"
+        ),
+        .testTarget(
+            name: "ExperiencesTests",
+            dependencies: ["Experiences"],
+            path: "Experiences/Tests"
+        )
+    ]
+)
