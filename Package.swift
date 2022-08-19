@@ -40,7 +40,12 @@ let package = Package(
             targets: ["Experiences"]
         )
     ],
-    dependencies: [],
+    dependencies: [
+        .package(
+          url: "https://github.com/apple/swift-log.git",
+          from: "1.4.4"
+        )
+    ],
     targets: [
         .target(
             name: "Domain",
@@ -53,7 +58,7 @@ let package = Package(
         ),
         .target(
             name: "Apollo",
-            dependencies: ["Domain"],
+            dependencies: ["Domain", "Core"],
             path: "Apollo/Sources"
         ),
         .testTarget(
@@ -63,7 +68,7 @@ let package = Package(
         ),
         .target(
             name: "Castor",
-            dependencies: ["Domain"],
+            dependencies: ["Domain", "Core"],
             path: "Castor/Sources"
         ),
         .testTarget(
@@ -73,7 +78,7 @@ let package = Package(
         ),
         .target(
             name: "Pollux",
-            dependencies: ["Domain"],
+            dependencies: ["Domain", "Core"],
             path: "Pollux/Sources"
         ),
         .testTarget(
@@ -83,7 +88,7 @@ let package = Package(
         ),
         .target(
             name: "Mercury",
-            dependencies: ["Domain"],
+            dependencies: ["Domain", "Core"],
             path: "Mercury/Sources"
         ),
         .testTarget(
@@ -93,7 +98,7 @@ let package = Package(
         ),
         .target(
             name: "Pluto",
-            dependencies: ["Domain"],
+            dependencies: ["Domain", "Core"],
             path: "Pluto/Sources"
         ),
         .testTarget(
@@ -108,13 +113,22 @@ let package = Package(
         ),
         .target(
             name: "Experiences",
-            dependencies: ["Domain", "Builders"],
+            dependencies: ["Domain", "Builders", "Core"],
             path: "Experiences/Sources"
         ),
         .testTarget(
             name: "ExperiencesTests",
             dependencies: ["Experiences"],
             path: "Experiences/Tests"
+        ),
+        // Internal core components (ex: logging) not public distributed
+        .target(
+            name: "Core",
+            dependencies: [
+                "Domain",
+                .product(name: "Logging", package: "swift-log")
+            ],
+            path: "Core/Sources"
         )
     ]
 )
