@@ -41,5 +41,5 @@ fastlane/.env.*
 fastlane/README.md
 protobuf/*.swift
 Sources/PrismSwiftSDK/protobuf
-PrismAPISDK
+OpenAPI
 Package.resolved
