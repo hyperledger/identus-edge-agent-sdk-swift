@@ -44,7 +44,8 @@ let package = Package(
         .package(
           url: "https://github.com/apple/swift-log.git",
           from: "1.4.4"
-        )
+        ),
+        .package(path: "OpenAPI/Castor")
     ],
     targets: [
         .target(
@@ -68,7 +69,7 @@ let package = Package(
         ),
         .target(
             name: "Castor",
-            dependencies: ["Domain", "Core"],
+            dependencies: ["Domain", "Core", .product(name: "CastorAPI", package: "Castor")],
             path: "Castor/Sources"
         ),
         .testTarget(
