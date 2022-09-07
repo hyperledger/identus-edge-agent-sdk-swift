@@ -15,6 +15,17 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        
+      - name: ABC Install
+        uses: lyricwulf/abc@v1
+        with:
+          macos: openapi-generator
+        
+      - name: Bootstrap
+        run: ./bootstrap.sh
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2.3.0
