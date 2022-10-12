@@ -76,6 +76,8 @@ excluded:
   - PrismAPISDK
   - Sources/PrismSwiftSDK/protobuf
   - Tests/PrismSwiftSDKTests
+  - Castor/Sources/DIDGrammar
+  - Castor/Tests
 line_length:
   ignores_comments: true
   ignores_urls: true
