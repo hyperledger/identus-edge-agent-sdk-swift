@@ -3,13 +3,13 @@
 public struct DIDUrl {
     public let did: DID
     public let path: [String]
-    public let parameters: [String: [String]]
+    public let parameters: [String: String]
     public let fragment: String?
 
     public init(
         did: DID,
         path: [String],
-        parameters: [String: [String]],
+        parameters: [String: String],
         fragment: String? = nil
     ) {
         self.did = did
