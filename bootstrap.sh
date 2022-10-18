@@ -14,7 +14,5 @@ else
         cd atala-prism-swift-sdk || exit
     fi
 
-    openapi-generator generate -g swift5 -o OpenAPI/Castor -i ../atala-prism-building-blocks/castor/api/http/castor-openapi-spec.yaml --additional-properties=projectName=CastorAPI
-
-    openapi-generator generate -g swift5 -o OpenAPI/Pollux -i ../atala-prism-building-blocks/pollux/api/pollux-openapi-spec.yaml --additional-properties=projectName=PolluxAPI
+    openapi-generator generate -g swift5 -o OpenAPI/PrismAgentAPI -i ../atala-prism-building-blocks/prism-agent/api/http/prism-agent-openapi-spec.yaml --additional-properties=projectName=PrismAgentAPI
 fi
