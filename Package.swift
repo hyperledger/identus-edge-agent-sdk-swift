@@ -45,8 +45,7 @@ let package = Package(
           url: "https://github.com/apple/swift-log.git",
           from: "1.4.4"
         ),
-        .package(path: "OpenAPI/Castor"),
-        .package(path: "OpenAPI/Pollux")
+        .package(path: "OpenAPI/PrismAgentAPI")
     ],
     targets: [
         .target(
@@ -70,7 +69,7 @@ let package = Package(
         ),
         .target(
             name: "Castor",
-            dependencies: ["Domain", "Core", .product(name: "CastorAPI", package: "Castor")],
+            dependencies: ["Domain", "Core", .product(name: "PrismAgentAPI", package: "PrismAgentAPI")],
             path: "Castor/Sources"
         ),
         .testTarget(
@@ -80,7 +79,7 @@ let package = Package(
         ),
         .target(
             name: "Pollux",
-            dependencies: ["Domain", "Core", .product(name: "PolluxAPI", package: "Pollux")],
+            dependencies: ["Domain", "Core", .product(name: "PrismAgentAPI", package: "PrismAgentAPI")],
             path: "Pollux/Sources"
         ),
         .testTarget(
