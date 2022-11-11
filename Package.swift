@@ -42,9 +42,11 @@ let package = Package(
     ],
     dependencies: [
         .package(
-          url: "https://github.com/apple/swift-log.git",
-          from: "1.4.4"
+            url: "https://github.com/apple/swift-log.git",
+            from: "1.4.4"
         ),
+        .package(url: "https://github.com/MarcoEidinger/SwiftFormatPlugin", from: "0.50.3"),
+        .package(url: "https://github.com/realm/SwiftLint.git", branch: "main"),
         .package(url: "https://github.com/apple/swift-protobuf", from: "1.7.0"),
         .package(url: "https://github.com/antlr/antlr4", branch: "master"),
         .package(name: "PrismAPI", path: "PrismAPISDK")
@@ -62,7 +64,10 @@ let package = Package(
         .target(
             name: "Apollo",
             dependencies: ["Domain", "Core", "PrismAPI"],
-            path: "Apollo/Sources"
+            path: "Apollo/Sources",
+            plugins: [
+                .plugin(name: "SwiftLintPlugin", package: "SwiftLint")
+            ]
         ),
         .testTarget(
             name: "ApolloTests",

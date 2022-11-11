@@ -13,7 +13,7 @@ struct CreateSeedOperation {
     init(logger: PrismLogger, words: [String], passphrase: String = "") throws {
         self.logger = logger
         self.words = words
-        
+        self.passphrase = passphrase
         guard
             words.allSatisfy({
                 if !keyDerivation.isValidMnemonicWord(word: $0) {
