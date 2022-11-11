@@ -79,6 +79,7 @@ excluded:
   - Tests/PrismSwiftSDKTests
   - Castor/Sources/DIDParser/DIDGrammar
   - Castor/Tests
+  - Castor/Sources/protobuf
   - Apollo/Tests
   - Domain/Tests
   - Authenticate/Tests
