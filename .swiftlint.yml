@@ -5,6 +5,7 @@ disabled_rules:
   - reduce_into
   - vertical_parameter_alignment_on_call
   - array_init
+  - inclusive_language
 opt_in_rules:
   - force_unwrapping
   - force_cast
@@ -76,8 +77,9 @@ excluded:
   - PrismAPISDK
   - Sources/PrismSwiftSDK/protobuf
   - Tests/PrismSwiftSDKTests
-  - Castor/Sources/DIDGrammar
+  - Castor/Sources/DIDParse/DIDGrammar
   - Castor/Tests
+  - Castor/Sources/protobuf
 line_length:
   ignores_comments: true
   ignores_urls: true
