@@ -5,10 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "AtalaPRISMSDK",
-    platforms: [.iOS(.v15), .watchOS(.v8), .macCatalyst(.v14), .macOS(.v12)],
+    platforms: [.iOS(.v15)],
     products: [
         .library(
-            name: "Domain",
+            name: "AtalaDomain",
             targets: ["Domain"]
         ),
         .library(
@@ -45,7 +45,9 @@ let package = Package(
           url: "https://github.com/apple/swift-log.git",
           from: "1.4.4"
         ),
-        .package(path: "OpenAPI/PrismAgentAPI")
+        .package(url: "https://github.com/apple/swift-protobuf", from: "1.7.0"),
+        .package(url: "https://github.com/antlr/antlr4", branch: "master"),
+        .package(name: "PrismAPI", path: "PrismAPISDK")
     ],
     targets: [
         .target(
@@ -59,7 +61,7 @@ let package = Package(
         ),
         .target(
             name: "Apollo",
-            dependencies: ["Domain", "Core"],
+            dependencies: ["Domain", "Core", "PrismAPI"],
             path: "Apollo/Sources"
         ),
         .testTarget(
@@ -69,17 +71,26 @@ let package = Package(
         ),
         .target(
             name: "Castor",
-            dependencies: ["Domain", "Core", .product(name: "PrismAgentAPI", package: "PrismAgentAPI")],
+            dependencies: [
+                "Domain",
+                "Core",
+                "PrismAPI",
+                .product(name: "SwiftProtobuf", package: "swift-protobuf"),
+                .product(name: "Antlr4", package: "antlr4")
+            ],
             path: "Castor/Sources"
         ),
         .testTarget(
             name: "CastorTests",
-            dependencies: ["Castor"],
+            dependencies: ["Castor", "Apollo"],
             path: "Castor/Tests"
         ),
         .target(
             name: "Pollux",
-            dependencies: ["Domain", "Core", .product(name: "PrismAgentAPI", package: "PrismAgentAPI")],
+            dependencies: [
+                "Domain",
+                "Core"
+            ],
             path: "Pollux/Sources"
         ),
         .testTarget(
@@ -99,7 +110,7 @@ let package = Package(
         ),
         .target(
             name: "Pluto",
-            dependencies: ["Domain", "Core"],
+            dependencies: ["Domain"],
             path: "Pluto/Sources"
         ),
         .testTarget(
