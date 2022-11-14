@@ -36,8 +36,8 @@ let package = Package(
             targets: ["Builders"]
         ),
         .library(
-            name: "Experiences",
-            targets: ["Experiences"]
+            name: "PrismAgent",
+            targets: ["PrismAgent"]
         )
     ],
     dependencies: [
@@ -129,14 +129,14 @@ let package = Package(
             path: "Builders/Sources"
         ),
         .target(
-            name: "Experiences",
+            name: "PrismAgent",
             dependencies: ["Domain", "Builders", "Core"],
-            path: "Experiences/Sources"
+            path: "PrismAgent/Sources"
         ),
         .testTarget(
-            name: "ExperiencesTests",
-            dependencies: ["Experiences"],
-            path: "Experiences/Tests"
+            name: "PrismAgent",
+            dependencies: ["PrismAgent"],
+            path: "PrismAgent/Tests"
         ),
         // Internal core components (ex: logging) not public distributed
         .target(
