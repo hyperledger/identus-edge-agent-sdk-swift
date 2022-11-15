@@ -8,13 +8,29 @@ public struct DIDUrl {
 
     public init(
         did: DID,
-        path: [String],
-        parameters: [String: String],
+        path: [String] = [],
+        parameters: [String: String] = [:],
         fragment: String? = nil
     ) {
         self.did = did
         self.path = path
         self.parameters = parameters
         self.fragment = fragment
+    }
+
+    public var string: String {
+        ""
+    }
+
+    private var pathString: String {
+        "/" + path.joined(separator: "/")
+    }
+
+    private var queryString: String {
+        "?" + parameters.map { $0 + "=" + $1 }.joined(separator: "&")
+    }
+
+    private var fragmentString: String {
+        fragment.map { "#" + $0 } ?? ""
     }
 }

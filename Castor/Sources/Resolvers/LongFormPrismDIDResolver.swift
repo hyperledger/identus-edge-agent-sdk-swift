@@ -8,7 +8,7 @@ struct LongFormPrismDIDResolver: DIDResolver {
     func resolve(did: DID) throws -> DIDDocument {
         let prismDID = try LongFormPrismDID(did: did)
         guard
-            let data = Base64Utils().decode(prismDID.encodedState)
+            let data = Base64Utils().decodeMethodID(str: prismDID.encodedState)
         else { throw CastorError.initialStateOfDIDChanged }
 
         let (verificationMethods, services) = try decodeState(
