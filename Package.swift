@@ -8,7 +8,7 @@ let package = Package(
     platforms: [.iOS(.v15)],
     products: [
         .library(
-            name: "AtalaDomain",
+            name: "Domain",
             targets: ["Domain"]
         ),
         .library(
@@ -38,6 +38,10 @@ let package = Package(
         .library(
             name: "PrismAgent",
             targets: ["PrismAgent"]
+        ),
+        .library(
+            name: "Authenticate",
+            targets: ["Authenticate"]
         )
     ],
     dependencies: [
@@ -134,9 +138,19 @@ let package = Package(
             path: "PrismAgent/Sources"
         ),
         .testTarget(
-            name: "PrismAgent",
+            name: "PrismAgentTests",
             dependencies: ["PrismAgent"],
             path: "PrismAgent/Tests"
+        ),
+        .target(
+            name: "Authenticate",
+            dependencies: ["Domain", "Builders", "Core"],
+            path: "Authenticate/Sources"
+        ),
+        .testTarget(
+            name: "AuthenticateTests",
+            dependencies: ["Authenticate"],
+            path: "Authenticate/Tests"
         ),
         // Internal core components (ex: logging) not public distributed
         .target(
