@@ -50,7 +50,7 @@ struct CreatePrismDIDOperation {
         let methodSpecificId = try PrismDIDMethodId(
             sections: [
                 stateHash,
-                Base64Utils().encode(encodedState)
+                Base64Utils().encodeMethodID(data: encodedState)
             ]
         )
         return DID(method: method, methodId: methodSpecificId.description)
