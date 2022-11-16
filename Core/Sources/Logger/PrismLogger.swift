@@ -41,6 +41,7 @@ import Logging
 private let METADATA_PRIVACY_STR = "------"
 
 // MARK: Prism Logger
+
 public struct PrismLogger {
     static var logLevels = [LogComponent: LogLevel]()
     private static let hashingLog = UUID().uuidString
@@ -60,24 +61,24 @@ public struct PrismLogger {
 
         fileprivate var key: String {
             switch self {
-            case .publicMetadata(let key, _),
-                    .privateMetadata(let key, _),
-                    .privateMetadataByLevel(let key, _, _),
-                    .maskedMetadata(let key, _),
-                    .maskedMetadataByLevel(let key, _, _):
+            case let .publicMetadata(key, _),
+                 let .privateMetadata(key, _),
+                 let .privateMetadataByLevel(key, _, _),
+                 let .maskedMetadata(key, _),
+                 let .maskedMetadataByLevel(key, _, _):
                 return key
             }
         }
 
         fileprivate func getValue(for logLevel: LogLevel) -> String {
             switch self {
-            case .publicMetadata(_, let value):
+            case let .publicMetadata(_, value):
                 return value
             case .privateMetadata:
                 return METADATA_PRIVACY_STR
             case let .privateMetadataByLevel(_, value, level):
                 return logLevel.rawValue <= level.rawValue ? value : METADATA_PRIVACY_STR
-            case .maskedMetadata(_, let value):
+            case let .maskedMetadata(_, value):
                 let sha256 = SHA256
                     .hash(data: Data((PrismLogger.hashingLog + value).utf8))
                     .compactMap {
@@ -101,16 +102,17 @@ public struct PrismLogger {
 
     private let logger: Logger
 
-    public init(category: LogComponent, handler: ((String) -> LogHandler)?) {
+    public init(category: LogComponent, handler: ((String) -> LogHandler)? = nil) {
         handler.map { LoggingSystem.bootstrap($0) }
         var logger = Logger(label: "[ io.prism.swift.sdk.\(category) ]")
-        self.logLevel = PrismLogger.logLevels.first { $0.key == category }?.value ?? .info
-        logger.logLevel = self.logLevel.getLoggerLevel()
+        logLevel = PrismLogger.logLevels.first { $0.key == category }?.value ?? .info
+        logger.logLevel = logLevel.getLoggerLevel()
         self.logger = logger
     }
 }
 
 // MARK: Prism Logger public methods
+
 public extension PrismLogger {
     /// Logs debug level message and metadata
     /// - Parameters:
@@ -168,9 +170,10 @@ public extension PrismLogger {
 }
 
 // MARK: Combine observer helper
+
 public extension Publisher {
-    func log(logger: PrismLogger) -> AnyPublisher<Self.Output, Self.Failure>  {
-        self.handleEvents(receiveSubscription: { _ in
+    func log(logger: PrismLogger) -> AnyPublisher<Self.Output, Self.Failure> {
+        handleEvents(receiveSubscription: { _ in
             logger.debug(message: "subscribed")
         }, receiveOutput: {
             logger.debug(message: "received", metadata: [
@@ -180,7 +183,7 @@ public extension Publisher {
             switch $0 {
             case .finished:
                 logger.debug(message: "finished")
-            case .failure(let error):
+            case let .failure(error):
                 logger.error(message: "finished with error", metadata: [
                     .publicMetadata(key: "Error", value: error.localizedDescription)
                 ])
@@ -196,7 +199,7 @@ public extension Publisher {
 
 private extension Array where Element == PrismLogger.Metadata {
     func loggerMetadata(logLevel: LogLevel) -> Logger.Metadata {
-        self.reduce([String: Logger.MetadataValue]()) {
+        reduce([String: Logger.MetadataValue]()) {
             var dic = $0
             dic[$1.key] = Logger.MetadataValue.string($1.getValue(for: logLevel))
             return dic

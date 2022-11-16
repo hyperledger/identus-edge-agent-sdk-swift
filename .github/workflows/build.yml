@@ -8,6 +8,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     name: build
@@ -22,16 +26,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: github.com
 
-      - name: ABC Install
-        uses: lyricwulf/abc@v1
-        with:
-          macos: openapi-generator
-
-      - name: Bootstrap
-        run: ./bootstrap.sh
-        env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build
-        run: "swift build"
+        run: xcodebuild build test -scheme "AtalaPRISMSDK-Package" -destination "platform=iOS Simulator,name=IPhone 14"

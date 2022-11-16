@@ -5,7 +5,7 @@ extension ApolloImpl: Apollo {
     public func createRandomMnemonics() -> [String] {
         RandomMnemonicsOperation(logger: ApolloImpl.logger).compute()
     }
-    
+
     public func createSeed(mnemonics: [String], passphrase: String) throws -> Seed {
         try CreateSeedOperation(logger: ApolloImpl.logger, words: mnemonics, passphrase: passphrase).compute()
     }
@@ -13,7 +13,10 @@ extension ApolloImpl: Apollo {
     public func createRandomSeed() -> (mnemonic: [String], seed: Seed) {
         let words = createRandomMnemonics()
         guard let seed = try? createSeed(mnemonics: words, passphrase: "") else {
-            fatalError("This should never happen since the function that returns random mnemonics nerver returns invalid mnemonics")
+            fatalError("""
+This should never happen since the function that
+returns random mnemonics nerver returns invalid mnemonics
+""")
         }
         return (words, seed)
     }

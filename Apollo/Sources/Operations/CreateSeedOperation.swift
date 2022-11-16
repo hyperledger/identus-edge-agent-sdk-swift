@@ -1,15 +1,14 @@
-import Foundation
-import Domain
-import PrismAPI
 import Core
+import Domain
+import Foundation
+import PrismAPI
 
 struct CreateSeedOperation {
-    
     let keyDerivation = KeyDerivation()
     let logger: PrismLogger
     let words: [String]
     let passphrase: String
-    
+
     init(logger: PrismLogger, words: [String], passphrase: String = "") throws {
         self.logger = logger
         self.words = words
@@ -27,7 +26,7 @@ struct CreateSeedOperation {
             })
         else { throw ApolloError.invalidMnemonicWord }
     }
-    
+
     func compute() -> Seed {
         Seed(value: keyDerivation
             .binarySeed(

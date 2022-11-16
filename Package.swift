@@ -49,8 +49,8 @@ let package = Package(
             url: "https://github.com/apple/swift-log.git",
             from: "1.4.4"
         ),
-        .package(url: "https://github.com/MarcoEidinger/SwiftFormatPlugin", from: "0.50.3"),
-        .package(url: "https://github.com/realm/SwiftLint.git", branch: "main"),
+        // This doesnt seem to be working properly on command line, removing for now
+//      .package(url: "https://github.com/realm/SwiftLint.git", branch: "main"),
         .package(url: "https://github.com/apple/swift-protobuf", from: "1.7.0"),
         .package(url: "https://github.com/antlr/antlr4", branch: "master"),
         .package(name: "PrismAPI", path: "PrismAPISDK")
@@ -68,10 +68,7 @@ let package = Package(
         .target(
             name: "Apollo",
             dependencies: ["Domain", "Core", "PrismAPI"],
-            path: "Apollo/Sources",
-            plugins: [
-                .plugin(name: "SwiftLintPlugin", package: "SwiftLint")
-            ]
+            path: "Apollo/Sources"
         ),
         .testTarget(
             name: "ApolloTests",
@@ -152,7 +149,7 @@ let package = Package(
             dependencies: ["Authenticate"],
             path: "Authenticate/Tests"
         ),
-        // Internal core components (ex: logging) not public distributed
+//        Internal core components (ex: logging) not public distributed
         .target(
             name: "Core",
             dependencies: [
@@ -160,6 +157,10 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log")
             ],
             path: "Core/Sources"
+//            Unfortunately this doesnt seem to work properly right now.
+//            plugins: [
+//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint")
+//            ]
         )
     ]
 )
