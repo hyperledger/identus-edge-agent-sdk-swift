@@ -77,9 +77,17 @@ excluded:
   - PrismAPISDK
   - Sources/PrismSwiftSDK/protobuf
   - Tests/PrismSwiftSDKTests
-  - Castor/Sources/DIDParse/DIDGrammar
+  - Castor/Sources/DIDParser/DIDGrammar
   - Castor/Tests
-  - Castor/Sources/protobuf
+  - Apollo/Tests
+  - Domain/Tests
+  - Authenticate/Tests
+  - Builders/Tests
+  - Core/Tests
+  - Mercury/Tests
+  - Pluto/Tests
+  - Pollux/Tests
+  - PrismAgent/Tests
 line_length:
   ignores_comments: true
   ignores_urls: true

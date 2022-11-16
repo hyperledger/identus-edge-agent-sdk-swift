@@ -30,7 +30,7 @@ struct DIDUrlParser {
             method: methodName,
             methodId: methodId
         )
-        
+
         let didUrl = DIDUrl(
             did: did,
             path: listener.path ?? [],
@@ -42,7 +42,7 @@ struct DIDUrlParser {
     }
 }
 
-fileprivate final class Listener: DIDUrlAbnfBaseListener {
+private final class Listener: DIDUrlAbnfBaseListener {
     fileprivate var scheme: String?
     fileprivate var methodName: String?
     fileprivate var methodId: String?
@@ -63,17 +63,17 @@ fileprivate final class Listener: DIDUrlAbnfBaseListener {
     ) {
         methodId = ctx.getText()
     }
-    
+
     override func exitPath(_ ctx: DIDUrlAbnfParser.PathContext) {
         guard !ctx.isEmpty() else { return }
         path = ctx.string().map { $0.getText() }
     }
-    
+
     override func exitFrag(_ ctx: DIDUrlAbnfParser.FragContext) {
         guard !ctx.isEmpty() else { return }
         fragment = ctx.string()?.getText() ?? ctx.DIGIT()?.getText()
     }
-    
+
     override func exitSearchparameter(_ ctx: DIDUrlAbnfParser.SearchparameterContext) {
         guard
             !ctx.isEmpty(),
