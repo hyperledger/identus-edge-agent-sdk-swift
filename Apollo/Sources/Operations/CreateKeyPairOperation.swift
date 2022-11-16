@@ -1,10 +1,9 @@
-import Foundation
-import Domain
-import PrismAPI
 import Core
+import Domain
+import Foundation
+import PrismAPI
 
 struct CreateKeyPairOperation {
-    
     struct KeyPath {
         let index: Int
 
@@ -12,17 +11,17 @@ struct CreateKeyPairOperation {
         init(index: Int) {
             self.index = index
         }
-        
+
         func keyPathString() -> String {
             return "m/\(index)'/0'/0'"
         }
     }
-    
+
     let logger: PrismLogger
     let keyDerivation = KeyDerivation()
     let seed: Seed
     let keyPath: KeyPath
-    
+
     init(logger: PrismLogger, seed: Seed, keyPath: KeyPath) {
         self.logger = logger
         self.seed = seed
@@ -45,7 +44,7 @@ struct CreateKeyPairOperation {
                 level: .debug
             )
         ])
-        
+
         return KeyPair(
             index: keyPath.index,
             privateKey: PrivateKey(fromEC: newKey.keyPair().privateKey),

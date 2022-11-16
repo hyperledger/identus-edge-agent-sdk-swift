@@ -35,7 +35,7 @@ struct DIDParser {
     }
 }
 
-fileprivate final class Listener: DIDAbnfBaseListener {
+private final class Listener: DIDAbnfBaseListener {
     fileprivate var scheme: String?
     fileprivate var methodName: String?
     fileprivate var methodId: String?
