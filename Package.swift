@@ -117,7 +117,8 @@ let package = Package(
         .target(
             name: "Pluto",
             dependencies: ["Domain"],
-            path: "Pluto/Sources"
+            path: "Pluto/Sources",
+            resources: [.process("Resources/PrismPluto.xcdatamodeld")]
         ),
         .testTarget(
             name: "PlutoTests",
