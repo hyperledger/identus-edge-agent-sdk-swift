@@ -5,7 +5,7 @@ public typealias DIDMethodId = String
 
 /// Represents a DID with ``DIDMethod`` and ``DIDMethodId``
 /// As specified in [w3 standards](https://www.w3.org/TR/did-core/#dfn-did-schemes)
-public struct DID {
+public struct DID: Equatable {
     public let schema: String
     public let method: DIDMethod
     public let methodId: DIDMethodId
