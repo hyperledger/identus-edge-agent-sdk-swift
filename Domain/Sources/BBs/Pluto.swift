@@ -1,15 +1,15 @@
 import Foundation
+import Combine
 
-protocol Pluto {
-    func storeSeed(seed: Seed) async throws -> Session
+public protocol Pluto {
     func storeDID(
-        session: Session,
         did: DID,
         keyPairIndex: Int,
         alias: String?
-    ) async throws
+    ) -> AnyPublisher<Void, Error>
 
-    func getSession() async -> Session
-    func getDID(alias: String) async -> DID
-    func getDIDKeyPairIndex(did: DID) async -> Int
+    func getAllDIDs() -> AnyPublisher<[(did: DID, keyPairIndex: Int, alias: String?)], Error>
+    func getDIDInfo(did: DID) -> AnyPublisher<(did: DID, keyPairIndex: Int, alias: String?)?, Error>
+    func getDIDInfo(alias: String) -> AnyPublisher<[(did: DID, keyPairIndex: Int)], Error>
+    func getDIDKeyPairIndex(did: DID) -> AnyPublisher<Int?, Error>
 }
