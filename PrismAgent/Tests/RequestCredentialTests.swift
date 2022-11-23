@@ -8,19 +8,21 @@ final class RequestCredentialTests: XCTestCase {
         let toDID = DID(index: 1)
         let validRequestCredential = RequestCredential(
             body: .init(
+                goalCode: "test1",
+                comment: "test1",
                 formats: [
                     .init(
                         attachId: "test1",
                         format: "test")
                 ]
             ),
-            attachments: [],
+            attachments: [
+            ],
             thid: "1",
             from: fromDID,
             to: toDID
         )
         let requestMessage = try validRequestCredential.makeMessage()
-
         let testRequestCredential = try RequestCredential(fromMessage: requestMessage)
         XCTAssertEqual(validRequestCredential, testRequestCredential)
     }

@@ -8,6 +8,8 @@ final class ProposeCredentialTests: XCTestCase {
         let toDID = DID(index: 1)
         let validProposeCredential = ProposeCredential(
             body: .init(
+                goalCode: "Test1",
+                comment: "Test1",
                 credentialPreview: .init(
                     attributes: [
                         .init(

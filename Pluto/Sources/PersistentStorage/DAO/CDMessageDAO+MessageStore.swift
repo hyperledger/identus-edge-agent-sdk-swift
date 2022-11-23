@@ -57,7 +57,7 @@ private extension CDMessage {
         self.from = msg.from?.string
         self.to = msg.to?.string
         self.type = msg.piuri
-        self.dataJson = try JSONEncoder().encode(msg)
+        self.dataJson = try JSONEncoder().encode(CodableMessage(message: msg))
         self.createdTime = msg.createdTime
         self.pair = pair
     }
