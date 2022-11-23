@@ -1,5 +1,5 @@
-import Foundation
 import Combine
+import Foundation
 
 public protocol Pluto {
     func storeDID(
@@ -12,4 +12,5 @@ public protocol Pluto {
     func getDIDInfo(did: DID) -> AnyPublisher<(did: DID, keyPairIndex: Int, alias: String?)?, Error>
     func getDIDInfo(alias: String) -> AnyPublisher<[(did: DID, keyPairIndex: Int)], Error>
     func getDIDKeyPairIndex(did: DID) -> AnyPublisher<Int?, Error>
+    func getLastKeyPairIndex() -> AnyPublisher<Int, Error>
 }

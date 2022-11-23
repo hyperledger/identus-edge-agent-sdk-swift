@@ -25,4 +25,8 @@ extension PlutoImpl: Pluto {
             .map { $0?.keyPairIndex }
             .eraseToAnyPublisher()
     }
- }
+
+    public func getLastKeyPairIndex() -> AnyPublisher<Int, Error> {
+        registeredDIDDao.getLastKeyPairIndex()
+    }
+}

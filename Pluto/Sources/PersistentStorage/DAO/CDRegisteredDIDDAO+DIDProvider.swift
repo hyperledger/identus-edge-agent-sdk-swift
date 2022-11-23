@@ -43,6 +43,17 @@ extension CDRegisteredDIDDAO: DIDProvider {
         }}
         .eraseToAnyPublisher()
     }
+
+    func getLastKeyPairIndex() -> AnyPublisher<Int, Error> {
+        fetchController(
+            sorting: NSSortDescriptor(key: "keyIndex", ascending: true),
+            context: readContext
+        )
+        .map { $0.first.map {
+            Int($0.keyIndex)
+        } ?? 0}
+        .eraseToAnyPublisher()
+    }
 }
 
 private extension DID {
