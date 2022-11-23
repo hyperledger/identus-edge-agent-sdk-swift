@@ -1,25 +1,28 @@
 import Domain
 import Foundation
 
-// ALL parameters are DIDCOMMV2 format and naming conventions and follows the protocol
-// https://github.com/hyperledger/aries-rfcs/tree/main/features/0453-issue-credential-v2
-public struct RequestCredential {
+public struct RequestPresentation {
     struct Body: Codable, Equatable {
         let goalCode: String?
         let comment: String?
-        let formats: [CredentialFormat]
+        let willConfirm: Bool?
+        let presentMultiple: Bool?
+        let formats: [PresentationFormat]
 
         init(
             goalCode: String? = nil,
             comment: String? = nil,
-            formats: [CredentialFormat]
+            willConfirm: Bool? = false,
+            presentMultiple: Bool? = false,
+            formats: [PresentationFormat]
         ) {
             self.goalCode = goalCode
             self.comment = comment
+            self.willConfirm = willConfirm
+            self.presentMultiple = presentMultiple
             self.formats = formats
         }
     }
-
     public let id: String
     public let type = ProtocolTypes.didcommRequestCredential.rawValue
     let body: Body
@@ -53,7 +56,7 @@ public struct RequestCredential {
             fromMessage.piuri == ProtocolTypes.didcommRequestCredential.rawValue,
             let fromDID = fromMessage.from,
             let toDID = fromMessage.to
-        else { throw PrismAgentError.invalidRequestCredentialMessageError }
+        else { throw PrismAgentError.invalidRequestPresentationMessageError }
 
         let body = try JSONDecoder().decode(Body.self, from: fromMessage.body)
         self.init(
@@ -78,47 +81,26 @@ public struct RequestCredential {
         )
     }
 
-    public static func makeRequestFromOfferCredential(message: Message) throws -> RequestCredential {
-        let offer = try OfferCredential(fromMessage: message)
-        return RequestCredential(
-            body: .init(
-                goalCode: offer.body.goalCode,
-                comment: offer.body.comment,
-                formats: offer.body.formats
-            ),
-            attachments: offer.attachments,
-            thid: message.id,
-            from: offer.to,
-            to: offer.from
-        )
-    }
+    public static func makeRequestFromProposal(msg: Message) throws -> RequestPresentation {
+        let request = try ProposePresentation(fromMessage: msg)
 
-    static func build<T: Encodable>(
-        fromDID: DID,
-        toDID: DID,
-        thid: String?,
-        credentialPreview: CredentialPreview,
-        credentials: [String: T] = [:]
-    ) throws -> RequestCredential {
-        let aux = try credentials.map { key, value in
-            let attachment = try AttachmentDescriptor.build(payload: value)
-            let format = CredentialFormat(attachId: attachment.id, format: key)
-            return (format, attachment)
-        }
-        return RequestCredential(
+        return RequestPresentation(
             body: Body(
-                formats: aux.map { $0.0 }
+                goalCode: request.body.goalCode,
+                comment: request.body.comment,
+                willConfirm: false,
+                presentMultiple: false,
+                formats: request.body.formats
             ),
-            attachments: aux.map { $0.1 },
-            thid: thid,
-            from: fromDID,
-            to: toDID
-        )
+            attachments: request.attachments,
+            thid: msg.id,
+            from: request.to,
+            to: request.from)
     }
 }
 
-extension RequestCredential: Equatable {
-    public static func == (lhs: RequestCredential, rhs: RequestCredential) -> Bool {
+extension RequestPresentation: Equatable {
+    public static func == (lhs: RequestPresentation, rhs: RequestPresentation) -> Bool {
         lhs.id == rhs.id &&
         lhs.type == rhs.type &&
         lhs.from == rhs.from &&
