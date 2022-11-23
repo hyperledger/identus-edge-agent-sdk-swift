@@ -32,3 +32,7 @@ public enum PlutoError: Error {
     case didPairIsNotPersistedError
     case holderDIDAlreadyPairingError
 }
+
+public enum PolluxError: Error {
+    case invalidCredentialError
+}

@@ -36,7 +36,7 @@ struct MediationGrant {
             id: fromMessage.id,
             from: fromDID,
             to: toDID,
-            body: try JSONDecoder().decode(Body.self, from: fromMessage.body)
+            body: try JSONDecoder.didComm().decode(Body.self, from: fromMessage.body)
         )
     }
 }
