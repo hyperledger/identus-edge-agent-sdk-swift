@@ -1,6 +1,9 @@
 import Foundation
 
 enum ProtocolTypes: String {
+    case didcommPresentation = "https://didcomm.org/present-proof/2.0/presentation"
+    case didcommRequestPresentation = "https://didcomm.org/present-proof/2.0/request-presentation"
+    case didcommProposePresentation = "https://didcomm.org/present-proof/2.0/propose-presentation"
     case didcommCredentialPreview = "https://didcomm.org/issue-credential/2.0/credential-preview"
     case didcommIssueCredential = "https://didcomm.org/issue-credential/2.0/issue-credential"
     case didcommOfferCredential = "https://didcomm.org/issue-credential/2.0/offer-credential"

@@ -87,7 +87,7 @@ public struct OfferCredential {
         )
     }
 
-    public static func makeOfferToProposedCredential(msg: Message) throws -> OfferCredential {
+    public static func makeOfferFromProposedCredential(msg: Message) throws -> OfferCredential {
         let proposed = try ProposeCredential(fromMessage: msg)
 
         return OfferCredential(
