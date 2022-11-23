@@ -17,7 +17,7 @@ final class HandshakeRequestTests: XCTestCase {
         XCTAssertEqual(message.from, request.from)
         XCTAssertEqual(message.to, request.to)
         XCTAssertEqual(message.thid, request.thid)
-        let decodedBody = try JSONDecoder().decode(HandshakeRequest.Body.self, from: message.body)
+        let decodedBody = try JSONDecoder.didComm().decode(HandshakeRequest.Body.self, from: message.body)
         XCTAssertEqual(decodedBody, request.body)
     }
 
