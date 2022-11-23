@@ -1,3 +1,4 @@
+import Core
 import Domain
 import Foundation
 
@@ -29,7 +30,7 @@ struct HandshakeRequest {
 
     init(inviteMessage: Message, from: DID) throws {
         guard let toDID = inviteMessage.from else { throw PrismAgentError.invitationIsInvalidError }
-        let body = try JSONDecoder().decode(Body.self, from: inviteMessage.body)
+        let body = try JSONDecoder.didComm().decode(Body.self, from: inviteMessage.body)
         self.init(from: from, to: toDID, thid: inviteMessage.id, body: body)
     }
 
@@ -55,7 +56,7 @@ struct HandshakeRequest {
             piuri: type,
             from: from,
             to: to,
-            body: try JSONEncoder().encode(self.body),
+            body: try JSONEncoder.didComm().encode(self.body),
             thid: thid
         )
     }

@@ -1,3 +1,4 @@
+import Core
 import Domain
 import Foundation
 
@@ -22,7 +23,7 @@ struct PickUpRequest {
     let body: Body
 
     func makeMessage() throws -> Message {
-        let body = try JSONEncoder().encode(body)
+        let body = try JSONEncoder.didComm().encode(body)
         return Message(
             piuri: ProtocolTypes.pickupRequest.rawValue,
             from: from,
