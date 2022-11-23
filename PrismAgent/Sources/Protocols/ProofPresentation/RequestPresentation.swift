@@ -1,3 +1,4 @@
+import Core
 import Domain
 import Foundation
 
@@ -58,7 +59,7 @@ public struct RequestPresentation {
             let toDID = fromMessage.to
         else { throw PrismAgentError.invalidRequestPresentationMessageError }
 
-        let body = try JSONDecoder().decode(Body.self, from: fromMessage.body)
+        let body = try JSONDecoder.didComm().decode(Body.self, from: fromMessage.body)
         self.init(
             id: fromMessage.id,
             body: body,
@@ -75,7 +76,7 @@ public struct RequestPresentation {
             piuri: type,
             from: from,
             to: to,
-            body: try JSONEncoder().encode(body),
+            body: try JSONEncoder.didComm().encode(body),
             attachments: attachments,
             thid: thid
         )

@@ -27,4 +27,15 @@ public struct DID: Equatable {
 
     /// String representation of this DID as specified in [w3 standards](https://www.w3.org/TR/did-core/#dfn-did-schemes)
     public var string: String { "\(schema):\(method):\(methodId)" }
+
+    /// Simple initializer that receives a String and returns a DID
+    /// - Warning: This is not the preferable way of initializing a DID from a string. Please use `Castor.parseDID(str:)` for uknown strings.
+    /// - Parameter string: DID String
+    public init(string: String) throws {
+        var aux = string.components(separatedBy: ":")
+        guard aux.count >= 3 else { throw CastorError.invalidDIDString }
+        self.schema = aux.removeFirst()
+        self.method = aux.remove(at: 1)
+        self.methodId = aux.joined(separator: ":")
+    }
 }

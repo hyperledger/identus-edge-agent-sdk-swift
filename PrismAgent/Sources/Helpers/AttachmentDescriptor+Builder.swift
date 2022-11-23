@@ -8,7 +8,7 @@ extension AttachmentDescriptor {
         payload: T,
         mediaType: String? = "application/json"
     ) throws -> AttachmentDescriptor {
-        let encoded = try JSONEncoder().encode(payload).base64UrlEncodedString()
+        let encoded = try JSONEncoder.didComm().encode(payload).base64UrlEncodedString()
         return AttachmentDescriptor(
             id: id,
             mediaType: mediaType,
