@@ -14,4 +14,7 @@ public enum PrismAgentError: Error {
     case invalidProposedCredentialMessageError
     case invalidIssueCredentialMessageError
     case invalidRequestCredentialMessageError
+    case invalidPresentationMessageError
+    case invalidRequestPresentationMessageError
+    case invalidProposePresentationMessageError
 }

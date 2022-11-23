@@ -58,7 +58,7 @@ final class OfferCredentialTests: XCTestCase {
         )
         let proposeMessage = try validProposeCredential.makeMessage()
 
-        let testOfferCredential = try OfferCredential.makeOfferToProposedCredential(msg: proposeMessage)
+        let testOfferCredential = try OfferCredential.makeOfferFromProposedCredential(msg: proposeMessage)
         XCTAssertEqual(validProposeCredential.from, testOfferCredential.to)
         XCTAssertEqual(validProposeCredential.to, testOfferCredential.from)
         XCTAssertEqual(validProposeCredential.attachments, testOfferCredential.attachments)
