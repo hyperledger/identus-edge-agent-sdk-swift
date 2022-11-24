@@ -13,3 +13,9 @@ public enum CastorError: Error {
     case initialStateOfDIDChanged
     case notPossibleToResolveDID
 }
+
+public enum MercuryError: Error {
+    case invalidURLError
+    case noDIDReceiverSetError
+    case noValidServiceFoundError
+}
