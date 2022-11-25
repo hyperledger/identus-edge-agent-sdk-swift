@@ -1,7 +1,7 @@
 import CoreData
 import Foundation
 
-public extension CDDID {
+extension CDDID {
     @nonobjc class func createFetchRequest() -> NSFetchRequest<CDDID> {
         return NSFetchRequest<CDDID>(entityName: "CDDID")
     }

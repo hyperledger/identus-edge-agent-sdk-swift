@@ -85,7 +85,7 @@ public class PrismAgent {
         return try await withCheckedThrowingContinuation { continuation in
             pluto
                 // Retrieve the last keyPath index used
-                .getLastKeyPairIndex()
+                .getPrismLastKeyPairIndex()
                 .tryMap {
                     // If the user provided a key path index use it, if not use the last + 1
                     let index = keyPathIndex ?? ($0 + 1)
@@ -104,7 +104,7 @@ public class PrismAgent {
                 .flatMap { did, index, alias in
                     // Store the did and its index path
                     return pluto
-                        .storeDID(did: did, keyPairIndex: index, alias: alias)
+                        .storePrismDID(did: did, keyPairIndex: index, alias: alias)
                         .map { did }
                 }
                 .first()
@@ -129,7 +129,7 @@ public class PrismAgent {
         return try await withCheckedThrowingContinuation { continuation in
             pluto
                 // First get DID info (KeyPathIndex in this case)
-                .getDIDInfo(did: did)
+                .getPrismDIDInfo(did: did)
                 .tryMap {
                     // if no register is found throw an error
                     guard let index = $0?.keyPairIndex else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
@@ -210,7 +210,7 @@ public class PrismAgent {
                 Connection(holderDID: ownDID, otherDID: otherDID, mercury: mercury)
             }
         ).run()
-        connectionManager.addConnection(connection)
+        try await connectionManager.addConnection(connection)
     }
 
     public func acceptPrismInvitation(invitation: InvitationType.PrismOnboarding) async throws {

@@ -16,6 +16,10 @@ public struct PlutoImpl {
 
     let setup: PlutoSetup
     let registeredDIDDao: CDRegisteredDIDDAO
+    let privateKeyDIDDao: CDDIDPrivateKeyDAO
+    let pairDIDDao: CDDIDPairDAO
+    let messageDao: CDMessageDAO
+    let mediatorDAO: CDMediatorDIDDAO
     private let coreDataManager: CoreDataManager
 
     public init(setup: PlutoSetup = .init()) {
@@ -25,6 +29,32 @@ public struct PlutoImpl {
         self.registeredDIDDao = CDRegisteredDIDDAO(
             readContext: manager.mainContext,
             writeContext: manager.editContext
+        )
+        let privateKeyDao = CDDIDPrivateKeyDAO(
+            readContext: manager.mainContext,
+            writeContext: manager.editContext
+        )
+        let pairDIDDao = CDDIDPairDAO(
+            readContext: manager.mainContext,
+            writeContext: manager.editContext,
+            privateKeyDIDDAO: privateKeyDao
+        )
+        let messageDao = CDMessageDAO(
+            readContext: manager.mainContext,
+            writeContext: manager.editContext,
+            pairDAO: pairDIDDao
+        )
+        self.privateKeyDIDDao = privateKeyDao
+        self.pairDIDDao = pairDIDDao
+        self.messageDao = messageDao
+        self.mediatorDAO = CDMediatorDIDDAO(
+            readContext: manager.mainContext,
+            writeContext: manager.editContext,
+            didDAO: CDDIDDAO(
+                readContext: manager.mainContext,
+                writeContext: manager.editContext
+            ),
+            privateKeyDIDDao: privateKeyDao
         )
     }
 }

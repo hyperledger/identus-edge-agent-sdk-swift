@@ -19,3 +19,10 @@ public enum MercuryError: Error {
     case noDIDReceiverSetError
     case noValidServiceFoundError
 }
+
+public enum PlutoError: Error {
+    case invalidHolderDIDNotPersistedError
+    case messageMissingFromOrToDIDError
+    case didPairIsNotPersistedError
+    case holderDIDAlreadyPairingError
+}
