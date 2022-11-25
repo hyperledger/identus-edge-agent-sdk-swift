@@ -1,36 +1,28 @@
+import DIDCommxSwift
 import Domain
 import Foundation
 
 extension MercuryImpl: Mercury {
-    public func packMessage(msg: Message) throws -> (result: String, signBy: String) {
-        ("", "")
+    public func packMessage(msg: Domain.Message) async throws -> String {
+        try await PackEncryptedOperation(didcomm: didcomm).packEncrypted(msg: msg)
     }
 
-    public func unpackMessage(
-        msg: String,
-        options: UnpackOptions
-    ) throws -> (result: Message, metadata: UnpackMetadata) {
-        (Message(
-            piuri: "",
-            body: Data(),
-            createdTime: Date(),
-            expiresTimePlus: Date()
-        ), UnpackMetadata()
-        )
+    public func unpackMessage(msg: String) async throws -> Domain.Message {
+        try await UnpackOperation(didcomm: didcomm, castor: castor).unpackEncrypted(messageString: msg)
     }
 
-    public func sendMessage(msg: Message) async throws -> Data? {
+    public func sendMessage(msg: Domain.Message) async throws -> Data? {
         guard let toDID = msg.to else { throw MercuryError.noDIDReceiverSetError }
-        let document = try castor.resolveDID(did: toDID)
+        let document = try await castor.resolveDID(did: toDID)
         guard
             let urlString = document.services.first?.serviceEndpoint.uri,
             let url = URL(string: urlString)
         else { throw MercuryError.noValidServiceFoundError }
-        let packedMessage = try packMessage(msg: msg)
+        let packedMessage = try await packMessage(msg: msg)
 
         return try await session.post(
             url: url,
-            body: packedMessage.result.data(using: .utf8),
+            body: packedMessage.data(using: .utf8),
             headers: ["content-type": MediaType.contentTypeEncrypted.rawValue]
         )
     }

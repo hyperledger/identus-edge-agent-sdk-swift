@@ -171,7 +171,7 @@ public class PrismAgent {
     }
 
     public func parseOOBInvitation(url: URL) async throws -> Message {
-        return try DIDCommInvitationRunner(
+        return try await DIDCommInvitationRunner(
             mercury: mercury,
             url: url
         ).run()

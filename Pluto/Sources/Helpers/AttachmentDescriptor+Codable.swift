@@ -43,7 +43,7 @@ extension AttachmentDescriptor: Codable {
         let filename = try? container.decode([String].self, forKey: .filename)
         let lastmodTime = try? container.decode(Date.self, forKey: .lastmodTime)
         let byteCount = try? container.decode(Int.self, forKey: .byteCount)
-        let description = try? container.decode([String].self, forKey: .description)
+        let description = try? container.decode(String.self, forKey: .description)
 
         let data: AttachmentData
         if let attachment = try? container.decode(AttachmentBase64.self, forKey: .data) {

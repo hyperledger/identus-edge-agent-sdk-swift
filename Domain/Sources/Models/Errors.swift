@@ -18,6 +18,12 @@ public enum MercuryError: Error {
     case invalidURLError
     case noDIDReceiverSetError
     case noValidServiceFoundError
+    case fromFieldNotSetError
+    case unknownAttachmentDataError
+    case messageAttachmentWithoutIDError
+    case messageInvalidBodyDataError
+    case unknowPackingMessageError
+    case didcommError(msg: String)
 }
 
 public enum PlutoError: Error {

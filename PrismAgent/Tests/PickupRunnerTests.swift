@@ -15,12 +15,12 @@ final class PickupRunnerTests: XCTestCase {
             Message(piuri: "test2", body: Data()),
             Message(piuri: "test3", body: Data())
         ]
-        attachments = try messagesExamples.map {
-            AttachmentBase64(base64: try mercury.packMessage(msg: $0).result)
-        }
     }
 
-    func testWhenReceiveDeliveryMessageThenParseMessages() throws {
+    func testWhenReceiveDeliveryMessageThenParseMessages() async throws {
+        attachments = try await messagesExamples.asyncMap {
+            AttachmentBase64(base64: try await mercury.packMessage(msg: $0))
+        }
         let message = Message(
             piuri: ProtocolTypes.pickupDelivery.rawValue,
             body: Data(),
@@ -29,12 +29,15 @@ final class PickupRunnerTests: XCTestCase {
             }
         )
         let runner = try PickupRunner(message: message, mercury: mercury)
-        let parsedMessages = try runner.run()
+        let parsedMessages = try await runner.run()
 
         XCTAssertEqual(parsedMessages, messagesExamples)
     }
 
-    func testWhenReceiveNotDeliveryMessageThenThrowError() throws {
+    func testWhenReceiveNotDeliveryMessageThenThrowError() async throws {
+        attachments = try await messagesExamples.asyncMap {
+            AttachmentBase64(base64: try await mercury.packMessage(msg: $0))
+        }
         let message = Message(
             piuri: "SomethingElse",
             body: Data(),
@@ -44,5 +47,19 @@ final class PickupRunnerTests: XCTestCase {
         )
 
         XCTAssertThrowsError(try PickupRunner(message: message, mercury: mercury))
+    }
+}
+
+extension Sequence {
+    func asyncMap<T>(
+        _ transform: (Element) async throws -> T
+    ) async rethrows -> [T] {
+        var values = [T]()
+
+        for element in self {
+            try await values.append(transform(element))
+        }
+
+        return values
     }
 }
