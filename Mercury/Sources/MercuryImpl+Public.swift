@@ -2,14 +2,14 @@ import Domain
 import Foundation
 
 extension MercuryImpl: Mercury {
-    public func packMessage(msg: Message) async throws -> (result: String, signBy: String) {
+    public func packMessage(msg: Message) throws -> (result: String, signBy: String) {
         ("", "")
     }
 
     public func unpackMessage(
         msg: String,
         options: UnpackOptions
-    ) async throws -> (result: Message, metadata: UnpackMetadata) {
+    ) throws -> (result: Message, metadata: UnpackMetadata) {
         (Message(
             piuri: "",
             body: Data(),
@@ -26,7 +26,7 @@ extension MercuryImpl: Mercury {
             let urlString = document.services.first?.service,
             let url = URL(string: urlString)
         else { throw MercuryError.noValidServiceFoundError }
-        let packedMessage = try await packMessage(msg: msg)
+        let packedMessage = try packMessage(msg: msg)
 
         return try await session.post(
             url: url,
