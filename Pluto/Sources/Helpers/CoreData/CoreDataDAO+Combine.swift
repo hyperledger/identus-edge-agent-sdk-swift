@@ -55,10 +55,10 @@ extension CoreDataDAO where CoreDataObject: Identifiable {
     func updateOrCreate(
         _ id: CoreDataObject.ID,
         context: NSManagedObjectContext,
-        modify: @escaping (CoreDataObject, NSManagedObjectContext) -> Void
+        modify: @escaping (CoreDataObject, NSManagedObjectContext) throws -> Void
     ) -> AnyPublisher<CoreDataObject.ID, Error> {
         context.write { context in
-            modify(self.fetchByID(id, context: context) ?? self.newEntity(context: context), context)
+            try modify(self.fetchByID(id, context: context) ?? self.newEntity(context: context), context)
             return id
         }
         .eraseToAnyPublisher()
