@@ -55,13 +55,3 @@ extension CDRegisteredDIDDAO: DIDProvider {
         .eraseToAnyPublisher()
     }
 }
-
-private extension DID {
-    init(from: CDDID) {
-        self.init(
-            schema: from.schema,
-            method: from.method,
-            methodId: from.methodId
-        )
-    }
-}
