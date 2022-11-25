@@ -55,8 +55,8 @@ public struct UnpackMetadata {
 }
 
 public protocol Mercury {
-    func packMessage(msg: Message) async throws -> (result: String, signBy: String)
-    func unpackMessage(msg: String, options: UnpackOptions) async throws -> (result: Message, metadata: UnpackMetadata)
+    func packMessage(msg: Message) throws -> (result: String, signBy: String)
+    func unpackMessage(msg: String, options: UnpackOptions) throws -> (result: Message, metadata: UnpackMetadata)
     @discardableResult
     func sendMessage(msg: Message) async throws -> Data?
 }
