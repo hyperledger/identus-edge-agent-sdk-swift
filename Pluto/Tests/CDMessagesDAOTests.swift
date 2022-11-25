@@ -71,43 +71,6 @@ final class CDMessagesDAOTests: XCTestCase {
         waitForExpectations(timeout: 5)
     }
 
-    func testWhenPairNotPersistedThenThrowErrorOnAddingMessage() throws {
-        let dao = CDMessageDAO(
-            readContext: coreDataManager.mainContext,
-            writeContext: coreDataManager.editContext,
-            pairDAO: pairDAO
-        )
-        let testHolderDID = DID(index: 0)
-        let testPrivateKey = PrivateKey(curve: "test", value: Data())
-        let testOtherDID = DID(index: 1)
-        let testName = "test"
-        let testMessage = Message(
-            piuri: "test",
-            from: testHolderDID,
-            to: testOtherDID,
-            body: Data()
-        )
-        let expectation = expectation(description: "Awaiting publisher")
-        let cancellable = privateDAO
-            .addDID(did: testHolderDID, privateKey: testPrivateKey)
-            .flatMap {
-                dao.addMessage(msg: testMessage)
-            }
-            .flatMap {
-                dao.getMessage(id: testMessage.id).first()
-            }.sink {
-                switch $0 {
-                case .failure(let error):
-                    XCTAssertEqual(error as? PlutoError, .didPairIsNotPersistedError)
-                default:
-                    XCTFail("Error not thrown")
-                }
-                expectation.fulfill()
-            } receiveValue: { _ in }
-
-        waitForExpectations(timeout: 5)
-    }
-
     func testStoreNoDuplicatedMessage() throws {
         let dao = CDMessageDAO(
             readContext: coreDataManager.mainContext,

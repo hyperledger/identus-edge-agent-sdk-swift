@@ -3,6 +3,13 @@ import CoreData
 import Domain
 
 extension CDMessageDAO: MessageStore {
+    func addMessages(messages: [Message]) -> AnyPublisher<Void, Error> {
+        messages
+            .publisher
+            .flatMap { self.addMessage(msg: $0) }
+            .eraseToAnyPublisher()
+    }
+
     func addMessage(msg: Message) -> AnyPublisher<Void, Error> {
         guard
             let fromDID = msg.from,
@@ -23,14 +30,8 @@ extension CDMessageDAO: MessageStore {
             )
             .first()
             .map { $0.first }
-            .flatMap {
-                guard let pair = $0 else {
-                    return Fail<CoreDataObject.ID, Error>(
-                        error: PlutoError.didPairIsNotPersistedError
-                    )
-                    .eraseToAnyPublisher()
-                }
-                return self.updateOrCreate(
+            .flatMap { pair in
+                self.updateOrCreate(
                     msg.id,
                     context: writeContext
                 ) { cdobj, _ in
@@ -52,7 +53,7 @@ extension CDMessageDAO: MessageStore {
 
 private extension CDMessage {
 
-    func fromDomain(msg: Message, pair: CDDIDPair) throws {
+    func fromDomain(msg: Message, pair: CDDIDPair?) throws {
         self.messageId = msg.id
         self.from = msg.from?.string
         self.to = msg.to?.string

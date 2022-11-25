@@ -18,7 +18,7 @@
     </entity>
     <entity name="CDMediatorDID" representedClassName="CDMediatorDID" syncable="YES">
         <attribute name="mediatorId" optional="YES" attributeType="String"/>
-        <attribute name="url" attributeType="URI"/>
+        <relationship name="mediatorDID" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDID"/>
         <relationship name="peerDID" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPrivateKey"/>
         <relationship name="routingDID" maxCount="1" deletionRule="Nullify" destinationEntity="CDDID"/>
     </entity>
@@ -30,7 +30,7 @@
         <attribute name="thid" optional="YES" attributeType="String"/>
         <attribute name="to" optional="YES" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
-        <relationship name="pair" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPair" inverseName="messages" inverseEntity="CDDIDPair"/>
+        <relationship name="pair" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPair" inverseName="messages" inverseEntity="CDDIDPair"/>
     </entity>
     <entity name="CDRegisteredDID" representedClassName="CDRegisteredDID" parentEntity="CDDID" syncable="YES">
         <attribute name="alias" optional="YES" attributeType="String"/>

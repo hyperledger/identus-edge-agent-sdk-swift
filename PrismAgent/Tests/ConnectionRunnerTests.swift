@@ -12,32 +12,33 @@ final class ConnectionRunnerTests: XCTestCase {
             accept: ["Test1"]
         )
 
+        let testOtherDID = DID(index: 1)
+        let testOwnDID = DID(index: 2)
+
         let exampleMessage = Message(
             piuri: ProtocolTypes.didcomminvitation.rawValue,
-            from: DID(index: 1),
-            to: DID(index: 2),
+            from: testOtherDID,
+            to: nil,
             body: try JSONEncoder().encode(body)
         )
 
         let exampleMessageResponse = Message(
             piuri: ProtocolTypes.didcommconnectionResponse.rawValue,
-            from: DID(index: 2),
-            to: DID(index: 1),
+            from: testOwnDID,
+            to: testOtherDID,
             body: try JSONEncoder().encode(body)
         )
 
-        let selfDID = DID(index: 3)
         let connection = ConnectionStub()
         connection.awaitMessageResponse = exampleMessageResponse
 
-        _ = try await DIDCommConnectionRunner(
+        let pair = try await DIDCommConnectionRunner(
             mercury: mercury,
             invitationMessage: exampleMessage,
-            ownDID: selfDID
-        ) { holderDID, otherDID, _ in
-            connection.holderDID = holderDID
-            connection.otherDID = otherDID
-            return connection
-        }.run()
+            ownDID: testOwnDID,
+            connection: connection
+        ).run()
+
+        XCTAssertEqual(pair, .init(holder: testOwnDID, other: testOtherDID, name: nil))
     }
 }

@@ -13,7 +13,7 @@ extension CDMessage {
     @NSManaged var from: String?
     @NSManaged var to: String?
     @NSManaged var thid: String?
-    @NSManaged var pair: CDDIDPair
+    @NSManaged var pair: CDDIDPair?
 }
 
 extension CDMessage: Identifiable {

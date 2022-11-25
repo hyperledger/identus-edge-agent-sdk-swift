@@ -23,7 +23,7 @@ extension MercuryImpl: Mercury {
         guard let toDID = msg.to else { throw MercuryError.noDIDReceiverSetError }
         let document = try castor.resolveDID(did: toDID)
         guard
-            let urlString = document.services.first?.service,
+            let urlString = document.services.first?.serviceEndpoint.uri,
             let url = URL(string: urlString)
         else { throw MercuryError.noValidServiceFoundError }
         let packedMessage = try packMessage(msg: msg)
