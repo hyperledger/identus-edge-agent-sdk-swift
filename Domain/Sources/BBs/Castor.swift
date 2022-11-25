@@ -7,13 +7,13 @@ public protocol Castor {
         services: [DIDDocument.Service]
     ) throws -> DID
 
-    func resolveDID(did: DID) throws -> DIDDocument
+    func resolveDID(did: DID) async throws -> DIDDocument
 
     func verifySignature(
         did: DID,
         challenge: Data,
         signature: Data
-    ) throws -> Bool
+    ) async throws -> Bool
 
     func verifySignature(
         document: DIDDocument,

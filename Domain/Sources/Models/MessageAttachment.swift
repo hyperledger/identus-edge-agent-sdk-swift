@@ -63,23 +63,26 @@ public struct AttachmentDescriptor {
     public let mediaType: String?
     public let data: AttachmentData
     public let filename: [String]?
+    public let format: String?
     public let lastmodTime: Date?
     public let byteCount: Int?
-    public let description: [String]?
+    public let description: String?
 
     public init(
         id: String,
         mediaType: String? = nil,
         data: AttachmentData,
         filename: [String]? = nil,
+        format: String? = nil,
         lastmodTime: Date? = nil,
         byteCount: Int? = nil,
-        description: [String]? = nil
+        description: String? = nil
     ) {
         self.id = id
         self.mediaType = mediaType
         self.data = data
         self.filename = filename
+        self.format = format
         self.lastmodTime = lastmodTime
         self.byteCount = byteCount
         self.description = description

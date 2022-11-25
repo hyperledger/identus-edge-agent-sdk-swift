@@ -10,9 +10,9 @@ class DIDCommInvitationRunner {
         self.url = url
     }
 
-    func run() throws -> Message {
+    func run() async throws -> Message {
         let messageString = try OutOfBandParser().parseMessage(url: url)
-        let message = try mercury.unpackMessage(msg: messageString, options: .expectDecryptByAllKeys).result
+        let message = try await mercury.unpackMessage(msg: messageString)
         guard message.piuri == ProtocolTypes.didcomminvitation.rawValue else {
             throw PrismAgentError.unknownInvitationTypeError
         }

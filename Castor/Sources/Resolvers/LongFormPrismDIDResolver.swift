@@ -2,7 +2,7 @@ import Core
 import Domain
 import Foundation
 
-struct LongFormPrismDIDResolver: DIDResolver {
+struct LongFormPrismDIDResolver: DIDResolverDomain {
     let apollo: Apollo
 
     func resolve(did: DID) throws -> DIDDocument {

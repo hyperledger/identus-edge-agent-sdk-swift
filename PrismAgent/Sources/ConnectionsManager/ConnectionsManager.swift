@@ -1,4 +1,5 @@
 import Combine
+import Core
 import Domain
 import Foundation
 
@@ -155,8 +156,10 @@ extension ConnectionsManagerImpl: DIDCommConnection {
                 limit: "10"
             )
         ).makeMessage())
-        .tryMap {
-            try PickupRunner(message: $0, mercury: mercury).run()
+        .flatMap { msg in
+            Future {
+                try await PickupRunner(message: msg, mercury: mercury).run()
+            }
         }
         .flatMap { messages in
             pluto
@@ -191,10 +194,7 @@ extension ConnectionsManagerImpl: DIDCommConnection {
                         return
                     }
 
-                    let message = try mercury.unpackMessage(
-                        msg: messageString,
-                        options: .expectDecryptByAllKeys
-                    ).result
+                    let message = try await mercury.unpackMessage(msg: messageString)
                     promise(.success(Result.success(message)))
                 } catch {
                     promise(.success(Result.failure(error)))

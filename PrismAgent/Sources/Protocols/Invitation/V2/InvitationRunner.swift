@@ -12,6 +12,6 @@ class InvitationRunner {
 
     func run() async throws -> Message {
         let messageString = try OutOfBandParser().parseMessage(url: url)
-        return try await mercury.unpackMessage(msg: messageString, options: .expectDecryptByAllKeys).result
+        return try await mercury.unpackMessage(msg: messageString)
     }
 }

@@ -17,8 +17,8 @@ extension CastorImpl: Castor {
         ).compute()
     }
 
-    public func verifySignature(did: DID, challenge: Data, signature: Data) throws -> Bool {
-        let document = try resolveDID(did: did)
+    public func verifySignature(did: DID, challenge: Data, signature: Data) async throws -> Bool {
+        let document = try await resolveDID(did: did)
         return verifySignature(document: document, challenge: challenge, signature: signature)
     }
 
@@ -35,8 +35,8 @@ extension CastorImpl: Castor {
         ).compute()
     }
 
-    public func resolveDID(did: DID) throws -> DIDDocument {
-        guard let document = try resolvers.first?.resolve(did: did) else { throw CastorError.notPossibleToResolveDID }
+    public func resolveDID(did: DID) async throws -> DIDDocument {
+        guard let document = try await resolvers.first?.resolve(did: did) else { throw CastorError.notPossibleToResolveDID }
         return document
     }
 }

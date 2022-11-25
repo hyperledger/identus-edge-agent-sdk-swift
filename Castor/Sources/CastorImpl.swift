@@ -4,9 +4,9 @@ import Foundation
 
 public struct CastorImpl {
     let apollo: Apollo
-    let resolvers: [DIDResolver]
+    let resolvers: [DIDResolverDomain]
 
-    public init(apollo: Apollo, resolvers: [DIDResolver] = []) {
+    public init(apollo: Apollo, resolvers: [DIDResolverDomain] = []) {
         self.apollo = apollo
         self.resolvers = resolvers + [LongFormPrismDIDResolver(apollo: apollo)]
     }
