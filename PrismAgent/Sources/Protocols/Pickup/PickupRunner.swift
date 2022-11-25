@@ -1,3 +1,4 @@
+import Core
 import Domain
 import Foundation
 
@@ -13,11 +14,11 @@ class PickupRunner {
         self.mercury = mercury
     }
 
-    func run() throws -> [Message] {
-        try message.attachments.compactMap {
+    func run() async throws -> [Message] {
+        try await message.attachments.compactMap {
             ($0.data as? AttachmentBase64)?.base64
-        }.map {
-            try mercury.unpackMessage(msg: $0, options: .unwrapReWrappingForward).result
+        }.asyncMap {
+            try await mercury.unpackMessage(msg: $0)
         }
     }
 }

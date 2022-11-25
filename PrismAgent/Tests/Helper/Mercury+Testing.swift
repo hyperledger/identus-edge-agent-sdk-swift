@@ -7,19 +7,16 @@ class MercuryStub: Mercury {
     var throwPackageError: Error?
     var sendMessageReturn: Data?
 
-    func packMessage(msg: Domain.Message) throws -> (result: String, signBy: String) {
+    func packMessage(msg: Domain.Message) async throws -> String {
         guard throwPackageError == nil else { throw throwPackageError! }
         let jsonStr = try JSONEncoder().encode(msg).base64EncodedString()
-        return (jsonStr, "")
+        return jsonStr
     }
 
-    func unpackMessage(
-        msg: String,
-        options: Domain.UnpackOptions
-    ) throws -> (result: Domain.Message, metadata: Domain.UnpackMetadata) {
+    func unpackMessage(msg: String) async throws -> Domain.Message {
         guard throwUnpackError == nil else { throw throwUnpackError! }
         let message = try JSONDecoder().decode(Message.self, from: Data(base64Encoded: msg)!)
-        return (message, .init())
+        return message
     }
 
     func sendMessage(msg: Domain.Message) async throws -> Data? {

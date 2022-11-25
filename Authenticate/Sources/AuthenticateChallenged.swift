@@ -58,7 +58,7 @@ public struct AuthenticateChallenged {
 
     public func submitChallengeAnswer(submitedChallenge: SubmitedChallengeObject) async throws {
         let did = try castor.parseDID(str: submitedChallenge.challengeObject.challengerDID)
-        let didDocument = try castor.resolveDID(did: did)
+        let didDocument = try await castor.resolveDID(did: did)
 
         guard let service = didDocument.services
             .first(where: { $0.type.contains(where: { $0 == "deeplink" }) })?

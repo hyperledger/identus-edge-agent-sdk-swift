@@ -51,7 +51,7 @@ public struct AuthenticateChallenger {
         challengeObject: ChallengeObject
     ) async throws {
         let did = try castor.parseDID(str: challengeObject.challengedDID)
-        let didDocument = try castor.resolveDID(did: did)
+        let didDocument = try await castor.resolveDID(did: did)
 
         guard let service = didDocument.services
             .first(where: { $0.type.contains(where: { $0 == "deeplink" }) })?
@@ -85,7 +85,7 @@ public struct AuthenticateChallenger {
 
     public func verifyChallenge(
         submitedChallengeResponse: SubmitedChallengeObject
-    ) throws -> Bool {
+    ) async throws -> Bool {
         guard
             let challengeData = submitedChallengeResponse.challengeObject.challenge.data(using: .utf8)
         else { throw AuthenticateError.invalidSignatureError }
@@ -96,7 +96,7 @@ public struct AuthenticateChallenger {
             guard
                 let signatureData = Base64Utils().decode(signature)
             else { throw AuthenticateError.invalidSignatureError }
-            return try castor.verifySignature(
+            return try await castor.verifySignature(
                 did: challengedDID,
                 challenge: challengeData,
                 signature: signatureData
