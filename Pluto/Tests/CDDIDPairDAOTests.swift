@@ -89,24 +89,29 @@ final class CDDIDPairDAOTests: XCTestCase {
             privateKeyDIDDAO: privateKeyDao
         )
         
-        let testHolderDID = DID(index: 0)
-        let testOtherDID1 = DID(index: 1)
-        let testOtherDID2 = DID(index: 1)
+        let testHolderDID1 = DID(index: 0)
+        let testHolderDID2 = DID(index: 1)
+        let testOtherDID1 = DID(index: 2)
+        let testOtherDID2 = DID(index: 2)
         let testPrivateKey = PrivateKey(curve: "test", value: Data())
         let testName = "test"
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateKeyDao
-            .addDID(did: testHolderDID, privateKey: testPrivateKey)
+            .addDID(did: testHolderDID1, privateKey: testPrivateKey)
+            .flatMap {
+                self.privateKeyDao
+                    .addDID(did: testHolderDID2, privateKey: testPrivateKey)
+            }
             .flatMap {
                 dao.addDIDPair(
-                    holder: testHolderDID,
+                    holder: testHolderDID1,
                     other: testOtherDID1,
                     name: testName
                 )
             }
             .flatMap {
                 dao.addDIDPair(
-                    holder: testHolderDID,
+                    holder: testHolderDID2,
                     other: testOtherDID2,
                     name: testName
                 )
@@ -120,9 +125,9 @@ final class CDDIDPairDAOTests: XCTestCase {
                 default:
                     break
                 }
+                expectation.fulfill()
             } receiveValue: {
                 XCTAssertEqual($0.count, 1)
-                expectation.fulfill()
             }
         
         waitForExpectations(timeout: 5)

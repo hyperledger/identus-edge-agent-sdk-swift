@@ -26,7 +26,7 @@ public struct AuthenticateChallenged {
             services: [.init(
                 id: "deeplink",
                 type: ["deeplink"],
-                service: scheme.scheme + "://" + scheme.host
+                serviceEndpoint: .init(uri: scheme.scheme + "://" + scheme.host)
             )]
         )
     }
@@ -62,7 +62,7 @@ public struct AuthenticateChallenged {
 
         guard let service = didDocument.services
             .first(where: { $0.type.contains(where: { $0 == "deeplink" }) })?
-            .service
+            .serviceEndpoint.uri
         else { throw AuthenticateError.cannotFindDeepLinkServiceError }
 
         guard

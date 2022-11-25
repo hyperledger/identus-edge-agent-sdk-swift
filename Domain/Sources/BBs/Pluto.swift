@@ -10,7 +10,8 @@ public protocol Pluto {
     func storePeerDID(did: DID, privateKey: PrivateKey) -> AnyPublisher<Void, Error>
     func storeDIDPair(holder: DID, other: DID, name: String) -> AnyPublisher<Void, Error>
     func storeMessage(message: Message) -> AnyPublisher<Void, Error>
-    func storeMediator(peer: DID, routingDID: DID, url: URL) -> AnyPublisher<Void, Error>
+    func storeMessages(messages: [Message]) -> AnyPublisher<Void, Error>
+    func storeMediator(peer: DID, routingDID: DID, mediatorDID: DID) -> AnyPublisher<Void, Error>
 
     func getAllPrismDIDs() -> AnyPublisher<[(did: DID, keyPairIndex: Int, alias: String?)], Error>
     func getPrismDIDInfo(did: DID) -> AnyPublisher<(did: DID, keyPairIndex: Int, alias: String?)?, Error>
@@ -35,5 +36,5 @@ public protocol Pluto {
     func getAllMessages(from: DID, to: DID) -> AnyPublisher<[Message], Error>
     func getMessage(id: String) -> AnyPublisher<Message?, Error>
 
-    func getAllMediators() -> AnyPublisher<[(did: DID, routingDID: DID, url: URL)], Error>
+    func getAllMediators() -> AnyPublisher<[(did: DID, routingDID: DID, mediatorDID: DID)], Error>
 }

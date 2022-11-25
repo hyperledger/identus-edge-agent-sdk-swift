@@ -7,9 +7,9 @@ extension CDMediatorDID {
     }
 
     @NSManaged var mediatorId: String
-    @NSManaged var url: URL
     @NSManaged var routingDID: CDDID
     @NSManaged var peerDID: CDDIDPrivateKey
+    @NSManaged var mediatorDID: CDDID
 }
 
 extension CDMediatorDID: Identifiable {

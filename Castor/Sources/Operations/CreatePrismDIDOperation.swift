@@ -32,7 +32,7 @@ struct CreatePrismDIDOperation {
             var service = Io_Iohk_Atala_Prism_Protos_CreateDIDOperation.DIDService()
             service.id = $0.id
             service.types = $0.type
-            service.serviceEndpoint = $0.service
+            service.serviceEndpoint = $0.serviceEndpoint.uri
             return service
         }
 

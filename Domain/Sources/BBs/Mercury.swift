@@ -60,3 +60,14 @@ public protocol Mercury {
     @discardableResult
     func sendMessage(msg: Message) async throws -> Data?
 }
+
+extension Mercury {
+    public func sendMessage(msg: Message) async throws -> Message? {
+        try await sendMessage(msg: msg)
+            .flatMap {
+                try String(data: $0, encoding: .utf8).map {
+                    try self.unpackMessage(msg: $0, options: .expectDecryptByAllKeys)
+                }
+            }?.result
+    }
+}

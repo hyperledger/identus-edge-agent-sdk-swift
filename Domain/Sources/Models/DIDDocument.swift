@@ -37,18 +37,34 @@ public struct DIDDocument {
     }
 
     public struct Service: DIDDocumentCoreProperty {
+        public struct ServiceEndpoint {
+            public let uri: String
+            public let accept: [String]
+            public let routingKeys: [String]
+
+            public init(
+                uri: String,
+                accept: [String] = [],
+                routingKeys: [String] = []
+            ) {
+                self.uri = uri
+                self.accept = accept
+                self.routingKeys = routingKeys
+            }
+        }
+
         public let id: String
         public let type: [String]
-        public let service: String
+        public let serviceEndpoint: ServiceEndpoint
 
         public init(
             id: String,
             type: [String],
-            service: String
+            serviceEndpoint: ServiceEndpoint
         ) {
             self.id = id
             self.type = type
-            self.service = service
+            self.serviceEndpoint = serviceEndpoint
         }
     }
 

@@ -3,7 +3,7 @@ import Domain
 import Foundation
 
 extension CDMediatorDIDDAO: MediatorStore {
-    func addMediator(peer: DID, routingDID: DID, url: URL) -> AnyPublisher<Void, Error> {
+    func addMediator(peer: DID, routingDID: DID, mediatorDID: DID) -> AnyPublisher<Void, Error> {
         privateKeyDIDDao
             .fetchByIDsPublisher(peer.string, context: writeContext)
             .first()
@@ -16,9 +16,14 @@ extension CDMediatorDIDDAO: MediatorStore {
                     .map { (peerDID, $0) }
                     .eraseToAnyPublisher()
             }
-            .flatMap { peerDID, routingDID  in
+            .flatMap { peerDID, routingDID in
+                self.createCDDID(did: mediatorDID)
+                    .map { (peerDID, routingDID, $0) }
+                    .eraseToAnyPublisher()
+            }
+            .flatMap { peerDID, routingDID, mediatorDID  in
                 updateOrCreate(peer.string, context: writeContext) { cdobj, context in
-                    cdobj.parseFrom(peerDID: peerDID, routingDID: routingDID, url: url)
+                    cdobj.parseFrom(peerDID: peerDID, routingDID: routingDID, mediatorDID: mediatorDID)
                 }
             }
             .map { _ in }
@@ -49,9 +54,9 @@ extension CDMediatorDIDDAO: MediatorStore {
 }
 
 private extension CDMediatorDID {
-    func parseFrom(peerDID: CDDIDPrivateKey, routingDID: CDDID, url: URL) {
+    func parseFrom(peerDID: CDDIDPrivateKey, routingDID: CDDID, mediatorDID: CDDID) {
         self.peerDID = peerDID
         self.routingDID = routingDID
-        self.url = url
+        self.mediatorDID = mediatorDID
     }
 }
