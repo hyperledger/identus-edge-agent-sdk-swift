@@ -48,7 +48,11 @@ struct LongFormPrismDIDResolver: DIDResolver {
             try PrismDIDPublicKey(apollo: apollo, proto: $0)
         }
         let services = operation.createDid.didData.services.map {
-            DIDDocument.Service(id: $0.id, type: $0.types, service: $0.serviceEndpoint)
+            DIDDocument.Service(
+                id: $0.id,
+                type: $0.types,
+                serviceEndpoint: .init(uri: $0.serviceEndpoint)
+            )
         }
         return (publicKeys.reduce(
             [String: DIDDocument.VerificationMethod]())

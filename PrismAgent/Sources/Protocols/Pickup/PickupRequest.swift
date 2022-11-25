@@ -3,14 +3,14 @@ import Foundation
 
 struct PickUpRequest {
     struct Body: Codable {
-        let recipient_key: String?
+        let recipientKey: String?
         let limit: String
 
         init(
-            recipient_key: String? = nil,
+            recipientKey: String? = nil,
             limit: String
         ) {
-            self.recipient_key = recipient_key
+            self.recipientKey = recipientKey
             self.limit = limit
         }
     }
@@ -21,10 +21,8 @@ struct PickUpRequest {
     // swiftlint:enable identifier_name
     let body: Body
 
-    func makeMessage() -> Message {
-        guard let body = try? JSONEncoder().encode(body) else {
-            fatalError("Not supposed to happen")
-        }
+    func makeMessage() throws -> Message {
+        let body = try JSONEncoder().encode(body)
         return Message(
             piuri: ProtocolTypes.pickupRequest.rawValue,
             from: from,

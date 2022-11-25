@@ -18,8 +18,12 @@ extension PlutoImpl: Pluto {
         messageDao.addMessage(msg: message)
     }
 
-    public func storeMediator(peer: DID, routingDID: DID, url: URL) -> AnyPublisher<Void, Error> {
-        mediatorDAO.addMediator(peer: peer, routingDID: routingDID, url: url)
+    public func storeMessages(messages: [Message]) -> AnyPublisher<Void, Error> {
+        messageDao.addMessages(messages: messages)
+    }
+
+    public func storeMediator(peer: DID, routingDID: DID, mediatorDID: DID) -> AnyPublisher<Void, Error> {
+        mediatorDAO.addMediator(peer: peer, routingDID: routingDID, mediatorDID: mediatorDID)
     }
 
     public func getAllPrismDIDs() -> AnyPublisher<[(did: DID, keyPairIndex: Int, alias: String?)], Error> {
@@ -101,7 +105,7 @@ extension PlutoImpl: Pluto {
         messageDao.getMessage(id: id)
     }
 
-    public func getAllMediators() -> AnyPublisher<[(did: DID, routingDID: DID, url: URL)], Error> {
+    public func getAllMediators() -> AnyPublisher<[(did: DID, routingDID: DID, mediatorDID: DID)], Error> {
         mediatorDAO.getAll()
     }
 }
