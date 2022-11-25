@@ -39,7 +39,7 @@ extension AttachmentDescriptor: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let id = try container.decode(String.self, forKey: .id)
-        let mediaType = try? container.decode([String].self, forKey: .mediaType)
+        let mediaType = try? container.decode(String.self, forKey: .mediaType)
         let filename = try? container.decode([String].self, forKey: .filename)
         let lastmodTime = try? container.decode(Date.self, forKey: .lastmodTime)
         let byteCount = try? container.decode(Int.self, forKey: .byteCount)
@@ -69,5 +69,11 @@ extension AttachmentDescriptor: Codable {
             byteCount: byteCount,
             description: description
         )
+    }
+}
+
+extension AttachmentDescriptor: Equatable {
+    public static func == (lhs: Domain.AttachmentDescriptor, rhs: Domain.AttachmentDescriptor) -> Bool {
+        lhs.id == rhs.id && lhs.mediaType == rhs.mediaType
     }
 }
