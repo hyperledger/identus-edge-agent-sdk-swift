@@ -10,7 +10,7 @@ final class CDMessagesDAOTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         coreDataManager = CoreDataManager(setup: .init(
-            modelPath: .storeName("PrismPluto", ModelKit.bundle),
+            modelPath: .storeName("PrismPluto"),
             storeType: .memory
         ))
         privateDAO = CDDIDPrivateKeyDAO(

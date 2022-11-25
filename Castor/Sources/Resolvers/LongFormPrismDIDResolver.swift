@@ -8,7 +8,7 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
     func resolve(did: DID) throws -> DIDDocument {
         let prismDID = try LongFormPrismDID(did: did)
         guard
-            let data = Base64Utils().decodeMethodID(str: prismDID.encodedState)
+            let data = Data(fromBase64URL: prismDID.encodedState)
         else { throw CastorError.initialStateOfDIDChanged }
 
         let (verificationMethods, services) = try decodeState(
@@ -42,7 +42,8 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
         stateHash: String,
         encodedData: Data
     ) throws -> ([String: DIDDocument.VerificationMethod], [DIDDocument.Service]) {
-        guard stateHash == encodedData.sha256() else { throw CastorError.initialStateOfDIDChanged }
+        let verifyEncodedState = encodedData.sha256()
+        guard stateHash == verifyEncodedState else { throw CastorError.initialStateOfDIDChanged }
         let operation = try Io_Iohk_Atala_Prism_Protos_AtalaOperation(serializedData: encodedData)
         let publicKeys = try operation.createDid.didData.publicKeys.map {
             try PrismDIDPublicKey(apollo: apollo, proto: $0)
