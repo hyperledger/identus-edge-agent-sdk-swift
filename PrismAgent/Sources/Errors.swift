@@ -10,4 +10,8 @@ public enum PrismAgentError: Error {
     case unknownPrismOnboardingTypeError
     case failedToOnboardError
     case invalidPickupDeliveryMessageError
+    case invalidOfferCredentialMessageError
+    case invalidProposedCredentialMessageError
+    case invalidIssueCredentialMessageError
+    case invalidRequestCredentialMessageError
 }

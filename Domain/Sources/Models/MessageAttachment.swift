@@ -60,7 +60,7 @@ public struct AttachmentJsonData: AttachmentData {
 
 public struct AttachmentDescriptor {
     public let id: String
-    public let mediaType: [String]?
+    public let mediaType: String?
     public let data: AttachmentData
     public let filename: [String]?
     public let lastmodTime: Date?
@@ -69,7 +69,7 @@ public struct AttachmentDescriptor {
 
     public init(
         id: String,
-        mediaType: [String]? = nil,
+        mediaType: String? = nil,
         data: AttachmentData,
         filename: [String]? = nil,
         lastmodTime: Date? = nil,
