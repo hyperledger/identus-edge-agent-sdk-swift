@@ -1,7 +1,7 @@
 import Combine
 
-extension Future where Failure == Error {
-    public convenience init(operation: @escaping () async throws -> Output) {
+public extension Future where Failure == Error {
+    convenience init(operation: @escaping () async throws -> Output) {
         self.init { promise in
             Task {
                 do {

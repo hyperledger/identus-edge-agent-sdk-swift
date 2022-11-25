@@ -1,0 +1,416 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EE98B46E29103EB500EA978C /* atala_prism_challenger_appApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98B46D29103EB500EA978C /* atala_prism_challenger_appApp.swift */; };
+		EE98B47029103EB500EA978C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98B46F29103EB500EA978C /* ContentView.swift */; };
+		EE98B47229103EB600EA978C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE98B47129103EB600EA978C /* Assets.xcassets */; };
+		EE98B47629103EB600EA978C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE98B47529103EB600EA978C /* Preview Assets.xcassets */; };
+		EE98B47F291047D800EA978C /* ContentViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98B47E291047D800EA978C /* ContentViewModelImpl.swift */; };
+		EE98B487291050C200EA978C /* EmptyNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98B486291050C200EA978C /* EmptyNavigationLink.swift */; };
+		EE98B4892910561600EA978C /* LoggedInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98B4882910561600EA978C /* LoggedInView.swift */; };
+		EE98B48B2910563800EA978C /* ContentRouterImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE98B48A2910563800EA978C /* ContentRouterImpl.swift */; };
+		EEE2A2D029246B2700288428 /* Authenticate in Frameworks */ = {isa = PBXBuildFile; productRef = EEE2A2CF29246B2700288428 /* Authenticate */; };
+		EEE2A2D229246C6800288428 /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = EEE2A2D129246C6800288428 /* Domain */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		EE38134C2938D35A00A3A710 /* atala-prism-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "atala-prism-swift-sdk"; path = ../..; sourceTree = "<group>"; };
+		EE98B46A29103EB500EA978C /* atala-prism-challenger-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "atala-prism-challenger-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE98B46D29103EB500EA978C /* atala_prism_challenger_appApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = atala_prism_challenger_appApp.swift; sourceTree = "<group>"; };
+		EE98B46F29103EB500EA978C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		EE98B47129103EB600EA978C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EE98B47329103EB600EA978C /* atala_prism_challenger_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = atala_prism_challenger_app.entitlements; sourceTree = "<group>"; };
+		EE98B47529103EB600EA978C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EE98B47E291047D800EA978C /* ContentViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelImpl.swift; sourceTree = "<group>"; };
+		EE98B480291049F600EA978C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EE98B486291050C200EA978C /* EmptyNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNavigationLink.swift; sourceTree = "<group>"; };
+		EE98B4882910561600EA978C /* LoggedInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInView.swift; sourceTree = "<group>"; };
+		EE98B48A2910563800EA978C /* ContentRouterImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRouterImpl.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EE98B46729103EB500EA978C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEE2A2D229246C6800288428 /* Domain in Frameworks */,
+				EEE2A2D029246B2700288428 /* Authenticate in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EE38134B2938D35A00A3A710 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				EE38134C2938D35A00A3A710 /* atala-prism-swift-sdk */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		EE98B46129103EB500EA978C = {
+			isa = PBXGroup;
+			children = (
+				EE38134B2938D35A00A3A710 /* Packages */,
+				EE98B46C29103EB500EA978C /* atala-prism-challenger-app */,
+				EE98B46B29103EB500EA978C /* Products */,
+				EE98B48129104A0000EA978C /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EE98B46B29103EB500EA978C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EE98B46A29103EB500EA978C /* atala-prism-challenger-app.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EE98B46C29103EB500EA978C /* atala-prism-challenger-app */ = {
+			isa = PBXGroup;
+			children = (
+				EE98B480291049F600EA978C /* Info.plist */,
+				EE98B46D29103EB500EA978C /* atala_prism_challenger_appApp.swift */,
+				EE98B46F29103EB500EA978C /* ContentView.swift */,
+				EE98B47129103EB600EA978C /* Assets.xcassets */,
+				EE98B47329103EB600EA978C /* atala_prism_challenger_app.entitlements */,
+				EE98B47429103EB600EA978C /* Preview Content */,
+				EE98B47E291047D800EA978C /* ContentViewModelImpl.swift */,
+				EE98B486291050C200EA978C /* EmptyNavigationLink.swift */,
+				EE98B4882910561600EA978C /* LoggedInView.swift */,
+				EE98B48A2910563800EA978C /* ContentRouterImpl.swift */,
+			);
+			path = "atala-prism-challenger-app";
+			sourceTree = "<group>";
+		};
+		EE98B47429103EB600EA978C /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				EE98B47529103EB600EA978C /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EE98B48129104A0000EA978C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EE98B46929103EB500EA978C /* atala-prism-challenger-app */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE98B47929103EB600EA978C /* Build configuration list for PBXNativeTarget "atala-prism-challenger-app" */;
+			buildPhases = (
+				EE98B46629103EB500EA978C /* Sources */,
+				EE98B46729103EB500EA978C /* Frameworks */,
+				EE98B46829103EB500EA978C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "atala-prism-challenger-app";
+			packageProductDependencies = (
+				EEE2A2CF29246B2700288428 /* Authenticate */,
+				EEE2A2D129246C6800288428 /* Domain */,
+			);
+			productName = "atala-prism-challenger-app";
+			productReference = EE98B46A29103EB500EA978C /* atala-prism-challenger-app.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EE98B46229103EB500EA978C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					EE98B46929103EB500EA978C = {
+						CreatedOnToolsVersion = 14.0;
+					};
+				};
+			};
+			buildConfigurationList = EE98B46529103EB500EA978C /* Build configuration list for PBXProject "atala-prism-challenger-app" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EE98B46129103EB500EA978C;
+			packageReferences = (
+			);
+			productRefGroup = EE98B46B29103EB500EA978C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE98B46929103EB500EA978C /* atala-prism-challenger-app */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EE98B46829103EB500EA978C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE98B47629103EB600EA978C /* Preview Assets.xcassets in Resources */,
+				EE98B47229103EB600EA978C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EE98B46629103EB500EA978C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE98B4892910561600EA978C /* LoggedInView.swift in Sources */,
+				EE98B47029103EB500EA978C /* ContentView.swift in Sources */,
+				EE98B48B2910563800EA978C /* ContentRouterImpl.swift in Sources */,
+				EE98B487291050C200EA978C /* EmptyNavigationLink.swift in Sources */,
+				EE98B47F291047D800EA978C /* ContentViewModelImpl.swift in Sources */,
+				EE98B46E29103EB500EA978C /* atala_prism_challenger_appApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EE98B47729103EB600EA978C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EE98B47829103EB600EA978C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		EE98B47A29103EB600EA978C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "atala-prism-challenger-app/atala_prism_challenger_app.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"atala-prism-challenger-app/Preview Content\"";
+				DEVELOPMENT_TEAM = 89TW38X994;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "atala-prism-challenger-app/Info.plist";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.atala.prism.sdk.wallet.atalachallengerdemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EE98B47B29103EB600EA978C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "atala-prism-challenger-app/atala_prism_challenger_app.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"atala-prism-challenger-app/Preview Content\"";
+				DEVELOPMENT_TEAM = 89TW38X994;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "atala-prism-challenger-app/Info.plist";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.atala.prism.sdk.wallet.atalachallengerdemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EE98B46529103EB500EA978C /* Build configuration list for PBXProject "atala-prism-challenger-app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE98B47729103EB600EA978C /* Debug */,
+				EE98B47829103EB600EA978C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE98B47929103EB600EA978C /* Build configuration list for PBXNativeTarget "atala-prism-challenger-app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE98B47A29103EB600EA978C /* Debug */,
+				EE98B47B29103EB600EA978C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EEE2A2CF29246B2700288428 /* Authenticate */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Authenticate;
+		};
+		EEE2A2D129246C6800288428 /* Domain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Domain;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = EE98B46229103EB500EA978C /* Project object */;
+}

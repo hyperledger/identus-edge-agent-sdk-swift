@@ -1,0 +1,520 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EE3813502938D5B100A3A710 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = EE38134F2938D5B100A3A710 /* Apollo */; };
+		EE3813522938D5B100A3A710 /* Authenticate in Frameworks */ = {isa = PBXBuildFile; productRef = EE3813512938D5B100A3A710 /* Authenticate */; };
+		EE3813542938D5B100A3A710 /* Builders in Frameworks */ = {isa = PBXBuildFile; productRef = EE3813532938D5B100A3A710 /* Builders */; };
+		EE3813562938D5B100A3A710 /* Castor in Frameworks */ = {isa = PBXBuildFile; productRef = EE3813552938D5B100A3A710 /* Castor */; };
+		EE3813582938D5B100A3A710 /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = EE3813572938D5B100A3A710 /* Domain */; };
+		EE38135A2938D5B100A3A710 /* Mercury in Frameworks */ = {isa = PBXBuildFile; productRef = EE3813592938D5B100A3A710 /* Mercury */; };
+		EE38135C2938D5B100A3A710 /* Pluto in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135B2938D5B100A3A710 /* Pluto */; };
+		EE38135E2938D5B100A3A710 /* Pollux in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135D2938D5B100A3A710 /* Pollux */; };
+		EE3813602938D5B100A3A710 /* PrismAgent in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135F2938D5B100A3A710 /* PrismAgent */; };
+		EEE61FBA2937CA280053AE52 /* AtalaPrismWalletDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FB92937CA280053AE52 /* AtalaPrismWalletDemoApp.swift */; };
+		EEE61FBC2937CA280053AE52 /* FuncionalitiesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FBB2937CA280053AE52 /* FuncionalitiesList.swift */; };
+		EEE61FBE2937CA2A0053AE52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEE61FBD2937CA2A0053AE52 /* Assets.xcassets */; };
+		EEE61FC12937CA2A0053AE52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEE61FC02937CA2A0053AE52 /* Preview Assets.xcassets */; };
+		EEE61FDD2937CD7A0053AE52 /* SeedFuncionalitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FDC2937CD7A0053AE52 /* SeedFuncionalitiesView.swift */; };
+		EEE61FE02937CEAA0053AE52 /* SeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FDF2937CEAA0053AE52 /* SeedViewModel.swift */; };
+		EEE61FE42937D5560053AE52 /* DIDFuncionalitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FE32937D5560053AE52 /* DIDFuncionalitiesViewModel.swift */; };
+		EEE61FE82937D7EE0053AE52 /* DIDFuncionalitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FE72937D7EE0053AE52 /* DIDFuncionalitiesView.swift */; };
+		EEE620132937F1D40053AE52 /* PrintObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE620122937F1D40053AE52 /* PrintObjects.swift */; };
+		EEE620162937F3110053AE52 /* SigningVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE620152937F3110053AE52 /* SigningVerificationViewModel.swift */; };
+		EEE620182937F6870053AE52 /* SigningVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE620172937F6870053AE52 /* SigningVerificationView.swift */; };
+		EEE6202F2937FDE50053AE52 /* AuthenticateWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE6202D2937FDE50053AE52 /* AuthenticateWalletView.swift */; };
+		EEE620302937FDE50053AE52 /* AuthenticateWalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE6202E2937FDE50053AE52 /* AuthenticateWalletViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		EE38134E2938D55D00A3A710 /* atala-prism-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "atala-prism-swift-sdk"; path = ../..; sourceTree = "<group>"; };
+		EEE61FB62937CA280053AE52 /* AtalaPrismWalletDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AtalaPrismWalletDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EEE61FB92937CA280053AE52 /* AtalaPrismWalletDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtalaPrismWalletDemoApp.swift; sourceTree = "<group>"; };
+		EEE61FBB2937CA280053AE52 /* FuncionalitiesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuncionalitiesList.swift; sourceTree = "<group>"; };
+		EEE61FBD2937CA2A0053AE52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EEE61FC02937CA2A0053AE52 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EEE61FDC2937CD7A0053AE52 /* SeedFuncionalitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedFuncionalitiesView.swift; sourceTree = "<group>"; };
+		EEE61FDF2937CEAA0053AE52 /* SeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedViewModel.swift; sourceTree = "<group>"; };
+		EEE61FE32937D5560053AE52 /* DIDFuncionalitiesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDFuncionalitiesViewModel.swift; sourceTree = "<group>"; };
+		EEE61FE72937D7EE0053AE52 /* DIDFuncionalitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDFuncionalitiesView.swift; sourceTree = "<group>"; };
+		EEE620122937F1D40053AE52 /* PrintObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintObjects.swift; sourceTree = "<group>"; };
+		EEE620152937F3110053AE52 /* SigningVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigningVerificationViewModel.swift; sourceTree = "<group>"; };
+		EEE620172937F6870053AE52 /* SigningVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigningVerificationView.swift; sourceTree = "<group>"; };
+		EEE6202D2937FDE50053AE52 /* AuthenticateWalletView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateWalletView.swift; sourceTree = "<group>"; };
+		EEE6202E2937FDE50053AE52 /* AuthenticateWalletViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateWalletViewModel.swift; sourceTree = "<group>"; };
+		EEE620312937FF2C0053AE52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EEE61FB32937CA280053AE52 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE38135A2938D5B100A3A710 /* Mercury in Frameworks */,
+				EE3813582938D5B100A3A710 /* Domain in Frameworks */,
+				EE38135E2938D5B100A3A710 /* Pollux in Frameworks */,
+				EE38135C2938D5B100A3A710 /* Pluto in Frameworks */,
+				EE3813602938D5B100A3A710 /* PrismAgent in Frameworks */,
+				EE3813542938D5B100A3A710 /* Builders in Frameworks */,
+				EE3813502938D5B100A3A710 /* Apollo in Frameworks */,
+				EE3813562938D5B100A3A710 /* Castor in Frameworks */,
+				EE3813522938D5B100A3A710 /* Authenticate in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EE38134D2938D55D00A3A710 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				EE38134E2938D55D00A3A710 /* atala-prism-swift-sdk */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		EEE61FAD2937CA280053AE52 = {
+			isa = PBXGroup;
+			children = (
+				EE38134D2938D55D00A3A710 /* Packages */,
+				EEE61FB82937CA280053AE52 /* AtalaPrismWalletDemo */,
+				EEE61FB72937CA280053AE52 /* Products */,
+				EEE61FEB2937DCBE0053AE52 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EEE61FB72937CA280053AE52 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EEE61FB62937CA280053AE52 /* AtalaPrismWalletDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EEE61FB82937CA280053AE52 /* AtalaPrismWalletDemo */ = {
+			isa = PBXGroup;
+			children = (
+				EEE620312937FF2C0053AE52 /* Info.plist */,
+				EEE620112937F1C30053AE52 /* Helper */,
+				EEE61FDE2937CE970053AE52 /* Modules */,
+				EEE61FB92937CA280053AE52 /* AtalaPrismWalletDemoApp.swift */,
+				EEE61FBB2937CA280053AE52 /* FuncionalitiesList.swift */,
+				EEE61FBD2937CA2A0053AE52 /* Assets.xcassets */,
+				EEE61FBF2937CA2A0053AE52 /* Preview Content */,
+			);
+			path = AtalaPrismWalletDemo;
+			sourceTree = "<group>";
+		};
+		EEE61FBF2937CA2A0053AE52 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				EEE61FC02937CA2A0053AE52 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EEE61FDE2937CE970053AE52 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				EEE6202C2937FD4B0053AE52 /* AuthenticateWallet */,
+				EEE620142937F2C80053AE52 /* SigningVerification */,
+				EEE61FE22937D5140053AE52 /* DID */,
+				EEE61FE12937D5090053AE52 /* Seed */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		EEE61FE12937D5090053AE52 /* Seed */ = {
+			isa = PBXGroup;
+			children = (
+				EEE61FDF2937CEAA0053AE52 /* SeedViewModel.swift */,
+				EEE61FDC2937CD7A0053AE52 /* SeedFuncionalitiesView.swift */,
+			);
+			path = Seed;
+			sourceTree = "<group>";
+		};
+		EEE61FE22937D5140053AE52 /* DID */ = {
+			isa = PBXGroup;
+			children = (
+				EEE61FE32937D5560053AE52 /* DIDFuncionalitiesViewModel.swift */,
+				EEE61FE72937D7EE0053AE52 /* DIDFuncionalitiesView.swift */,
+			);
+			path = DID;
+			sourceTree = "<group>";
+		};
+		EEE61FEB2937DCBE0053AE52 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EEE620112937F1C30053AE52 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				EEE620122937F1D40053AE52 /* PrintObjects.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		EEE620142937F2C80053AE52 /* SigningVerification */ = {
+			isa = PBXGroup;
+			children = (
+				EEE620152937F3110053AE52 /* SigningVerificationViewModel.swift */,
+				EEE620172937F6870053AE52 /* SigningVerificationView.swift */,
+			);
+			path = SigningVerification;
+			sourceTree = "<group>";
+		};
+		EEE6202C2937FD4B0053AE52 /* AuthenticateWallet */ = {
+			isa = PBXGroup;
+			children = (
+				EEE6202D2937FDE50053AE52 /* AuthenticateWalletView.swift */,
+				EEE6202E2937FDE50053AE52 /* AuthenticateWalletViewModel.swift */,
+			);
+			path = AuthenticateWallet;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EEE61FB52937CA280053AE52 /* AtalaPrismWalletDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EEE61FC42937CA2A0053AE52 /* Build configuration list for PBXNativeTarget "AtalaPrismWalletDemo" */;
+			buildPhases = (
+				EEE61FB22937CA280053AE52 /* Sources */,
+				EEE61FB32937CA280053AE52 /* Frameworks */,
+				EEE61FB42937CA280053AE52 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AtalaPrismWalletDemo;
+			packageProductDependencies = (
+				EE38134F2938D5B100A3A710 /* Apollo */,
+				EE3813512938D5B100A3A710 /* Authenticate */,
+				EE3813532938D5B100A3A710 /* Builders */,
+				EE3813552938D5B100A3A710 /* Castor */,
+				EE3813572938D5B100A3A710 /* Domain */,
+				EE3813592938D5B100A3A710 /* Mercury */,
+				EE38135B2938D5B100A3A710 /* Pluto */,
+				EE38135D2938D5B100A3A710 /* Pollux */,
+				EE38135F2938D5B100A3A710 /* PrismAgent */,
+			);
+			productName = AtalaPrismWalletDemo;
+			productReference = EEE61FB62937CA280053AE52 /* AtalaPrismWalletDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EEE61FAE2937CA280053AE52 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					EEE61FB52937CA280053AE52 = {
+						CreatedOnToolsVersion = 14.0;
+					};
+				};
+			};
+			buildConfigurationList = EEE61FB12937CA280053AE52 /* Build configuration list for PBXProject "AtalaPrismWalletDemo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EEE61FAD2937CA280053AE52;
+			packageReferences = (
+			);
+			productRefGroup = EEE61FB72937CA280053AE52 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EEE61FB52937CA280053AE52 /* AtalaPrismWalletDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EEE61FB42937CA280053AE52 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEE61FC12937CA2A0053AE52 /* Preview Assets.xcassets in Resources */,
+				EEE61FBE2937CA2A0053AE52 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EEE61FB22937CA280053AE52 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEE620132937F1D40053AE52 /* PrintObjects.swift in Sources */,
+				EEE620302937FDE50053AE52 /* AuthenticateWalletViewModel.swift in Sources */,
+				EEE61FE02937CEAA0053AE52 /* SeedViewModel.swift in Sources */,
+				EEE61FE82937D7EE0053AE52 /* DIDFuncionalitiesView.swift in Sources */,
+				EEE61FBC2937CA280053AE52 /* FuncionalitiesList.swift in Sources */,
+				EEE61FDD2937CD7A0053AE52 /* SeedFuncionalitiesView.swift in Sources */,
+				EEE61FE42937D5560053AE52 /* DIDFuncionalitiesViewModel.swift in Sources */,
+				EEE6202F2937FDE50053AE52 /* AuthenticateWalletView.swift in Sources */,
+				EEE620182937F6870053AE52 /* SigningVerificationView.swift in Sources */,
+				EEE61FBA2937CA280053AE52 /* AtalaPrismWalletDemoApp.swift in Sources */,
+				EEE620162937F3110053AE52 /* SigningVerificationViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EEE61FC22937CA2A0053AE52 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EEE61FC32937CA2A0053AE52 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EEE61FC52937CA2A0053AE52 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AtalaPrismWalletDemo/Preview Content\"";
+				DEVELOPMENT_TEAM = 89TW38X994;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AtalaPrismWalletDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.atala.prism.demo.wallet.AtalaPrismWalletDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EEE61FC62937CA2A0053AE52 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"AtalaPrismWalletDemo/Preview Content\"";
+				DEVELOPMENT_TEAM = 89TW38X994;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AtalaPrismWalletDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.atala.prism.demo.wallet.AtalaPrismWalletDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EEE61FB12937CA280053AE52 /* Build configuration list for PBXProject "AtalaPrismWalletDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EEE61FC22937CA2A0053AE52 /* Debug */,
+				EEE61FC32937CA2A0053AE52 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EEE61FC42937CA2A0053AE52 /* Build configuration list for PBXNativeTarget "AtalaPrismWalletDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EEE61FC52937CA2A0053AE52 /* Debug */,
+				EEE61FC62937CA2A0053AE52 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EE38134F2938D5B100A3A710 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Apollo;
+		};
+		EE3813512938D5B100A3A710 /* Authenticate */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Authenticate;
+		};
+		EE3813532938D5B100A3A710 /* Builders */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Builders;
+		};
+		EE3813552938D5B100A3A710 /* Castor */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Castor;
+		};
+		EE3813572938D5B100A3A710 /* Domain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Domain;
+		};
+		EE3813592938D5B100A3A710 /* Mercury */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Mercury;
+		};
+		EE38135B2938D5B100A3A710 /* Pluto */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Pluto;
+		};
+		EE38135D2938D5B100A3A710 /* Pollux */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Pollux;
+		};
+		EE38135F2938D5B100A3A710 /* PrismAgent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PrismAgent;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = EEE61FAE2937CA280053AE52 /* Project object */;
+}

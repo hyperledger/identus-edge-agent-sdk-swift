@@ -50,7 +50,7 @@ let package = Package(
             from: "1.4.4"
         ),
         // This doesnt seem to be working properly on command line, removing for now
-//      .package(url: "https://github.com/realm/SwiftLint.git", branch: "main"),
+//        .package(url: "https://github.com/realm/SwiftLint.git", branch: "main"),
         .package(url: "https://github.com/apple/swift-protobuf", from: "1.7.0"),
         .package(url: "https://github.com/antlr/antlr4", branch: "master"),
         .package(url: "https://github.com/input-output-hk/atala-prism-didcomm-swift", from: "0.3.4"),

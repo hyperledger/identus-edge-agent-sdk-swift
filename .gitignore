@@ -26,12 +26,11 @@ Podfile.lock
 *.mode1v3
 *.mode2v3
 xcuserdata
-*.xcworkspace
-*.xcodeproj
 *.xcodeproj/project.xcworkspace/xcshareddata/
 *.xcworkspace/xcshareddata/
 *.xcworkspace/xcshareddata/xcschemes
 *.orig
+.swiftpm
 /.project
 *.gcno
 *.gcda
