@@ -38,8 +38,8 @@ public final class CoreDataManager {
         if let mdl = CoreDataManager._model { return mdl }
         let modelPath: URL
         switch setup.modelPath {
-        case let .storeName(name, bundle):
-            guard let modelURL = bundle.url(forResource: name, withExtension: "momd") else {
+        case let .storeName(name):
+            guard let modelURL = Bundle.module.url(forResource: name, withExtension: "momd") else {
                 fatalError("Unable to Find Data Model")
             }
             modelPath = modelURL
@@ -102,7 +102,7 @@ public final class CoreDataManager {
     private func persistentStoreUrl() -> URL {
         let modelName: String
         switch setup.modelPath {
-        case let .storeName(value, _):
+        case let .storeName(value):
             modelName = value
         case let .storeURL(value):
             modelName = value.deletingPathExtension().lastPathComponent
@@ -125,7 +125,7 @@ public extension CoreDataManager {
         }
 
         public enum ModelPath {
-            case storeName(String, Bundle = ModelKit.bundle)
+            case storeName(String)
             case storeURL(URL)
         }
 
@@ -139,15 +139,10 @@ public extension CoreDataManager {
     }
 }
 
-// Helper so the core data model can be found
-public enum ModelKit {
-    public static let bundle = Bundle.module
-}
-
 private extension CoreDataManager.CoreDataSetup {
     var modelName: String {
         switch modelPath {
-        case let .storeName(name, _):
+        case let .storeName(name):
             return name
         case let .storeURL(url):
             return url.deletingPathExtension().lastPathComponent

@@ -1,6 +1,0 @@
-framework module PrismAPI {
-    umbrella header "PrismAPI.h"
-
-    export *
-    module * { export * }
-}
