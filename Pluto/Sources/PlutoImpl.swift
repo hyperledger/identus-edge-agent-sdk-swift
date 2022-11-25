@@ -6,7 +6,7 @@ public struct PlutoImpl {
 
         public init(
             coreDataSetup: CoreDataManager.CoreDataSetup = .init(
-                modelPath: .storeName("com.atala.prism.storage"),
+                modelPath: .storeName("PrismPluto"),
                 storeType: .persistent
             )
         ) {

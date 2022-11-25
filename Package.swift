@@ -53,8 +53,8 @@ let package = Package(
 //      .package(url: "https://github.com/realm/SwiftLint.git", branch: "main"),
         .package(url: "https://github.com/apple/swift-protobuf", from: "1.7.0"),
         .package(url: "https://github.com/antlr/antlr4", branch: "master"),
-        .package(name: "PrismAPI", path: "PrismAPISDK"),
-        .package(url: "https://github.com/input-output-hk/atala-prism-didcomm-swift", from: "0.3.4")
+        .package(url: "https://github.com/input-output-hk/atala-prism-didcomm-swift", from: "0.3.4"),
+        .package(url: "https://github.com/input-output-hk/atala-prism-crypto-sdk-sp", from: "1.4.1")
     ],
     targets: [
         .target(
@@ -68,7 +68,11 @@ let package = Package(
         ),
         .target(
             name: "Apollo",
-            dependencies: ["Domain", "Core", "PrismAPI"],
+            dependencies: [
+                "Domain",
+                "Core",
+                .product(name: "PrismAPI", package: "atala-prism-crypto-sdk-sp")
+            ],
             path: "Apollo/Sources"
         ),
         .testTarget(
@@ -109,7 +113,8 @@ let package = Package(
             dependencies: [
                 "Domain",
                 "Core",
-                .product(name: "DIDCommxSwift", package: "atala-prism-didcomm-swift")],
+                .product(name: "DIDCommxSwift", package: "atala-prism-didcomm-swift")
+            ],
             path: "Mercury/Sources"
         ),
         .testTarget(
