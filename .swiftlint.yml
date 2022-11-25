@@ -71,6 +71,7 @@ opt_in_rules:
   - xct_specific_matcher
   - yoda_condition
 excluded:
+  - .build
   - build
   - Pods
   - protobuf
