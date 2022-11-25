@@ -80,7 +80,6 @@ let package = Package(
             dependencies: [
                 "Domain",
                 "Core",
-                "PrismAPI",
                 .product(name: "SwiftProtobuf", package: "swift-protobuf"),
                 .product(name: "Antlr4", package: "antlr4")
             ],
