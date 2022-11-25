@@ -4,19 +4,24 @@ public struct Base64Utils {
     public init() {}
 
     public func encode(_ data: Data) -> String {
-        String(data.base64EncodedString()
+        let base64 = data.base64EncodedString()
+        return String(base64
             .replacingOccurrences(of: "/", with: "_")
             .replacingOccurrences(of: "+", with: "-")
             .trimingTrailing(while: CharacterSet(charactersIn: "=")))
     }
 
     public func decode(_ src: String) -> Data? {
-        let expectedLength = (src.count + 3) / 4 * 4
-        let base64Encoded = src
+        let expectedLength = src.count % 4
+        let replaced = src
             .replacingOccurrences(of: "_", with: "/")
             .replacingOccurrences(of: "-", with: "+")
-            .appending(String(repeating: .init("="), count: expectedLength))
-        return Data(base64Encoded: base64Encoded)
+
+        if expectedLength > 0 {
+            return Data(base64Encoded: replaced + String(repeating: "=", count: 4 - expectedLength))
+        } else {
+            return Data(base64Encoded:replaced)
+        }
     }
 }
 
