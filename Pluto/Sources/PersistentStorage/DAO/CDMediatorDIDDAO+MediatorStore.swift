@@ -22,7 +22,7 @@ extension CDMediatorDIDDAO: MediatorStore {
                     .eraseToAnyPublisher()
             }
             .flatMap { peerDID, routingDID, mediatorDID  in
-                updateOrCreate(peer.string, context: writeContext) { cdobj, context in
+                updateOrCreate(peer.string, context: writeContext) { cdobj, _ in
                     cdobj.parseFrom(peerDID: peerDID, routingDID: routingDID, mediatorDID: mediatorDID)
                 }
             }

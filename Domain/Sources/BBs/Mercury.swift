@@ -7,8 +7,8 @@ public protocol Mercury {
     func sendMessage(msg: Message) async throws -> Data?
 }
 
-extension Mercury {
-    public func sendMessage(msg: Message) async throws -> Message? {
+public extension Mercury {
+    func sendMessage(msg: Message) async throws -> Message? {
         guard
             let msgData = try await sendMessage(msg: msg),
             let msgStr = String(data: msgData, encoding: .utf8)

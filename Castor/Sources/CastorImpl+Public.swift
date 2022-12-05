@@ -36,7 +36,11 @@ extension CastorImpl: Castor {
     }
 
     public func resolveDID(did: DID) async throws -> DIDDocument {
-        guard let document = try await resolvers.first?.resolve(did: did) else { throw CastorError.notPossibleToResolveDID }
+        guard
+            let document = try await resolvers
+                .first?
+                .resolve(did: did)
+        else { throw CastorError.notPossibleToResolveDID }
         return document
     }
 }

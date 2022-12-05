@@ -1,5 +1,5 @@
-import Domain
 import CoreData
+import Domain
 import Foundation
 
 @objc(CDDID)
