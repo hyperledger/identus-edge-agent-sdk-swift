@@ -52,7 +52,6 @@ extension CDMessageDAO: MessageStore {
 }
 
 private extension CDMessage {
-
     func fromDomain(msg: Message, pair: CDDIDPair?) throws {
         self.messageId = msg.id
         self.from = msg.from?.string

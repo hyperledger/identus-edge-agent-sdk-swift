@@ -4,13 +4,13 @@ import Domain
 import Foundation
 
 public class PrismAgent {
-
     public enum State {
         case stoped
         case starting
         case running
         case stoping
     }
+
     public enum DIDType {
         case prism
         case peer

@@ -71,14 +71,16 @@ opt_in_rules:
   - xct_specific_matcher
   - yoda_condition
 excluded:
+  - .git
+  - .swiftpm
   - .build
   - build
   - Pods
   - protobuf
   - PrismAPISDK
-  - Sources/PrismSwiftSDK/protobuf
+  - Sources/PrismSwiftSDK/protobuf/*
   - Tests/PrismSwiftSDKTests
-  - Castor/Sources/DIDParser/DIDGrammar
+  - Castor/Sources/DIDParser/DIDGrammar/*
   - Castor/Tests
   - Castor/Sources/protobuf
   - Apollo/Tests
@@ -90,6 +92,7 @@ excluded:
   - Pluto/Tests
   - Pollux/Tests
   - PrismAgent/Tests
+  - Mercury/Sources/TestingConstants/*
   - Sample
 line_length:
   ignores_comments: true
@@ -121,4 +124,5 @@ identifier_name:
   excluded:
     - id
     - ec
+    - to
 reporter: "xcode"

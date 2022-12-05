@@ -22,9 +22,7 @@ struct HandshakeRequest {
     let type: String = ProtocolTypes.didcommconnectionRequest.rawValue
     let id: String
     let from: DID
-    // swiftlint:disable identifier_name
     let to: DID
-    // swiftlint:enable identifier_name
     let thid: String?
     let body: Body
 
@@ -37,9 +35,7 @@ struct HandshakeRequest {
     init(
         id: String = UUID().uuidString,
         from: DID,
-        // swiftlint:disable identifier_name
         to: DID,
-        // swiftlint:enable identifier_name
         thid: String?,
         body: Body
     ) {
