@@ -9,9 +9,7 @@ struct MediationGrant {
     let id: String
     let type = ProtocolTypes.didcommMediationGrant.rawValue
     let from: DID
-    // swiftlint:disable identifier_name
     let to: DID
-    // swiftlint:enable identifier_name
     let body: Body
 
     init(

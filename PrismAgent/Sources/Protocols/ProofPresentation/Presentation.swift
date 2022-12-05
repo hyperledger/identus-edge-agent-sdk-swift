@@ -32,9 +32,7 @@ public struct Presentation {
     let attachments: [AttachmentDescriptor]
     public let thid: String?
     public let from: DID
-    // swiftlint:disable identifier_name
     public let to: DID
-    // swiftlint:enable identifier_name
 
     init(
         id: String = UUID().uuidString,
@@ -42,9 +40,7 @@ public struct Presentation {
         attachments: [AttachmentDescriptor],
         thid: String?,
         from: DID,
-        // swiftlint:disable identifier_name
         to: DID
-        // swiftlint:enable identifier_name
     ) {
         self.id = id
         self.body = body

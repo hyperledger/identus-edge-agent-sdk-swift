@@ -4,9 +4,7 @@ public struct Message {
     public let id: String
     public let piuri: String
     public let from: DID?
-    // swiftlint:disable identifier_name
     public let to: DID?
-    // swiftlint:enable identifier_name
     public let fromPrior: String?
     public let body: Data
     public let extraHeaders: [String: String]
@@ -21,9 +19,7 @@ public struct Message {
         id: String = UUID().uuidString,
         piuri: String,
         from: DID? = nil,
-        // swiftlint:disable identifier_name
         to: DID? = nil,
-        // swiftlint:enable identifier_name
         fromPrior: String? = nil,
         body: Data,
         extraHeaders: [String : String] = [:],

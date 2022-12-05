@@ -17,9 +17,7 @@ struct PickUpRequest {
     }
 
     let from: DID
-    // swiftlint:disable identifier_name
     let to: DID
-    // swiftlint:enable identifier_name
     let body: Body
 
     func makeMessage() throws -> Message {
