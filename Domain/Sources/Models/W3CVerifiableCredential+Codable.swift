@@ -1,24 +1,4 @@
-import Domain
 import Foundation
-
-struct W3CVerifiableCredential: VerifiableCredential {
-    let context: Set<String>
-    let type: Set<String>
-    let id: String?
-    let issuer: DID
-    let issuanceDate: Date
-    let expirationDate: Date?
-    let credentialSchema: VerifiableCredentialTypeContainer?
-    let credentialSubject: String
-    let credentialStatus: VerifiableCredentialTypeContainer?
-    let refreshService: VerifiableCredentialTypeContainer?
-    let evidence: VerifiableCredentialTypeContainer?
-    let termsOfUse: VerifiableCredentialTypeContainer?
-    let validFrom: VerifiableCredentialTypeContainer?
-    let validUntil: VerifiableCredentialTypeContainer?
-    let proof: String?
-    let aud: Set<String>
-}
 
 extension W3CVerifiableCredential: Codable {
     enum CodingKeys: String, CodingKey {
@@ -43,7 +23,11 @@ extension W3CVerifiableCredential: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.context, forKey: .context)
-        try container.encode(self.type, forKey: .type)
+        if self.type.count != 1 {
+            try container.encode(self.type, forKey: .type)
+        } else if let value = self.type.first {
+            try container.encode(value, forKey: .type)
+        }
         try container.encode(self.id, forKey: .id)
         try container.encode(self.issuer.string, forKey: .issuer)
         try container.encode(self.issuanceDate, forKey: .issuanceDate)
@@ -62,37 +46,61 @@ extension W3CVerifiableCredential: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.context = (try? container.decode(Set<String>.self, forKey: .context)) ?? Set()
-        self.type = (try? container.decode(Set<String>.self, forKey: .type)) ?? Set()
-        self.id = try container.decode(String.self, forKey: .id)
+        let context = (try? container.decode(Set<String>.self, forKey: .context)) ?? Set()
+        let type: Set<String>
+        if let value = try? container.decode(String.self, forKey: .type) {
+            type = Set([value])
+        } else {
+            type = try container.decode(Set<String>.self, forKey: .type)
+        }
+        let id = try container.decode(String.self, forKey: .id)
         let didString = try container.decode(String.self, forKey: .issuer)
-        self.issuer = try DID(string: didString)
-        self.issuanceDate = try container.decode(Date.self, forKey: .issuanceDate)
-        self.expirationDate = try? container.decode(Date.self, forKey: .expirationDate)
-        self.validFrom = try? container.decode(VerifiableCredentialTypeContainer.self, forKey: .validFrom)
-        self.validUntil = try? container.decode(VerifiableCredentialTypeContainer.self, forKey: .validUntil)
-        self.proof = try? container.decode(String.self, forKey: .proof)
-        self.aud = (try? container.decode(Set<String>.self, forKey: .proof)) ?? Set()
-        self.credentialSubject = try container.decode(String.self, forKey: .credentialSubject)
-        self.credentialStatus = try? container.decode(
+        let issuer = try DID(string: didString)
+        let issuanceDate = try container.decode(Date.self, forKey: .issuanceDate)
+        let expirationDate = try? container.decode(Date.self, forKey: .expirationDate)
+        let validFrom = try? container.decode(VerifiableCredentialTypeContainer.self, forKey: .validFrom)
+        let validUntil = try? container.decode(VerifiableCredentialTypeContainer.self, forKey: .validUntil)
+        let proof = try? container.decode(String.self, forKey: .proof)
+        let aud = (try? container.decode(Set<String>.self, forKey: .proof)) ?? Set()
+        let credentialSubject = try container.decode(String.self, forKey: .credentialSubject)
+        let credentialStatus = try? container.decode(
             VerifiableCredentialTypeContainer.self,
             forKey: .credentialStatus
         )
-        self.credentialSchema = try? container.decode(
+        let credentialSchema = try? container.decode(
             VerifiableCredentialTypeContainer.self,
             forKey: .credentialSchema
         )
-        self.refreshService = try? container.decode(
+        let refreshService = try? container.decode(
             VerifiableCredentialTypeContainer.self,
             forKey: .refreshService
         )
-        self.evidence = try? container.decode(
+        let evidence = try? container.decode(
             VerifiableCredentialTypeContainer.self,
             forKey: .evidence
         )
-        self.termsOfUse = try? container.decode(
+        let termsOfUse = try? container.decode(
             VerifiableCredentialTypeContainer.self,
             forKey: .termsOfUse
+        )
+
+        self.init(
+            context: context,
+            type: type,
+            id: id,
+            issuer: issuer,
+            issuanceDate: issuanceDate,
+            expirationDate: expirationDate,
+            credentialSchema: credentialSchema,
+            credentialSubject: credentialSubject,
+            credentialStatus: credentialStatus,
+            refreshService: refreshService,
+            evidence: evidence,
+            termsOfUse: termsOfUse,
+            validFrom: validFrom,
+            validUntil: validUntil,
+            proof: proof,
+            aud: aud
         )
     }
 }

@@ -22,8 +22,15 @@ public struct VerifiableCredentialTypeContainer: Codable {
     }
 }
 
+public enum CredentialType {
+    case jwt
+    case w3c
+    case unknown
+}
+
 public protocol VerifiableCredential {
-    var id: String? { get }
+    var credentialType: CredentialType { get }
+    var id: String { get }
     var context: Set<String> { get }
     var type: Set<String> { get }
     var issuer: DID { get }
