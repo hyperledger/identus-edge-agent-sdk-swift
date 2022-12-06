@@ -31,6 +31,8 @@ public enum PlutoError: Error {
     case messageMissingFromOrToDIDError
     case didPairIsNotPersistedError
     case holderDIDAlreadyPairingError
+    case unknownCredentialTypeError
+    case invalidCredentialJsonError
 }
 
 public enum PolluxError: Error {

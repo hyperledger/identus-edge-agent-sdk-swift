@@ -36,4 +36,32 @@
         <attribute name="alias" optional="YES" attributeType="String"/>
         <attribute name="keyIndex" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
     </entity>
+    <entity name="CDVerifiableCredential" representedClassName="CDVerifiableCredential" syncable="YES">
+        <attribute name="credentialId" attributeType="String"/>
+        <attribute name="credentialType" optional="YES" attributeType="String"/>
+        <attribute name="expirationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="issuanceDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="verifiableCredetialJson" attributeType="Binary"/>
+        <relationship name="context" toMany="YES" deletionRule="Nullify" destinationEntity="CDVerifiableCredentialContext" inverseName="credentials" inverseEntity="CDVerifiableCredentialContext"/>
+        <relationship name="issuer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDID"/>
+        <relationship name="type" toMany="YES" deletionRule="Nullify" destinationEntity="CDVerifiableCredentialType" inverseName="credentials" inverseEntity="CDVerifiableCredentialType"/>
+    </entity>
+    <entity name="CDVerifiableCredentialContext" representedClassName="CDVerifiableCredentialContext" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="credentials" toMany="YES" deletionRule="Nullify" destinationEntity="CDVerifiableCredential" inverseName="context" inverseEntity="CDVerifiableCredential"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CDVerifiableCredentialType" representedClassName="CDVerifiableCredentialType" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="credentials" toMany="YES" deletionRule="Nullify" destinationEntity="CDVerifiableCredential" inverseName="type" inverseEntity="CDVerifiableCredential"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
 </model>
