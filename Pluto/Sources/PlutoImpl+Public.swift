@@ -26,6 +26,10 @@ extension PlutoImpl: Pluto {
         mediatorDAO.addMediator(peer: peer, routingDID: routingDID, mediatorDID: mediatorDID)
     }
 
+    public func storeCredential(credential: VerifiableCredential) -> AnyPublisher<Void, Error> {
+        credentialsDAO.addCredential(credential: credential)
+    }
+
     public func getAllPrismDIDs() -> AnyPublisher<[(did: DID, keyPairIndex: Int, alias: String?)], Error> {
         registeredDIDDao.getAll()
     }
@@ -107,5 +111,9 @@ extension PlutoImpl: Pluto {
 
     public func getAllMediators() -> AnyPublisher<[(did: DID, routingDID: DID, mediatorDID: DID)], Error> {
         mediatorDAO.getAll()
+    }
+
+    public func getAllCredentials() -> AnyPublisher<[VerifiableCredential], Error> {
+        credentialsDAO.getAll()
     }
 }

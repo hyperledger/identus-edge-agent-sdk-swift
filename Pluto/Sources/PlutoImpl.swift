@@ -20,6 +20,7 @@ public struct PlutoImpl {
     let pairDIDDao: CDDIDPairDAO
     let messageDao: CDMessageDAO
     let mediatorDAO: CDMediatorDIDDAO
+    let credentialsDAO: CDVerifiableCredentialDAO
     private let coreDataManager: CoreDataManager
 
     public init(setup: PlutoSetup = .init()) {
@@ -55,6 +56,14 @@ public struct PlutoImpl {
                 writeContext: manager.editContext
             ),
             privateKeyDIDDao: privateKeyDao
+        )
+        self.credentialsDAO = CDVerifiableCredentialDAO(
+            readContext: manager.mainContext,
+            writeContext: manager.editContext,
+            didDAO: CDDIDDAO(
+                readContext: manager.mainContext,
+                writeContext: manager.editContext
+            )
         )
     }
 }
