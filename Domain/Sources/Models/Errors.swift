@@ -12,6 +12,9 @@ public enum CastorError: Error {
     case invalidDIDString
     case initialStateOfDIDChanged
     case notPossibleToResolveDID
+    case invalidJWKKeysError
+    case invalidKeyError
+    case invalidPeerDIDError
 }
 
 public enum MercuryError: Error {

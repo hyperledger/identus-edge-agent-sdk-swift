@@ -12,7 +12,7 @@ final class PrismDIDPublicKeyTests: XCTestCase {
     override func setUp() async throws {
         apollo = ApolloImpl()
         seed = apollo.createRandomSeed().seed
-        keyPair = apollo.createKeyPair(seed: seed, index: 0)
+        keyPair = apollo.createKeyPair(seed: seed, curve: .secp256k1())
     }
 
     func testFromProto() throws {

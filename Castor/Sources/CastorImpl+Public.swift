@@ -17,6 +17,18 @@ extension CastorImpl: Castor {
         ).compute()
     }
 
+    public func createPeerDID(
+        keyAgreementKeyPair: KeyPair,
+        authenticationKeyPair: KeyPair,
+        services: [DIDDocument.Service]
+    ) throws -> DID {
+        try CreatePeerDIDOperation(
+            autenticationKeyPair: authenticationKeyPair,
+            agreementKeyPair: keyAgreementKeyPair,
+            services: services
+        ).compute()
+    }
+
     public func verifySignature(did: DID, challenge: Data, signature: Data) async throws -> Bool {
         let document = try await resolveDID(did: did)
         return verifySignature(document: document, challenge: challenge, signature: signature)

@@ -21,6 +21,15 @@ struct CastorStub: Castor {
         return createDIDResponse
     }
 
+    func createPeerDID(
+        keyAgreementKeyPair: KeyPair,
+        authenticationKeyPair: KeyPair,
+        services: [DIDDocument.Service]
+    ) throws -> DID {
+        guard throwCreateDIDError == nil else { throw throwCreateDIDError! }
+        return createDIDResponse
+    }
+
     func resolveDID(did: DID) throws -> DIDDocument {
         guard throwResolveDIDError == nil else { throw throwResolveDIDError! }
         return resolveDIDResponse
