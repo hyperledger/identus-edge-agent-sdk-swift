@@ -4,7 +4,7 @@ public protocol Apollo {
     func createRandomMnemonics() -> [String]
     func createSeed(mnemonics: [String], passphrase: String) throws -> Seed
     func createRandomSeed() -> (mnemonic: [String], seed: Seed)
-    func createKeyPair(seed: Seed, index: Int) -> KeyPair
+    func createKeyPair(seed: Seed, curve: KeyCurve) -> KeyPair
     func compressedPublicKey(publicKey: PublicKey) -> CompressedPublicKey
     func compressedPublicKey(compressedData: Data) -> CompressedPublicKey
     func signMessage(privateKey: PrivateKey, message: Data) -> Signature
