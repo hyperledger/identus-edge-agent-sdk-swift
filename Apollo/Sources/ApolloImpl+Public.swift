@@ -21,12 +21,21 @@ returns random mnemonics nerver returns invalid mnemonics
         return (words, seed)
     }
 
-    public func createKeyPair(seed: Seed, index: Int) -> KeyPair {
-        CreateKeyPairOperation(
-            logger: ApolloImpl.logger,
-            seed: seed,
-            keyPath: .init(index: index)
-        ).compute()
+    public func createKeyPair(seed: Seed, curve: KeyCurve) -> KeyPair {
+        switch curve {
+        case .x25519:
+            return CreateX25519KeyPairOperation(logger: ApolloImpl.logger)
+                .compute()
+        case .ed25519:
+            return CreateEd25519KeyPairOperation(logger: ApolloImpl.logger)
+                .compute()
+        case let .secp256k1(index):
+            return CreateSec256k1KeyPairOperation(
+                logger: ApolloImpl.logger,
+                seed: seed,
+                keyPath: .init(index: index)
+            ).compute()
+        }
     }
 
     public func compressedPublicKey(publicKey: PublicKey) -> CompressedPublicKey {

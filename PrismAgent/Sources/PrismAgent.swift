@@ -117,7 +117,7 @@ public class PrismAgent {
                     // if no register is found throw an error
                     guard let index = $0?.keyPairIndex else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
                     // Re-Create the key pair to sign the message
-                    let keyPair = apollo.createKeyPair(seed: seed, index: index)
+                    let keyPair = apollo.createKeyPair(seed: seed, curve: .secp256k1(index: index))
                     return apollo.signMessage(privateKey: keyPair.privateKey, message: message)
                 }
                 .first()
@@ -225,7 +225,7 @@ public class PrismAgent {
                     // If the user provided a key path index use it, if not use the last + 1
                     let index = keyPathIndex ?? ($0 + 1)
                     // Create the key pair
-                    let keyPair = apollo.createKeyPair(seed: seed, index: index)
+                    let keyPair = apollo.createKeyPair(seed: seed, curve: .secp256k1(index: index))
                     let newDID = try castor.createPrismDID(masterPublicKey: keyPair.publicKey, services: services)
                     return (newDID, index, alias)
                 }
@@ -266,7 +266,7 @@ public class PrismAgent {
                     // If the user provided a key path index use it, if not use the last + 1
                     let index = ($0 + 1)
                     // Create the key pair
-                    let keyPair = apollo.createKeyPair(seed: seed, index: index)
+                    let keyPair = apollo.createKeyPair(seed: seed, curve: .secp256k1(index: index))
                     let newDID = try castor.createPrismDID(masterPublicKey: keyPair.publicKey, services: services)
                     return (newDID, keyPair.privateKey)
                 }

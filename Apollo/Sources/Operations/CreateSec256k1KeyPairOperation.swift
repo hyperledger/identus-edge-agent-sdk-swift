@@ -3,7 +3,7 @@ import Domain
 import Foundation
 import PrismAPI
 
-struct CreateKeyPairOperation {
+struct CreateSec256k1KeyPairOperation {
     struct KeyPath {
         let index: Int
 
@@ -46,7 +46,7 @@ struct CreateKeyPairOperation {
         ])
 
         return KeyPair(
-            index: keyPath.index,
+            curve: .secp256k1(index: keyPath.index),
             privateKey: PrivateKey(fromEC: newKey.keyPair().privateKey),
             publicKey: PublicKey(fromEC: newKey.keyPair().publicKey)
         )

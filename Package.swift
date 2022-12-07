@@ -54,7 +54,8 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-protobuf", from: "1.7.0"),
         .package(url: "https://github.com/antlr/antlr4", branch: "master"),
         .package(url: "https://github.com/input-output-hk/atala-prism-didcomm-swift", from: "0.3.4"),
-        .package(url: "https://github.com/input-output-hk/atala-prism-crypto-sdk-sp", from: "1.4.1")
+        .package(url: "https://github.com/input-output-hk/atala-prism-crypto-sdk-sp", from: "1.4.1"),
+        .package(url: "https://github.com/swift-libp2p/swift-multibase", branch: "main")
     ],
     targets: [
         .target(
@@ -85,6 +86,7 @@ let package = Package(
             dependencies: [
                 "Domain",
                 "Core",
+                .product(name: "Multibase", package: "swift-multibase"),
                 .product(name: "SwiftProtobuf", package: "swift-protobuf"),
                 .product(name: "Antlr4", package: "antlr4")
             ],
