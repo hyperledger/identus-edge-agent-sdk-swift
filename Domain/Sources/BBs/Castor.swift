@@ -7,6 +7,12 @@ public protocol Castor {
         services: [DIDDocument.Service]
     ) throws -> DID
 
+    func createPeerDID(
+        keyAgreementKeyPair: KeyPair,
+        authenticationKeyPair: KeyPair,
+        services: [DIDDocument.Service]
+    ) throws -> DID
+
     func resolveDID(did: DID) async throws -> DIDDocument
 
     func verifySignature(
