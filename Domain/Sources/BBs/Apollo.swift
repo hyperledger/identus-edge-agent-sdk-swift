@@ -5,6 +5,7 @@ public protocol Apollo {
     func createSeed(mnemonics: [String], passphrase: String) throws -> Seed
     func createRandomSeed() -> (mnemonic: [String], seed: Seed)
     func createKeyPair(seed: Seed, curve: KeyCurve) -> KeyPair
+    func createKeyPair(seed: Seed, privateKey: PrivateKey) throws -> KeyPair
     func compressedPublicKey(publicKey: PublicKey) -> CompressedPublicKey
     func compressedPublicKey(compressedData: Data) -> CompressedPublicKey
     func signMessage(privateKey: PrivateKey, message: Data) -> Signature
@@ -14,4 +15,6 @@ public protocol Apollo {
         challenge: Data,
         signature: Signature
     ) -> Bool
+    func getPrivateJWKJson(id: String, keyPair: KeyPair) throws -> String
+    func getPublicJWKJson(id: String, keyPair: KeyPair) throws -> String
 }

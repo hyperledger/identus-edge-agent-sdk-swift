@@ -1,3 +1,4 @@
+import Core
 import Foundation
 
 struct OutOfBandParser {
@@ -8,8 +9,11 @@ struct OutOfBandParser {
         guard let message = components
             .queryItems?
             .first(where: { $0.name == "_oob" })?
-            .value
+            .value,
+            let dataJson = Data(base64URLEncoded: message),
+            let stringJson = String(data: dataJson, encoding: .utf8)
         else { throw PrismAgentError.invalidURLError }
-        return message
+
+        return stringJson
     }
 }

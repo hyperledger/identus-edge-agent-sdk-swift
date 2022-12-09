@@ -17,7 +17,7 @@ final class UnpackOperation: OnUnpackResult {
     func unpackEncrypted(messageString: String) async throws -> Domain.Message {
         let status = didcomm.unpack(
             msg: messageString,
-            options: .init(expectDecryptByAllKeys: false, unwrapReWrappingForward: true),
+            options: .init(expectDecryptByAllKeys: false, unwrapReWrappingForward: false),
             cb: self
         )
 

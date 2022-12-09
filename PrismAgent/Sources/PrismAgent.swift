@@ -4,7 +4,7 @@ import Domain
 import Foundation
 
 public class PrismAgent {
-    public enum State {
+    public enum State: String {
         case stoped
         case starting
         case running
@@ -27,7 +27,7 @@ public class PrismAgent {
         case onboardingDIDComm(Message)
     }
 
-    private(set) var state = State.stoped
+    public private(set) var state = State.stoped
 
     private static let prismMediatorEndpoint = DID(method: "peer", methodId: "other")
 
@@ -67,12 +67,17 @@ public class PrismAgent {
     public convenience init(seedData: Data? = nil, mediatorServiceEnpoint: DID? = nil) {
         let apollo = ApolloBuilder().build()
         let castor = CastorBuilder(apollo: apollo).build()
+        let pluto = PlutoBuilder().build()
         let seed = seedData.map { Seed(value: $0) } ?? apollo.createRandomSeed().seed
         self.init(
             apollo: apollo,
             castor: castor,
-            pluto: PlutoBuilder().build(),
-            mercury: MercuryBuilder(castor: castor).build(),
+            pluto: pluto,
+            mercury: MercuryBuilder(
+                apollo: apollo,
+                castor: castor,
+                pluto: pluto
+            ).build(),
             seed: seed,
             mediatorServiceEnpoint: mediatorServiceEnpoint ?? Self.prismMediatorEndpoint
         )
@@ -253,29 +258,28 @@ public class PrismAgent {
     public func createNewPeerDID(
         services: [DIDDocument.Service] = []
     ) async throws -> DID {
-        let seed = self.seed
         let apollo = self.apollo
         let castor = self.castor
         let pluto = self.pluto
 
+        let keyAgreementKeyPair = apollo.createKeyPair(seed: seed, curve: .x25519)
+        let authenticationKeyPair = apollo.createKeyPair(seed: seed, curve: .ed25519)
+
+        let did = try castor.createPeerDID(
+            keyAgreementKeyPair: keyAgreementKeyPair,
+            authenticationKeyPair: authenticationKeyPair,
+            services: services
+        )
+
         return try await withCheckedThrowingContinuation { continuation in
             pluto
-                // Retrieve the last keyPath index used
-                .getPrismLastKeyPairIndex()
-                .tryMap {
-                    // If the user provided a key path index use it, if not use the last + 1
-                    let index = ($0 + 1)
-                    // Create the key pair
-                    let keyPair = apollo.createKeyPair(seed: seed, curve: .secp256k1(index: index))
-                    let newDID = try castor.createPrismDID(masterPublicKey: keyPair.publicKey, services: services)
-                    return (newDID, keyPair.privateKey)
-                }
-                .flatMap { did, privateKey in
-                    // Store the did and its index path
-                    return pluto
-                        .storePeerDID(did: did, privateKey: privateKey)
-                        .map { did }
-                }
+                .storePeerDID(
+                    did: did,
+                    privateKeys: [
+                        keyAgreementKeyPair.privateKey,
+                        authenticationKeyPair.privateKey
+                    ])
+                .map { did }
                 .first()
                 .sink(receiveCompletion: {
                     switch $0 {

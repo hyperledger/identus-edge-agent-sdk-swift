@@ -5,7 +5,8 @@ class MercuryStub: Mercury {
     var throwSendMessageError: Error?
     var throwUnpackError: Error?
     var throwPackageError: Error?
-    var sendMessageReturn: Data?
+    var sendMessageDataReturn: Data?
+    var sendMessageReturn: Message?
 
     func packMessage(msg: Domain.Message) async throws -> String {
         guard throwPackageError == nil else { throw throwPackageError! }
@@ -20,6 +21,11 @@ class MercuryStub: Mercury {
     }
 
     func sendMessage(msg: Domain.Message) async throws -> Data? {
+        guard throwSendMessageError == nil else { throw throwSendMessageError! }
+        return sendMessageDataReturn
+    }
+
+    func sendMessageParseMessage(msg: Domain.Message) async throws -> Domain.Message? {
         guard throwSendMessageError == nil else { throw throwSendMessageError! }
         return sendMessageReturn
     }

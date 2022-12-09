@@ -1,8 +1,11 @@
+import Core
 import Domain
 import Foundation
 import Multibase
 
 struct PeerDIDResolver: DIDResolverDomain {
+    var method = "peer"
+
     func resolve(did: DID) async throws -> DIDDocument {
         guard
             did.method == "peer",
@@ -47,13 +50,16 @@ struct PeerDIDResolver: DIDResolverDomain {
         return DIDDocument(
             id: did,
             coreProperties: [
+                DIDDocument.VerificationMethods(
+                    values: authenticationMethods + keyAgreementMethods
+                ),
                 DIDDocument.Authentication(
-                    urls: [],
-                    verificationMethods: authenticationMethods
+                    urls: authenticationMethods.map { $0.id.string },
+                    verificationMethods: []
                 ),
                 DIDDocument.KeyAgreement(
-                    urls: [],
-                    verificationMethods: keyAgreementMethods
+                    urls: keyAgreementMethods.map { $0.id.string },
+                    verificationMethods: []
                 ),
                 DIDDocument.Services(values: services)
             ]
@@ -81,6 +87,7 @@ struct PeerDIDResolver: DIDResolverDomain {
             format: format, defaultCodec: .x25519
         )
         guard let material = verMaterial.agreement else { throw CastorError.notPossibleToResolveDID }
+
         return (decoded, material)
     }
 
@@ -130,11 +137,13 @@ struct PeerDIDResolver: DIDResolverDomain {
         did: DID,
         decodedEncumbasis: (String, VerificationMaterialPeerDID)
     ) throws -> DIDDocument.VerificationMethod {
-        .init(
+        var jsonDic = try convertToDictionary(string: decodedEncumbasis.1.value)
+        jsonDic?["kid"] = did.string + "#" + decodedEncumbasis.0
+        return .init(
             id: .init(did: did, fragment: decodedEncumbasis.0),
             controller: did,
             type: decodedEncumbasis.1.keyType.value,
-            publicKeyJwk: try convertToDictionary(string: decodedEncumbasis.1.value)
+            publicKeyJwk: jsonDic
         )
     }
 
@@ -158,7 +167,8 @@ struct PeerDIDResolver: DIDResolverDomain {
         do {
             return try JSONDecoder().decode([PeerDID.Service].self, from: jsonData)
         } catch {
-            return [try JSONDecoder().decode(PeerDID.Service.self, from: jsonData)]
+            let decoded = try JSONDecoder().decode(PeerDID.Service.self, from: jsonData)
+            return [decoded]
         }
     }
 

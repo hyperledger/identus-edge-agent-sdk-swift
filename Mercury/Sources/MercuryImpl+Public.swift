@@ -1,3 +1,4 @@
+import Core
 import DIDCommxSwift
 import Domain
 import Foundation
@@ -25,5 +26,13 @@ extension MercuryImpl: Mercury {
             body: packedMessage.data(using: .utf8),
             headers: ["content-type": MediaType.contentTypeEncrypted.rawValue]
         )
+    }
+
+    public func sendMessageParseMessage(msg: Domain.Message) async throws -> Domain.Message? {
+        guard
+            let msgData = try await sendMessage(msg: msg),
+            let msgStr = String(data: msgData, encoding: .utf8)
+        else { return nil }
+        return try await self.unpackMessage(msg: msgStr)
     }
 }

@@ -49,10 +49,18 @@ extension CastorImpl: Castor {
 
     public func resolveDID(did: DID) async throws -> DIDDocument {
         guard
-            let document = try await resolvers
-                .first?
-                .resolve(did: did)
-        else { throw CastorError.notPossibleToResolveDID }
-        return document
+            let resolver = resolvers.first(where: { $0.method == did.method })
+        else {
+            throw CastorError.notPossibleToResolveDID
+        }
+        return try await resolver.resolve(did: did)
+    }
+
+    public func getEcnumbasis(did: DID, keyPair: KeyPair) throws -> String {
+        try CreatePeerDIDOperation(
+            autenticationKeyPair: keyPair,
+            agreementKeyPair: keyPair,
+            services: []
+        ).computeEcnumbasis(did: did, keyPair: keyPair)
     }
 }

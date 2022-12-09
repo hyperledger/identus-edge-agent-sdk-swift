@@ -20,16 +20,16 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
         )
 
         let testDID = DID(method: "test", methodId: "test")
-        let testPrivateKey = PrivateKey(curve: "test", value: Data())
+        let testPrivateKey = PrivateKey(curve: .x25519, value: Data())
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = dao.addDID(
             did: testDID,
-            privateKey: testPrivateKey
+            privateKeys: [testPrivateKey]
         ).flatMap {
             dao.getDIDInfo(did: testDID)
         }.sink { _ in } receiveValue: {
             XCTAssertEqual(testDID, $0?.did)
-            XCTAssertEqual(testPrivateKey, $0?.privateKey)
+            XCTAssertEqual([testPrivateKey], $0?.privateKeys)
             expectation.fulfill()
         }
 
@@ -43,15 +43,15 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
         )
 
         let testDID = DID(method: "test", methodId: "test")
-        let testPrivateKey = PrivateKey(curve: "test", value: Data())
+        let testPrivateKey = PrivateKey(curve: .ed25519, value: Data())
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = dao.addDID(
             did: testDID,
-            privateKey: testPrivateKey
+            privateKeys: [testPrivateKey]
         ).flatMap {
             dao.addDID(
                 did: testDID,
-                privateKey: testPrivateKey
+                privateKeys: [testPrivateKey]
             )
         }
         .flatMap {
@@ -71,19 +71,19 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
         )
 
         let testDID1 = DID(method: "test1", methodId: "test1")
-        let testPrivateKey1 = PrivateKey(curve: "test1", value: Data())
+        let testPrivateKey1 = PrivateKey(curve: .x25519, value: Data())
 
         let testDID2 = DID(method: "test2", methodId: "test2")
-        let testPrivateKey2 = PrivateKey(curve: "test2", value: Data())
+        let testPrivateKey2 = PrivateKey(curve: .ed25519, value: Data())
 
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = dao.addDID(
             did: testDID1,
-            privateKey: testPrivateKey1
+            privateKeys: [testPrivateKey1]
         ).flatMap {
             dao.addDID(
                 did: testDID2,
-                privateKey: testPrivateKey2
+                privateKeys: [testPrivateKey2]
             )
         }
         .flatMap {
@@ -103,26 +103,26 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
         )
 
         let testDID1 = DID(method: "test1", methodId: "test1")
-        let testPrivateKey1 = PrivateKey(curve: "test1", value: Data())
+        let testPrivateKey1 = PrivateKey(curve: .x25519, value: Data())
 
         let testDID2 = DID(method: "test2", methodId: "test2")
-        let testPrivateKey2 = PrivateKey(curve: "test2", value: Data())
+        let testPrivateKey2 = PrivateKey(curve: .ed25519, value: Data())
 
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = dao.addDID(
             did: testDID1,
-            privateKey: testPrivateKey1
+            privateKeys: [testPrivateKey1]
         ).flatMap {
             dao.addDID(
                 did: testDID2,
-                privateKey: testPrivateKey2
+                privateKeys: [testPrivateKey2]
             )
         }
         .flatMap {
             dao.getDIDInfo(did: testDID2)
         }.sink { _ in } receiveValue: {
             XCTAssertEqual(testDID2, $0?.did)
-            XCTAssertEqual(testPrivateKey2, $0?.privateKey)
+            XCTAssertEqual([testPrivateKey2], $0?.privateKeys)
             expectation.fulfill()
         }
 
