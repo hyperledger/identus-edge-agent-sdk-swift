@@ -2,8 +2,9 @@ import SwiftUI
 
 protocol SetupPrismAgentViewModel: ObservableObject {
     var status: String { get }
-    var mediatorRoutingId: String { get }
+    var error: String? { get }
     func start() async throws
+    func updateKeyList() async throws
 }
 
 struct SetupPrismAgentView<ViewModel: SetupPrismAgentViewModel>: View {
@@ -11,24 +12,39 @@ struct SetupPrismAgentView<ViewModel: SetupPrismAgentViewModel>: View {
     @StateObject var viewModel: ViewModel
 
     var body: some View {
-        Button("Start Prism Agent") {
-            Task {
-                try await viewModel.start()
+        VStack(spacing: 16) {
+            if !viewModel.status.isEmpty {
+                Text("Agent Status")
+                Text(viewModel.status)
             }
-        }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .background(Color.red)
-        .tint(.white)
-        .clipShape(Capsule(style: .continuous))
-        if !viewModel.status.isEmpty {
-            Text("Agent Status")
-            Text(viewModel.status)
-        }
-        if !viewModel.mediatorRoutingId.isEmpty {
-            Text("Mediator Routing DID")
-            Text(viewModel.mediatorRoutingId)
-        }
+
+            Button("Start Prism Agent") {
+                Task {
+                    try await viewModel.start()
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.red)
+            .tint(.white)
+            .clipShape(Capsule(style: .continuous))
+
+            Button("Create a connection") {
+                Task {
+                    try await viewModel.updateKeyList()
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.red)
+            .tint(.white)
+            .clipShape(Capsule(style: .continuous))
+
+            if let error = viewModel.error {
+                Text("Error").foregroundColor(.red)
+                Text(error)
+            }
+        }.padding()
     }
 }
 
@@ -40,6 +56,7 @@ struct SetupPrismAgentView_Previews: PreviewProvider {
 
 private class ViewModel: SetupPrismAgentViewModel {
     var status: String = ""
-    var mediatorRoutingId: String = ""
+    var error: String?
     func start() {}
+    func updateKeyList() async throws {}
 }
