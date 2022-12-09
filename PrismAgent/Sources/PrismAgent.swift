@@ -24,7 +24,7 @@ public class PrismAgent {
         }
 
         case onboardingPrism(PrismOnboarding)
-        case onboardingDIDComm(Message)
+        case onboardingDIDComm(OutOfBandInvitation)
     }
 
     public private(set) var state = State.stoped
@@ -174,19 +174,19 @@ public class PrismAgent {
         )
     }
 
-    public func parseOOBInvitation(url: String) async throws -> Message {
+    public func parseOOBInvitation(url: String) async throws -> OutOfBandInvitation {
         guard let url = URL(string: url) else { throw PrismAgentError.invalidURLError }
         return try await parseOOBInvitation(url: url)
     }
 
-    public func parseOOBInvitation(url: URL) async throws -> Message {
+    public func parseOOBInvitation(url: URL) async throws -> OutOfBandInvitation {
         return try await DIDCommInvitationRunner(
             mercury: mercury,
             url: url
         ).run()
     }
 
-    public func acceptDIDCommInvitation(invitation: Message) async throws {
+    public func acceptDIDCommInvitation(invitation: OutOfBandInvitation) async throws {
         let ownDID = try await createNewPeerDID(
             services: [.init(
                 id: "#didcomm-1",

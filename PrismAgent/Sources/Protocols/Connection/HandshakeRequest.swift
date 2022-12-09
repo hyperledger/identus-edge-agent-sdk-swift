@@ -32,6 +32,20 @@ struct HandshakeRequest {
         self.init(from: from, to: toDID, thid: inviteMessage.id, body: body)
     }
 
+    init(inviteMessage: OutOfBandInvitation, from: DID) throws {
+        let toDID = try DID(string: inviteMessage.from)
+        self.init(
+            from: from,
+            to: toDID,
+            thid: inviteMessage.id,
+            body: .init(
+                goalCode: inviteMessage.body.goalCode,
+                goal: inviteMessage.body.goal,
+                accept: inviteMessage.body.accept
+            )
+        )
+    }
+
     init(
         id: String = UUID().uuidString,
         from: DID,

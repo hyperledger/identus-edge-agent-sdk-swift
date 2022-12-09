@@ -3,14 +3,14 @@ import Foundation
 
 class DIDCommConnectionRunner {
     private let mercury: Mercury
-    private let invitationMessage: Message
+    private let invitationMessage: OutOfBandInvitation
     private let ownDID: DID
     private let connection: DIDCommConnection
     private var request: HandshakeRequest?
 
     init(
         mercury: Mercury,
-        invitationMessage: Message,
+        invitationMessage: OutOfBandInvitation,
         ownDID: DID,
         connection: DIDCommConnection
     ) {
