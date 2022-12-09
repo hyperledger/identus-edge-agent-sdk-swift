@@ -34,10 +34,26 @@ final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewM
 
     func updateKeyList() async throws {
         do {
-            _ = try await agent.createNewPeerDID(updateMediator: true)
+            try await parseOOBMessage()
         } catch {
             await MainActor.run {
                 self.error = error.localizedDescription
+            }
+        }
+    }
+
+    func parseOOBMessage() async throws {
+        let url = "https://domain.com/path?_oob=eyJpZCI6ImU0ZGRlNWVkLTczMWQtNDQ2Ni1iMTVhLTJjMzBhMTFlZjU3MSIsInR5cGUiOiJodHRwczovL2RpZGNvbW0ub3JnL291dC1vZi1iYW5kLzIuMC9pbnZpdGF0aW9uIiwiZnJvbSI6ImRpZDpwZWVyOjIuRXo2TFNjdVJuYlpBSmFWdGhjTDVSRUxxNzVFQksyc0JtQnhzU3M5OExLTmVyaUhRSi5WejZNa3BlYVc3RGVwdEpXN3BpMnFOWFRkQ1hlUVY0RVlwWm5Bb3VIMUxyZkhqNnVmLlNleUowSWpvaVpHMGlMQ0p6SWpvaWFIUjBjSE02THk5ck9ITXRaR1YyTG1GMFlXeGhjSEpwYzIwdWFXOHZjSEpwYzIwdFlXZGxiblF2Wkdsa1kyOXRiU0lzSW5JaU9sdGRMQ0poSWpwYkltUnBaR052YlcwdmRqSWlYWDAiLCJib2R5Ijp7ImdvYWxfY29kZSI6ImNvbm5lY3QiLCJnb2FsIjoiRXN0YWJsaXNoIGEgdHJ1c3QgY29ubmVjdGlvbiBiZXR3ZWVuIHR3byBwZWVycyIsImFjY2VwdCI6W119fQ=="
+
+        do {
+            let message = try await agent.parseOOBInvitation(url: url)
+            try await agent.acceptDIDCommInvitation(invitation: message)
+        } catch let error as MercuryError {
+            switch error {
+            case let .urlSessionError(statusCode, error, msg):
+                print("Error: \(statusCode)")
+            default:
+                break
             }
         }
     }
