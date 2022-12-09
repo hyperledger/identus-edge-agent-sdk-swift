@@ -125,4 +125,5 @@ identifier_name:
     - id
     - ec
     - to
+    - cb # this is due to the didcomm library using this parameter name
 reporter: "xcode"

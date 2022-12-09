@@ -11,7 +11,7 @@ final class PeerDIDCreationTests: XCTestCase {
         let keyAgreementKeyPair = KeyPair(
             curve: .x25519,
             privateKey: .init(
-                curve: "X25519",
+                curve: .x25519,
                 value: Data(base64URLEncoded: "COd9Xhr-amD7fuswWId2706JBUY_tmjp9eiNEieJeEE")!
             ),
             publicKey: .init(
@@ -22,7 +22,7 @@ final class PeerDIDCreationTests: XCTestCase {
         let authenticationKeyPair = KeyPair(
             curve: .ed25519,
             privateKey: .init(
-                curve: "Ed25519",
+                curve: .ed25519,
                 value: Data(base64URLEncoded: "JLIJQ5jlkyqtGmtOth6yggJLLC0zuRhUPiBhd1-rGPs")!
             ),
             publicKey: .init(
@@ -67,6 +67,6 @@ final class PeerDIDCreationTests: XCTestCase {
 
         let apollo = ApolloImpl()
         let castor = CastorImpl(apollo: apollo)
-        let document = try await castor.resolveDID(did: mypeerDID)
+        let document = try await castor.resolveDID(did: peerDID)
     }
 }

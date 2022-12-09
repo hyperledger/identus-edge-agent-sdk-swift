@@ -2,6 +2,10 @@ import Domain
 import Foundation
 
 struct CastorStub: Castor {
+    func getEcnumbasis(did: Domain.DID, keyPair: Domain.KeyPair) throws -> String {
+        ""
+    }
+
     var throwParseDIDError: Error?
     var parseDIDResponse: DID!
     var throwCreateDIDError: Error?

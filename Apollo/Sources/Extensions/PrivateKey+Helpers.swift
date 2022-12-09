@@ -3,7 +3,7 @@ import Foundation
 import PrismAPI
 
 extension Domain.PrivateKey {
-    init(fromEC: ECPrivateKey) {
-        self.init(curve: ECConfig().CURVE_NAME, value: fromEC.getEncoded().toData())
+    init(curve: KeyCurve, fromEC: ECPrivateKey) {
+        self.init(curve: curve, value: fromEC.getEncoded().toData())
     }
 }

@@ -26,12 +26,12 @@ final class CDDIDPairDAOTests: XCTestCase {
         )
         
         let testHolderDID = DID(index: 0)
-        let testPrivateKey = PrivateKey(curve: "test", value: Data())
+        let testPrivateKey = PrivateKey(curve: .x25519, value: Data())
         let testOtherDID = DID(index: 1)
         let testName = "test"
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateKeyDao
-            .addDID(did: testHolderDID, privateKey: testPrivateKey)
+            .addDID(did: testHolderDID, privateKeys: [testPrivateKey])
             .flatMap {
                 dao.addDIDPair(
                     holder: testHolderDID,
@@ -93,14 +93,14 @@ final class CDDIDPairDAOTests: XCTestCase {
         let testHolderDID2 = DID(index: 1)
         let testOtherDID1 = DID(index: 2)
         let testOtherDID2 = DID(index: 2)
-        let testPrivateKey = PrivateKey(curve: "test", value: Data())
+        let testPrivateKey = PrivateKey(curve: .x25519, value: Data())
         let testName = "test"
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateKeyDao
-            .addDID(did: testHolderDID1, privateKey: testPrivateKey)
+            .addDID(did: testHolderDID1, privateKeys: [testPrivateKey])
             .flatMap {
                 self.privateKeyDao
-                    .addDID(did: testHolderDID2, privateKey: testPrivateKey)
+                    .addDID(did: testHolderDID2, privateKeys: [testPrivateKey])
             }
             .flatMap {
                 dao.addDIDPair(
@@ -143,11 +143,11 @@ final class CDDIDPairDAOTests: XCTestCase {
         let testHolderDID = DID(index: 0)
         let testOtherDID1 = DID(index: 1)
         let testOtherDID2 = DID(index: 2)
-        let testPrivateKey = PrivateKey(curve: "test", value: Data())
+        let testPrivateKey = PrivateKey(curve: .ed25519, value: Data())
         let testName = "test"
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateKeyDao
-            .addDID(did: testHolderDID, privateKey: testPrivateKey)
+            .addDID(did: testHolderDID, privateKeys: [testPrivateKey])
             .flatMap {
                 dao.addDIDPair(
                     holder: testHolderDID,
@@ -188,14 +188,14 @@ final class CDDIDPairDAOTests: XCTestCase {
         let testHolderDID2 = DID(index: 1)
         let testOtherDID1 = DID(index: 2)
         let testOtherDID2 = DID(index: 3)
-        let testPrivateKey = PrivateKey(curve: "test", value: Data())
+        let testPrivateKey = PrivateKey(curve: .ed25519, value: Data())
         let testName = "test"
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateKeyDao
-            .addDID(did: testHolderDID1, privateKey: testPrivateKey)
+            .addDID(did: testHolderDID1, privateKeys: [testPrivateKey])
             .flatMap {
                 self.privateKeyDao
-                    .addDID(did: testHolderDID2, privateKey: testPrivateKey)
+                    .addDID(did: testHolderDID2, privateKeys: [testPrivateKey])
             }
             .flatMap {
                 dao.addDIDPair(

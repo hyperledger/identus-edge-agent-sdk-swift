@@ -9,7 +9,7 @@ public struct CastorImpl {
     public init(apollo: Apollo, resolvers: [DIDResolverDomain] = []) {
         self.apollo = apollo
         self.resolvers = resolvers + [
-//            LongFormPrismDIDResolver(apollo: apollo),
+            LongFormPrismDIDResolver(apollo: apollo),
             PeerDIDResolver()
         ]
     }

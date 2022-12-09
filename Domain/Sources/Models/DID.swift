@@ -35,7 +35,7 @@ public struct DID: Equatable {
         var aux = string.components(separatedBy: ":")
         guard aux.count >= 3 else { throw CastorError.invalidDIDString }
         self.schema = aux.removeFirst()
-        self.method = aux.remove(at: 1)
+        self.method = aux.removeFirst()
         self.methodId = aux.joined(separator: ":")
     }
 }

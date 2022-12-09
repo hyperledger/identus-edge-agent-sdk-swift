@@ -1,5 +1,9 @@
 import Foundation
 
+public enum CommonError: Error {
+    case somethingWentWrongError
+}
+
 public enum ApolloError: Error {
     case invalidMnemonicWord
     case couldNotParseMessageString
@@ -26,6 +30,7 @@ public enum MercuryError: Error {
     case messageAttachmentWithoutIDError
     case messageInvalidBodyDataError
     case unknowPackingMessageError
+    case couldNotResolveDIDError
     case didcommError(msg: String)
 }
 

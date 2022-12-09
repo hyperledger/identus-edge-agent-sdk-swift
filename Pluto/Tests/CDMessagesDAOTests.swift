@@ -31,7 +31,7 @@ final class CDMessagesDAOTests: XCTestCase {
             pairDAO: pairDAO
         )
         let testHolderDID = DID(index: 0)
-        let testPrivateKey = PrivateKey(curve: "test", value: Data())
+        let testPrivateKey = PrivateKey(curve: .x25519, value: Data())
         let testOtherDID = DID(index: 1)
         let testName = "test"
         let testMessage = Message(
@@ -42,7 +42,7 @@ final class CDMessagesDAOTests: XCTestCase {
         )
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateDAO
-            .addDID(did: testHolderDID, privateKey: testPrivateKey)
+            .addDID(did: testHolderDID, privateKeys: [testPrivateKey])
             .flatMap {
                 self.pairDAO.addDIDPair(
                     holder: testHolderDID,
@@ -78,7 +78,7 @@ final class CDMessagesDAOTests: XCTestCase {
             pairDAO: pairDAO
         )
         let testHolderDID = DID(index: 0)
-        let testPrivateKey = PrivateKey(curve: "test", value: Data())
+        let testPrivateKey = PrivateKey(curve: .x25519, value: Data())
         let testOtherDID = DID(index: 1)
         let testName = "test"
         let testMessage = Message(
@@ -89,7 +89,7 @@ final class CDMessagesDAOTests: XCTestCase {
         )
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateDAO
-            .addDID(did: testHolderDID, privateKey: testPrivateKey)
+            .addDID(did: testHolderDID, privateKeys: [testPrivateKey])
             .flatMap {
                 self.pairDAO.addDIDPair(
                     holder: testHolderDID,
@@ -127,10 +127,10 @@ final class CDMessagesDAOTests: XCTestCase {
             pairDAO: pairDAO
         )
         let testHolderDID = DID(index: 0)
-        let testPrivateKey = PrivateKey(curve: "test", value: Data())
+        let testPrivateKey = PrivateKey(curve: .ed25519, value: Data())
         let testOtherDID = DID(index: 1)
         let testHolderDID2 = DID(index: 2)
-        let testPrivateKey2 = PrivateKey(curve: "test", value: Data())
+        let testPrivateKey2 = PrivateKey(curve: .x25519, value: Data())
         let testOtherDID2 = DID(index: 3)
         let testName = "test"
         let testMessage1 = Message(
@@ -147,10 +147,10 @@ final class CDMessagesDAOTests: XCTestCase {
         )
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateDAO
-            .addDID(did: testHolderDID, privateKey: testPrivateKey)
+            .addDID(did: testHolderDID, privateKeys: [testPrivateKey])
             .flatMap {
                 self.privateDAO
-                    .addDID(did: testHolderDID2, privateKey: testPrivateKey2)
+                    .addDID(did: testHolderDID2, privateKeys: [testPrivateKey2])
             }
             .flatMap {
                 self.pairDAO.addDIDPair(

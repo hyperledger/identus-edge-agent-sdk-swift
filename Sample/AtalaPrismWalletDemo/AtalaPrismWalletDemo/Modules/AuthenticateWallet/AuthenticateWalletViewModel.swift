@@ -54,7 +54,7 @@ class AuthenticateWalletViewModelImpl: AuthenticateWalletViewModel {
     func createPrismDID() {
         // Wallet logic side
         let seed = createOrGetSeed()
-        let keyPair = apollo.createKeyPair(seed: seed, index: 0)
+        let keyPair = apollo.createKeyPair(seed: seed, curve: .secp256k1(index: 0))
         setPrivateKey(privateKey: keyPair.privateKey)
 
         // Integration with Atala Prism side
@@ -105,12 +105,12 @@ class AuthenticateWalletViewModelImpl: AuthenticateWalletViewModel {
             let curve = storage.string(forKey: privateKeyCurveKey)
         else { return nil }
 
-        return PrivateKey(curve: curve, value: data)
+        return PrivateKey(curve: .secp256k1(), value: data)
     }
 
     private func setPrivateKey(privateKey: PrivateKey) {
         storage.set(privateKey.value, forKey: privateKeyKey)
-        storage.set(privateKey.curve, forKey: privateKeyCurveKey)
+        storage.set(privateKey.curve.name, forKey: privateKeyCurveKey)
     }
     
     private func createOrGetSeed() -> Seed {
