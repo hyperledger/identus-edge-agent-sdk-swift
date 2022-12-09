@@ -14,7 +14,7 @@ class ConnectionsManagerImpl: ConnectionsManager {
     private let mercury: Mercury
     private let pluto: Pluto
     private var pairings = [DIDPair]()
-    private var mediator: Mediator?
+    var mediator: Mediator?
     private var cancellables = [AnyCancellable]()
 
     init(
@@ -69,6 +69,7 @@ class ConnectionsManagerImpl: ConnectionsManager {
     func addConnection(_ paired: DIDPair) async throws {
         guard !pairings.contains(paired) else { return }
         let pluto = self.pluto
+
         try await withCheckedThrowingContinuation { continuation in
             pluto
                 .storeDIDPair(holder: paired.holder, other: paired.other, name: paired.name ?? "")

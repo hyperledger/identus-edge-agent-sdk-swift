@@ -89,11 +89,14 @@ public class PrismAgent {
         do {
             try await connectionManager.startMediator()
         } catch PrismAgentError.noMediatorAvailableError {
-            let hostDID = try await createNewPeerDID(services: [.init(
-                id: "#didcomm-1",
-                type: ["DIDCommMessaging"],
-                serviceEndpoint:.init(uri: mediatorServiceEnpoint.string))
-            ])
+            let hostDID = try await createNewPeerDID(
+                services: [.init(
+                    id: "#didcomm-1",
+                    type: ["DIDCommMessaging"],
+                    serviceEndpoint:.init(uri: mediatorServiceEnpoint.string))
+                ],
+                updateMediator: false
+            )
             try await connectionManager.registerMediator(
                 hostDID: hostDID,
                 mediatorDID: mediatorServiceEnpoint
@@ -160,7 +163,8 @@ public class PrismAgent {
                 id: "#didcomm-1",
                 type: ["DIDCommMessaging"],
                 serviceEndpoint:.init(uri: mediatorServiceEnpoint.string))
-            ]
+            ],
+            updateMediator: true
         )
 
         return .init(
@@ -183,11 +187,14 @@ public class PrismAgent {
     }
 
     public func acceptDIDCommInvitation(invitation: Message) async throws {
-        let ownDID = try await createNewPeerDID(services: [.init(
-            id: "#didcomm-1",
-            type: ["DIDCommMessaging"],
-            serviceEndpoint:.init(uri: mediatorServiceEnpoint.string))
-        ])
+        let ownDID = try await createNewPeerDID(
+            services: [.init(
+                id: "#didcomm-1",
+                type: ["DIDCommMessaging"],
+                serviceEndpoint:.init(uri: mediatorServiceEnpoint.string))
+            ],
+            updateMediator: true
+        )
         let pair = try await DIDCommConnectionRunner(
             mercury: mercury,
             invitationMessage: invitation,
@@ -256,7 +263,8 @@ public class PrismAgent {
     }
 
     public func createNewPeerDID(
-        services: [DIDDocument.Service] = []
+        services: [DIDDocument.Service] = [],
+        updateMediator: Bool
     ) async throws -> DID {
         let apollo = self.apollo
         let castor = self.castor
@@ -270,6 +278,19 @@ public class PrismAgent {
             authenticationKeyPair: authenticationKeyPair,
             services: services
         )
+
+        if updateMediator {
+            guard let mediator = connectionManager.mediator else {
+                throw PrismAgentError.noMediatorAvailableError
+            }
+            let keyListUpdateMessage = try MediationKeysUpdateList(
+                from: mediator.peerDID,
+                to: mediator.mediatorDID,
+                recipientDid: did
+            ).makeMessage()
+
+            try await mercury.sendMessage(msg: keyListUpdateMessage)
+        }
 
         return try await withCheckedThrowingContinuation { continuation in
             pluto

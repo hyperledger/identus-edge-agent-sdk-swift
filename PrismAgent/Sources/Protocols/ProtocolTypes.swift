@@ -4,6 +4,7 @@ enum ProtocolTypes: String {
     case didcommMediationRequest = "https://didcomm.org/coordinate-mediation/2.0/mediate-request"
     case didcommMediationGrant = "https://didcomm.org/coordinate-mediation/2.0/mediate-grant"
     case didcommMediationDeny = "https://didcomm.org/coordinate-mediation/2.0/mediate-deny"
+    case didcommMediationKeysUpdate = "https://didcomm.org/coordinate-mediation/2.0/keylist-update"
     case didcommPresentation = "https://didcomm.org/present-proof/2.0/presentation"
     case didcommRequestPresentation = "https://didcomm.org/present-proof/2.0/request-presentation"
     case didcommProposePresentation = "https://didcomm.org/present-proof/2.0/propose-presentation"
