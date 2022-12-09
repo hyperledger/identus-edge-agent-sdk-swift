@@ -5,6 +5,8 @@ import Foundation
 struct LongFormPrismDIDResolver: DIDResolverDomain {
     let apollo: Apollo
 
+    var method = "prism"
+
     func resolve(did: DID) throws -> DIDDocument {
         let prismDID = try LongFormPrismDID(did: did)
         guard

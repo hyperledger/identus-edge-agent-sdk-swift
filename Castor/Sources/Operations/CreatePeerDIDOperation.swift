@@ -1,6 +1,7 @@
 import Core
 import Domain
 import Foundation
+import Multibase
 
 struct CreatePeerDIDOperation {
     enum Numalgo2Prefix: String {
@@ -32,6 +33,21 @@ struct CreatePeerDIDOperation {
             signingKeys: [try authenticationFromKeyPair(keyPair: autenticationKeyPair)],
             services: services
         ).did
+    }
+
+    func computeEcnumbasis(did: DID, keyPair: KeyPair) throws -> String {
+        switch keyPair.curve {
+        case .x25519:
+            let material = try keyAgreementFromKeyPair(keyPair: keyPair)
+            let multibaseEcnumbasis = try createMultibaseEncnumbasis(material: material)
+            return String(multibaseEcnumbasis.dropFirst())
+        case .ed25519:
+            let material = try authenticationFromKeyPair(keyPair: keyPair)
+            let multibaseEcnumbasis = try createMultibaseEncnumbasis(material: material)
+            return String(multibaseEcnumbasis.dropFirst())
+        default:
+            throw CommonError.somethingWentWrongError
+        }
     }
 
     private func createPeerDID(

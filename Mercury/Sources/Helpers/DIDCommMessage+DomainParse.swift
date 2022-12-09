@@ -5,14 +5,12 @@ import Foundation
 
 extension DIDCommxSwift.Message {
     init(domain: Domain.Message, mediaType: MediaType) throws {
-        guard let jsonString = String(data: domain.body, encoding: .utf8) else {
-            throw MercuryError.messageInvalidBodyDataError
-        }
+        let jsonString = String(data: domain.body, encoding: .utf8) ?? "{}"
         self.init(
             id: domain.id,
             typ: mediaType.rawValue,
             type: domain.piuri,
-            body: jsonString,
+            body: jsonString.isEmpty ? "{}" : jsonString,
             from: domain.from?.string,
             to: domain.to.map { [$0.string] },
             thid: domain.thid,
@@ -31,11 +29,11 @@ extension DIDCommxSwift.Message {
         guard let data = self.body.data(using: .utf8) else {
             throw MercuryError.messageInvalidBodyDataError
         }
-        return .init(
+        let message = Domain.Message(
             id: self.id,
             piuri: self.type,
-            from: try self.from.map { try castor.parseDID(str: $0) },
-            to: try self.to?.first.map { try castor.parseDID(str: $0) },
+            from: try self.from.map { try DID(string: $0) },
+            to: try self.to?.first.map { try DID(string: $0) },
             fromPrior: self.fromPrior,
             body: data,
             extraHeaders: self.extraHeaders,
@@ -48,6 +46,7 @@ extension DIDCommxSwift.Message {
             pthid: self.pthid,
             ack: []
         )
+        return message
     }
 }
 

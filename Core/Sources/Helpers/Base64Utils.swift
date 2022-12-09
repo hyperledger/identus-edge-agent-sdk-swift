@@ -36,6 +36,14 @@ public extension Data {
         }
         self = data
     }
+
+    init?(fromBase64URL: Data) {
+        guard
+            let str = String(data: fromBase64URL, encoding: .utf8),
+            let data = Base64Utils().decode(str)
+        else { return nil }
+        self = data
+    }
 }
 
 private extension String {

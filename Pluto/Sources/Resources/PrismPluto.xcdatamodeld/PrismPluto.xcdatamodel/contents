@@ -12,8 +12,10 @@
         <relationship name="messages" toMany="YES" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="pair" inverseEntity="CDMessage"/>
     </entity>
     <entity name="CDDIDPrivateKey" representedClassName="CDDIDPrivateKey" parentEntity="CDDID" syncable="YES">
-        <attribute name="curve" attributeType="String"/>
-        <attribute name="privateKey" optional="YES" attributeType="Binary"/>
+        <attribute name="curveAuthenticate" optional="YES" attributeType="String"/>
+        <attribute name="curveKeyAgreement" optional="YES" attributeType="String"/>
+        <attribute name="privateKeyAuthenticate" optional="YES" attributeType="Binary"/>
+        <attribute name="privateKeyKeyAgreement" optional="YES" attributeType="Binary"/>
         <relationship name="pair" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPair" inverseName="holderDID" inverseEntity="CDDIDPair"/>
     </entity>
     <entity name="CDMediatorDID" representedClassName="CDMediatorDID" syncable="YES">

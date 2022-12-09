@@ -7,8 +7,8 @@ extension PlutoImpl: Pluto {
         registeredDIDDao.addDID(did: did, keyPairIndex: keyPairIndex, alias: alias)
     }
 
-    public func storePeerDID(did: DID, privateKey: PrivateKey) -> AnyPublisher<Void, Error> {
-        privateKeyDIDDao.addDID(did: did, privateKey: privateKey)
+    public func storePeerDID(did: DID, privateKeys: [PrivateKey]) -> AnyPublisher<Void, Error> {
+        privateKeyDIDDao.addDID(did: did, privateKeys: privateKeys)
     }
     public func storeDIDPair(holder: DID, other: DID, name: String) -> AnyPublisher<Void, Error> {
         pairDIDDao.addDIDPair(holder: holder, other: other, name: name)
@@ -54,16 +54,16 @@ extension PlutoImpl: Pluto {
         registeredDIDDao.getLastKeyPairIndex()
     }
 
-    public func getAllPeerDIDs() -> AnyPublisher<[(did: DID, privateKey: PrivateKey)], Error> {
+    public func getAllPeerDIDs() -> AnyPublisher<[(did: DID, privateKeys: [PrivateKey])], Error> {
         privateKeyDIDDao.getAll()
     }
 
-    public func getPeerDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKey: PrivateKey)?, Error> {
+    public func getPeerDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKeys: [PrivateKey])?, Error> {
         privateKeyDIDDao.getDIDInfo(did: did)
     }
 
-    public func getPeerDIDPrivateKey(did: DID) -> AnyPublisher<PrivateKey?, Error> {
-        privateKeyDIDDao.getPrivateKey(did: did)
+    public func getPeerDIDPrivateKeys(did: DID) -> AnyPublisher<[PrivateKey]?, Error> {
+        privateKeyDIDDao.getPrivateKeys(did: did)
     }
 
     public func getAllDidPairs() -> AnyPublisher<[(holder: DID, other: DID, name: String?)], Error> {

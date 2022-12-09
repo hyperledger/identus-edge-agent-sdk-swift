@@ -26,6 +26,8 @@ public protocol Castor {
         challenge: Data,
         signature: Data
     ) throws -> Bool
+
+    func getEcnumbasis(did: DID, keyPair: KeyPair) throws -> String
 }
 
 extension Castor {

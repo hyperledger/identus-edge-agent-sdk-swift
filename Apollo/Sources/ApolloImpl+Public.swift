@@ -38,6 +38,19 @@ returns random mnemonics nerver returns invalid mnemonics
         }
     }
 
+    public func createKeyPair(seed: Seed, privateKey: PrivateKey) throws -> KeyPair {
+        switch privateKey.curve {
+        case .secp256k1:
+            return createKeyPair(seed: seed, curve: privateKey.curve)
+        case .x25519:
+            return try CreateX25519KeyPairOperation(logger: ApolloImpl.logger)
+                .compute(fromPrivateKey: privateKey)
+        case .ed25519:
+            return try CreateEd25519KeyPairOperation(logger: ApolloImpl.logger)
+                .compute(fromPrivateKey: privateKey)
+        }
+    }
+
     public func compressedPublicKey(publicKey: PublicKey) -> CompressedPublicKey {
         publicKey.compressed()
     }
@@ -66,5 +79,19 @@ returns random mnemonics nerver returns invalid mnemonics
             challenge: challenge,
             signature: signature
         ).compute()
+    }
+
+    public func getPrivateJWKJson(id: String, keyPair: KeyPair) throws -> String {
+        guard
+            let jsonString = try OctetKeyPair(id: id, from: keyPair).privateJson
+        else { throw CommonError.somethingWentWrongError }
+        return jsonString
+    }
+
+    public func getPublicJWKJson(id: String, keyPair: KeyPair) throws -> String {
+        guard
+            let jsonString = try OctetKeyPair(id: id, from: keyPair).privateJson
+        else { throw CommonError.somethingWentWrongError }
+        return jsonString
     }
 }

@@ -7,7 +7,7 @@ public protocol Pluto {
         keyPairIndex: Int,
         alias: String?
     ) -> AnyPublisher<Void, Error>
-    func storePeerDID(did: DID, privateKey: PrivateKey) -> AnyPublisher<Void, Error>
+    func storePeerDID(did: DID, privateKeys: [PrivateKey]) -> AnyPublisher<Void, Error>
     func storeDIDPair(holder: DID, other: DID, name: String) -> AnyPublisher<Void, Error>
     func storeMessage(message: Message) -> AnyPublisher<Void, Error>
     func storeMessages(messages: [Message]) -> AnyPublisher<Void, Error>
@@ -20,9 +20,9 @@ public protocol Pluto {
     func getPrismDIDKeyPairIndex(did: DID) -> AnyPublisher<Int?, Error>
     func getPrismLastKeyPairIndex() -> AnyPublisher<Int, Error>
 
-    func getAllPeerDIDs() -> AnyPublisher<[(did: DID, privateKey: PrivateKey)], Error>
-    func getPeerDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKey: PrivateKey)?, Error>
-    func getPeerDIDPrivateKey(did: DID) -> AnyPublisher<PrivateKey?, Error>
+    func getAllPeerDIDs() -> AnyPublisher<[(did: DID, privateKeys: [PrivateKey])], Error>
+    func getPeerDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKeys: [PrivateKey])?, Error>
+    func getPeerDIDPrivateKeys(did: DID) -> AnyPublisher<[PrivateKey]?, Error>
 
     func getAllDidPairs() -> AnyPublisher<[(holder: DID, other: DID, name: String?)], Error>
     func getPair(otherDID: DID) -> AnyPublisher<(holder: DID, other: DID, name: String?)?, Error>

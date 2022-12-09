@@ -47,7 +47,7 @@ struct CreateSec256k1KeyPairOperation {
 
         return KeyPair(
             curve: .secp256k1(index: keyPath.index),
-            privateKey: PrivateKey(fromEC: newKey.keyPair().privateKey),
+            privateKey: PrivateKey(curve: .secp256k1(index: keyPath.index), fromEC: newKey.keyPair().privateKey),
             publicKey: PublicKey(fromEC: newKey.keyPair().publicKey)
         )
     }

@@ -19,7 +19,7 @@ public struct DIDUrl {
     }
 
     public var string: String {
-        ""
+        did.string + fragmentString
     }
 
     private var pathString: String {

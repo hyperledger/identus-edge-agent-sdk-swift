@@ -55,7 +55,7 @@ class ConnectionsManagerImpl: ConnectionsManager {
                 })
                 .store(in: &self.cancellables)
         }
-        guard mediator == nil else { throw PrismAgentError.noMediatorAvailableError }
+        guard mediator != nil else { throw PrismAgentError.noMediatorAvailableError }
     }
 
     func stopAllEvents() {
@@ -99,15 +99,15 @@ class ConnectionsManagerImpl: ConnectionsManager {
 
         guard
             let message: Message = try await mercury
-                .sendMessage(msg: MediationRequest(
+                .sendMessageParseMessage(msg: MediationRequest(
                     from: hostDID,
                     to: mediatorDID
                 ).makeMessage())
         else { throw PrismAgentError.mediationRequestFailedError }
+
         let grantMessage = try MediationGrant(fromMessage: message)
-        guard let routingDID = try grantMessage.body.routingDid.first.map({
-            try castor.parseDID(str: $0)
-        }) else { throw PrismAgentError.mediationRequestFailedError }
+        let routingDID = try castor.parseDID(str: grantMessage.body.routingDid)
+
         try await withCheckedThrowingContinuation { [weak self] continuation in
             guard let self else { return }
             pluto

@@ -6,7 +6,10 @@ extension CDDIDPrivateKey {
         return NSFetchRequest<CDDIDPrivateKey>(entityName: "CDDIDPrivateKey")
     }
 
-    @NSManaged var privateKey: Data
-    @NSManaged var curve: String
+    // TODO: For time reasons the solution was to add this fields. In the future change this to be an array.
+    @NSManaged var privateKeyAuthenticate: Data?
+    @NSManaged var privateKeyKeyAgreement: Data?
+    @NSManaged var curveKeyAgreement: String?
+    @NSManaged var curveAuthenticate: String?
     @NSManaged var pair: CDDIDPair?
 }
