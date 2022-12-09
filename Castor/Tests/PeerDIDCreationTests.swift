@@ -57,16 +57,17 @@ final class PeerDIDCreationTests: XCTestCase {
             methodId: "2.Ez6LSci5EK4Ezue5QA72ZX71QUbXY2xr5ygRw7wM1WJigTNnd.Vz6MkqgCXHEGr2wJZANPZGC8WFmeVuS3abAD9uvh7mTXygCFv.SeyJ0IjoiZG0iLCJzIjoibG9jYWxob3N0OjgwODIiLCJyIjpbXSwiYSI6WyJkaWRjb21tL3YyIl19"
         )
 
-        let mypeerDIDString = "did:peer:2.Ez6LSoHkfN1Y4nK9RCjx7vopWsLrMGNFNgTNZgoCNQrTzmb1n.Vz6MknRZmapV7uYZQuZez9n9N3tQotjRN18UGS68Vcfo6gR4h.SeyJyIjpbImRpZDpleGFtcGxlOnNvbWVtZWRpYXRvciNzb21la2V5Il0sInMiOiJodHRwczovL2V4YW1wbGUuY29tL2VuZHBvaW50IiwiYSI6W10sInQiOiJkbSJ9"
+        let mypeerDIDString = "did:peer:2.Ez6LSmx3k5X9xMos7VXdMDJx1CGNTd2tWfLTVyMtu3toJWqPo.Vz6Mkvcu3GqbvM3vr5W1sDVe41wmLeUL6a7b4wEcrGw6ULATR.SeyJ0IjoiZG0iLCJzIjoiazhzLWRldi5hdGFsYXByaXNtLmlvL3ByaXNtLWFnZW50L2RpZGNvbW0iLCJyIjpbXSwiYSI6WyJkaWRjb21tL3YyIl19"
 
         let mypeerDID = DID(
             schema: "did",
             method: "peer",
-            methodId: "2.Ez6LSoHkfN1Y4nK9RCjx7vopWsLrMGNFNgTNZgoCNQrTzmb1n.Vz6MknRZmapV7uYZQuZez9n9N3tQotjRN18UGS68Vcfo6gR4h.SeyJyIjpbImRpZDpleGFtcGxlOnNvbWVtZWRpYXRvciNzb21la2V5Il0sInMiOiJodHRwczovL2V4YW1wbGUuY29tL2VuZHBvaW50IiwiYSI6W10sInQiOiJkbSJ9"
+            methodId: "2.Ez6LScuRnbZAJaVthcL5RELq75EBK2sBmBxsSs98LKNeriHQJ.Vz6MkpeaW7DeptJW7pi2qNXTdCXeQV4EYpZnAouH1LrfHj6uf.SeyJ0IjoiZG0iLCJzIjoiaHR0cHM6Ly9rOHMtZGV2LmF0YWxhcHJpc20uaW8vcHJpc20tYWdlbnQvZGlkY29tbSIsInIiOltdLCJhIjpbImRpZGNvbW0vdjIiXX0"
         )
 
         let apollo = ApolloImpl()
         let castor = CastorImpl(apollo: apollo)
-        let document = try await castor.resolveDID(did: peerDID)
+        let document = try await castor.resolveDID(did: mypeerDID)
+        print()
     }
 }

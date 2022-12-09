@@ -25,7 +25,17 @@ struct SessionManager {
     }
 
     private func call(request: URLRequest) async throws -> Data? {
-        try await session.data(for: request).0
+        let (data, response) = try await session.data(for: request)
+        if let urlResponse = response as? HTTPURLResponse {
+            guard 200...299 ~= urlResponse.statusCode else {
+                throw MercuryError.urlSessionError(
+                    statusCode: urlResponse.statusCode,
+                    error: nil,
+                    msg: String(data: data, encoding: .utf8)
+                )
+            }
+        }
+        return data
     }
 
     private func makeRequest(
@@ -36,7 +46,9 @@ struct SessionManager {
         parameters: [String: String]
     ) throws -> URLRequest {
         var composition = URLComponents(url: url, resolvingAgainstBaseURL: true)
-        composition?.queryItems = parameters.map { URLQueryItem(name: $0, value: $1) }
+        if !parameters.isEmpty {
+            composition?.queryItems = parameters.map { URLQueryItem(name: $0, value: $1) }
+        }
         guard let url = composition?.url else { throw MercuryError.invalidURLError }
         var request = URLRequest(url: url, timeoutInterval: timeout)
         request.allHTTPHeaderFields = headers

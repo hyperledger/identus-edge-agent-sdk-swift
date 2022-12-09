@@ -32,6 +32,7 @@ public enum MercuryError: Error {
     case unknowPackingMessageError
     case couldNotResolveDIDError
     case didcommError(msg: String)
+    case urlSessionError(statusCode: Int, error: Error?, msg: String?)
 }
 
 public enum PlutoError: Error {
