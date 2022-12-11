@@ -1,6 +1,11 @@
 import Foundation
 
 public struct Message {
+    public enum Direction: String {
+        case sent
+        case received
+    }
+
     public let id: String
     public let piuri: String
     public let from: DID?
@@ -14,6 +19,7 @@ public struct Message {
     public let thid: String?
     public let pthid: String?
     public let ack: [String]
+    public let direction: Direction
 
     public init(
         id: String = UUID().uuidString,
@@ -28,7 +34,8 @@ public struct Message {
         attachments: [AttachmentDescriptor] = [],
         thid: String? = nil,
         pthid: String? = nil,
-        ack: [String] = []
+        ack: [String] = [],
+        direction: Direction = .received
     ) {
         self.id = id
         self.piuri = piuri
@@ -43,5 +50,6 @@ public struct Message {
         self.thid = thid
         self.pthid = pthid
         self.ack = ack
+        self.direction = direction
     }
 }

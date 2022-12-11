@@ -20,4 +20,5 @@ enum ProtocolTypes: String {
     case pickupRequest = "https://didcomm.org/messagepickup/3.0/delivery-request"
     case pickupDelivery = "https://didcomm.org/messagepickup/3.0/delivery"
     case pickupStatus = "https://didcomm.org/messagepickup/3.0/status"
+    case pickupReceived = "https://didcomm.org/messagepickup/3.0/messages-received"
 }

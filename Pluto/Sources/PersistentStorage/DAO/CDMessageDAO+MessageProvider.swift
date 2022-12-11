@@ -18,6 +18,24 @@ extension CDMessageDAO: MessageProvider {
         .eraseToAnyPublisher()
     }
 
+    func getAllSent() -> AnyPublisher<[Message], Error> {
+        fetchController(
+            predicate: NSPredicate(format: "(direction == %@)", "sent"),
+            context: readContext
+        )
+        .tryMap { try $0.map { try $0.toDomain() } }
+        .eraseToAnyPublisher()
+    }
+
+    func getAllReceived() -> AnyPublisher<[Message], Error> {
+        fetchController(
+            predicate: NSPredicate(format: "(direction == %@)", "received"),
+            context: readContext
+        )
+        .tryMap { try $0.map { try $0.toDomain() } }
+        .eraseToAnyPublisher()
+    }
+
     func getAllSentTo(did: DID) -> AnyPublisher<[Message], Error> {
         fetchController(
             predicate: NSPredicate(format: "to == %@", did.string),

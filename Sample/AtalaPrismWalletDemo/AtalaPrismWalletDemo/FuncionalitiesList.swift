@@ -11,6 +11,7 @@ struct FuncionalitiesList: View {
                 )
                 NavigationLink("Setup Prism Agent", destination: SetupPrismAgentView(viewModel: SetupPrismAgentViewModelImpl())
                 )
+                NavigationLink("Wallet Demo", destination: MainView(router: MainViewRouterImpl()))
             }
         }
     }

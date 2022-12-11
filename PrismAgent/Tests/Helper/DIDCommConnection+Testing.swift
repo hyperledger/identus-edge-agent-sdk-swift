@@ -4,6 +4,11 @@ import Domain
 class ConnectionStub: DIDCommConnection, ConnectionsManager {
     var awaitMessagesResponse: [Message]!
     var awaitMessageResponse: Message?
+    var sendMessageResponse: Message?
+
+    func sendMessage(_ message: Message) async throws -> Message? {
+        sendMessageResponse
+    }
 
     func awaitMessages() async throws -> [Message] {
         awaitMessagesResponse
