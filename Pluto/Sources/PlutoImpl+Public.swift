@@ -14,11 +14,11 @@ extension PlutoImpl: Pluto {
         pairDIDDao.addDIDPair(holder: holder, other: other, name: name)
     }
 
-    public func storeMessage(message: Message) -> AnyPublisher<Void, Error> {
-        messageDao.addMessage(msg: message)
+    public func storeMessage(message: Message, direction: Message.Direction) -> AnyPublisher<Void, Error> {
+        messageDao.addMessage(msg: message, direction: direction)
     }
 
-    public func storeMessages(messages: [Message]) -> AnyPublisher<Void, Error> {
+    public func storeMessages(messages: [(Message, Message.Direction)]) -> AnyPublisher<Void, Error> {
         messageDao.addMessages(messages: messages)
     }
 
@@ -88,6 +88,14 @@ extension PlutoImpl: Pluto {
 
     public func getAllMessages(did: DID) -> AnyPublisher<[Message], Error> {
         messageDao.getAllFor(did: did)
+    }
+
+    public func getAllMessagesSent() -> AnyPublisher<[Message], Error> {
+        messageDao.getAllSent()
+    }
+
+    public func getAllMessagesReceived() -> AnyPublisher<[Message], Error> {
+        messageDao.getAllReceived()
     }
 
     public func getAllMessagesSentTo(did: DID) -> AnyPublisher<[Message], Error> {

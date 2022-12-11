@@ -3,28 +3,22 @@ import CoreData
 import Domain
 
 extension CDMessageDAO: MessageStore {
-    func addMessages(messages: [Message]) -> AnyPublisher<Void, Error> {
+    func addMessages(messages: [(Message, Message.Direction)]) -> AnyPublisher<Void, Error> {
         messages
             .publisher
-            .flatMap { self.addMessage(msg: $0) }
+            .flatMap { self.addMessage(msg: $0.0, direction: $0.1) }
             .eraseToAnyPublisher()
     }
 
-    func addMessage(msg: Message) -> AnyPublisher<Void, Error> {
-        guard
-            let fromDID = msg.from,
-            let toDID = msg.to
-        else {
-            return Fail(error: PlutoError.messageMissingFromOrToDIDError).eraseToAnyPublisher()
-        }
+    func addMessage(msg: Message, direction: Message.Direction) -> AnyPublisher<Void, Error> {
         return pairDAO
             .fetchController(
                 predicate: NSPredicate(
                     format: "(holderDID.did == %@) OR (holderDID.did == %@) OR (did == %@) OR (did == %@)",
-                    fromDID.string,
-                    toDID.string,
-                    fromDID.string,
-                    toDID.string
+                    msg.from?.string ?? "",
+                    msg.to?.string ?? "",
+                    msg.from?.string ?? "",
+                    msg.to?.string ?? ""
                 ),
                 context: writeContext
             )
@@ -35,7 +29,7 @@ extension CDMessageDAO: MessageStore {
                     msg.id,
                     context: writeContext
                 ) { cdobj, _ in
-                    try cdobj.fromDomain(msg: msg, pair: pair)
+                    try cdobj.fromDomain(msg: msg, direction: direction, pair: pair)
                 }
             }
             .map { _ in }
@@ -52,7 +46,7 @@ extension CDMessageDAO: MessageStore {
 }
 
 private extension CDMessage {
-    func fromDomain(msg: Message, pair: CDDIDPair?) throws {
+    func fromDomain(msg: Message, direction: Message.Direction, pair: CDDIDPair?) throws {
         self.messageId = msg.id
         self.from = msg.from?.string
         self.to = msg.to?.string
@@ -60,5 +54,6 @@ private extension CDMessage {
         self.dataJson = try JSONEncoder().encode(CodableMessage(message: msg))
         self.createdTime = msg.createdTime
         self.pair = pair
+        self.direction = direction.rawValue
     }
 }

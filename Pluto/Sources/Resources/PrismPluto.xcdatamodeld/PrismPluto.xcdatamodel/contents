@@ -27,6 +27,7 @@
     <entity name="CDMessage" representedClassName="CDMessage" syncable="YES">
         <attribute name="createdTime" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="dataJson" attributeType="Binary"/>
+        <attribute name="direction" optional="YES" attributeType="String"/>
         <attribute name="from" optional="YES" attributeType="String"/>
         <attribute name="messageId" attributeType="String"/>
         <attribute name="thid" optional="YES" attributeType="String"/>

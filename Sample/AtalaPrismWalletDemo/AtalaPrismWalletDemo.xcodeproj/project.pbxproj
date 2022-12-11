@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE0E1FB129473B10003CD7D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE0E1FAC29473B10003CD7D5 /* Assets.xcassets */; };
+		EE0E1FB229473B10003CD7D5 /* SteradianBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = EE0E1FAE29473B10003CD7D5 /* SteradianBold.otf */; };
+		EE0E1FB329473B10003CD7D5 /* SteradianMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = EE0E1FAF29473B10003CD7D5 /* SteradianMedium.otf */; };
+		EE0E1FB429473B10003CD7D5 /* SteradianRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = EE0E1FB029473B10003CD7D5 /* SteradianRegular.otf */; };
 		EE3813502938D5B100A3A710 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = EE38134F2938D5B100A3A710 /* Apollo */; };
 		EE3813522938D5B100A3A710 /* Authenticate in Frameworks */ = {isa = PBXBuildFile; productRef = EE3813512938D5B100A3A710 /* Authenticate */; };
 		EE3813542938D5B100A3A710 /* Builders in Frameworks */ = {isa = PBXBuildFile; productRef = EE3813532938D5B100A3A710 /* Builders */; };
@@ -16,11 +20,43 @@
 		EE38135C2938D5B100A3A710 /* Pluto in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135B2938D5B100A3A710 /* Pluto */; };
 		EE38135E2938D5B100A3A710 /* Pollux in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135D2938D5B100A3A710 /* Pollux */; };
 		EE3813602938D5B100A3A710 /* PrismAgent in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135F2938D5B100A3A710 /* PrismAgent */; };
+		EE6C38D229462516006CD2D3 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38D129462516006CD2D3 /* MainView.swift */; };
+		EE6C38D429462522006CD2D3 /* MainViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38D329462522006CD2D3 /* MainViewRouter.swift */; };
+		EE6C38D7294625B3006CD2D3 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38D6294625B3006CD2D3 /* ProfileHeaderView.swift */; };
+		EE6C38DA29462659006CD2D3 /* SpecificRoundedRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38D929462659006CD2D3 /* SpecificRoundedRect.swift */; };
+		EE6C38DC294626E1006CD2D3 /* String+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38DB294626E1006CD2D3 /* String+extensions.swift */; };
+		EE6C38E3294627B2006CD2D3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE6C38E2294627B2006CD2D3 /* Localizable.strings */; };
+		EE6C38E529462822006CD2D3 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = EE6C38E429462822006CD2D3 /* Localizable.stringsdict */; };
+		EE6C38E829462A6F006CD2D3 /* DashboardTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38E729462A6F006CD2D3 /* DashboardTabViewController.swift */; };
+		EE6C38EA29467A36006CD2D3 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38E929467A36006CD2D3 /* DashboardView.swift */; };
+		EE6C38EC29467A7A006CD2D3 /* ClearFullCoverModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38EB29467A7A006CD2D3 /* ClearFullCoverModifier.swift */; };
+		EE6C38EE29467A9D006CD2D3 /* DisablePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38ED29467A9D006CD2D3 /* DisablePreferenceKey.swift */; };
+		EE6C38F029468196006CD2D3 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38EF29468196006CD2D3 /* DIContainer.swift */; };
+		EE6C39012946827B006CD2D3 /* ComponentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C39002946827B006CD2D3 /* ComponentContainer.swift */; };
+		EE6C390329468288006CD2D3 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C390229468288006CD2D3 /* Builder.swift */; };
+		EE6C390529468309006CD2D3 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C390429468309006CD2D3 /* LazyView.swift */; };
+		EE6C39072946834F006CD2D3 /* RootPresentationMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C39062946834F006CD2D3 /* RootPresentationMode.swift */; };
+		EE6C3909294683C4006CD2D3 /* DashboardRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C3908294683C4006CD2D3 /* DashboardRouter.swift */; };
+		EE6C390B294683D5006CD2D3 /* DashboardBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C390A294683D5006CD2D3 /* DashboardBuilder.swift */; };
+		EE6C39152946851D006CD2D3 /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C390F2946851D006CD2D3 /* QRScannerView.swift */; };
+		EE6C39162946851D006CD2D3 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C39102946851D006CD2D3 /* CameraViewController.swift */; };
+		EE6C39172946851D006CD2D3 /* QRCodeScannerBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C39112946851D006CD2D3 /* QRCodeScannerBuilder.swift */; };
+		EE6C39182946851D006CD2D3 /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C39122946851D006CD2D3 /* QRCodeScannerView.swift */; };
+		EE6C39192946851D006CD2D3 /* QRCodeScannerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C39132946851D006CD2D3 /* QRCodeScannerRouter.swift */; };
+		EE6C391A2946851D006CD2D3 /* QRCodeScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C39142946851D006CD2D3 /* QRCodeScannerViewModel.swift */; };
+		EE6C393129468533006CD2D3 /* ActivityListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C392229468533006CD2D3 /* ActivityListView.swift */; };
+		EE6C393429468533006CD2D3 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C392529468533006CD2D3 /* HomeViewModel.swift */; };
+		EE6C393529468533006CD2D3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C392629468533006CD2D3 /* HomeView.swift */; };
+		EE6C393729468533006CD2D3 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C392829468533006CD2D3 /* HomeRouter.swift */; };
+		EE6C393829468533006CD2D3 /* HomeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C392929468533006CD2D3 /* HomeBuilder.swift */; };
+		EE6C393929468533006CD2D3 /* HomeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C392A29468533006CD2D3 /* HomeState.swift */; };
+		EE6C393C29468614006CD2D3 /* EmptyNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C393B29468614006CD2D3 /* EmptyNavigationLink.swift */; };
+		EE6C393E2946901D006CD2D3 /* DashboardViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C393D2946901D006CD2D3 /* DashboardViewModelImpl.swift */; };
+		EE6C39402946931E006CD2D3 /* Array+Zipped.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C393F2946931E006CD2D3 /* Array+Zipped.swift */; };
 		EEB7D32229420180006E076D /* SetupPrismAgentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB7D32129420180006E076D /* SetupPrismAgentView.swift */; };
 		EEB7D3242942018C006E076D /* SetupPrismAgentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB7D3232942018C006E076D /* SetupPrismAgentViewModel.swift */; };
 		EEE61FBA2937CA280053AE52 /* AtalaPrismWalletDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FB92937CA280053AE52 /* AtalaPrismWalletDemoApp.swift */; };
 		EEE61FBC2937CA280053AE52 /* FuncionalitiesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FBB2937CA280053AE52 /* FuncionalitiesList.swift */; };
-		EEE61FBE2937CA2A0053AE52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEE61FBD2937CA2A0053AE52 /* Assets.xcassets */; };
 		EEE61FC12937CA2A0053AE52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEE61FC02937CA2A0053AE52 /* Preview Assets.xcassets */; };
 		EEE61FDD2937CD7A0053AE52 /* SeedFuncionalitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FDC2937CD7A0053AE52 /* SeedFuncionalitiesView.swift */; };
 		EEE61FE02937CEAA0053AE52 /* SeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FDF2937CEAA0053AE52 /* SeedViewModel.swift */; };
@@ -34,13 +70,49 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE0E1FAC29473B10003CD7D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EE0E1FAE29473B10003CD7D5 /* SteradianBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SteradianBold.otf; sourceTree = "<group>"; };
+		EE0E1FAF29473B10003CD7D5 /* SteradianMedium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SteradianMedium.otf; sourceTree = "<group>"; };
+		EE0E1FB029473B10003CD7D5 /* SteradianRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SteradianRegular.otf; sourceTree = "<group>"; };
 		EE38134E2938D55D00A3A710 /* atala-prism-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "atala-prism-swift-sdk"; path = ../..; sourceTree = "<group>"; };
+		EE6C38D129462516006CD2D3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		EE6C38D329462522006CD2D3 /* MainViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewRouter.swift; sourceTree = "<group>"; };
+		EE6C38D6294625B3006CD2D3 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileHeaderView.swift; path = ../../Profile/ProfileHeaderView.swift; sourceTree = "<group>"; };
+		EE6C38D929462659006CD2D3 /* SpecificRoundedRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificRoundedRect.swift; sourceTree = "<group>"; };
+		EE6C38DB294626E1006CD2D3 /* String+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extensions.swift"; sourceTree = "<group>"; };
+		EE6C38E2294627B2006CD2D3 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		EE6C38E429462822006CD2D3 /* Localizable.stringsdict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
+		EE6C38E729462A6F006CD2D3 /* DashboardTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardTabViewController.swift; sourceTree = "<group>"; };
+		EE6C38E929467A36006CD2D3 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		EE6C38EB29467A7A006CD2D3 /* ClearFullCoverModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearFullCoverModifier.swift; sourceTree = "<group>"; };
+		EE6C38ED29467A9D006CD2D3 /* DisablePreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisablePreferenceKey.swift; sourceTree = "<group>"; };
+		EE6C38EF29468196006CD2D3 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		EE6C39002946827B006CD2D3 /* ComponentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentContainer.swift; sourceTree = "<group>"; };
+		EE6C390229468288006CD2D3 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
+		EE6C390429468309006CD2D3 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
+		EE6C39062946834F006CD2D3 /* RootPresentationMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPresentationMode.swift; sourceTree = "<group>"; };
+		EE6C3908294683C4006CD2D3 /* DashboardRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardRouter.swift; sourceTree = "<group>"; };
+		EE6C390A294683D5006CD2D3 /* DashboardBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardBuilder.swift; sourceTree = "<group>"; };
+		EE6C390F2946851D006CD2D3 /* QRScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
+		EE6C39102946851D006CD2D3 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		EE6C39112946851D006CD2D3 /* QRCodeScannerBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeScannerBuilder.swift; sourceTree = "<group>"; };
+		EE6C39122946851D006CD2D3 /* QRCodeScannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
+		EE6C39132946851D006CD2D3 /* QRCodeScannerRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeScannerRouter.swift; sourceTree = "<group>"; };
+		EE6C39142946851D006CD2D3 /* QRCodeScannerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewModel.swift; sourceTree = "<group>"; };
+		EE6C392229468533006CD2D3 /* ActivityListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityListView.swift; sourceTree = "<group>"; };
+		EE6C392529468533006CD2D3 /* HomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		EE6C392629468533006CD2D3 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		EE6C392829468533006CD2D3 /* HomeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		EE6C392929468533006CD2D3 /* HomeBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeBuilder.swift; sourceTree = "<group>"; };
+		EE6C392A29468533006CD2D3 /* HomeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeState.swift; sourceTree = "<group>"; };
+		EE6C393B29468614006CD2D3 /* EmptyNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNavigationLink.swift; sourceTree = "<group>"; };
+		EE6C393D2946901D006CD2D3 /* DashboardViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelImpl.swift; sourceTree = "<group>"; };
+		EE6C393F2946931E006CD2D3 /* Array+Zipped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Zipped.swift"; sourceTree = "<group>"; };
 		EEB7D32129420180006E076D /* SetupPrismAgentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupPrismAgentView.swift; sourceTree = "<group>"; };
 		EEB7D3232942018C006E076D /* SetupPrismAgentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupPrismAgentViewModel.swift; sourceTree = "<group>"; };
 		EEE61FB62937CA280053AE52 /* AtalaPrismWalletDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AtalaPrismWalletDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEE61FB92937CA280053AE52 /* AtalaPrismWalletDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtalaPrismWalletDemoApp.swift; sourceTree = "<group>"; };
 		EEE61FBB2937CA280053AE52 /* FuncionalitiesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuncionalitiesList.swift; sourceTree = "<group>"; };
-		EEE61FBD2937CA2A0053AE52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EEE61FC02937CA2A0053AE52 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EEE61FDC2937CD7A0053AE52 /* SeedFuncionalitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedFuncionalitiesView.swift; sourceTree = "<group>"; };
 		EEE61FDF2937CEAA0053AE52 /* SeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedViewModel.swift; sourceTree = "<group>"; };
@@ -74,12 +146,135 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EE0E1FAB29473B10003CD7D5 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				EE0E1FAC29473B10003CD7D5 /* Assets.xcassets */,
+				EE0E1FAD29473B10003CD7D5 /* fonts */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+		EE0E1FAD29473B10003CD7D5 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				EE0E1FAE29473B10003CD7D5 /* SteradianBold.otf */,
+				EE0E1FAF29473B10003CD7D5 /* SteradianMedium.otf */,
+				EE0E1FB029473B10003CD7D5 /* SteradianRegular.otf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		EE38134D2938D55D00A3A710 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
 				EE38134E2938D55D00A3A710 /* atala-prism-swift-sdk */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		EE6C38CA29462474006CD2D3 /* WalletDemo */ = {
+			isa = PBXGroup;
+			children = (
+				EE6C391B29468533006CD2D3 /* Home */,
+				EE6C390D2946851D006CD2D3 /* QRCodeScanner */,
+				EE6C38E629462A60006CD2D3 /* Dashboard */,
+				EE6C38D82946264C006CD2D3 /* UIHelper */,
+				EE6C38D52946259E006CD2D3 /* Profile */,
+				EE6C38D0294624FD006CD2D3 /* Main */,
+			);
+			path = WalletDemo;
+			sourceTree = "<group>";
+		};
+		EE6C38D0294624FD006CD2D3 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				EE6C38D129462516006CD2D3 /* MainView.swift */,
+				EE6C38D329462522006CD2D3 /* MainViewRouter.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		EE6C38D52946259E006CD2D3 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		EE6C38D82946264C006CD2D3 /* UIHelper */ = {
+			isa = PBXGroup;
+			children = (
+				EE6C38D929462659006CD2D3 /* SpecificRoundedRect.swift */,
+				EE6C38EB29467A7A006CD2D3 /* ClearFullCoverModifier.swift */,
+				EE6C38ED29467A9D006CD2D3 /* DisablePreferenceKey.swift */,
+			);
+			path = UIHelper;
+			sourceTree = "<group>";
+		};
+		EE6C38DD2946276F006CD2D3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EE0E1FAB29473B10003CD7D5 /* assets */,
+				EE6C38E2294627B2006CD2D3 /* Localizable.strings */,
+				EE6C38E429462822006CD2D3 /* Localizable.stringsdict */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		EE6C38E629462A60006CD2D3 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				EE6C38E729462A6F006CD2D3 /* DashboardTabViewController.swift */,
+				EE6C38E929467A36006CD2D3 /* DashboardView.swift */,
+				EE6C3908294683C4006CD2D3 /* DashboardRouter.swift */,
+				EE6C390A294683D5006CD2D3 /* DashboardBuilder.swift */,
+				EE6C393D2946901D006CD2D3 /* DashboardViewModelImpl.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		EE6C390D2946851D006CD2D3 /* QRCodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+				EE6C390E2946851D006CD2D3 /* UI */,
+				EE6C39112946851D006CD2D3 /* QRCodeScannerBuilder.swift */,
+				EE6C39122946851D006CD2D3 /* QRCodeScannerView.swift */,
+				EE6C39132946851D006CD2D3 /* QRCodeScannerRouter.swift */,
+				EE6C39142946851D006CD2D3 /* QRCodeScannerViewModel.swift */,
+			);
+			path = QRCodeScanner;
+			sourceTree = "<group>";
+		};
+		EE6C390E2946851D006CD2D3 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				EE6C390F2946851D006CD2D3 /* QRScannerView.swift */,
+				EE6C39102946851D006CD2D3 /* CameraViewController.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		EE6C391B29468533006CD2D3 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				EE6C391C29468533006CD2D3 /* UI */,
+				EE6C392529468533006CD2D3 /* HomeViewModel.swift */,
+				EE6C392629468533006CD2D3 /* HomeView.swift */,
+				EE6C392829468533006CD2D3 /* HomeRouter.swift */,
+				EE6C392929468533006CD2D3 /* HomeBuilder.swift */,
+				EE6C392A29468533006CD2D3 /* HomeState.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		EE6C391C29468533006CD2D3 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				EE6C38D6294625B3006CD2D3 /* ProfileHeaderView.swift */,
+				EE6C392229468533006CD2D3 /* ActivityListView.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		EEB7D32029420155006E076D /* SetupPrismAgent */ = {
@@ -112,12 +307,12 @@
 		EEE61FB82937CA280053AE52 /* AtalaPrismWalletDemo */ = {
 			isa = PBXGroup;
 			children = (
+				EE6C38DD2946276F006CD2D3 /* Resources */,
 				EEE620312937FF2C0053AE52 /* Info.plist */,
 				EEE620112937F1C30053AE52 /* Helper */,
 				EEE61FDE2937CE970053AE52 /* Modules */,
 				EEE61FB92937CA280053AE52 /* AtalaPrismWalletDemoApp.swift */,
 				EEE61FBB2937CA280053AE52 /* FuncionalitiesList.swift */,
-				EEE61FBD2937CA2A0053AE52 /* Assets.xcassets */,
 				EEE61FBF2937CA2A0053AE52 /* Preview Content */,
 			);
 			path = AtalaPrismWalletDemo;
@@ -134,6 +329,7 @@
 		EEE61FDE2937CE970053AE52 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				EE6C38CA29462474006CD2D3 /* WalletDemo */,
 				EEB7D32029420155006E076D /* SetupPrismAgent */,
 				EEE6202C2937FD4B0053AE52 /* AuthenticateWallet */,
 				EEE620142937F2C80053AE52 /* SigningVerification */,
@@ -172,6 +368,14 @@
 			isa = PBXGroup;
 			children = (
 				EEE620122937F1D40053AE52 /* PrintObjects.swift */,
+				EE6C38DB294626E1006CD2D3 /* String+extensions.swift */,
+				EE6C38EF29468196006CD2D3 /* DIContainer.swift */,
+				EE6C39002946827B006CD2D3 /* ComponentContainer.swift */,
+				EE6C390229468288006CD2D3 /* Builder.swift */,
+				EE6C390429468309006CD2D3 /* LazyView.swift */,
+				EE6C39062946834F006CD2D3 /* RootPresentationMode.swift */,
+				EE6C393B29468614006CD2D3 /* EmptyNavigationLink.swift */,
+				EE6C393F2946931E006CD2D3 /* Array+Zipped.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -265,8 +469,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE0E1FB329473B10003CD7D5 /* SteradianMedium.otf in Resources */,
+				EE0E1FB429473B10003CD7D5 /* SteradianRegular.otf in Resources */,
 				EEE61FC12937CA2A0053AE52 /* Preview Assets.xcassets in Resources */,
-				EEE61FBE2937CA2A0053AE52 /* Assets.xcassets in Resources */,
+				EE0E1FB229473B10003CD7D5 /* SteradianBold.otf in Resources */,
+				EE6C38E529462822006CD2D3 /* Localizable.stringsdict in Resources */,
+				EE0E1FB129473B10003CD7D5 /* Assets.xcassets in Resources */,
+				EE6C38E3294627B2006CD2D3 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,17 +488,48 @@
 			files = (
 				EEB7D3242942018C006E076D /* SetupPrismAgentViewModel.swift in Sources */,
 				EEE620132937F1D40053AE52 /* PrintObjects.swift in Sources */,
+				EE6C393E2946901D006CD2D3 /* DashboardViewModelImpl.swift in Sources */,
 				EEE620302937FDE50053AE52 /* AuthenticateWalletViewModel.swift in Sources */,
+				EE6C390529468309006CD2D3 /* LazyView.swift in Sources */,
+				EE6C39172946851D006CD2D3 /* QRCodeScannerBuilder.swift in Sources */,
+				EE6C39152946851D006CD2D3 /* QRScannerView.swift in Sources */,
 				EEE61FE02937CEAA0053AE52 /* SeedViewModel.swift in Sources */,
+				EE6C393929468533006CD2D3 /* HomeState.swift in Sources */,
+				EE6C38DC294626E1006CD2D3 /* String+extensions.swift in Sources */,
 				EEE61FE82937D7EE0053AE52 /* DIDFuncionalitiesView.swift in Sources */,
 				EEE61FBC2937CA280053AE52 /* FuncionalitiesList.swift in Sources */,
+				EE6C3909294683C4006CD2D3 /* DashboardRouter.swift in Sources */,
 				EEE61FDD2937CD7A0053AE52 /* SeedFuncionalitiesView.swift in Sources */,
+				EE6C38EE29467A9D006CD2D3 /* DisablePreferenceKey.swift in Sources */,
+				EE6C38E829462A6F006CD2D3 /* DashboardTabViewController.swift in Sources */,
+				EE6C393529468533006CD2D3 /* HomeView.swift in Sources */,
+				EE6C38EC29467A7A006CD2D3 /* ClearFullCoverModifier.swift in Sources */,
+				EE6C38D429462522006CD2D3 /* MainViewRouter.swift in Sources */,
+				EE6C39162946851D006CD2D3 /* CameraViewController.swift in Sources */,
+				EE6C393C29468614006CD2D3 /* EmptyNavigationLink.swift in Sources */,
+				EE6C39012946827B006CD2D3 /* ComponentContainer.swift in Sources */,
+				EE6C393729468533006CD2D3 /* HomeRouter.swift in Sources */,
 				EEE61FE42937D5560053AE52 /* DIDFuncionalitiesViewModel.swift in Sources */,
+				EE6C38D7294625B3006CD2D3 /* ProfileHeaderView.swift in Sources */,
+				EE6C38D229462516006CD2D3 /* MainView.swift in Sources */,
 				EEE6202F2937FDE50053AE52 /* AuthenticateWalletView.swift in Sources */,
 				EEE620182937F6870053AE52 /* SigningVerificationView.swift in Sources */,
+				EE6C391A2946851D006CD2D3 /* QRCodeScannerViewModel.swift in Sources */,
 				EEE61FBA2937CA280053AE52 /* AtalaPrismWalletDemoApp.swift in Sources */,
+				EE6C390B294683D5006CD2D3 /* DashboardBuilder.swift in Sources */,
+				EE6C39402946931E006CD2D3 /* Array+Zipped.swift in Sources */,
+				EE6C39192946851D006CD2D3 /* QRCodeScannerRouter.swift in Sources */,
+				EE6C393129468533006CD2D3 /* ActivityListView.swift in Sources */,
+				EE6C390329468288006CD2D3 /* Builder.swift in Sources */,
+				EE6C39182946851D006CD2D3 /* QRCodeScannerView.swift in Sources */,
+				EE6C38EA29467A36006CD2D3 /* DashboardView.swift in Sources */,
+				EE6C38DA29462659006CD2D3 /* SpecificRoundedRect.swift in Sources */,
+				EE6C393429468533006CD2D3 /* HomeViewModel.swift in Sources */,
 				EEB7D32229420180006E076D /* SetupPrismAgentView.swift in Sources */,
+				EE6C38F029468196006CD2D3 /* DIContainer.swift in Sources */,
+				EE6C393829468533006CD2D3 /* HomeBuilder.swift in Sources */,
 				EEE620162937F3110053AE52 /* SigningVerificationViewModel.swift in Sources */,
+				EE6C39072946834F006CD2D3 /* RootPresentationMode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

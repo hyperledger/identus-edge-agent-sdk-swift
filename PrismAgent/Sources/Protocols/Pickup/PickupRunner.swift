@@ -22,13 +22,19 @@ class PickupRunner {
         self.mercury = mercury
     }
 
-    func run() async throws -> [Message] {
+    func run() async throws -> [(message: Message, attachmentId: String)] {
         switch message {
         case let .delivery(message):
-            return try await message.attachments.compactMap {
-                ($0.data as? AttachmentBase64)?.base64
-            }.asyncMap {
-                try await mercury.unpackMessage(msg: $0)
+            return try await message.attachments.compactMap { attachment in
+                switch attachment.data {
+                case let json as AttachmentJsonData:
+                    return String(data: json.data, encoding: .utf8).map { ($0, attachment.id) }
+                default:
+                    return nil
+                }
+            }
+            .asyncMap { messageString, id in
+                (try await mercury.unpackMessage(msg: messageString), id)
             }
         case .status:
             return []

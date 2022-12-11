@@ -4,6 +4,8 @@ import Foundation
 protocol DIDCommConnection {
     func awaitMessages() async throws -> [Message]
     func awaitMessageResponse(id: String) async throws -> Message?
+    @discardableResult
+    func sendMessage(_ message: Message) async throws -> Message?
 }
 
 protocol ConnectionsManager {

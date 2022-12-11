@@ -198,7 +198,6 @@ public class PrismAgent {
             updateMediator: true
         )
         let pair = try await DIDCommConnectionRunner(
-            mercury: mercury,
             invitationMessage: invitation,
             ownDID: ownDID,
             connection: connectionManager

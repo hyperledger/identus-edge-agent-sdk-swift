@@ -21,7 +21,13 @@ struct SessionManager {
         headers: [String: String] = [:],
         parameters: [String: String] = [:]
     ) async throws -> Data? {
-        try await call(request: try makeRequest(url: url, method: .post, body: body, parameters: parameters))
+        try await call(request: try makeRequest(
+            url: url,
+            method: .post,
+            body: body,
+            headers: headers,
+            parameters: parameters
+        ))
     }
 
     private func call(request: URLRequest) async throws -> Data? {
@@ -45,7 +51,14 @@ struct SessionManager {
         headers: [String: String] = [:],
         parameters: [String: String]
     ) throws -> URLRequest {
-        var composition = URLComponents(url: url, resolvingAgainstBaseURL: true)
+        let urlParsed = URL(
+            string: url
+                .absoluteString
+                .replacingOccurrences(
+                    of: "http://host.docker.internal:8080",
+                    with: "http://localhost:8080"
+                )) ?? url
+        var composition = URLComponents(url: urlParsed, resolvingAgainstBaseURL: true)
         if !parameters.isEmpty {
             composition?.queryItems = parameters.map { URLQueryItem(name: $0, value: $1) }
         }
