@@ -137,6 +137,17 @@ class ConnectionsManagerImpl: ConnectionsManager {
 }
 
 extension ConnectionsManagerImpl: DIDCommConnection {
+    func sendMessage(_ message: Message) async throws -> Message? {
+        let mercury = self.mercury
+        return try await pluto
+            .storeMessage(message: message, direction: .sent)
+            .flatMap {
+                Future { try await mercury.sendMessageParseMessage(msg: message) }
+            }
+            .first()
+            .await()
+    }
+
     func awaitMessages() async throws -> [Message] {
         let stream: AnyPublisher<[Message], Error> = try awaitMessages()
 
@@ -164,8 +175,11 @@ extension ConnectionsManagerImpl: DIDCommConnection {
         }
         .flatMap { messages in
             pluto
-                .storeMessages(messages: messages)
+                .storeMessages(messages: messages.map { ($0.message, .received) })
                 .map { messages }
+        }
+        .flatMap { messages in
+            pickupReceivedMessages(messages: messages, mediator: mediator, mercury: mercury)
         }
         .eraseToAnyPublisher()
     }
@@ -225,5 +239,28 @@ extension ConnectionsManagerImpl: DIDCommConnection {
             }
         }
         .eraseToAnyPublisher()
+    }
+}
+
+private func pickupReceivedMessages(
+    messages: [(Message, String)],
+    mediator: ConnectionsManagerImpl.Mediator,
+    mercury: Mercury
+) -> AnyPublisher<[Message], Error> {
+    if !messages.isEmpty {
+        return Future<Data?, Error> {
+            let message = try PickUpReceived(
+                from: mediator.peerDID,
+                to: mediator.mediatorDID,
+                body: .init(messageIdList: messages.map { $0.1 })
+            ).makeMessage()
+            return try await mercury.sendMessage(msg: message)
+        }
+        .map { _ in messages.map { $0.0 } }
+        .eraseToAnyPublisher()
+    } else {
+        return Just(messages.map { $0.0 })
+            .tryMap { $0 }
+            .eraseToAnyPublisher()
     }
 }

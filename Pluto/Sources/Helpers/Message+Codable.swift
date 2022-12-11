@@ -16,6 +16,7 @@ struct CodableMessage: Codable {
         case pthid
         case ack
         case body
+        case direction
     }
 
     let message: Message
@@ -30,6 +31,7 @@ struct CodableMessage: Codable {
         try container.encode(message.expiresTimePlus, forKey: .expiresTimePlus)
         try container.encode(message.attachments, forKey: .attachments)
         try container.encode(message.ack, forKey: .ack)
+        try container.encode(message.direction.rawValue, forKey: .direction)
         try message.from.map { try container.encode(CodableDID(did: $0), forKey: .from) }
         try message.to.map { try container.encode(CodableDID(did: $0), forKey: .to) }
         try message.fromPrior.map { try container.encode($0, forKey: .fromPrior) }
@@ -56,6 +58,8 @@ struct CodableMessage: Codable {
         let fromPrior = try? container.decode(String.self, forKey: .fromPrior)
         let thid = try? container.decode(String.self, forKey: .thid)
         let pthid = try? container.decode(String.self, forKey: .pthid)
+        let directionRaw = try? container.decode(String.self, forKey: .direction)
+        let direction = directionRaw.flatMap { Message.Direction(rawValue: $0) }
 
         self.init(message: .init(
             id: id,
@@ -70,7 +74,8 @@ struct CodableMessage: Codable {
             attachments: attachments,
             thid: thid,
             pthid: pthid,
-            ack: ack
+            ack: ack,
+            direction: direction ?? .sent
         ))
     }
 }

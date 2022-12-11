@@ -51,7 +51,7 @@ final class CDMessagesDAOTests: XCTestCase {
                 )
             }
             .flatMap {
-                dao.addMessage(msg: testMessage)
+                dao.addMessage(msg: testMessage, direction: .received)
             }
             .flatMap {
                 dao.getMessage(id: testMessage.id).first()
@@ -98,10 +98,10 @@ final class CDMessagesDAOTests: XCTestCase {
                 )
             }
             .flatMap {
-                dao.addMessage(msg: testMessage)
+                dao.addMessage(msg: testMessage, direction: .received)
             }
             .flatMap {
-                dao.addMessage(msg: testMessage)
+                dao.addMessage(msg: testMessage, direction: .received)
             }
             .flatMap {
                 dao.getAll().first()
@@ -167,10 +167,10 @@ final class CDMessagesDAOTests: XCTestCase {
                 )
             }
             .flatMap {
-                dao.addMessage(msg: testMessage1)
+                dao.addMessage(msg: testMessage1, direction: .received)
             }
             .flatMap {
-                dao.addMessage(msg: testMessage2)
+                dao.addMessage(msg: testMessage2, direction: .received)
             }
             .flatMap {
                 dao.getAllFor(did: testHolderDID2).first()

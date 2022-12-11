@@ -31,7 +31,7 @@ final class PickupRunnerTests: XCTestCase {
         let runner = try PickupRunner(message: message, mercury: mercury)
         let parsedMessages = try await runner.run()
 
-        XCTAssertEqual(parsedMessages, messagesExamples)
+        XCTAssertEqual(parsedMessages.map { $0.message }, messagesExamples)
     }
 
     func testWhenReceiveNotDeliveryMessageThenThrowError() async throws {

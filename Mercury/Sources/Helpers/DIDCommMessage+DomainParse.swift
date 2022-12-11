@@ -101,7 +101,7 @@ extension DIDCommxSwift.AttachmentData {
         case let .links(value):
             return AttachmentLinkData(links: value.links, hash: value.hash)
         case let .json(value):
-            guard let jsonData = Data(fromBase64URL: value.json) else {
+            guard let jsonData = value.json.data(using: .utf8) else {
                 throw MercuryError.unknownAttachmentDataError
             }
             return AttachmentJsonData(data: jsonData)
