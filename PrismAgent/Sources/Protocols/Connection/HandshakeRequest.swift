@@ -7,12 +7,12 @@ struct HandshakeRequest {
     struct Body: Codable {
         let goalCode: String?
         let goal: String?
-        let accept: [String]
+        let accept: [String]?
 
         init(
             goalCode: String? = nil,
             goal: String? = nil,
-            accept: [String] = []
+            accept: [String]? = nil
         ) {
             self.goalCode = goalCode
             self.goal = goal

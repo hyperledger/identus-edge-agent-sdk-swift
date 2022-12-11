@@ -19,4 +19,5 @@ enum ProtocolTypes: String {
     case prismOnboarding = "https://atalaprism.io/did-request"
     case pickupRequest = "https://didcomm.org/messagepickup/3.0/delivery-request"
     case pickupDelivery = "https://didcomm.org/messagepickup/3.0/delivery"
+    case pickupStatus = "https://didcomm.org/messagepickup/3.0/status"
 }

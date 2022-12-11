@@ -6,7 +6,7 @@ public struct OutOfBandInvitation: Decodable {
     public struct Body: Decodable {
         public let goalCode: String?
         public let goal: String?
-        public let accept: [String]
+        public let accept: [String]?
     }
 
     public let id: String

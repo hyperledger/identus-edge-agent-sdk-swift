@@ -34,7 +34,8 @@ final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewM
 
     func updateKeyList() async throws {
         do {
-            try await parseOOBMessage()
+            _ = try await agent.createNewPeerDID(updateMediator: true)
+            try await agent.awaitMessages()
         } catch {
             await MainActor.run {
                 self.error = error.localizedDescription
