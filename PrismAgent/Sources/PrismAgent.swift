@@ -39,6 +39,8 @@ public class PrismAgent {
 
     private var connectionManager: ConnectionsManagerImpl
     private var cancellables = [AnyCancellable]()
+    // Not a "stream"
+    private var messagesStreamTask: Task<Void, Error>?
 
     public let seed: Seed
 
@@ -314,6 +316,21 @@ public class PrismAgent {
                 })
                 .store(in: &self.cancellables)
         }
+    }
+
+    public func startFetchingMessages() {
+        // TODO: This needs to be better thought for sure it cannot be left like this
+        let manager = connectionManager
+        messagesStreamTask = Task {
+            while true {
+                _ = try await manager.awaitMessages()
+                sleep(5)
+            }
+        }
+    }
+
+    public func stopFetchingMessages() {
+        messagesStreamTask?.cancel()
     }
 
     public func handleMessagesEvents() -> AnyPublisher<Message, Error> {
