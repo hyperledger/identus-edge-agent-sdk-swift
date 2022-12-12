@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ico_caret_red.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

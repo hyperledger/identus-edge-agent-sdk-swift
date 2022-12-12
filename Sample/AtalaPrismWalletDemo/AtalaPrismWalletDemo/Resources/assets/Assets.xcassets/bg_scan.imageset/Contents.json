@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "bg_scan.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

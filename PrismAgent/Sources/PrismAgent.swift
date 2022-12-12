@@ -44,6 +44,10 @@ public class PrismAgent {
 
     public let seed: Seed
 
+    public var mediatorRoutingDID: DID? {
+        connectionManager.mediator?.routingDID
+    }
+
     public init(
         apollo: Apollo,
         castor: Castor,

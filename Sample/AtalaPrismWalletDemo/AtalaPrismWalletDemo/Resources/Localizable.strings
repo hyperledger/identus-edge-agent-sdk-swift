@@ -1,0 +1,690 @@
+//
+
+// <!-- App -->
+"app_name" = "Atala";
+"app_version" = "VERSION 1.0";
+
+// <!-- General use strings -->
+"ok" = "Ok";
+"yes" = "Yes";
+"no" = "No";
+"cancel" = "Cancel";
+"confirm" = "Confirm";
+"agree" = "Agree";
+"share" = "Share";
+"done" = "Done";
+"delete" = "Delete";
+"save" = "Save";
+"send" = "Send";
+"change" = "Change";
+"continue" = "Continue";
+"decline" = "Decline";
+"verify" = "Verify";
+"next" = "Next";
+"accept" = "Accept";
+"error" = "Error";
+"service_error" = "Service is unavailable. Try again later";
+"back" = "Back";
+"add" = "Add";
+"close" = "Close";
+"default_error_message" = "Something went wrong. Please try again.";
+
+ // <!-- Default errors and loadings -->
+"coming_soon_btn" = "COMING SOON";
+"coming_soon_title" = "Coming soon";
+"error_generic_title" = "Error";
+"error_generic_error" = "An error occurred. Try again.";
+"error_connection_error" = "No connection found. Try again.";
+"error_connection_retry" = "Retry";
+"loading_title" = "Loading";
+"loading_message" = "Please wait…";
+"success_generic_title" = "Success!";
+"empty_list_title" = "There is no data to show.";
+"empty_list_subtitle" = "Add some & try again.";
+"empty_list_retry" = "Retry";
+"dialog_logout_confirm_title" = "Logout";
+"dialog_logout_confirm_message" = "Are you sure you want to logout?";
+"no_results_title" = "No results found";
+"demo_app_warning_welcome" = "This is a demo application only.";
+"demo_app_warning_title" = "This is a demo application only.";
+"demo_app_warning_message" = "It showcases how UI and UX can be built on top of Atala PRISM CORE DID SDK";
+"demo_app_warning_button" = "I understand this";
+
+
+// <!-- Dashboard -->
+"tab_settings" = "Settings";
+"tab_credentials" = "Credentials";
+"tab_contacts" = "Contacts";
+"tab_services" = "Services";
+
+// <!-- Contacts -->
+"connections_nav_title" = "Contacts";
+"connections_empty_title" = "Connect to an organization to\nreceive your credentials";
+"connections_empty_subtitle" = "Receive, store and share your\ndigital credentials";
+"connections_empty_button" = "Scan QR code";
+"connections_scan_qr_nav_title" = "Scan QR";
+"connections_scan_qr_error" = "Invalid QR code";
+"connections_scan_qr_confirm_button" = "Confirm";
+"connections_scan_qr_confirm_duplicated_button" = "Connect again";
+"connections_scan_qr_confirm_title" = "Connect with:";
+"connections_scan_qr_confirm_duplicated_title" = "You have already connected with %1$@. Please reset the data in the settings and reset the interactive city map.";
+"connections_scan_qr_confirm_error" = "Failed to confirm connection. Try again.";
+"connections_scan_qr_confirm_payment_error" = "Failed to confirm payment. Try again.";
+"connections_universities" = "Universities";
+"connections_employers" = "Employers";
+"connections_more_info" = "More Info";
+"connections_add_new" = "Add new";
+"connections_enter_code" = "Enter connection code:";
+"connections_enter_code_placeholder" = "Insert Code";
+"connections_search_contacts" = "Search Contacts";
+"contacts_delete_confrimation_title" = "Are you sure?";
+"contacts_delete_confrimation_message" = "You are about to delete:";
+"contacts_delete_description" = "If you do this, the credentials below that were issued by the contact will also be deleted:";
+"contacts_delete_error" = "The contact couldn't be deleted";
+"contacts_id_credential"= "ID Credential ";
+"contacts_university_credential"= "University Credential ";
+"contacts_employment_credential"= "Employment Credential ";
+"contacts_insurance_credential"= "Insurance Credential ";
+"contacts_detail_title"= "Contact Detail";
+"contacts_detail_did"= "DID: %@";
+"contacts_detail_date_connected"= "Connected %@";
+"contacts_detail_requested"= "REQUESTED CREDENTIALS";
+"contacts_detail_requested_date"= "Requested %@";
+"contacts_detail_issued"= "ISSUED CREDENTIALS";
+"contacts_detail_issued_date"= "Issued %@";
+"contacts_detail_shared"= "SHARED CREDENTIALS";
+"contacts_detail_shared_date"= "Shared %@";
+"contacts_add_new_confirm_connection_caption" = "You are about to connect with:";
+"contacts_add_new_confirm_connection_confirm_bt" = "Connect";
+"contacts_add_new_already_connected_caption" = "You have already connected with:";
+
+
+
+// <!-- Credentials -->
+"credentials_nav_title" = "Credentials";
+"credentials_degrees_new_hello" = "Hello %1$@!";
+"credentials_degrees_new_title" = "You have new credential(s)";
+"credentials_degrees_new_date" = "Received: %1$@";
+"credentials_degrees_new_view_btn" = "VIEW";
+"credentials_search" = "Search Credentials";
+"credentials_document_title" = "National ID Card";
+"credentials_detail_title_type_university" = "University Degree";
+"credentials_detail_title_type_government_id" = "Government ID";
+"credentials_detail_title_type_insurance" = "Health Insurance";
+"credentials_detail_title_type_employment" = "Proof of Employment";
+"credentials_georgia_national_id" = "Government ID";
+"credentials_georgia_educational_degree" = "Educational Degree";
+"credentials_georgia_educational_degree_transcript" = "Educational Degree Transcript";
+"credentials_detail_title_new" = "Add Credential";
+"credentials_detail_share_button" = "Share!";
+"credentials_detail_share_search_contacts" = "Search Contacts";
+"credentials_detail_share_contact_name" = "Contact Name";
+"credentials_detail_share_success_title" = "Your credential(s) were";
+"credentials_detail_share_success" = "Successfully shared";
+"credentials_detail_view_detail"= "View Detail";
+"credentials_empty_title" = "Connect to an organization to receive your credentials";
+"credentials_empty_subtitle" = "Receive, store and share your digital credentials";
+"credentials_detail_national_id_card" = "Government ID";
+"credentials_detail_government_issued_digital_identity" = "Government Issued \nDigital Identity";
+"credentials_university_degree" = "University Degree";
+"credentials_government_id" = "Government ID";
+"credentials_proof_employment" = "Proof of Employment";
+"credentials_certificate_insurance" = "Health Insurance";
+"credentials_kyc" = "Verified Identity Credential";
+"credentials_delete_confrimation_title" = "Are you sure?";
+"credentials_delete_confrimation_message" = "You are about to delete:";
+"credentials_delete_error" = "The credential couldn't be deleted";
+"credentials_detail_date" = "Received: %1$@";
+"credentials_history_title" = "%1$@ History";
+"credentials_history_date" = "Shared: %1$@";
+"credentials_history_shared" = "SHARED WITH";
+"credentials_history_requested" = "REQUESTED BY";
+"credentials_verify_verified" = "Verified";
+"credentials_verify_original_file" = "Original File";
+"credentials_verify_blockchain_notarization" = "Blockchain Notarization";
+"credentials_verify_file_hash" = "File Hash";
+"credentials_verify_tx_hash" = "Tx Hash";
+"credentials_verify_date_time" = "Date & Time ";
+"credentials_verify_close" = "Close";
+"credentials_verify_download" = "Download";
+"credentials_verify_download_success" = "File downloaded";
+"credentials_verify_download_error" = "Error downloading file";
+
+// <!-- Profile -->
+"profile_nav_title" = "My Profile";
+"profile_tab_personal" = "Personal";
+"profile_tab_qr_code" = "QR Code";
+"profile_field_title_dateofbirth" = "Date of Birth";
+"profile_edit_nav_title" = "Edit My Profile";
+"profile_camera" = "Take from camera";
+"profile_library" = "Choose from library";
+"profile_remove_image" = "Remove image";
+"profile_table_header_title" = "PERSONAL ATTRIBUTES";
+"profile_table_header_title_social" = "SOCIAL ATTRIBUTES";
+"profile_row_personal_info_title" = "Personal Info";
+"profile_attribute_title" = "Type";
+"profile_attribute_email" = "Email";
+"profile_attribute_phone" = "Phone";
+"profile_name_empty" = "Hello";
+"profile_mail_empty" = "This is your Profile";
+
+// <!-- Profile Detail -->
+"profile_detail_title" = "Attribute details";
+"profile_detail_subtitle" = "Profile Info";
+"profile_detail_status" = "Status:";
+"profile_detail_verified" = "Verified";
+"profile_detail_not_verified" = "Not verified";
+"profile_detail_field_title_fullname" = "Full name";
+"profile_detail_field_title_firstname" = "First name";
+"profile_detail_field_title_lastname" = "Last name";
+"profile_detail_field_title_nationality" = "Nationality";
+"profile_detail_field_title_cityzenship" = "Cityzenship";
+"profile_detail_field_title_document" = "National ID number";
+"profile_detail_field_title_gender" = "Gender";
+"profile_detail_field_gender_male" = "Male";
+"profile_detail_field_gender_female" = "Female";
+"profile_detail_field_gender_other" = "Other";
+"profile_detail_field_title_birthday" = "Date of birth";
+"profile_detail_field_title_issue_date" = "ISSUE DATE";
+"profile_detail_field_title_expiration_date" = "EXPIRATION DATE";
+"profile_detail_country_picker_title" = "Country";
+"profile_detail_country_picker_button" = "Close";
+
+// <!-- Add Attribute -->
+"attribute_title" = "Add a New Attribute";
+"attribute_description" = "After completing your status will be pending for 48 hs and you will recieve a confirmation";
+"attribute_field_category" = "Attribute Category";
+"attribute_field_attribute" = "Attribute Type";
+"attribute_field_value" = "Value";
+
+// <!-- Email Verification -->
+"email_verification_title" = "Email Verification";
+"email_verification_body_title" = "Verify Email";
+"email_verification_body_message" = "Please enter your Email address below";
+"email_verification_input" = "Email";
+"email_verification_button" = "Verify Email";
+
+// <!-- Phone Verification -->
+"phone_verification_title" = "Phone Verification";
+"phone_verification_body_title" = "Verify Phone Number";
+"phone_verification_body_message" = "Please enter your Country and Phone number below";
+"phone_verification_input" = "Phone Number";
+"phone_verification_button" = "Verify Phone";
+"phone_verification_country_picker_title" = "Country";
+
+// <!-- Base Verification Code -->
+"phone_verification_code_body_title" = "Insert";
+"phone_verification_code_body_Title_bold" = "Verification Code";
+"phone_verification_code_body_message" = "Check your messages and insert your 4 digit code and confirm it below";
+"phone_verification_code_body_message_bold" = "4 digit code";
+"phone_verification_code_pint_title" = "INSERT PIN CODE";
+"phone_verification_code_pint_verified" = "Your PIN Code is correct";
+"phone_verification_code_button" = "Done";
+
+// <!-- Attribute Listing -->
+"attribute_listing_title" = "Attribute detail";
+"attribute_listing_email" = "Email";
+"attribute_listing_phone" = "Phones";
+"attribute_listing_status" = "Status:";
+"attribute_listing_verified" = "Verified";
+"attribute_listing_issuing" = "Issuing Authority:";
+"attribute_listing_acuant" = "Acuant";
+
+// <!-- Settings -->
+"settings_nav_title" = "Settings";
+"settings_backup_title" = "Backup Account";
+"settings_backup_subtitle" = "Create a backup now";
+"settings_reset_title" = "Reset Data";
+"settings_reset_subtitle" = "Delete contacts & credentials";
+"settings_security_title" = "Security";
+"settings_security_subtitle" = "Secure app with a Pin or Biometrics";
+"settings_pin_title" = "PIN Code";
+"settings_pin_subtitle" = "Change the code to unlock this app";
+"settings_support_title" = "Support";
+"settings_support_subtitle" = "Get in touch with us";
+"settings_about_title" = "About";
+"settings_about_subtitle" = "Legal and version information";
+"settings_reset_confrimation_title" = "Are you sure you want to reset data?";
+"settings_reset_confrimation_subtitle" = "Your contacts and credentials will be deleted";
+"settings_reset" = "Reset";
+"settings_reset_success" = "Contacts and credentials successfully removed!";
+"settings_date_title" = "Date";
+"settings_date_subtitle" = "Custom date format";
+"settings_pay_id_title" = "Pay ID";
+"settings_pay_id_subtitle" = "View or Create Pay ID";
+"settings_verify_id_title" = "Verified Identity";
+"settings_verify_id_subtitle" = "Get it Now!";
+
+// <!-- Login: Welcome -->
+"welcome_title" = "Welcome";
+"welcome_button" = "Get Started";
+
+// <!-- Login: Tutorial -->
+"tutorial_1_title" = "Own and share your data";
+"tutorial_1_subtitle" = "Store all your important documents in one place and share in easy, secure and private way";
+"tutorial_1_button" = "Get Started";
+"tutorial_2_title" = "Take control of your personal information";
+"tutorial_2_subtitle" = "Secure your personal information and only share what you need to";
+"tutorial_2_button" = "Continue";
+"tutorial_3_title" = "Get instant access to services";
+"tutorial_3_subtitle" = "Prove your identity in one click and instantly access services everywhere Atala PRISM is supported";
+"tutorial_3_button_register" = "Create Account";
+"tutorial_3_button_restore" = "Restore Account";
+
+// <!-- Login: Terms -->
+"terms_lead" = "Account Creation";
+"terms_title" = "Terms \& Conditions";
+"terms_subtitle" = "Please indicate that you have read and agreed to the Terms & Conditions and the Privacy Policy Agreement";
+"terms_accept_terms" = "<b><font color=#000000>Accept </font><font color=#FF002D>Terms & Conditions</font></b>";
+"terms_accept_privacy" = "<b><font color=#000000>Accept </font><font color=#FF002D>Privacy Policy Agreement</font></b>";
+"terms_accept_terms_text" = "Accept Terms & Conditions";
+"terms_accept_terms_selected_text" = "Terms & Conditions";
+"terms_accept_terms_url" = "https://legal.atalaprism.io/terms-and-conditions.html";
+"terms_accept_privacy_text" = "Accept Privacy Policy Agreement";
+"terms_accept_privacy_selected_text" = "Privacy Policy Agreement";
+"terms_accept_privacy_url" = "https://legal.atalaprism.io/privacy-policy.html";
+"terms_accept_button" = "Accept";
+
+// <!-- Login: Register -->
+"register_nav_title" = "Your Recovery Phrase";
+"register_subtitle" = "Your recovery phrase is used to generate and recover your account";
+"register_warning" = "Please save these 24 words on a piece of paper. The order is important. This phrase will allow you to recover your account";
+"register_accept_terms" = "I understand that if I lose my recovery phrase that I will not be able to recover my account";
+"register_button" = "Accept";
+"register_seed_text" = "%1$d. %2$@";
+
+// <!-- Login: Login -->
+"login_nav_title" = "Verify Recovery Phrase";
+"login_subtitle" = "Enter the following words to verify your Recovery Phrase";
+"login_input_title" = "Word \#%1$d";
+"login_input_title_empty" = "Word";
+"login_verify_button" = "Continue";
+"login_phrase_invalid_error" = "Words were invalid. Please try again";
+
+// <!-- Login: Restore -->
+"restore_title" = "Restore Account";
+"restore_description" = "In order to restore your account, you need to type in the 24 words from the Recovery Phrase that you will have kept safe";
+"restore_subtitle" = "Recovery phrase";
+"restore_helper" = "Press enter or space after entering each word";
+"restore_hint" = "Enter your 24-word recovery phrase";
+"restore_verify" = "Check";
+"restore_phrase_invalid_error" = "Invalid 24-word recovery phrase";
+"restore_recovering_data" = "Recovering data";
+"restore_recover_button" = "Recover";
+
+// <!-- Success -->
+"success_register_title" = "Congratulations!\nYour account has been created";
+"success_register_title_bold" = "Congratulations!";
+"success_register_subtitle" = "Continue to start the connection process";
+"success_register_button" = "Continue";
+"success_email_support_title" = "Your message has been sent successfully!";
+"success_email_support_subtitle" = "Someone from our Support Team will contact you as soon as possible";
+"success_email_support_button" = "Got it";
+"success_restore_title" = "Welcome Back!";
+"success_restore_subtitle" = "Your account has been\nsuccessfully restored";
+"success_restore_button" = "Next";
+
+// <!-- About -->
+"about_tite"= "About us";
+"about_atala_version"= "Version %@ - %@";
+"about_testing"= "- Testing";
+"about_terms"= "Terms & Conditions";
+"about_privacy"= "Privacy Policy";
+"about_last_updated"= "Last Updated: Mar 09, 2022";
+"about_atala_prism" = "Atala PRISM";
+"about_powered_by" = "Atala PRISM powered by Cardano";
+"about_cardano" = "Cardano";
+"about_copyright" = "©2022 IOHK";
+
+// <!-- Proof Requests -->
+"proof_request_description_first"= "Share the following information to process your credential";
+"proof_request_id_credential"= "• ID Credential ";
+"proof_request_university_credential"= "• University Credential ";
+"proof_request_employment_credential"= "• Employment Credential ";
+"proof_request_insurance_credential"= "• Insurance Credential ";
+"proof_request_select_credential"= "Requested Credential(s):";
+"proof_request_select_credentials"= "Select Credentials:";
+"proof_request_cancel"= "Cancel";
+"proof_request_share"= "Share";
+
+// <!-- Notifications -->
+"notifications_title" = "Notifications";
+"notifications_scan_qr_nav_title" = "Scan QR code";
+"notifications_empty_title" = "You don’t have any notifications";
+"notifications_empty_subtitle" = "You can edit your notifiations\non settings section.";
+"notifications_received" = "Received %@";
+
+// <!-- Security -->
+"security_title" = "Security";
+"security_use_touch_id" = "Use Touch & Face ID as Pin";
+"security_change_pin" = "Change Pin Code";
+"security_setting_up" = "Setup";
+"security_touch_id" = "Touch ID";
+"security_pin_code_title" = "Pin Code";
+"security_face_id" = "Face ID";
+"security_step_one" = "1 of 2";
+"security_step_two" = "2 of 2";
+"security_description_touch_id" = "Touch ID enables quick and easy login without a password. Please enable the App to use Touch ID under Settings";
+"security_description_face_id" = "With Touch & Face ID you can login easily and fast without password. You must configure it in your operating system, open your configuration options.";
+"security_allow_touch_id" = "Enable Touch ID";
+"security_allow_face_id" = "Allow Touch & Face ID";
+"security_not_now" = "Skip and do later";
+"security_setup_pin" = "To set up your PIN create a 4 digit code then
+confirm it below";
+"security_pin_code" = "PIN CODE";
+"security_confirm_pin" = "CONFIRM YOUR PIN CODE";
+"security_pin_match" = "Your PIN Codes are the same";
+"security_pin_mismatch" = "Your PIN Codes don't match";
+"security_continue" = "Continue";
+"security_unerroled_touch_id"= "Touch ID is not configured on your device";
+"security_unerroled_face_id" = "Face ID is not configured on your device";
+"security_change_pin_code" = "Change Pin Code";
+"security_change_pin_descr" = "Write your current PIN, then create a new 4 digit code and confirm it below";
+"security_current_pin" = "CURRENT PIN CODE";
+"security_new_pin" = "NEW PIN CODE";
+"security_confirm_new_pin" = "CONFIRM YOUR NEW PIN CODE";
+"security_next" = "Next";
+"security_change_pin_success" = "Your PIN has been updated";
+"security_change_pin_error" = "Your current PIN is incorrect";
+
+// <!-- Unlock -->
+"unlock_title" = "Enter your PIN";
+"unlock_pin_error" = "Incorrect PIN code";
+"unlock_unerroled_touch_id"= "Touch ID is not configured on your device";
+"unlock_unerroled_face_id" = "Face ID is not configured on your device";
+"unlock_biometrics_error" = "You could not be identified, please use your PIN";
+"unlock_app" = "Unlock your app";
+"unlock_touch_id_cancel" = "Touch ID has been cancelled. Please enter your PIN code instead";
+"unlock_touch_id_error" = "Fingerprint recognition failed";
+"unlock_face_id_error" = "Face recognition failed";
+"unlock_confirm_pin" = "Confirm PIN";
+"unlock_use_biometrics" = "Unlock using biometrics";
+
+// <!-- Date Format -->
+"dateformat_nav_bar" = "Date Format";
+"dateformat_title" = "Custom date format";
+"dateformat_format_dd_mm_yyyy" = "DD / MM / YYYY (Default)";
+"dateformat_format_mm_dd_yyyy" = "MM / DD / YYYY";
+"dateformat_format_yyyy_mm_dd" = "YYYY / MM / DD";
+"dateformat_info_bold" = "Important: ";
+"dateformat_info" = "This is the application's date format. The date format in Credentials received or shared will not change.";
+
+// <!-- Activity Log -->
+"activitylog_title" = "Activity Log";
+"activitylog_received" = "Received from %1$@";
+"activitylog_shared" = "Shared with %1$@";
+"activitylog_requested" = "Requested by %1$@";
+"activitylog_connected" = "Connected";
+"activitylog_deleted" = "Deleted";
+"activitylog_empty_title" = "You don’t have any activities";
+
+// <!-- Home -->
+"home_profile_hey" = "Hello";
+"home_profile_hey_empty" = "Welcome to Atala Prism";
+"home_profile_name_empty" = "Atala PRISM";
+"home_profile_view_profile" = "VIEW PROFILE";
+"home_profile_notifications" = "You have %d notification(s)";
+"home_profile_notifications_empty" = "No new notifications";
+"home_profile_payid" = "YOUR PAY ID NAME";
+"home_activitylog_title" = "LAST ACTIVITY";
+"home_activitylog_button" = "Activity Log";
+"home_promotional_try" = "Visit atalaprism.io\non a desktop computer\nand try our interactive demo";
+"home_promotional_more_info" = "More Info";
+"home_promotional_share" = "Share Atala PRISM with your friends";
+"home_promotional_share_desc" = "Atala PRISM lorem ipsum\ndolor sit amtet";
+"home_promotional_send_invite" = "Share app";
+"home_payid_title" = "Get your Pay ID now!";
+"home_payid_subtitle_first" = "You can start now or do it later by going to ";
+"home_payid_subtitle_bold" = "Settings";
+"home_payid_subtitle_second" = " option on the bottom menu.";
+"home_payid" = "Pay ID";
+"home_get_now" = "Get it Now!";
+"home_verified_title" = "Get your identity verified";
+"home_verified" = "Verified identity";
+"home_apply_now" = "Apply now";
+
+// <!-- Verify Identity -->
+"verifyid_tutorial_title" = "Verify your identity";
+"verifyid_tutorial_subtitle" = "How does it work?";
+"verifyid_tutorial_step_1" = "Step 1";
+"verifyid_tutorial_step_1_desc" = "Select and scan your document";
+"verifyid_tutorial_step_2" = "Step 2";
+"verifyid_tutorial_step_2_desc" = "Take a selfie";
+"verifyid_tutorial_step_3" = "Step 3";
+"verifyid_tutorial_step_3_desc" = "Confirm your data";
+"verifyid_tutorial_step_4" = "Step 4";
+"verifyid_tutorial_step_4_desc" = "Receive a verified identity credential";
+"verifyid_tutorial_skip" = "Skip and do later";
+"verifyid_title" = "Identity Verification";
+"verifyid_typeselect_step" = "Step 1";
+"verifyid_typeselect_title" = "Select identity document";
+"verifyid_typeselect_desc" = "Select the document and start the verification process";
+"verifyid_typeselect_national_id" = "National identity card";
+"verifyid_typeselect_passport" = "Passport";
+"verifyid_typeselect_drivers_license" = "Driver's license";
+"verifyid_scanfront_" = "Activity";
+"verifyid_scanfront_title" = "Scan your National ID";
+"verifyid_scanfront_desc" = "The document should fit within the outlined area, be well lit, and clearly legible";
+"verifyid_scanfront_front" = "Front";
+"verifyid_scanfront_helper" = "Position the front of your\ndocument in the frame";
+"verifyid_scanfront_button" = "Take a picture";
+"verifyid_scanfront_permission_title" = "Camera";
+"verifyid_scanfront_permission_subtitle" = "Camera access is absolutely necessary to verify your identity";
+"verifyid_scanback_back" = "Back";
+"verifyid_scanback_helper" = "Position the back of your\ndocument in the frame";
+"verifyid_scan_error" = "We couldn't read your data, please try again";
+"verifyid_scan_image_error" = "The image captured is not good enough please try again";
+"verifyid_selfie_step" = "Step 2";
+"verifyid_selfie_title" = "Take a selfie";
+"verifyid_selfie_desc" = "Follow these instructions to take a selfie and verify your identity";
+"verifyid_selfie_helper_title" = "Position your face";
+"verifyid_selfie_helper" = "When you are ready, click Take a picture";
+"verifyid_results_step" = "Step 3";
+"verifyid_results_title" = "Confirm your data";
+"verifyid_results_desc" = "Check that the scanned data is correct";
+"verifyid_results_retry" = "Scan Again";
+"verifyid_results_confirm" = "Confirm";
+"verifyid_error_title" = "Complete KYC";
+"verifyid_error_subtitle" = "We could not verify your ID";
+"verifyid_error_desc" = "Please try again or request a\nmanual review to verify your identity.";
+"verifyid_error_manual" = "Manual Review";
+"verifyid_pending_title" = "Complete KYC";
+"verifyid_pending_subtitle" = "Your status is Pending";
+"verifyid_pending_desc" = "We’ll review your information and send\nyou a notification in 48 hours.";
+"verifyid_success_title" = "Thank You!";
+"verifyid_success_subtitle" = "You will receive your verified identity credential shortly";
+
+// ACUANT
+
+/* AcuantCamera */
+"acuant_camera_align" = "ALIGN";
+"acuant_camera_manual_capture" = "ALIGN & TAP";
+"acuant_camera_move_closer" = "MOVE CLOSER";
+"acuant_camera_hold_steady" = "HOLD STEADY";
+"acuant_camera_capturing" = "CAPTURING";
+"acuant_camera_outside_view" = "TOO CLOSE!";
+
+/* AcuantFaceCapture/AcuantPassiveLiveness */
+"acuant_face_camera_initial" = "Align face to start capture";
+"acuant_face_camera_face_too_close" = "Too Close! Move Away";
+"acuant_face_camera_face_too_far" = "Move Closer";
+"acuant_face_camera_face_has_angle" =  "Face has Angle. Do not tilt";
+"acuant_face_camera_face_not_in_frame" =  "Move in Frame";
+"acuant_face_camera_face_moved" = "Hold Steady";
+"acuant_face_camera_capturing_2" = "Capturing\n2...";
+"acuant_face_camera_capturing_1" = "Capturing\n1...";
+
+/* AcuantHGLiveness */
+"hg_too_close" = "Too Close! Move Away";
+"hg_too_far_away" = "Move Closer";
+"hg_move_in_frame" = "Move in Frame";
+"hg_blink" = "Blink!";
+"hg_hold_steady" = "Hold Steady";
+"hg_align_face_and_blink" = "Align face to begin";
+
+/* AcuantIPLiveness */
+"IProov_LanguageFile" = "en";
+"IProov_AppName" = "iProov";
+"IProov_Error" = "Error";
+"IProov_PromptHoldStill" = "Put your face in the oval";
+"IProov_PromptLoading" = "Please wait…";
+"IProov_PromptLoadingSlow" = "Connecting, network is slow…";
+"IProov_PromptConnecting" = "Connecting…";
+"IProov_PromptConnectingSlow" = "Connecting, network is slow…";
+"IProov_PromptTapToBegin" = "Tap the screen to begin";
+"IProov_PromptTooFar" = "Move closer";
+"IProov_PromptTooBright" = "Go somewhere shadier";
+"IProov_ProgressStreaming" = "Streaming…";
+"IProov_ProgressStreamingSlow" = "Streaming, network is slow…";
+"IProov_ProgressProcessing" = "Processing…";
+"IProov_IProovSuccess" = "You have iProoved successfully";
+"IProov_PromptScanning" = "Scanning…";
+"IProov_UnknownError" = "Unknown Error";
+"IProov_StartingDetector" = "Starting detector…";
+"IProov_ErrorSSLException" = "SSL Exception";
+"IProov_ProgressIdentifyingFace" = "Identifying face…";
+"IProov_ProgressConfirmingIdentity" = "Confirming identity…";
+"IProov_ProgressAssessingGenuinePresence" = "Assessing genuine presence…";
+"IProov_ProgressLoading" = "Loading…";
+"IProov_ProgressCreatingIdentity" = "Creating identity…";
+"IProov_ProgressFindingFace" = "Finding face…";
+"IProov_Authenticate" = "Authenticate";
+"IProov_Enrol" = "Enrol";
+"IProov_MessageFormat" = "%@ to %@";
+"IProov_PromptTooClose" = "Too close";
+"IProov_FailureMotionTooMuchMovement" = "Please do not move while iProoving";
+"IProov_FailureLightingFlashReflectionTooLow" = "Ambient light too strong or screen brightness too low";
+"IProov_FailureLightingBacklit" = "Strong light source detected behind you";
+"IProov_FailureLightingTooDark" = "Your environment appears too dark";
+"IProov_FailureLightingFaceTooBright" = "Too much light detected on your face";
+"IProov_FailureMotionTooMuchMouthMovement" = "Please do not talk while iProoving";
+"IProov_MessageFormatWithUsername" = "%@ as %@ to %@";
+"IProov_PromptRollTooHigh" = "Avoid tilting your head";
+"IProov_PromptRollTooLow" = "Avoid tilting your head";
+"IProov_PromptYawTooLow" = "Turn slightly to your right";
+"IProov_PromptYawTooHigh" = "Turn slightly to your left";
+"IProov_PromptPitchTooHigh" = "Hold the device at eye level";
+"IProov_PromptPitchTooLow" = "Hold the device at eye level";
+"IProov_ErrorStreaming" = "Streaming error";
+"IProov_ErrorEncoder" = "Encoder error";
+"IProov_ErrorCamera" = "Camera error";
+"IProov_ErrorCameraPermissionDenied" = "Camera permission denied";
+"IProov_ErrorCameraPermissionDeniedMessageIos" = "Please allow camera access for this app in iOS Settings";
+"IProov_ErrorServerAbort" = "Server abort";
+"IProov_ErrorServer" = "Server error";
+"IProov_ErrorLightingModel" = "Lighting model error";
+"IProov_ErrorEncoderUnknownMessage" = "Unknown encoder error";
+"IProov_ErrorEncoderCodeMessage" = "Error code %@";
+"IProov_ErrorCaptureAlreadyActive" = "An existing capture is already in progress";
+"IProov_PromptGetReady" = "Get ready…";
+"IProov_PromptTooRight" = "Move left";
+"IProov_PromptTooLeft" = "Move right";
+"IProov_PromptTooHigh" = "Move down";
+"IProov_PromptTooLow" = "Move up";
+"IProov_PromptBeginningIn" = "Starting in…";
+"IProov_PromptGrantPermission" = "Grant Camera Access";
+"IProov_PromptGrantPermissionMessage" = "Camera access must be granted to use iProov";
+"IProov_Passed" = "Passed";
+"IProov_Failed" = "Failed";
+"IProov_FailureUserTimeout" = "Sorry, your session has timed out";
+"IProov_FailureNetworkProblem" = "Sorry, network problem";
+"IProov_FailureAmbiguousOutcome" = "Sorry, ambiguous outcome";
+"IProov_ErrorNotSupported" = "Unsupported";
+"IProov_ErrorNotSupportedMessage" = "Your device is not supported";
+"IProov_ErrorFullscreenChange" = "Exited full-screen without completing iProov";
+"IProov_ErrorNoCamera" = "No Camera Detected";
+"IProov_ErrorNoCameraMessage" = "A camera must be available to use iProov";
+"IProov_ErrorCameraPermissionDeniedMessage" = "Permission to access the camera has been denied. Please allow camera access to use iProov. If you have already allowed access, please reload the page.";
+"IProov_ErrorUserTimeout" = "Your session has expired";
+
+// <!-- Interactive Demo Tutorial -->
+"intdemotutorial_step_1_title" = "Become a Citizen of Metropol City";
+"intdemotutorial_step_1_subtitle" = "Metropol city has announced that all residents will be issued with a new digital ID. This forward thinking initiative will give citizens fast and friction-free access to many government and municipal services, making it easier than ever before to take public transport, pay city taxes and vote on local issues, straight from your phone.";
+"intdemotutorial_step_2_title" = "Connect with an\nOrganization";
+"intdemotutorial_step_2_subtitle" = "To obtain your Government ID, follow the steps below:";
+"intdemotutorial_step_2_desc_1" = "Open Atala PRISM on your phone.";
+"intdemotutorial_step_2_desc_2" = "Go to the Notifications Menu\nIcon menu and tap the Scan QR code button.";
+"intdemotutorial_step_2_desc_3" = "Scan the QR code";
+"intdemotutorial_step_3_title" = "Receive\nyour Credential";
+"intdemotutorial_step_3_subtitle" = "Prove your identity in one click and instantly access services everywhere Atala PRISM is suported.";
+
+// <!-- Pay ID Welcome -->
+
+"pay_id_welcome_title" = "Benefits of creating a Pay ID";
+"pay_id_welcome_subtitle" = "A better way to send and receive payments";
+"pay_id_welcome_simple" = "Simple";
+"pay_id_welcome_simple_message" = "Get an easy to remember payment address like your email or phone number";
+"pay_id_welcome_convenient" = "Convenient";
+"pay_id_welcome_convenient_message" = "Attach multiple payment addresses to your Pay ID";
+"pay_id_welcome_secure" = "Secure";
+"pay_id_welcome_secure_message" = "No need to provide financially sensitive information";
+"pay_id_welcome_continue" = "Continue";
+"pay_id_welcome_skip" = "Skip and do later";
+
+// <!-- Pay ID Selector -->
+
+"pay_id_selector_title" = "Select an ID";
+"pay_id_selector_section_0" = "Select an ID Credential";
+"pay_id_selector_section_1" = "Attach other credentials to your Pay ID (optional)";
+"pay_id_selector_verify_title" = "Verify your Identity";
+"pay_id_selector_verify_subtitle" = "KYC Credential";
+"pay_id_selector_gov_title" = "Government ID";
+"pay_id_selector_gov_subtitle" = "Metropol City Government";
+"pay_id_selector_transcript_title" = "Transcript";
+"pay_id_selector_transcript_subtitle" = "Art School";
+"pay_id_selector_university_title" = "University Degree";
+"pay_id_selector_university_subtitle" = "University of Innovation and Technology";
+"pay_id_selector_empty" = "You don’t have ID Credentials yet";
+"pay_id_selector_emptybttn" = "Obtain a verified ID Credential";
+"pay_id_selector_step" = "Step 1";
+
+// <!-- Pay ID Setup -->
+
+"pay_id_setup_title" = "Set up your Pay ID";
+"pay_id_setup_name_field" = "ENTER PAY ID NAME";
+"pay_id_setup_name_field_right" = "$atalamirror.io";
+"pay_id_setup_name_field_tip" = "* Maximum Length 50 characters.\n* Valid characters include ‘A-Z','a-z' '0-9' '-' '.' '_'  ";
+"pay_id_setup_name_field_available" = "Check your Pay ID is correct. You will not be able to update it once accepted";
+"pay_id_setup_name_field_unavailable" = "Pay ID Name not available";
+"pay_id_setup_name_field_invalid" = "Valid characters include 'A-Z' 'a-z' '0-9' '-' '.' '_'";
+"pay_id_setup_subtitle" = "Link your Pay ID to a Wallet or Specific Address";
+"pay_id_setup_scan_field" = "Add or scan address";
+"pay_id_setup_scan_field_tip" = "* Scan QR code of an address\n* Paste an address\n* Scan the extended public key from your wallet. All the addresses in your wallet will be added.";
+"pay_id_setup_step_2" = "Step 2";
+"pay_id_setup_step_3" = "Step 3";
+
+// <!-- Pay ID Alert -->
+
+"pay_id_success_title" = "Your PAY ID was";
+"pay_id_create_success_message" = "created successfully";
+"pay_id_share_success_message" = "shared successfully";
+"pay_id_add_address_title" = "Address(es)";
+"pay_id_add_address_message" = "added successfully";
+
+// <!-- Pay ID Info -->
+
+"pay_id_info_title" = "Pay ID Information";
+"pay_id_info_subtitle" = "Share your Pay ID, add or scan address";
+"pay_id_info_detail_title" = "Pay ID";
+"pay_id_info_detail_name" = "YOUR PAY ID NAME";
+"pay_id_info_detail_address" = "ADDRESS";
+"pay_id_info_detail_key" = "PUBLIC KEY";
+"pay_id_info_detail_key_none" = "No public key added";
+"pay_id_info_detail_add_address" = "New Address";
+"pay_id_info_detail_add_key" = "Add Public Key";
+"pay_id_info_button" = "Register New Pay ID";
+"pay_id_info_delete_error" = "The Pay ID couldn't be deleted";
+
+// <!-- Pay ID Listing -->
+
+"pay_id_listing_address_title" = "Address List";
+"pay_id_listing_key_title" = "Public Key List";
+"pay_id_listing_header_title" = "YOUR PAY ID NAME";
+"pay_id_listing_address_row_title" = "ADDRESS NAME";
+"pay_id_listing_key_row_title" = "PUBLIC KEY NAME";
+
+// <!-- Pay ID QR scan -->
+
+"pay_id_scan_title" = "QR Scan";
+"pay_id_scan_helper" = "Align the QR code\nwithin the frame to scan";
+
