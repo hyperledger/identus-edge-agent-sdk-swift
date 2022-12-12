@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "img_tutorial_step_1.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

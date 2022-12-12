@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "logo_verify_id.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
