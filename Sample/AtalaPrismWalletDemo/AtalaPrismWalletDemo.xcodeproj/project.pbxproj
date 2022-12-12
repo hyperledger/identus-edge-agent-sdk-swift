@@ -53,6 +53,8 @@
 		EE6C393C29468614006CD2D3 /* EmptyNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C393B29468614006CD2D3 /* EmptyNavigationLink.swift */; };
 		EE6C393E2946901D006CD2D3 /* DashboardViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C393D2946901D006CD2D3 /* DashboardViewModelImpl.swift */; };
 		EE6C39402946931E006CD2D3 /* Array+Zipped.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C393F2946931E006CD2D3 /* Array+Zipped.swift */; };
+		EE75A2F729479488007D4405 /* FancyToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE75A2F629479488007D4405 /* FancyToast.swift */; };
+		EE75A2F9294794F9007D4405 /* FancyToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE75A2F8294794F8007D4405 /* FancyToastModifier.swift */; };
 		EEB7D32229420180006E076D /* SetupPrismAgentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB7D32129420180006E076D /* SetupPrismAgentView.swift */; };
 		EEB7D3242942018C006E076D /* SetupPrismAgentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB7D3232942018C006E076D /* SetupPrismAgentViewModel.swift */; };
 		EEE61FBA2937CA280053AE52 /* AtalaPrismWalletDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FB92937CA280053AE52 /* AtalaPrismWalletDemoApp.swift */; };
@@ -108,6 +110,8 @@
 		EE6C393B29468614006CD2D3 /* EmptyNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyNavigationLink.swift; sourceTree = "<group>"; };
 		EE6C393D2946901D006CD2D3 /* DashboardViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelImpl.swift; sourceTree = "<group>"; };
 		EE6C393F2946931E006CD2D3 /* Array+Zipped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Zipped.swift"; sourceTree = "<group>"; };
+		EE75A2F629479488007D4405 /* FancyToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyToast.swift; sourceTree = "<group>"; };
+		EE75A2F8294794F8007D4405 /* FancyToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyToastModifier.swift; sourceTree = "<group>"; };
 		EEB7D32129420180006E076D /* SetupPrismAgentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupPrismAgentView.swift; sourceTree = "<group>"; };
 		EEB7D3232942018C006E076D /* SetupPrismAgentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupPrismAgentViewModel.swift; sourceTree = "<group>"; };
 		EEE61FB62937CA280053AE52 /* AtalaPrismWalletDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AtalaPrismWalletDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,7 +184,6 @@
 				EE6C390D2946851D006CD2D3 /* QRCodeScanner */,
 				EE6C38E629462A60006CD2D3 /* Dashboard */,
 				EE6C38D82946264C006CD2D3 /* UIHelper */,
-				EE6C38D52946259E006CD2D3 /* Profile */,
 				EE6C38D0294624FD006CD2D3 /* Main */,
 			);
 			path = WalletDemo;
@@ -193,13 +196,6 @@
 				EE6C38D329462522006CD2D3 /* MainViewRouter.swift */,
 			);
 			path = Main;
-			sourceTree = "<group>";
-		};
-		EE6C38D52946259E006CD2D3 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Profile;
 			sourceTree = "<group>";
 		};
 		EE6C38D82946264C006CD2D3 /* UIHelper */ = {
@@ -376,6 +372,8 @@
 				EE6C39062946834F006CD2D3 /* RootPresentationMode.swift */,
 				EE6C393B29468614006CD2D3 /* EmptyNavigationLink.swift */,
 				EE6C393F2946931E006CD2D3 /* Array+Zipped.swift */,
+				EE75A2F629479488007D4405 /* FancyToast.swift */,
+				EE75A2F8294794F8007D4405 /* FancyToastModifier.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -502,9 +500,11 @@
 				EEE61FDD2937CD7A0053AE52 /* SeedFuncionalitiesView.swift in Sources */,
 				EE6C38EE29467A9D006CD2D3 /* DisablePreferenceKey.swift in Sources */,
 				EE6C38E829462A6F006CD2D3 /* DashboardTabViewController.swift in Sources */,
+				EE75A2F9294794F9007D4405 /* FancyToastModifier.swift in Sources */,
 				EE6C393529468533006CD2D3 /* HomeView.swift in Sources */,
 				EE6C38EC29467A7A006CD2D3 /* ClearFullCoverModifier.swift in Sources */,
 				EE6C38D429462522006CD2D3 /* MainViewRouter.swift in Sources */,
+				EE75A2F729479488007D4405 /* FancyToast.swift in Sources */,
 				EE6C39162946851D006CD2D3 /* CameraViewController.swift in Sources */,
 				EE6C393C29468614006CD2D3 /* EmptyNavigationLink.swift in Sources */,
 				EE6C39012946827B006CD2D3 /* ComponentContainer.swift in Sources */,
@@ -662,6 +662,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AtalaPrismWalletDemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = NSCameraUsageDescription;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -692,6 +693,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AtalaPrismWalletDemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = NSCameraUsageDescription;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -5,6 +5,7 @@ import Foundation
 
 final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewModel {
 
+    @Published var oobUrl: String = ""
     @Published var status: String = ""
     @Published var error: String?
 
@@ -46,10 +47,8 @@ final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewM
     }
 
     func parseOOBMessage() async throws {
-        let url = "https://domain.com/path?_oob=eyJpZCI6IjhkYzY3MTRjLTJiNmEtNGZkOS1iYzg3LWJiODhlYTk1NmFiNyIsInR5cGUiOiJodHRwczovL2RpZGNvbW0ub3JnL291dC1vZi1iYW5kLzIuMC9pbnZpdGF0aW9uIiwiZnJvbSI6ImRpZDpwZWVyOjIuRXo2TFNxQWlIZWRIRmZiZW14UnpyUjV0ZTQ2VUdzdHhkcW0yMXpFelVjd3dGaVhwcC5WejZNa2ljRWh6NHRoQlZMWVRlc3VEWkJOOTdLRTdoTHdYRVR0UWppajJrcWl3N3Q0LlNleUowSWpvaVpHMGlMQ0p6SWpvaWFIUjBjRG92TDJodmMzUXVaRzlqYTJWeUxtbHVkR1Z5Ym1Gc09qZ3dPREF2Wkdsa1kyOXRiU0lzSW5JaU9sdGRMQ0poSWpwYkltUnBaR052YlcwdmRqSWlYWDAiLCJib2R5Ijp7ImdvYWxfY29kZSI6ImNvbm5lY3QiLCJnb2FsIjoiRXN0YWJsaXNoIGEgdHJ1c3QgY29ubmVjdGlvbiBiZXR3ZWVuIHR3byBwZWVycyIsImFjY2VwdCI6W119fQ=="
-
         do {
-            let message = try await agent.parseOOBInvitation(url: url)
+            let message = try await agent.parseOOBInvitation(url: oobUrl)
             try await agent.acceptDIDCommInvitation(invitation: message)
         } catch let error as MercuryError {
             switch error {
@@ -61,14 +60,14 @@ final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewM
         }
     }
 
-    func startMessageStream() async throws {
+    func startMessageStream() {
         agent.startFetchingMessages()
         agent.handleMessagesEvents().sink {
             switch $0 {
             case .finished:
                 print("Finished message retrieval")
             case .failure(let error):
-                print(error.localizedDescription)
+                self.error = error.localizedDescription
             }
         } receiveValue: {
             print("Received message: \($0.id)")

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "img_logo_horizontal_white.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

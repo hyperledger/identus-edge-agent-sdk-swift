@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ico_share_black.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
