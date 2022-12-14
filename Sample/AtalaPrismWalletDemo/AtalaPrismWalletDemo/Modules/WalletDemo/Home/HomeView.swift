@@ -41,6 +41,7 @@ struct HomeView<ViewModel: HomeViewModel, Router: HomeRouter>: View {
                     }
                 }
             }
+            .background(Color.white)
             .edgesIgnoringSafeArea(.top)
             .navigationBarHidden(true)
         }

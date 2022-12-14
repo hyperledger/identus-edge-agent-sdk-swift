@@ -33,12 +33,7 @@ struct DashboardRouterImpl: DashboardRouter {
     }
 
     private func makeCredentialsVC() -> UIViewController {
-//        let viewController = CredentialsListBuilder().build(component: .init(
-//            credentialsRepository: IntegrationStore.shared.credentialsRepository,
-//            contactsRepository: IntegrationStore.shared.contactsRepository
-//        ))
-
-        let viewController = UIViewController()
+        let viewController = CredentialsListBuilder().build(component: .init(container: container))
 
         viewController.tabBarItem = UITabBarItem(
             title: "tab_credentials".localize(),
@@ -68,7 +63,7 @@ struct DashboardRouterImpl: DashboardRouter {
 
     private func makeHomeVC() -> UIViewController {
         let viewController = HomeBuilder().buildVC(component: .init(
-            agent: agent
+            container: container
         ))
 
         viewController.tabBarItem = UITabBarItem(title: nil, image: nil, tag: 2)

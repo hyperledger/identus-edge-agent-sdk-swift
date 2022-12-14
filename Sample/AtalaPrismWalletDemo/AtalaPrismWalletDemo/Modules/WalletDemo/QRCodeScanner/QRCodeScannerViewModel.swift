@@ -20,6 +20,7 @@ final class QRCodeScannerViewModelImpl: QRCodeScannerViewModel {
     func qrCodeFound(_ qrCode: String) {
         guard !showInfo, !dismiss else { return }
         token = qrCode
+        self.showInfo = true
         Task {
             do {
                 let parsedInvitation = try await agent.parseInvitation(str: qrCode)

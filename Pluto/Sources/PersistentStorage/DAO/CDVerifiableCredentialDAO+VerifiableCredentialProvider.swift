@@ -14,6 +14,12 @@ extension CDVerifiableCredentialDAO: VerifiableCredentialProvider {
             .tryMap { try $0?.toDomain() }
             .eraseToAnyPublisher()
     }
+
+    func getBySchema(schema: String) -> AnyPublisher<[VerifiableCredential], Error> {
+        fetchByKeyValuePublisher(key: "schemaId", value: schema, context: readContext)
+            .tryMap { try $0.map { try $0.toDomain() } }
+            .eraseToAnyPublisher()
+    }
 }
 
 extension CDVerifiableCredential {

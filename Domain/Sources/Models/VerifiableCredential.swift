@@ -6,8 +6,8 @@ public struct VerifiableCredentialTypeContainer: Codable {
         case type = "@type"
     }
 
-    let id: String
-    let type: String
+    public let id: String
+    public let type: String
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
