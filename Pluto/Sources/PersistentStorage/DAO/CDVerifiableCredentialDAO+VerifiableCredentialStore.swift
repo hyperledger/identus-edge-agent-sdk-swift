@@ -71,6 +71,7 @@ extension CDVerifiableCredential {
         default:
             throw PlutoError.unknownCredentialTypeError
         }
+        self.schemaId = from.credentialSchema?.id
         self.credentialId = from.id
         self.issuanceDate = from.issuanceDate
         self.expirationDate = from.expirationDate

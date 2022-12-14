@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct FuncionalitiesList: View {
+    let mainRouter = MainViewRouterImpl()
     var body: some View {
         NavigationView {
             List {
@@ -11,7 +12,7 @@ struct FuncionalitiesList: View {
                 )
                 NavigationLink("Setup Prism Agent", destination: SetupPrismAgentView(viewModel: SetupPrismAgentViewModelImpl())
                 )
-                NavigationLink("Wallet Demo", destination: MainView(router: MainViewRouterImpl()))
+                NavigationLink("Wallet Demo", destination: MainView(viewModel: MainViewModelImpl(router: mainRouter), router: mainRouter))
             }
         }
     }

@@ -44,6 +44,7 @@
         <attribute name="credentialType" optional="YES" attributeType="String"/>
         <attribute name="expirationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="issuanceDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="schemaId" optional="YES" attributeType="String"/>
         <attribute name="verifiableCredetialJson" attributeType="Binary"/>
         <relationship name="context" toMany="YES" deletionRule="Nullify" destinationEntity="CDVerifiableCredentialContext" inverseName="credentials" inverseEntity="CDVerifiableCredentialContext"/>
         <relationship name="issuer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDID"/>

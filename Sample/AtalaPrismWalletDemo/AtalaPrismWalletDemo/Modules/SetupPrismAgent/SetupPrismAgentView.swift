@@ -88,4 +88,5 @@ private class ViewModel: SetupPrismAgentViewModel {
     func parseOOBMessage() async throws {}
     func updateKeyList() async throws {}
     func startMessageStream() async throws {}
+    func startMessageStream() {}
 }
