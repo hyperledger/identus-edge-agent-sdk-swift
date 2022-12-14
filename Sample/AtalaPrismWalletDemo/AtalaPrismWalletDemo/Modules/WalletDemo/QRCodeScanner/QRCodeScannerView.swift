@@ -10,8 +10,8 @@ protocol QRCodeScannerViewModel: ObservableObject {
 }
 
 protocol QRCodeScannerRouter {
-//    associatedtype AddNewContact: View
-//    func routeToAddNewContact(token: String?) -> AddNewContact
+    associatedtype AddNewContact: View
+    func routeToAddNewContact(token: String?) -> AddNewContact
 }
 
 struct QRCodeScannerView<
@@ -61,17 +61,18 @@ struct QRCodeScannerView<
             .padding(.vertical)
         }
         .preferredColorScheme(.dark)
-//        .clearFullScreenCover(
-//            isPresented: $viewModel.showInfo
-//        ) {
-//            LazyView {
-//                router.routeToAddNewContact(token: viewModel.token)
-//                    .environment(\.rootPresentationMode, $viewModel.dismiss)
-//            }
-//        }
+        .clearFullScreenCover(
+            isPresented: $viewModel.showInfo
+        ) {
+            LazyView {
+                router.routeToAddNewContact(token: viewModel.token)
+                    .environment(\.rootPresentationMode, $viewModel.dismiss)
+            }
+        }
         .onChange(of: viewModel.dismiss, perform: { value in
             if value {
                 self.presentationMode.wrappedValue.dismiss()
+                print("Dismissed")
             }
         })
     }

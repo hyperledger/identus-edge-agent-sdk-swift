@@ -2,13 +2,13 @@ import SwiftUI
 import PrismAgent
 
 struct HomeComponent {
-    let agent: PrismAgent
+    let container: DIContainer
 }
 
 struct HomeBuilder: Builder {
     func build(component: HomeComponent) -> some View {
         let viewModel = HomeViewModelImpl(
-            agent: component.agent
+            agent: component.container.resolve(type: PrismAgent.self)!
         )
 
         return HomeView(viewModel: viewModel, router: HomeRouterImpl())

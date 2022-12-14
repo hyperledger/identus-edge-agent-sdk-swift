@@ -5,6 +5,7 @@ import Foundation
 protocol VerifiableCredentialProvider {
     func getAll() -> AnyPublisher<[VerifiableCredential], Error>
     func getCredential(id: String) -> AnyPublisher<VerifiableCredential?, Error>
+    func getBySchema(schema: String) -> AnyPublisher<[VerifiableCredential], Error>
     // TODO: Other filtering options
 //    func getAllFor(contexts: [String]) -> AnyPublisher<[VerifiableCredential], Error>
 //    func getAllFor(types: [String]) -> AnyPublisher<[VerifiableCredential], Error>

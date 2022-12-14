@@ -7,6 +7,7 @@ extension CDVerifiableCredential {
     }
 
     @NSManaged var credentialType: String
+    @NSManaged var schemaId: String?
     @NSManaged var credentialId: String
     @NSManaged var issuanceDate: Date
     @NSManaged var verifiableCredetialJson: Data
