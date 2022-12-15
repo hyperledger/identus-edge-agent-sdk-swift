@@ -341,4 +341,8 @@ public class PrismAgent {
             .flatMap { $0.publisher }
             .eraseToAnyPublisher()
     }
+
+    public func verifiableCredentials() -> AnyPublisher<[VerifiableCredential], Error> {
+        pluto.getAllCredentials()
+    }
 }
