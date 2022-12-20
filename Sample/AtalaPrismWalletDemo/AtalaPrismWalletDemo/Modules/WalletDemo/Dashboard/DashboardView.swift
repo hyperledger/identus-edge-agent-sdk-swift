@@ -1,10 +1,13 @@
 import SwiftUI
+import PrismAgent
 
 protocol DashboardRouter {
     associatedtype QRCodeScannerV: View
+    associatedtype PresentProofV: View
 
     func tabViews(qrCodeBinding: Binding<Bool>) -> [UIViewController]
     func routeToQRCodeReader() -> QRCodeScannerV
+    func routeToPresentProofOfRequest(request: RequestPresentation) -> PresentProofV
 }
 
 struct DashboardView<ViewModel: DashboardViewModel, Router: DashboardRouter>: View {
@@ -19,16 +22,16 @@ struct DashboardView<ViewModel: DashboardViewModel, Router: DashboardRouter>: Vi
             viewModel: viewModel,
             presentQRCodeScanner: $presentQRCodeScanner
         )
-//        .clearFullScreenCover(isPresented: $presentProofOfRequest, animated: true) {
-//            if let proofOfRequest = self.viewModel.proofOfRequest {
-//                self.router.routeToPresentProofOfRequest(request: proofOfRequest)
-//            }
-//        }
-//        .onChange(of: viewModel.proofOfRequest) { newValue in
-//            if newValue != nil {
-//                self.presentProofOfRequest = true
-//            }
-//        }
+        .clearFullScreenCover(isPresented: $presentProofOfRequest, animated: true) {
+            if let proofOfRequest = self.viewModel.proofOfRequest {
+                self.router.routeToPresentProofOfRequest(request: proofOfRequest)
+            }
+        }
+        .onChange(of: viewModel.proofOfRequest) { newValue in
+            if newValue != nil {
+                self.presentProofOfRequest = true
+            }
+        }
         .edgesIgnoringSafeArea(.all)
         .fullScreenCover(
             isPresented: self.$presentQRCodeScanner,

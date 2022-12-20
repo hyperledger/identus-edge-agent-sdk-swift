@@ -1,4 +1,5 @@
 import Combine
+import Domain
 import Foundation
 import PrismAgent
 
@@ -12,6 +13,7 @@ final class ProofOfRequestViewModelImpl: ProofOfRequestViewModel {
 
     private let proofOfRequest: RequestPresentation
     private let agent: PrismAgent
+    private var selectedCredential: VerifiableCredential?
     private var cancellables = Set<AnyCancellable>()
 
     init(
@@ -23,7 +25,28 @@ final class ProofOfRequestViewModelImpl: ProofOfRequestViewModel {
     }
 
     func viewDidAppear() {
-        bind()
+        contact = .init(text: "Proof request received")
+        agent.verifiableCredentials()
+            .first { !$0.isEmpty }
+            .receive(on: DispatchQueue.main)
+            .map { credentials -> [VerifiableCredential] in
+                self.selectedCredential = credentials.first
+                return credentials
+            }
+            .map { credentials -> [ProofOfRequestState.Credential] in
+                credentials.map {
+                    ProofOfRequestState.Credential(
+                        id: $0.id,
+                        text: $0.credentialSubject.sorted { $0.key < $1.key }.first?.value ?? ""
+                    )
+                }
+            }
+            .replaceError(with: [])
+            .map { credentials -> [ProofOfRequestState.Credential] in
+                self.flowStep = .shareCredentials
+                return credentials
+            }
+            .assign(to: &$credential)
     }
 
     func sendPresentation() {
@@ -32,82 +55,38 @@ final class ProofOfRequestViewModelImpl: ProofOfRequestViewModel {
     }
 
     func share() {
-
+        guard let selectedCredential else { return }
+        loading = true
+        Task {
+            do {
+                try await agent.presentCredentialProof(
+                    request: self.proofOfRequest,
+                    credential: selectedCredential
+                )
+                guard
+                    let index = agent.requestedPresentations
+                        .value
+                        .firstIndex(where: { $0.0.id == proofOfRequest.id })
+                else { return }
+                agent.requestedPresentations.value[index] = (proofOfRequest, true)
+                await MainActor.run {
+                    self.loading = false
+                    self.dismiss = true
+                }
+            } catch {
+                await MainActor.run {
+                    self.loading = false
+                }
+            }
+        }
     }
 
     func confirmDismiss() {
-//        proofOfRequestRepository
-//            .processedProofOfRequest(proofOfRequest)
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] _ in
-//                self?.dismiss = true
-//            } receiveValue: {}
-//            .store(in: &cancellables)
-    }
-
-    private func bind() {
-//        let proofOfRequest = proofOfRequest
-//
-//        contactsRepository
-//            .getAll()
-//            .map { $0.first { $0.token == proofOfRequest.connectionToken } }
-//            .first()
-//            .replaceError(with: nil)
-//            .dropNil()
-//            .map { [weak self] in
-//                self?.contactDomain = $0
-//                return ProofOfRequestState.Contact(
-//                    icon: $0.logo.map { .data($0) } ?? .credential,
-//                    text: $0.name,
-//                    credentialsRequested: mapTypeIDs(proofOfRequest.typeIds)
-//                )
-//            }
-//            .receive(on: DispatchQueue.main)
-//            .assign(to: &$contact)
-//
-//        credentialsRepository
-//            .getAll()
-//            .replaceError(with: [])
-//            .map { $0.filter { proofOfRequest.typeIds.contains($0.type) } }
-//            .first()
-//            .map {
-//                $0.map {
-//                    ProofOfRequestState.Credential(
-//                        id: $0.id,
-//                        text: $0.credentialName
-//                    )
-//                }
-//            }
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] credentials in
-//                self?.credential = credentials
-//                self?.checks = credentials.map { _ in false }
-//                self?.loading = false
-//                self?.flowStep = .shareCredentials
-//            }
-//            .store(in: &cancellables)
-    }
-}
-
-private func mapTypeIDs(
-    _ ids: [String]
-) -> [ProofOfRequestState.RequestedCredentials] {
-    ids.map { mapTypeID($0) }
-}
-
-private func mapTypeID(
-    _ id: String
-) -> ProofOfRequestState.RequestedCredentials {
-    switch id {
-    case "ID Government":
-        return .idCredential
-    case "University Degree":
-        return .universityDegree
-    case "Proof of employment":
-        return .proofOfEmployment
-    case "Insurance Credential":
-        return .insurance
-    default:
-        return .custom(id)
+        guard
+            let index = agent.requestedPresentations
+                .value
+                .firstIndex(where: { $0.0.id == proofOfRequest.id })
+        else { return }
+        agent.requestedPresentations.value[index] = (proofOfRequest, true)
     }
 }

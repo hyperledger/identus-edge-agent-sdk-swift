@@ -1,5 +1,6 @@
 import Domain
 import Foundation
+import SwiftJWT
 
 extension ApolloImpl: Apollo {
     public func createRandomMnemonics() -> [String] {
@@ -94,4 +95,25 @@ returns random mnemonics nerver returns invalid mnemonics
         else { throw CommonError.somethingWentWrongError }
         return jsonString
     }
+
+    public func verifyJWT(jwk: String, publicKey: PublicKey) throws -> String {
+        switch publicKey.curve {
+        case "secp256k1":
+            let verifier = JWTVerifier.es256(publicKey: publicKey.value)
+            let decoder = JWTDecoder.init(jwtVerifier: verifier)
+            let jwt = try decoder.decode(JWT<MyClaims>.self, fromString: jwk)
+            return jwk
+        default:
+            let verifier = JWTVerifier.none
+            let decoder = JWTDecoder.init(jwtVerifier: verifier)
+            let jwt = try decoder.decode(JWT<MyClaims>.self, fromString: jwk)
+            return jwk
+        }
+    }
+}
+
+struct MyClaims: Claims {
+    let iss: String
+    let sub: String
+    let exp: Date
 }

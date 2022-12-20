@@ -19,7 +19,7 @@ final class DIDCommInvitationRunnerTests: XCTestCase {
         let queryString = try await mercury.packMessage(msg: exampleMessage)
         let exampleURL = URL(string: "localhost:8080?_oob=\(queryString)")!
         do {
-            _ = try await DIDCommInvitationRunner(mercury: mercury, url: exampleURL).run()
+            _ = try await DIDCommInvitationRunner(url: exampleURL).run()
             XCTFail("Did not throw error")
         } catch {}
     }

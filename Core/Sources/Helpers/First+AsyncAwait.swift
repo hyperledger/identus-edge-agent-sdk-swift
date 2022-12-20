@@ -12,3 +12,12 @@ public extension Publishers.First where Failure == Error {
         throw Publishers.MissingOutputError()
     }
 }
+
+public extension Publishers.FirstWhere where Failure == Error {
+    func await() async throws -> Output {
+        for try await output in values {
+            return output
+        }
+        throw Publishers.MissingOutputError()
+    }
+}

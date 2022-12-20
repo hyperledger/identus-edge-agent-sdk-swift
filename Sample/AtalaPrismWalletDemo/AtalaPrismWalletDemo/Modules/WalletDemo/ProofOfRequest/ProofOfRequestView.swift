@@ -26,10 +26,37 @@ struct ProofOfRequestView<ViewModel: ProofOfRequestViewModel>: View {
                     .commitDisablePreference()
                     .disabled(true)
             case .shareCredentials:
-                ProofOfRequestCheckView<ViewModel>()
-                    .environmentObject(viewModel)
-                    .commitDisablePreference()
-                    .disabled(viewModel.loading)
+                VStack(spacing: 16) {
+                    Text("Proof Request Received")
+                        .bold()
+                        .foregroundColor(.black)
+                    Text("Credentials Available")
+                        .foregroundColor(Color.black)
+                    if let firstCredential = viewModel.credential.first {
+                        Text(firstCredential.text)
+                            .foregroundColor(Color.black)
+                    }
+
+                    Divider()
+
+                    HStack {
+                        AtalaButton(configuration: .secondary) {
+                            self.presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            Text("cancel".localize())
+                        }
+
+                        AtalaButton(loading: viewModel.loading) {
+                            self.viewModel.share()
+                        } label: {
+                            Text("proof_request_share".localize())
+                        }
+                    }
+                }
+                .padding(24)
+                .environmentObject(viewModel)
+                .commitDisablePreference()
+                .disabled(viewModel.loading)
             case .confirm:
                 VStack(spacing: 20) {
                     Image("img_success")

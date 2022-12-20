@@ -5,7 +5,7 @@ public struct JWTCredentialPayload {
         public let context: Set<String>
         public let type: Set<String>
         public let credentialSchema: VerifiableCredentialTypeContainer?
-        public let credentialSubject: String
+        public let credentialSubject: [String: String]
         public let credentialStatus: VerifiableCredentialTypeContainer?
         public let refreshService: VerifiableCredentialTypeContainer?
         public let evidence: VerifiableCredentialTypeContainer?
@@ -15,7 +15,7 @@ public struct JWTCredentialPayload {
             context: Set<String> = Set(),
             type: Set<String> = Set(),
             credentialSchema: VerifiableCredentialTypeContainer? = nil,
-            credentialSubject: String,
+            credentialSubject: [String: String],
             credentialStatus: VerifiableCredentialTypeContainer? = nil,
             refreshService: VerifiableCredentialTypeContainer? = nil,
             evidence: VerifiableCredentialTypeContainer? = nil,
@@ -67,7 +67,7 @@ extension JWTCredentialPayload: VerifiableCredential {
     public var issuanceDate: Date { nbf }
     public var expirationDate: Date? { exp }
     public var credentialSchema: VerifiableCredentialTypeContainer? { verifiableCredential.credentialSchema }
-    public var credentialSubject: String { verifiableCredential.credentialSubject }
+    public var credentialSubject: [String: String] { verifiableCredential.credentialSubject }
     public var credentialStatus: VerifiableCredentialTypeContainer? { verifiableCredential.credentialStatus }
     public var refreshService: VerifiableCredentialTypeContainer? { verifiableCredential.refreshService }
     public var evidence: Domain.VerifiableCredentialTypeContainer? { verifiableCredential.evidence }

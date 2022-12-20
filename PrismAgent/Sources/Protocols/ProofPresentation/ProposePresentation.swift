@@ -6,16 +6,16 @@ public struct ProposePresentation {
     struct Body: Codable, Equatable {
         let goalCode: String?
         let comment: String?
-        let formats: [PresentationFormat]
+        let proofTypes: [ProofTypes]
 
         init(
             goalCode: String? = nil,
             comment: String? = nil,
-            formats: [PresentationFormat]
+            proofTypes: [ProofTypes]
         ) {
             self.goalCode = goalCode
             self.comment = comment
-            self.formats = formats
+            self.proofTypes = proofTypes
         }
     }
     public let id: String
@@ -79,7 +79,7 @@ public struct ProposePresentation {
             body: Body(
                 goalCode: request.body.goalCode,
                 comment: request.body.comment,
-                formats: request.body.formats
+                proofTypes: request.body.proofTypes
             ),
             attachments: request.attachments,
             thid: msg.id,

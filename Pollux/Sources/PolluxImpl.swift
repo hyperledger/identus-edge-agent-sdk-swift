@@ -3,7 +3,7 @@ import Domain
 public struct PolluxImpl {
     let castor: Castor
 
-    init(castor: Castor) {
+    public init(castor: Castor) {
         self.castor = castor
     }
 }

@@ -3,31 +3,28 @@ import Domain
 import Foundation
 
 public struct RequestPresentation {
-    struct Body: Codable, Equatable {
+    public struct Body: Codable, Equatable {
         let goalCode: String?
         let comment: String?
         let willConfirm: Bool?
-        let presentMultiple: Bool?
-        let formats: [PresentationFormat]
+        let proofTypes: [ProofTypes]
 
         init(
             goalCode: String? = nil,
             comment: String? = nil,
             willConfirm: Bool? = false,
-            presentMultiple: Bool? = false,
-            formats: [PresentationFormat]
+            proofTypes: [ProofTypes]
         ) {
             self.goalCode = goalCode
             self.comment = comment
             self.willConfirm = willConfirm
-            self.presentMultiple = presentMultiple
-            self.formats = formats
+            self.proofTypes = proofTypes
         }
     }
     public let id: String
     public let type = ProtocolTypes.didcommRequestCredential.rawValue
-    let body: Body
-    let attachments: [AttachmentDescriptor]
+    public let body: Body
+    public let attachments: [AttachmentDescriptor]
     public let thid: String?
     public let from: DID
     public let to: DID
@@ -50,7 +47,7 @@ public struct RequestPresentation {
 
     public init(fromMessage: Message) throws {
         guard
-            fromMessage.piuri == ProtocolTypes.didcommRequestCredential.rawValue,
+            fromMessage.piuri == ProtocolTypes.didcommRequestPresentation.rawValue,
             let fromDID = fromMessage.from,
             let toDID = fromMessage.to
         else { throw PrismAgentError.invalidRequestPresentationMessageError }
@@ -86,8 +83,7 @@ public struct RequestPresentation {
                 goalCode: request.body.goalCode,
                 comment: request.body.comment,
                 willConfirm: false,
-                presentMultiple: false,
-                formats: request.body.formats
+                proofTypes: request.body.proofTypes
             ),
             attachments: request.attachments,
             thid: msg.id,

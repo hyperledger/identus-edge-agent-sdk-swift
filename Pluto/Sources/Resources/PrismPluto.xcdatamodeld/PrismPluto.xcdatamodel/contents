@@ -18,6 +18,15 @@
         <attribute name="privateKeyKeyAgreement" optional="YES" attributeType="Binary"/>
         <relationship name="pair" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPair" inverseName="holderDID" inverseEntity="CDDIDPair"/>
     </entity>
+    <entity name="CDIssueCredentialProtocol" representedClassName="CDIssueCredentialProtocol" syncable="YES">
+        <attribute name="protocolId" optional="YES" attributeType="String"/>
+        <attribute name="threadId" optional="YES" attributeType="String"/>
+        <relationship name="credential" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDVerifiableCredential"/>
+        <relationship name="issue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="offer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="propose" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="request" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+    </entity>
     <entity name="CDMediatorDID" representedClassName="CDMediatorDID" syncable="YES">
         <attribute name="mediatorId" optional="YES" attributeType="String"/>
         <relationship name="mediatorDID" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDID"/>
@@ -34,6 +43,13 @@
         <attribute name="to" optional="YES" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
         <relationship name="pair" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPair" inverseName="messages" inverseEntity="CDDIDPair"/>
+    </entity>
+    <entity name="CDProofProtocol" representedClassName="CDProofProtocol" syncable="YES">
+        <attribute name="protocolId" optional="YES" attributeType="String"/>
+        <attribute name="threadId" optional="YES" attributeType="String"/>
+        <relationship name="presentation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="propose" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="request" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
     </entity>
     <entity name="CDRegisteredDID" representedClassName="CDRegisteredDID" parentEntity="CDDID" syncable="YES">
         <attribute name="alias" optional="YES" attributeType="String"/>

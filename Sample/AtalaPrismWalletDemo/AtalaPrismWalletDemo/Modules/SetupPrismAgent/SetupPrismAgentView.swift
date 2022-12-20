@@ -8,6 +8,7 @@ protocol SetupPrismAgentViewModel: ObservableObject {
     func parseOOBMessage() async throws
     func updateKeyList() async throws
     func startMessageStream()
+    func startIssueCredentialProtocol() async throws
 }
 
 struct SetupPrismAgentView<ViewModel: SetupPrismAgentViewModel>: View {
@@ -66,6 +67,17 @@ struct SetupPrismAgentView<ViewModel: SetupPrismAgentViewModel>: View {
             .tint(.white)
             .clipShape(Capsule(style: .continuous))
 
+            Button("Start issue credential protocol") {
+                Task {
+                    try await viewModel.startIssueCredentialProtocol()
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.red)
+            .tint(.white)
+            .clipShape(Capsule(style: .continuous))
+
             if let error = viewModel.error {
                 Text("Error").foregroundColor(.red)
                 Text(error)
@@ -81,6 +93,8 @@ struct SetupPrismAgentView_Previews: PreviewProvider {
 }
 
 private class ViewModel: SetupPrismAgentViewModel {
+    func startIssueCredentialProtocol() async throws {}
+
     var oobUrl: String = ""
     var status: String = ""
     var error: String?

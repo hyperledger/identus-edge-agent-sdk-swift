@@ -72,7 +72,7 @@ struct CredentialsListView<
                     }
                 }
                 .navigationBarItems(
-                    leading: Text("credentials_nav_title".localize()),
+                    leading: Text("credentials_nav_title".localize()).foregroundColor(.black),
                     trailing: navigationButtons
                 )
                 .configureNavigationBar {
@@ -89,6 +89,7 @@ struct CredentialsListView<
             ) {
                 self.router.routeToInsertToken()
             }
+            .background(Color.white)
         }
     }
 
