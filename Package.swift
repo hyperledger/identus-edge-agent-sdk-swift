@@ -55,7 +55,8 @@ let package = Package(
         .package(url: "https://github.com/antlr/antlr4", branch: "master"),
         .package(url: "https://github.com/input-output-hk/atala-prism-didcomm-swift", from: "0.3.4"),
         .package(url: "https://github.com/input-output-hk/atala-prism-crypto-sdk-sp", from: "1.4.1"),
-        .package(url: "https://github.com/swift-libp2p/swift-multibase", branch: "main")
+        .package(url: "https://github.com/swift-libp2p/swift-multibase", branch: "main"),
+        .package(url:"https://github.com/IBM-Swift/Swift-JWT", from: "4.0.0")
     ],
     targets: [
         .target(
@@ -72,7 +73,8 @@ let package = Package(
             dependencies: [
                 "Domain",
                 "Core",
-                .product(name: "PrismAPI", package: "atala-prism-crypto-sdk-sp")
+                .product(name: "PrismAPI", package: "atala-prism-crypto-sdk-sp"),
+                .product(name: "SwiftJWT", package: "Swift-JWT")
             ],
             path: "Apollo/Sources"
         ),

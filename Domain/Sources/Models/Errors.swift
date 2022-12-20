@@ -46,4 +46,5 @@ public enum PlutoError: Error {
 
 public enum PolluxError: Error {
     case invalidCredentialError
+    case invalidJWTString
 }

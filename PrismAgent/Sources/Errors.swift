@@ -20,4 +20,5 @@ public enum PrismAgentError: Error {
     case invalidMediationGrantMessageError
     case noMediatorAvailableError
     case mediationRequestFailedError
+    case invalidStepError
 }

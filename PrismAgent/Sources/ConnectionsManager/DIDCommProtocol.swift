@@ -1,7 +1,7 @@
 import Domain
 import Foundation
 
-protocol DIDCommConnection {
+public protocol DIDCommConnection {
     func awaitMessages() async throws -> [Message]
     func awaitMessageResponse(id: String) async throws -> Message?
     @discardableResult

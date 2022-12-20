@@ -2,6 +2,7 @@ import Builders
 import Combine
 import Domain
 import Foundation
+import Core
 
 public class PrismAgent {
     public enum State: String {
@@ -31,9 +32,11 @@ public class PrismAgent {
 
     private static let prismMediatorEndpoint = DID(method: "peer", methodId: "other")
 
+    private let logger = PrismLogger(category: .prismAgent)
     private let apollo: Apollo
     private let castor: Castor
     private let pluto: Pluto
+    private let pollux: Pollux
     private let mercury: Mercury
     private let mediatorServiceEnpoint: DID
 
@@ -44,6 +47,8 @@ public class PrismAgent {
 
     public let seed: Seed
 
+    public private(set) var requestedPresentations: CurrentValueSubject<[(RequestPresentation, Bool)], Never> = .init([])
+
     public var mediatorRoutingDID: DID? {
         connectionManager.mediator?.routingDID
     }
@@ -52,6 +57,7 @@ public class PrismAgent {
         apollo: Apollo,
         castor: Castor,
         pluto: Pluto,
+        pollux: Pollux,
         mercury: Mercury,
         seed: Seed? = nil,
         mediatorServiceEnpoint: DID? = nil
@@ -59,6 +65,7 @@ public class PrismAgent {
         self.apollo = apollo
         self.castor = castor
         self.pluto = pluto
+        self.pollux = pollux
         self.mercury = mercury
         self.seed = seed ?? apollo.createRandomSeed().seed
         self.mediatorServiceEnpoint = mediatorServiceEnpoint ?? Self.prismMediatorEndpoint
@@ -74,11 +81,13 @@ public class PrismAgent {
         let apollo = ApolloBuilder().build()
         let castor = CastorBuilder(apollo: apollo).build()
         let pluto = PlutoBuilder().build()
+        let pollux = PolluxBuilder(castor: castor).build()
         let seed = seedData.map { Seed(value: $0) } ?? apollo.createRandomSeed().seed
         self.init(
             apollo: apollo,
             castor: castor,
             pluto: pluto,
+            pollux: pollux,
             mercury: MercuryBuilder(
                 apollo: apollo,
                 castor: castor,
@@ -109,6 +118,9 @@ public class PrismAgent {
             )
         }
         state = .running
+        logger.info(message: "Mediation Achieved", metadata: [
+            .publicMetadata(key: "Routing DID", value: mediatorRoutingDID?.string ?? "")
+        ])
     }
 
     public func stop() async throws {
@@ -152,7 +164,7 @@ public class PrismAgent {
     public func parseInvitation(str: String) async throws -> InvitationType {
         if let prismOnboarding = try? await parsePrismInvitation(str: str) {
             return .onboardingPrism(prismOnboarding)
-        } else if let message = try? await parseOOBInvitation(url: str) {
+        } else if let message = try? parseOOBInvitation(url: str) {
             return .onboardingDIDComm(message)
         }
         throw PrismAgentError.unknownInvitationTypeError
@@ -160,53 +172,65 @@ public class PrismAgent {
 
     public func parsePrismInvitation(str: String) async throws -> InvitationType.PrismOnboarding {
         let prismOnboarding = try PrismOnboardingInvitation(jsonString: str)
+//        guard let mediatorRoutingDID else { throw PrismAgentError.noMediatorAvailableError }
         guard
             let url = URL(string: prismOnboarding.body.onboardEndpoint)
         else { throw PrismAgentError.invalidURLError }
 
-        let did = try await self.createNewPeerDID(
+        let ownDID = try await createNewPeerDID(
             services: [.init(
                 id: "#didcomm-1",
                 type: ["DIDCommMessaging"],
-                serviceEndpoint:.init(uri: mediatorServiceEnpoint.string))
+                serviceEndpoint: .init(
+                    uri: "https://localhost:8080/didcomm"
+                ))
             ],
-            updateMediator: true
+            updateMediator: false
         )
 
         return .init(
             from: prismOnboarding.body.from,
             endpoint: url,
-            ownDID: did
+            ownDID: ownDID
         )
     }
 
-    public func parseOOBInvitation(url: String) async throws -> OutOfBandInvitation {
+    public func parseOOBInvitation(url: String) throws -> OutOfBandInvitation {
         guard let url = URL(string: url) else { throw PrismAgentError.invalidURLError }
-        return try await parseOOBInvitation(url: url)
+        return try parseOOBInvitation(url: url)
     }
 
-    public func parseOOBInvitation(url: URL) async throws -> OutOfBandInvitation {
-        return try await DIDCommInvitationRunner(
-            mercury: mercury,
-            url: url
-        ).run()
+    public func parseOOBInvitation(url: URL) throws -> OutOfBandInvitation {
+        return try DIDCommInvitationRunner(url: url).run()
     }
 
     public func acceptDIDCommInvitation(invitation: OutOfBandInvitation) async throws {
+        guard let mediatorRoutingDID else { throw PrismAgentError.noMediatorAvailableError }
+        logger.info(message: "Start accept DIDComm invitation")
         let ownDID = try await createNewPeerDID(
             services: [.init(
                 id: "#didcomm-1",
                 type: ["DIDCommMessaging"],
-                serviceEndpoint:.init(uri: mediatorServiceEnpoint.string))
+                serviceEndpoint: .init(
+                    uri: mediatorRoutingDID.string
+                ))
             ],
             updateMediator: true
         )
+
+        logger.info(message: "Created DID", metadata: [
+            .publicMetadata(key: "DID", value: ownDID.string)
+        ])
+
         let pair = try await DIDCommConnectionRunner(
             invitationMessage: invitation,
+            pluto: pluto,
             ownDID: ownDID,
             connection: connectionManager
         ).run()
+        issueCredentialProtocol()
         try await connectionManager.addConnection(pair)
+
     }
 
     public func acceptPrismInvitation(invitation: InvitationType.PrismOnboarding) async throws {
@@ -323,10 +347,11 @@ public class PrismAgent {
 
     public func startFetchingMessages() {
         // TODO: This needs to be better thought for sure it cannot be left like this
+        guard messagesStreamTask == nil else { return }
         let manager = connectionManager
         messagesStreamTask = Task {
             while true {
-                _ = try await manager.awaitMessages()
+                _ = try? await manager.awaitMessages()
                 sleep(5)
             }
         }
@@ -342,7 +367,93 @@ public class PrismAgent {
             .eraseToAnyPublisher()
     }
 
+    public func handleReceivedMessagesEvents() -> AnyPublisher<Message, Error> {
+        let pollux = self.pollux
+        let pluto = self.pluto
+        return pluto.getAllMessagesReceived()
+            .flatMap { $0.publisher }
+            .flatMap { message -> AnyPublisher<Message, Error> in
+                if let issueCredential = try? IssueCredential(fromMessage: message) {
+                    let credentials = try? issueCredential.getCredentialStrings().map {
+                        try pollux.parseVerifiableCredential(jwtString: $0)
+                    }
+                    guard let credential = credentials?.first else {
+                        return Just(message)
+                            .tryMap { $0 }
+                            .eraseToAnyPublisher()
+                    }
+                    return pluto
+                        .storeCredential(credential: credential)
+                        .map { message }
+                        .eraseToAnyPublisher()
+                }
+                return Just(message)
+                    .tryMap { $0 }
+                    .eraseToAnyPublisher()
+            }
+            .flatMap { [weak self] message -> AnyPublisher<Message, Error> in
+                if
+                    let self,
+                    let request = try? RequestPresentation(fromMessage: message),
+                    !self.requestedPresentations.value.contains(where: { $0.0.id == request.id })
+                {
+                    self.requestedPresentations.value = self.requestedPresentations.value + [(request, false)]
+                }
+                return Just(message)
+                    .tryMap { $0 }
+                    .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
+
+    public func presentCredentialProof(
+        request: RequestPresentation,
+        credential: VerifiableCredential
+    ) async throws {
+        guard let jwtBase64 = credential.id.data(using: .utf8)?.base64UrlEncodedString() else {
+            throw PrismAgentError.invalidRequestPresentationMessageError
+        }
+        print(credential.id)
+        let presentation = Presentation(
+            body: .init(goalCode: request.body.goalCode, comment: request.body.comment),
+            attachments: [try .build(
+                payload: AttachmentBase64(base64: jwtBase64),
+                mediaType: "prism/jwt"
+            )],
+            thid: request.id,
+            from: request.to,
+            to: request.from
+        )
+        _ = try await connectionManager.sendMessage(presentation.makeMessage())
+    }
+
     public func verifiableCredentials() -> AnyPublisher<[VerifiableCredential], Error> {
         pluto.getAllCredentials()
+    }
+
+    public func issueCredentialProtocol() {
+        startFetchingMessages()
+        Task {
+            do {
+                for try await offer in handleReceivedMessagesEvents()
+                    .drop(while:{ (try? OfferCredential(fromMessage: $0)) != nil })
+                    .values
+                {
+                    if let issueProtocol = try? IssueCredentialProtocol(offer, connector: connectionManager) {
+                        try? await issueProtocol.nextStage()
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
+
+extension DID {
+    func getMethodIdKeyAgreement() -> String {
+        var str = methodId.components(separatedBy: ".")[1]
+        str.removeFirst()
+        return str
     }
 }

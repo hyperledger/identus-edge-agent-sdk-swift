@@ -11,7 +11,7 @@ public struct MercuryImpl {
 
     public init(
         session: URLSession = .shared,
-        timeout: TimeInterval = 30,
+        timeout: TimeInterval = 999,
         apollo: Apollo,
         castor: Castor,
         pluto: Pluto

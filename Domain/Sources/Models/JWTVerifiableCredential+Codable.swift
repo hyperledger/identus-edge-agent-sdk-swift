@@ -14,7 +14,7 @@ extension JWTCredentialPayload.JWTVerfiableCredential: Codable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.context, forKey: .context)
+        try? container.encode(self.context, forKey: .context)
         if self.type.count != 1 {
             try container.encode(self.type, forKey: .type)
         } else if let value = self.type.first {
@@ -30,14 +30,14 @@ extension JWTCredentialPayload.JWTVerfiableCredential: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let context = try container.decode(Set<String>.self, forKey: .context)
+        let context = (try? container.decode(Set<String>.self, forKey: .context)) ?? Set<String>()
         let type: Set<String>
         if let value = try? container.decode(String.self, forKey: .type) {
             type = Set([value])
         } else {
-            type = try container.decode(Set<String>.self, forKey: .type)
+            type = (try? container.decode(Set<String>.self, forKey: .type)) ?? Set<String>()
         }
-        let credentialSubject = try container.decode(String.self, forKey: .credentialSubject)
+        let credentialSubject = try container.decode([String: String].self, forKey: .credentialSubject)
         let credentialStatus = try? container.decode(
             VerifiableCredentialTypeContainer.self,
             forKey: .credentialStatus
@@ -107,10 +107,10 @@ extension JWTCredentialPayload: Codable {
             Date.self,
             forKey: .exp
         )
-        let jti = try container.decode(
+        let jti = (try? container.decode(
             String.self,
             forKey: .jti
-        )
+        )) ?? ""
         let aud = (try? container.decode(
             Set<String>.self,
             forKey: .aud

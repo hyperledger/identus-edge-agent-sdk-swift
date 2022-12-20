@@ -18,10 +18,20 @@ final class CredentialsListViewModelImpl: CredentialsListViewModel {
 
     private func bind() {
         agent.verifiableCredentials()
-            .map { $0.map { mapCredentialType($0) }.sorted { $0.id < $1.id } }
+            .map {
+                $0.map { mapCredentialType($0) }.sorted { $0.id < $1.id }
+            }
             .replaceError(with: [])
             .receive(on: DispatchQueue.main)
             .assign(to: &$credentials)
+
+        $credentials
+            .map { $0.isEmpty }
+            .assign(to: &$showEmptyList)
+
+        agent.handleReceivedMessagesEvents()
+            .sink { _ in } receiveValue: { _ in}
+            .store(in: &cancellables)
     }
 }
 
@@ -31,7 +41,7 @@ private func mapCredentialType(
     .init(
         id: credential.id,
         icon: .name(""),
-        title: credential.credentialSchema?.type ?? "",
-        subtitle: credential.type.joined(separator: " ")
+        title: credential.credentialSubject.sorted { $0.key < $1.key }.first?.value ?? "",
+        subtitle: credential.credentialSubject.sorted { $0.key < $1.key }.last?.value ?? ""
     )
 }

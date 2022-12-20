@@ -62,11 +62,12 @@ final class PeerDIDCreationTests: XCTestCase {
         let mypeerDID = DID(
             schema: "did",
             method: "peer",
-            methodId: "2.Ez6LSfuJvTtcmcFrjNYYSAuD32tMZWQUD2HYDfXrJqy3ui6MQ.Vz6MkoPyvuxAecSezqmL4ERE7eW2XPbiUEHRH9aqay6LA8Eqr.SeyJ0IjoiZG0iLCJzIjoiaHR0cDovL2hvc3QuZG9ja2VyLmludGVybmFsOjgwL2RpZGNvbW0vIiwiciI6W10sImEiOlsiZGlkY29tbS92MiJdfQ"
+            methodId: "2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOiJodHRwczovL21lZGlhdG9yLnJvb3RzaWQuY2xvdWQiLCJhIjpbImRpZGNvbW0vdjIiXX0"
         )
 
         let apollo = ApolloImpl()
         let castor = CastorImpl(apollo: apollo)
         let document = try await castor.resolveDID(did: mypeerDID)
+        print(document)
     }
 }
