@@ -37,5 +37,5 @@ public enum LogComponent: String {
     case mercury
     case pluto
     case pollux
-    case experiences
+    case prismAgent
 }

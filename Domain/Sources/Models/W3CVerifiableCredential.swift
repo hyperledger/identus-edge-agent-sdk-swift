@@ -9,7 +9,7 @@ public struct W3CVerifiableCredential: VerifiableCredential {
     public let issuanceDate: Date
     public let expirationDate: Date?
     public let credentialSchema: VerifiableCredentialTypeContainer?
-    public let credentialSubject: String
+    public let credentialSubject: [String: String]
     public let credentialStatus: VerifiableCredentialTypeContainer?
     public let refreshService: VerifiableCredentialTypeContainer?
     public let evidence: VerifiableCredentialTypeContainer?
@@ -27,7 +27,7 @@ public struct W3CVerifiableCredential: VerifiableCredential {
         issuanceDate: Date,
         expirationDate: Date? = nil,
         credentialSchema: VerifiableCredentialTypeContainer? = nil,
-        credentialSubject: String,
+        credentialSubject: [String: String],
         credentialStatus: VerifiableCredentialTypeContainer? = nil,
         refreshService: VerifiableCredentialTypeContainer? = nil,
         evidence: VerifiableCredentialTypeContainer? = nil,

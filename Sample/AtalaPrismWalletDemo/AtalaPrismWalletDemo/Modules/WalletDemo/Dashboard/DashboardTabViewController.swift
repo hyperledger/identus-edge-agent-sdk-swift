@@ -1,10 +1,12 @@
 import Combine
+import PrismAgent
 import SwiftUI
 import UIKit
 
 protocol DashboardViewModel: ObservableObject {
     var toasty: FancyToast? { get set }
     var selectedIndex: Int { get set }
+    var proofOfRequest: RequestPresentation? { get set }
 
     func middleButtonPressed()
     func start()

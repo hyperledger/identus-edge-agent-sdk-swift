@@ -7,6 +7,7 @@ final class QRCodeScannerViewModelImpl: QRCodeScannerViewModel {
     @Published var token: String?
     @Published var showInfo = false
     @Published var dismiss = false
+    var parsing = false
 
     private let agent: PrismAgent
 
@@ -18,12 +19,18 @@ final class QRCodeScannerViewModelImpl: QRCodeScannerViewModel {
     }
 
     func qrCodeFound(_ qrCode: String) {
-        guard !showInfo, !dismiss else { return }
-        token = qrCode
-        self.showInfo = true
-        Task {
+        guard !showInfo, !dismiss, !parsing else { return }
+        parsing = true
+        Task { [weak self] in
+            defer {
+                parsing = false
+            }
             do {
-                let parsedInvitation = try await agent.parseInvitation(str: qrCode)
+                _ = try await agent.parseInvitation(str: qrCode)
+                await MainActor.run { [weak self] in
+                    self?.token = qrCode
+                    self?.showInfo = true
+                }
             } catch {
                 await MainActor.run { [weak self] in
                     self?.toasty = .init(

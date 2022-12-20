@@ -37,7 +37,7 @@ public protocol VerifiableCredential {
     var issuanceDate: Date { get }
     var expirationDate: Date? { get }
     var credentialSchema: VerifiableCredentialTypeContainer? { get }
-    var credentialSubject: String { get }
+    var credentialSubject: [String: String] { get }
     var credentialStatus: VerifiableCredentialTypeContainer? { get }
     var refreshService: VerifiableCredentialTypeContainer? { get }
     var evidence: VerifiableCredentialTypeContainer? { get }

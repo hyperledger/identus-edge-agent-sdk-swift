@@ -18,15 +18,12 @@ struct DashboardRouterImpl: DashboardRouter {
         ]
     }
 
-//    func routeToPresentProofOfRequest(request: ProofOfRequestDomain) -> some View {
-//        ShareContactBuilder().build(component: .init(
-//            container: container,
-//            proofOfRequest: request,
-//            proofOfRequestRepository: IntegrationStore.shared.proofOfRequestRepository,
-//            contactsRepository: IntegrationStore.shared.contactsRepository,
-//            credentialsRepository: IntegrationStore.shared.credentialsRepository
-//        ))
-//    }
+    func routeToPresentProofOfRequest(request: RequestPresentation) -> some View {
+        ProofOfRequestBuilder().build(component: .init(
+            proofOfRequest: request,
+            container: container
+        ))
+    }
 
     func routeToQRCodeReader() -> some View {
         QRCodeScannerBuilder().build(component: .init(container: container))

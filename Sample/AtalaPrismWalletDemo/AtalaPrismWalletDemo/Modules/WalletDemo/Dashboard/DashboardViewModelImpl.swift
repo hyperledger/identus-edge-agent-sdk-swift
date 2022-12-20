@@ -7,7 +7,7 @@ final class DashboardViewModelImpl: DashboardViewModel {
     // The initial module being presented in the TAB should be the center one
     // with index 2.
     @Published var selectedIndex: Int = 2
-//    @Published var proofOfRequest: ProofOfRequestDomain?
+    @Published var proofOfRequest: RequestPresentation?
     private var agent: PrismAgent
     private var cancellables = Set<AnyCancellable>()
 
@@ -45,12 +45,20 @@ final class DashboardViewModelImpl: DashboardViewModel {
     }
 
     private func bind() {
-//        proofOfRequestRepository
-//            .getNext()
-//            .delay(for: 1, scheduler: DispatchQueue.main)
-//            .sink { [weak self] request in
-//                self?.proofOfRequest = request
-//            }
-//            .store(in: &cancellables)
+        agent.requestedPresentations
+            .map {
+                $0.filter { !$0.1 }
+            }
+            .map {
+                $0.sorted { $0.0.id < $1.0.id }
+            }
+            .map {
+                $0.first
+            }
+            .receive(on: DispatchQueue.main)
+            .sink {
+                self.proofOfRequest = $0?.0
+            }
+            .store(in: &cancellables)
     }
 }

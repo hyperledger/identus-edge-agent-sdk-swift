@@ -75,8 +75,7 @@ public struct RequestCredential {
         )
     }
 
-    public static func makeRequestFromOfferCredential(message: Message) throws -> RequestCredential {
-        let offer = try OfferCredential(fromMessage: message)
+    public static func makeRequestFromOfferCredential(offer: OfferCredential) throws -> RequestCredential {
         return RequestCredential(
             body: .init(
                 goalCode: offer.body.goalCode,
@@ -84,7 +83,7 @@ public struct RequestCredential {
                 formats: offer.body.formats
             ),
             attachments: offer.attachments,
-            thid: message.id,
+            thid: offer.thid, //TODO: This needs to be changed in the pr
             from: offer.to,
             to: offer.from
         )

@@ -2,28 +2,23 @@ import Core
 import Domain
 import Foundation
 
-struct PresentationFormat: Codable, Equatable {
-    let attachId: String
-    let format: String
+struct ProofTypes: Codable, Equatable {
+    let schema: String
+    let requiredFields: [String]?
+    let trustIssuers: [String]?
 }
 
 public struct Presentation {
     struct Body: Codable, Equatable {
         let goalCode: String?
         let comment: String?
-        let lastPresentation: Bool?
-        let formats: [PresentationFormat]
 
         init(
             goalCode: String? = nil,
-            comment: String? = nil,
-            lastPresentation: Bool? = true,
-            formats: [PresentationFormat]
+            comment: String? = nil
         ) {
             self.goalCode = goalCode
             self.comment = comment
-            self.lastPresentation = lastPresentation
-            self.formats = formats
         }
     }
     public let id: String
@@ -86,9 +81,7 @@ public struct Presentation {
         return Presentation(
             body: Body(
                 goalCode: request.body.goalCode,
-                comment: request.body.comment,
-                lastPresentation: true,
-                formats: request.body.formats
+                comment: request.body.comment
             ),
             attachments: request.attachments,
             thid: msg.id,

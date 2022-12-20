@@ -142,7 +142,9 @@ extension ConnectionsManagerImpl: DIDCommConnection {
         return try await pluto
             .storeMessage(message: message, direction: .sent)
             .flatMap {
-                Future { try await mercury.sendMessageParseMessage(msg: message) }
+                Future {
+                    try await mercury.sendMessageParseMessage(msg: message)
+                }
             }
             .first()
             .await()
@@ -195,21 +197,20 @@ extension ConnectionsManagerImpl: DIDCommConnection {
         return nil
     }
 
-    private func getMessagesPublisher(message: Message) -> AnyPublisher<Message, Error> {
+    func getMessagesPublisher(message: Message) -> AnyPublisher<Message, Error> {
         struct RetryError: Error {}
         let mercury = self.mercury
+        print(message)
         return Future<Result<Message, Error>, Error> { promise in
             Task {
                 do {
                     guard
-                        let messageData = try await mercury.sendMessage(msg: message),
-                        let messageString = String(data: messageData, encoding: .utf8)
+                        let message = try await mercury.sendMessageParseMessage(msg: message)
                     else {
                         promise(.failure(RetryError()))
                         return
                     }
 
-                    let message = try await mercury.unpackMessage(msg: messageString)
                     promise(.success(Result.success(message)))
                 } catch {
                     promise(.success(Result.failure(error)))

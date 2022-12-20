@@ -84,10 +84,8 @@ public struct OfferCredential {
         )
     }
 
-    public static func makeOfferFromProposedCredential(msg: Message) throws -> OfferCredential {
-        let proposed = try ProposeCredential(fromMessage: msg)
-
-        return OfferCredential(
+    public static func makeOfferFromProposedCredential(proposed: ProposeCredential) throws -> OfferCredential {
+        OfferCredential(
             body: Body(
                 goalCode: proposed.body.goalCode,
                 comment: proposed.body.comment,
@@ -95,7 +93,7 @@ public struct OfferCredential {
                 formats: proposed.body.formats
             ),
             attachments: proposed.attachments,
-            thid: msg.id,
+            thid: proposed.id,
             from: proposed.to,
             to: proposed.from)
     }

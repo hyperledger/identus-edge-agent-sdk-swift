@@ -5,12 +5,12 @@ import Foundation
 // ALL parameters are DIDCOMMV2 format and naming conventions and follows the protocol
 // https://github.com/hyperledger/aries-rfcs/tree/main/features/0453-issue-credential-v2
 public struct IssueCredential {
-    struct Body: Codable, Equatable {
-        let goalCode: String?
-        let comment: String?
-        let replacementId: String?
-        let moreAvailable: String?
-        let formats: [CredentialFormat]
+    public struct Body: Codable, Equatable {
+        public let goalCode: String?
+        public let comment: String?
+        public let replacementId: String?
+        public let moreAvailable: String?
+        public let formats: [CredentialFormat]
 
         init(
             goalCode: String? = nil,
@@ -29,8 +29,8 @@ public struct IssueCredential {
 
     public let id: String
     public let type = ProtocolTypes.didcommIssueCredential.rawValue
-    let body: Body
-    let attachments: [AttachmentDescriptor]
+    public let body: Body
+    public let attachments: [AttachmentDescriptor]
     public let thid: String?
     public let from: DID
     public let to: DID
@@ -94,6 +94,21 @@ public struct IssueCredential {
             thid: msg.id,
             from: request.to,
             to: request.from)
+    }
+
+    func getCredentialStrings() throws -> [String] {
+        attachments.compactMap {
+            switch $0.data {
+            case let data as AttachmentBase64:
+                guard
+                    let base64 = Data(base64URLEncoded: data.base64),
+                    let str = String(data: base64, encoding: .utf8)
+                else { return nil }
+                return str
+            default:
+                return nil
+            }
+        }
     }
 
     static func build<T: Encodable>(

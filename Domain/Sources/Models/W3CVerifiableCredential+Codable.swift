@@ -62,7 +62,7 @@ extension W3CVerifiableCredential: Codable {
         let validUntil = try? container.decode(VerifiableCredentialTypeContainer.self, forKey: .validUntil)
         let proof = try? container.decode(String.self, forKey: .proof)
         let aud = (try? container.decode(Set<String>.self, forKey: .proof)) ?? Set()
-        let credentialSubject = try container.decode(String.self, forKey: .credentialSubject)
+        let credentialSubject = try container.decode([String: String].self, forKey: .credentialSubject)
         let credentialStatus = try? container.decode(
             VerifiableCredentialTypeContainer.self,
             forKey: .credentialStatus

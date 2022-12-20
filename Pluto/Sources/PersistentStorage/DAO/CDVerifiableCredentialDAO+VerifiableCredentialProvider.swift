@@ -5,7 +5,9 @@ import Domain
 extension CDVerifiableCredentialDAO: VerifiableCredentialProvider {
     func getAll() -> AnyPublisher<[VerifiableCredential], Error> {
         fetchController(context: readContext)
-            .tryMap { try $0.map { try $0.toDomain() } }
+            .tryMap {
+                try $0.map { try $0.toDomain() }
+            }
             .eraseToAnyPublisher()
     }
 
@@ -24,7 +26,7 @@ extension CDVerifiableCredentialDAO: VerifiableCredentialProvider {
 
 extension CDVerifiableCredential {
     func toDomain() throws -> VerifiableCredential {
-        switch self.credentialId {
+        switch self.credentialType {
         case "jwt":
             return try JSONDecoder()
                 .decode(JWTCredentialPayload.self, from: self.verifiableCredetialJson)
