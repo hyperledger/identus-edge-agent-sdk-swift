@@ -1,5 +1,6 @@
 import Foundation
 
+/// Struct representing a W3C Verifiable Credential
 public struct W3CVerifiableCredential: VerifiableCredential {
     public let credentialType = CredentialType.w3c
     public let context: Set<String>

@@ -22,7 +22,7 @@ public struct RequestPresentation {
         }
     }
     public let id: String
-    public let type = ProtocolTypes.didcommRequestCredential.rawValue
+    public let type = ProtocolTypes.didcommRequestPresentation.rawValue
     public let body: Body
     public let attachments: [AttachmentDescriptor]
     public let thid: String?

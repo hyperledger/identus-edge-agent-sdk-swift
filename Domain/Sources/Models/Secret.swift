@@ -1,24 +1,24 @@
+/// Represents a secret, which is a piece of secret material and its type.
 public struct Secret {
+    /// Enumeration representing the secret material.
     public enum SecretMaterial {
-        case jwk(value: String )
-//        case multibase(value: String )
-//        case base58(value: String )
-//        case hex(value: String )
-//        case other(value: String )
+        /// The secret material is a JSON web key (JWK).
+        case jwk(value: String)
     }
 
+    /// Enumeration representing the secret type.
     public enum SecretType {
+        /// The secret type is a JSON web key (JWK) as specified in [RFC7517](https://tools.ietf.org/html/rfc7517).
         case jsonWebKey2020
-//        case x25519KeyAgreementKey2019
-//        case ed25519VerificationKey2018
-//        case ecdsaSecp256k1VerificationKey2019
-//        case x25519KeyAgreementKey2020
-//        case ed25519VerificationKey2020
-//        case other
     }
 
+    /// The ID of the secret.
     public var id: String
+
+    /// The type of the secret
     public var type: SecretType
+
+    /// The secret material
     public var secretMaterial: SecretMaterial
 
     public init(id: String, type: SecretType, secretMaterial: SecretMaterial) {

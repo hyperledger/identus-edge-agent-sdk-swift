@@ -200,7 +200,6 @@ extension ConnectionsManagerImpl: DIDCommConnection {
     func getMessagesPublisher(message: Message) -> AnyPublisher<Message, Error> {
         struct RetryError: Error {}
         let mercury = self.mercury
-        print(message)
         return Future<Result<Message, Error>, Error> { promise in
             Task {
                 do {

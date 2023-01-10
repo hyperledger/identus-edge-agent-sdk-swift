@@ -83,7 +83,7 @@ public struct RequestCredential {
                 formats: offer.body.formats
             ),
             attachments: offer.attachments,
-            thid: offer.thid, //TODO: This needs to be changed in the pr
+            thid: offer.thid, // TODO: This needs to be changed in the pr
             from: offer.to,
             to: offer.from
         )
