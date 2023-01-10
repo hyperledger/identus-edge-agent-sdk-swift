@@ -70,9 +70,6 @@ extension DIDCommSecretsResolverWrapper: SecretsResolver {
             .map { $0.first { $0.id == secretid } }
             .sink {
                 do {
-                    if $0 == nil {
-                        print("Secret not found: \(secretid)")
-                    }
                     try cb.success(result: $0.map { DIDCommxSwift.Secret(from: $0) })
                 } catch {
                     print(error.localizedDescription)
@@ -95,9 +92,6 @@ extension DIDCommSecretsResolverWrapper: SecretsResolver {
             }
             .sink {
                 do {
-                    if $0.isEmpty {
-                        print("Secrets not found: \(secretids)")
-                    }
                     try cb.success(result: $0)
                 } catch {
                     print(error.localizedDescription)

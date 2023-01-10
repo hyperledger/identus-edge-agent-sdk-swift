@@ -100,13 +100,11 @@ returns random mnemonics nerver returns invalid mnemonics
         switch publicKey.curve {
         case "secp256k1":
             let verifier = JWTVerifier.es256(publicKey: publicKey.value)
-            let decoder = JWTDecoder.init(jwtVerifier: verifier)
-            let jwt = try decoder.decode(JWT<MyClaims>.self, fromString: jwk)
+            let decoder = JWTDecoder(jwtVerifier: verifier)
             return jwk
         default:
             let verifier = JWTVerifier.none
-            let decoder = JWTDecoder.init(jwtVerifier: verifier)
-            let jwt = try decoder.decode(JWT<MyClaims>.self, fromString: jwk)
+            let decoder = JWTDecoder(jwtVerifier: verifier)
             return jwk
         }
     }

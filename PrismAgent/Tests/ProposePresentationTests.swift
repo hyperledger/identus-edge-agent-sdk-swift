@@ -7,13 +7,13 @@ final class ProposePresentationTests: XCTestCase {
         let fromDID = DID(index: 0)
         let toDID = DID(index: 1)
         let validProposePresentation = ProposePresentation(
-            body: .init(
-                formats: [
-                    .init(
-                        attachId: "test1",
-                        format: "test")
-                ]
-            ),
+            body: .init(proofTypes: [
+                .init(
+                    schema: "testSchema",
+                    requiredFields: nil,
+                    trustIssuers: nil
+                )
+            ]),
             attachments: [],
             thid: "1",
             from: fromDID,
@@ -40,9 +40,13 @@ final class ProposePresentationTests: XCTestCase {
         let fromDID = DID(index: 0)
         let toDID = DID(index: 1)
         let validRequestPresentation = RequestPresentation(
-            body: .init(
-                formats: [.init(attachId: "test1", format: "test")]
-            ),
+            body: .init(proofTypes: [
+                .init(
+                    schema: "testSchema",
+                    requiredFields: nil,
+                    trustIssuers: nil
+                )
+            ]),
             attachments: [],
             thid: "1",
             from: fromDID,
@@ -57,6 +61,5 @@ final class ProposePresentationTests: XCTestCase {
         XCTAssertEqual(validRequestPresentation.id, testProposePresentation.thid)
         XCTAssertEqual(validRequestPresentation.body.goalCode, testProposePresentation.body.goalCode)
         XCTAssertEqual(validRequestPresentation.body.comment, testProposePresentation.body.comment)
-        XCTAssertEqual(validRequestPresentation.body.formats, testProposePresentation.body.formats)
     }
 }
