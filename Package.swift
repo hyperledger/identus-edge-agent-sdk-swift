@@ -51,12 +51,12 @@ let package = Package(
         ),
         // This doesnt seem to be working properly on command line, removing for now
 //        .package(url: "https://github.com/realm/SwiftLint.git", branch: "main"),
-        .package(url: "https://github.com/apple/swift-protobuf", from: "1.7.0"),
-        .package(url: "https://github.com/antlr/antlr4", branch: "master"),
-        .package(url: "https://github.com/input-output-hk/atala-prism-didcomm-swift", from: "0.3.4"),
-        .package(url: "https://github.com/input-output-hk/atala-prism-crypto-sdk-sp", from: "1.4.1"),
-        .package(url: "https://github.com/swift-libp2p/swift-multibase", branch: "main"),
-        .package(url:"https://github.com/IBM-Swift/Swift-JWT", from: "4.0.0")
+        .package(url: "git@github.com:apple/swift-protobuf.git", from: "1.7.0"),
+        .package(url: "git@github.com:antlr/antlr4.git", branch: "master"),
+        .package(url: "git@github.com:input-output-hk/atala-prism-didcomm-swift.git", from: "0.3.4"),
+        .package(url: "git@github.com:input-output-hk/atala-prism-crypto-sdk-sp.git", from: "1.4.1"),
+        .package(url: "git@github.com:swift-libp2p/swift-multibase.git", branch: "main"),
+        .package(url: "git@github.com:Kitura/Swift-JWT.git", from: "4.0.0")
     ],
     targets: [
         .target(
