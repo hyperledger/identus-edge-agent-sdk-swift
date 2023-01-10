@@ -64,7 +64,6 @@ public class IssueCredentialProtocol {
                 return
             }
             let message = try RequestCredential.makeRequestFromOfferCredential(offer: offer).makeMessage()
-            print(message)
             try await connector.sendMessage(message)
             messageId = message.id
         case .request:
@@ -91,7 +90,6 @@ public class IssueCredentialProtocol {
             self.request = request
         } else if let issued = try? IssueCredential(fromMessage: response) {
             stage = .completed
-            print(issued)
         }
     }
 }

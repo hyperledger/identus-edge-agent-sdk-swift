@@ -1,5 +1,5 @@
-import Pollux
 import Domain
+import Pollux
 
 public struct PolluxBuilder {
     let castor: Castor

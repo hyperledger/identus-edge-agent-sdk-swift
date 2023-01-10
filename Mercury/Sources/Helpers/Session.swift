@@ -34,7 +34,6 @@ struct SessionManager {
         let (data, response) = try await session.data(for: request)
         if let urlResponse = response as? HTTPURLResponse {
             guard 200...299 ~= urlResponse.statusCode else {
-                print("HTTP Error: \(urlResponse.statusCode)")
                 throw MercuryError.urlSessionError(
                     statusCode: urlResponse.statusCode,
                     error: nil,

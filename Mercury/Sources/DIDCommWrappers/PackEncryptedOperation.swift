@@ -27,9 +27,6 @@ final class PackEncryptedOperation: OnPackEncryptedResult {
                     case .finished:
                         break
                     case let .failure(error):
-                        print("Error packing message type:\(msg.piuri)")
-                        print("Error packing message from:\(fromDID.string)")
-                        print("Error packing message to:\(toDID.string)")
                         continuation.resume(throwing: error)
                     }
                 }, receiveValue: {
@@ -71,7 +68,6 @@ final class PackEncryptedOperation: OnPackEncryptedResult {
     }
 
     func error(err: DIDCommxSwift.ErrorKind, msg: String) {
-        print("Error packing message: \(msg)")
         published.send(completion: .failure(MercuryError.didcommError(msg: msg)))
     }
 }
