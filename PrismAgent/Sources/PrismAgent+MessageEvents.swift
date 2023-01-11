@@ -37,6 +37,16 @@ public extension PrismAgent {
             .eraseToAnyPublisher()
     }
 
+    /// Sends a DIDComm message through HTTP using mercury and returns a message if this is returned immediately by the REST endpoint.
+    ///
+    /// - Parameters:
+    ///   - message: The message to be sent.
+    /// - Returns: The sent message if successful, otherwise `nil`.
+    /// - Throws: An error if the sending fails.
+    func sendMessage(message: Message) async throws -> Message? {
+        try await connectionManager.sendMessage(message)
+    }
+
     /// Handles the received messages events and return a publisher of the messages
     /// - Returns: A publisher of the messages that emits an event with a `Message` and completed or failed with an `Error`
     func handleReceivedMessagesEvents() -> AnyPublisher<Message, Error> {
