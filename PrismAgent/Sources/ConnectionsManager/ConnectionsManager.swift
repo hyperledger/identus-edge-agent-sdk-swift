@@ -4,25 +4,21 @@ import Domain
 import Foundation
 
 class ConnectionsManagerImpl: ConnectionsManager {
-    struct Mediator {
-        let peerDID: DID
-        let routingDID: DID
-        let mediatorDID: DID
-    }
-
+    let mediationHandler: MediatorHandler
     private let castor: Castor
     private let mercury: Mercury
     private let pluto: Pluto
     private var pairings = [DIDPair]()
-    var mediator: Mediator?
     private var cancellables = [AnyCancellable]()
 
     init(
         castor: Castor,
         mercury: Mercury,
         pluto: Pluto,
+        mediationHandler: MediatorHandler,
         pairings: [DIDPair] = []
     ) {
+        self.mediationHandler = mediationHandler
         self.castor = castor
         self.mercury = mercury
         self.pluto = pluto
@@ -30,32 +26,9 @@ class ConnectionsManagerImpl: ConnectionsManager {
     }
 
     func startMediator() async throws {
-        let pluto = self.pluto
-        try await withCheckedThrowingContinuation { [weak self] continuation in
-            guard let self else { return }
-            pluto
-                .getAllMediators()
-                .first()
-                .map { $0.first }
-                .sink(receiveCompletion: {
-                    switch $0 {
-                    case .finished:
-                        continuation.resume(returning: ())
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }, receiveValue: {
-                    $0.map {
-                        self.mediator = .init(
-                            peerDID: $0.did,
-                            routingDID: $0.routingDID,
-                            mediatorDID: $0.mediatorDID
-                        )
-                    }
-                })
-                .store(in: &self.cancellables)
-        }
-        guard mediator != nil else { throw PrismAgentError.noMediatorAvailableError }
+        guard
+            try await mediationHandler.bootRegisteredMediator() != nil
+        else { throw PrismAgentError.noMediatorAvailableError }
     }
 
     func stopAllEvents() {
@@ -94,45 +67,8 @@ class ConnectionsManagerImpl: ConnectionsManager {
         }
     }
 
-    func registerMediator(hostDID: DID, mediatorDID: DID) async throws {
-        let mercury = self.mercury
-        let pluto = self.pluto
-
-        guard
-            let message: Message = try await mercury
-                .sendMessageParseMessage(msg: MediationRequest(
-                    from: hostDID,
-                    to: mediatorDID
-                ).makeMessage())
-        else { throw PrismAgentError.mediationRequestFailedError }
-
-        let grantMessage = try MediationGrant(fromMessage: message)
-        let routingDID = try castor.parseDID(str: grantMessage.body.routingDid)
-
-        try await withCheckedThrowingContinuation { [weak self] continuation in
-            guard let self else { return }
-            pluto
-                .storeMediator(
-                    peer: hostDID,
-                    routingDID: routingDID,
-                    mediatorDID: mediatorDID
-                )
-                .sink(receiveCompletion: {
-                    switch $0 {
-                    case .finished:
-                        self.mediator = .init(
-                            peerDID: hostDID,
-                            routingDID: routingDID,
-                            mediatorDID: mediatorDID
-                        )
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }, receiveValue: {
-                    continuation.resume(returning: $0)
-                })
-                .store(in: &self.cancellables)
-        }
+    func registerMediator(hostDID: DID) async throws {
+        try await mediationHandler.achieveMediation(host: hostDID)
     }
 }
 
@@ -160,28 +96,22 @@ extension ConnectionsManagerImpl: DIDCommConnection {
     }
 
     func awaitMessages() throws -> AnyPublisher<[Message], Error> {
-        guard let mediator else { throw PrismAgentError.noMediatorAvailableError }
-        let mercury = self.mercury
-        let pluto = self.pluto
-        return getMessagesPublisher(message: try PickUpRequest(
-            from: mediator.peerDID,
-            to: mediator.mediatorDID,
-            body: .init(
-                limit: "10"
-            )
-        ).makeMessage())
-        .flatMap { msg in
-            Future {
-                try await PickupRunner(message: msg, mercury: mercury).run()
-            }
+        guard mediationHandler.mediator == nil else { throw PrismAgentError.noMediatorAvailableError }
+        let mediationHandler = mediationHandler
+        let pluto = pluto
+        return Future {
+            try await mediationHandler.pickupUnreadMessages(limit: 10)
         }
         .flatMap { messages in
             pluto
-                .storeMessages(messages: messages.map { ($0.message, .received) })
+                .storeMessages(messages: messages.map { ($0.1, .received) })
                 .map { messages }
         }
         .flatMap { messages in
-            pickupReceivedMessages(messages: messages, mediator: mediator, mercury: mercury)
+            Future {
+                try await mediationHandler.registerMessagesAsRead(ids: messages.map { $0.0 })
+                return messages.map { $0.1 }
+            }
         }
         .eraseToAnyPublisher()
     }
@@ -239,28 +169,5 @@ extension ConnectionsManagerImpl: DIDCommConnection {
             }
         }
         .eraseToAnyPublisher()
-    }
-}
-
-private func pickupReceivedMessages(
-    messages: [(Message, String)],
-    mediator: ConnectionsManagerImpl.Mediator,
-    mercury: Mercury
-) -> AnyPublisher<[Message], Error> {
-    if !messages.isEmpty {
-        return Future<Data?, Error> {
-            let message = try PickUpReceived(
-                from: mediator.peerDID,
-                to: mediator.mediatorDID,
-                body: .init(messageIdList: messages.map { $0.1 })
-            ).makeMessage()
-            return try await mercury.sendMessage(msg: message)
-        }
-        .map { _ in messages.map { $0.0 } }
-        .eraseToAnyPublisher()
-    } else {
-        return Just(messages.map { $0.0 })
-            .tryMap { $0 }
-            .eraseToAnyPublisher()
     }
 }

@@ -48,16 +48,25 @@ extension CastorImpl: Castor {
     }
 
     public func resolveDID(did: DID) async throws -> DIDDocument {
+        logger.info(message: "Trying to resolve DID", metadata: [
+            .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
+        ])
         guard
             let resolver = resolvers.first(where: { $0.method == did.method })
         else {
+            logger.error(message: "No resolvers for DID method \(did.method)", metadata: [
+                .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
+            ])
             throw CastorError.notPossibleToResolveDID
         }
         return try await resolver.resolve(did: did)
     }
 
     public func getEcnumbasis(did: DID, keyPair: KeyPair) throws -> String {
-        try CreatePeerDIDOperation(
+        logger.debug(message: "Getting ecnumbasis", metadata: [
+            .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
+        ])
+        return try CreatePeerDIDOperation(
             autenticationKeyPair: keyPair,
             agreementKeyPair: keyPair,
             services: []

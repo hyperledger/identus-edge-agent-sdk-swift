@@ -1,3 +1,4 @@
+import Core
 import DIDCommxSwift
 import Domain
 import Foundation
@@ -8,6 +9,7 @@ public struct MercuryImpl {
     let apollo: Apollo
     let pluto: Pluto
     let didcomm: DidComm
+    let logger: PrismLogger
 
     public init(
         session: URLSession = .shared,
@@ -16,15 +18,18 @@ public struct MercuryImpl {
         castor: Castor,
         pluto: Pluto
     ) {
+        let logger = PrismLogger(category: .mercury)
+        self.logger = logger
         self.session = SessionManager(session: session, timeout: timeout)
         self.castor = castor
         self.apollo = apollo
         self.pluto = pluto
-        let didResolver = DIDCommDIDResolverWrapper(castor: castor)
+        let didResolver = DIDCommDIDResolverWrapper(castor: castor, logger: logger)
         let secretsResolver = DIDCommSecretsResolverWrapper(
             apollo: apollo,
             pluto: pluto,
-            castor: castor
+            castor: castor,
+            logger: logger
         )
         self.didcomm = DidComm(
             didResolver: didResolver,

@@ -5,11 +5,11 @@ import Foundation
 
 extension MercuryImpl: Mercury {
     public func packMessage(msg: Domain.Message) async throws -> String {
-        try await PackEncryptedOperation(didcomm: didcomm).packEncrypted(msg: msg)
+        try await PackEncryptedOperation(didcomm: didcomm, logger: logger).packEncrypted(msg: msg)
     }
 
     public func unpackMessage(msg: String) async throws -> Domain.Message {
-        try await UnpackOperation(didcomm: didcomm, castor: castor).unpackEncrypted(messageString: msg)
+        try await UnpackOperation(didcomm: didcomm, castor: castor, logger: logger).unpackEncrypted(messageString: msg)
     }
 
     public func sendMessage(msg: Domain.Message) async throws -> Data? {
@@ -18,7 +18,10 @@ extension MercuryImpl: Mercury {
         guard
             let urlString = document.services.first?.serviceEndpoint.uri,
             let url = URL(string: urlString)
-        else { throw MercuryError.noValidServiceFoundError }
+        else {
+            logger.error(message: "Could not find a valid service on the DID to send message")
+            throw MercuryError.noValidServiceFoundError
+        }
         let packedMessage = try await packMessage(msg: msg)
         return try await session.post(
             url: url,

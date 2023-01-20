@@ -5,12 +5,14 @@ import Domain
 import Foundation
 
 class DIDCommDIDResolverWrapper {
+    let logger: PrismLogger
     let castor: Castor
     var publisher = PassthroughSubject<DIDDocument, Error>()
     var cancellables = [AnyCancellable]()
 
-    init(castor: Castor) {
+    init(castor: Castor, logger: PrismLogger) {
         self.castor = castor
+        self.logger = logger
     }
 
     fileprivate func resolve(did: String) {
@@ -25,20 +27,29 @@ extension DIDCommDIDResolverWrapper: DidResolver {
     func resolve(did: String, cb: OnDidResolverResult) -> ErrorCode {
         publisher
             .first()
-            .sink {
+            .sink { [weak self] in
                 switch $0 {
                 case .finished:
                     break
                 case let .failure(error):
+                    self?.logger.error(message: "Error trying to resolve DID", metadata: [
+                        .publicMetadata(key: "Error", value: error.localizedDescription)
+                    ])
                     try? cb.error(
                         err: ErrorKind.DidNotResolved(message: error.localizedDescription),
                         msg: error.localizedDescription
                     )
                 }
-            } receiveValue: {
+            } receiveValue: { [weak self] in
                 do {
+                    self?.logger.debug(message: "Success resolving DID", metadata: [
+                        .maskedMetadataByLevel(key: "DID", value: did, level: .debug)
+                    ])
                     try cb.success(result: try DidDoc(from: $0))
                 } catch {
+                    self?.logger.error(message: "Error trying to resolve DID", metadata: [
+                        .publicMetadata(key: "Error", value: error.localizedDescription)
+                    ])
                     try? cb.error(
                         err: ErrorKind.DidNotResolved(message: error.localizedDescription),
                         msg: error.localizedDescription

@@ -28,7 +28,7 @@ struct CreatePeerDIDOperation {
     let services: [DIDDocument.Service]
 
     func compute() throws -> DID {
-        try createPeerDID(
+        return try createPeerDID(
             encryptionKeys: [try keyAgreementFromKeyPair(keyPair: agreementKeyPair)],
             signingKeys: [try authenticationFromKeyPair(keyPair: autenticationKeyPair)],
             services: services

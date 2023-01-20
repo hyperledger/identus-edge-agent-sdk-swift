@@ -4,6 +4,7 @@ import Foundation
 
 struct LongFormPrismDIDResolver: DIDResolverDomain {
     let apollo: Apollo
+    let logger: PrismLogger
 
     var method = "prism"
 
@@ -11,7 +12,12 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
         let prismDID = try LongFormPrismDID(did: did)
         guard
             let data = Data(fromBase64URL: prismDID.encodedState)
-        else { throw CastorError.initialStateOfDIDChanged }
+        else {
+            logger.error(message: "The DID state hash doesn't match the state", metadata: [
+                .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
+            ])
+            throw CastorError.initialStateOfDIDChanged
+        }
 
         let (verificationMethods, services) = try decodeState(
             did: did,
@@ -48,7 +54,14 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
         guard stateHash == verifyEncodedState else { throw CastorError.initialStateOfDIDChanged }
         let operation = try Io_Iohk_Atala_Prism_Protos_AtalaOperation(serializedData: encodedData)
         let publicKeys = try operation.createDid.didData.publicKeys.map {
-            try PrismDIDPublicKey(apollo: apollo, proto: $0)
+            do {
+                return try PrismDIDPublicKey(apollo: apollo, proto: $0)
+            } catch {
+                logger.error(message: "Failed to decode public key from document", metadata: [
+                    .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
+                ])
+                throw error
+            }
         }
         let services = operation.createDid.didData.services.map {
             DIDDocument.Service(

@@ -22,7 +22,7 @@ class PickupRunner {
         self.mercury = mercury
     }
 
-    func run() async throws -> [(message: Message, attachmentId: String)] {
+    func run() async throws -> [(attachmentId: String, message: Message)] {
         switch message {
         case let .delivery(message):
             return try await message.attachments.compactMap { attachment in
@@ -36,7 +36,7 @@ class PickupRunner {
                 }
             }
             .asyncMap { messageString, id in
-                (try await mercury.unpackMessage(msg: messageString), id)
+                (id, try await mercury.unpackMessage(msg: messageString))
             }
         case .status:
             return []

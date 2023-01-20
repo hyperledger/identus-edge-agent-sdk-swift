@@ -28,7 +28,9 @@ final class MainViewModelImpl: MainViewModel {
 
     func startWithMediatorOOB() {
         do {
-            let invitation = try PrismAgent().parseOOBInvitation(url: oobString)
+            let invitation = try PrismAgent(
+                mediatorDID: DID(method: "peer", methodId: "123")
+            ).parseOOBInvitation(url: oobString)
             self.router.didOnUse = try DID(string: invitation.from)
             self.routeToDashboard = true
         } catch {

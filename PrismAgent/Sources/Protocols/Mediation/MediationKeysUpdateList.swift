@@ -21,15 +21,15 @@ struct MediationKeysUpdateList {
         id: String = UUID().uuidString,
         from: DID,
         to: DID,
-        recipientDid: DID
+        recipientDids: [DID]
     ) {
         self.id = id
         self.from = from
         self.to = to
         self.body = .init(
-            updates: [.init(
-                recipientDid: recipientDid.string
-            )]
+            updates: recipientDids.map {
+                Body.Update(recipientDid: $0.string)
+            }
         )
     }
 

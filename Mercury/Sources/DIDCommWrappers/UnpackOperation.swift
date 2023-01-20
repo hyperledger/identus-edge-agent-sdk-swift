@@ -1,4 +1,5 @@
 import Combine
+import Core
 import DIDCommxSwift
 import Domain
 import Foundation
@@ -6,12 +7,14 @@ import Foundation
 final class UnpackOperation: OnUnpackResult {
     private let didcomm: DIDCommProtocol
     private let castor: Castor
+    private let logger: PrismLogger
     private var published = CurrentValueSubject<Domain.Message?, Error>(nil)
     private var cancellable: AnyCancellable?
 
-    init(didcomm: DIDCommProtocol, castor: Castor) {
+    init(didcomm: DIDCommProtocol, castor: Castor, logger: PrismLogger) {
         self.didcomm = didcomm
         self.castor = castor
+        self.logger = logger
     }
 
     func unpackEncrypted(messageString: String) async throws -> Domain.Message {
@@ -28,11 +31,17 @@ final class UnpackOperation: OnUnpackResult {
                 self.cancellable = self.published
                     .drop(while: { $0 == nil })
                     .first()
-                    .sink(receiveCompletion: {
+                    .sink(receiveCompletion: { [weak self] in
                         switch $0 {
                         case .finished:
                             break
                         case let .failure(error):
+                            self?.logger.error(
+                                message: "Could not unpack message",
+                                metadata: [
+                                    .publicMetadata(key: "Error", value: error.localizedDescription)
+                                ]
+                            )
                             continuation.resume(throwing: error)
                         }
                     }, receiveValue: {
@@ -50,6 +59,12 @@ final class UnpackOperation: OnUnpackResult {
             let message: Domain.Message = try result.toDomain(castor: castor)
             published.send(message)
         } catch {
+            logger.error(
+                message: "Could not unpack message",
+                metadata: [
+                    .publicMetadata(key: "Error", value: error.localizedDescription)
+                ]
+            )
             published.send(completion: .failure(error))
         }
     }

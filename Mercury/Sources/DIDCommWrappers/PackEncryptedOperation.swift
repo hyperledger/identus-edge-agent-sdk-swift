@@ -1,15 +1,18 @@
 import Combine
+import Core
 import DIDCommxSwift
 import Domain
 import Foundation
 
 final class PackEncryptedOperation: OnPackEncryptedResult {
     private let didcomm: DIDCommProtocol
+    private let logger: PrismLogger
     private var published = CurrentValueSubject<String?, Error>(nil)
     private var cancellable: AnyCancellable?
 
-    init(didcomm: DIDCommProtocol) {
+    init(didcomm: DIDCommProtocol, logger: PrismLogger) {
         self.didcomm = didcomm
+        self.logger = logger
     }
 
     func packEncrypted(msg: Domain.Message) async throws -> String {
@@ -22,11 +25,17 @@ final class PackEncryptedOperation: OnPackEncryptedResult {
             self.cancellable = self.published
                 .drop(while: { $0 == nil })
                 .first()
-                .sink(receiveCompletion: {
+                .sink(receiveCompletion: { [weak self] in
                     switch $0 {
                     case .finished:
                         break
                     case let .failure(error):
+                        self?.logger.error(
+                            message: "Could not pack message",
+                            metadata: [
+                                .publicMetadata(key: "Error", value: error.localizedDescription)
+                            ]
+                        )
                         continuation.resume(throwing: error)
                     }
                 }, receiveValue: {
@@ -68,6 +77,17 @@ final class PackEncryptedOperation: OnPackEncryptedResult {
     }
 
     func error(err: DIDCommxSwift.ErrorKind, msg: String) {
+        logger.error(
+            message: "Could not pack message",
+            metadata: [
+                .publicMetadata(
+                    key: "Error",
+                    value: MercuryError
+                        .didcommError(msg: msg)
+                        .localizedDescription
+                )
+            ]
+        )
         published.send(completion: .failure(MercuryError.didcommError(msg: msg)))
     }
 }
