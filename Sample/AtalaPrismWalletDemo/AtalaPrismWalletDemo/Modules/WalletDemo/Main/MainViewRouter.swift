@@ -12,7 +12,7 @@ final class MainViewRouterImpl: MainViewRouter {
     }
 
     func routeToDashboard() -> some View {
-        let agent = PrismAgent(mediatorServiceEnpoint: didOnUse)
+        let agent = PrismAgent(mediatorDID: didOnUse)
         let container = DIContainerImpl()
         container.register(type: PrismAgent.self, component: agent)
         return DashboardBuilder().build(component: .init(container: container))

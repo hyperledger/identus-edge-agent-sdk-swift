@@ -8,11 +8,14 @@ public extension PrismAgent {
     func startFetchingMessages() {
         // Check if messagesStreamTask is nil
         guard messagesStreamTask == nil else { return }
+
+        logger.info(message: "Start streaming new unread messages")
         let manager = connectionManager
         messagesStreamTask = Task {
             // Keep trying to fetch messages until the task is cancelled
             while true {
                 do {
+                    logger.debug(message: "Fetching new batch of 10 unread messages")
                     // Wait for new messages to arrive
                     _ = try await manager.awaitMessages()
                     sleep(5)
@@ -26,6 +29,7 @@ public extension PrismAgent {
 
     /// Stop fetching messages
     func stopFetchingMessages() {
+        logger.info(message: "Stop streaming new unread messages")
         messagesStreamTask?.cancel()
     }
 

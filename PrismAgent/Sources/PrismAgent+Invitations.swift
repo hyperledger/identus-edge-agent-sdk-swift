@@ -98,9 +98,7 @@ public extension PrismAgent {
             updateMediator: true
         )
 
-        logger.info(message: "Created DID", metadata: [
-            .publicMetadata(key: "DID", value: ownDID.string)
-        ])
+        logger.info(message: "Sending DIDComm Connection message")
 
         let pair = try await DIDCommConnectionRunner(
             invitationMessage: invitation,

@@ -9,6 +9,7 @@ public extension PrismAgent {
     /// - Returns:  A publisher that emits an array of `VerifiableCredential` and completes when all the
     ///              credentials are emitted or terminates with an error if any occurs
     func verifiableCredentials() -> AnyPublisher<[VerifiableCredential], Error> {
-        pluto.getAllCredentials()
+        pluto
+            .getAllCredentials()
     }
 }
