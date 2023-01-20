@@ -28,10 +28,8 @@ public class PrismAgent {
 
     /// The mediator routing DID if one is currently registered.
     public var mediatorRoutingDID: DID? {
-        connectionManager.mediator?.routingDID
+        connectionManager.mediationHandler.mediator?.routingDID
     }
-
-    static let prismMediatorEndpoint = DID(method: "peer", methodId: "other")
 
     let logger = PrismLogger(category: .prismAgent)
     let apollo: Apollo
@@ -39,12 +37,16 @@ public class PrismAgent {
     let pluto: Pluto
     let pollux: Pollux
     let mercury: Mercury
-    let mediatorServiceEnpoint: DID
+    let mediationHandler: MediatorHandler
 
     var connectionManager: ConnectionsManagerImpl
     var cancellables = [AnyCancellable]()
     // Not a "stream"
     var messagesStreamTask: Task<Void, Error>?
+
+    public static func setupLogging(logLevels: [LogComponent: LogLevel]) {
+        PrismLogger.logLevels = logLevels
+    }
 
     /// Initializes a PrismAgent with the given dependency objects and seed data.
     ///
@@ -62,8 +64,8 @@ public class PrismAgent {
         pluto: Pluto,
         pollux: Pollux,
         mercury: Mercury,
-        seed: Seed? = nil,
-        mediatorServiceEnpoint: DID? = nil
+        mediationHandler: MediatorHandler,
+        seed: Seed? = nil
     ) {
         self.apollo = apollo
         self.castor = castor
@@ -71,11 +73,12 @@ public class PrismAgent {
         self.pollux = pollux
         self.mercury = mercury
         self.seed = seed ?? apollo.createRandomSeed().seed
-        self.mediatorServiceEnpoint = mediatorServiceEnpoint ?? Self.prismMediatorEndpoint
+        self.mediationHandler = mediationHandler
         self.connectionManager = ConnectionsManagerImpl(
             castor: castor,
             mercury: mercury,
             pluto: pluto,
+            mediationHandler: mediationHandler,
             pairings: []
         )
     }
@@ -87,24 +90,32 @@ public class PrismAgent {
         - seedData: Optional seed data for creating a new seed. If not provided, a random seed will be generated.
         - mediatorServiceEnpoint: Optional DID representing the service endpoint of the mediator. If not provided, the default Prism mediator endpoint will be used.
     */
-    public convenience init(seedData: Data? = nil, mediatorServiceEnpoint: DID? = nil) {
+    public convenience init(
+        seedData: Data? = nil,
+        mediatorDID: DID
+    ) {
         let apollo = ApolloBuilder().build()
         let castor = CastorBuilder(apollo: apollo).build()
         let pluto = PlutoBuilder().build()
         let pollux = PolluxBuilder(castor: castor).build()
+        let mercury = MercuryBuilder(
+            apollo: apollo,
+            castor: castor,
+            pluto: pluto
+        ).build()
         let seed = seedData.map { Seed(value: $0) } ?? apollo.createRandomSeed().seed
         self.init(
             apollo: apollo,
             castor: castor,
             pluto: pluto,
             pollux: pollux,
-            mercury: MercuryBuilder(
-                apollo: apollo,
-                castor: castor,
-                pluto: pluto
-            ).build(),
-            seed: seed,
-            mediatorServiceEnpoint: mediatorServiceEnpoint ?? Self.prismMediatorEndpoint
+            mercury: mercury,
+            mediationHandler: BasicMediatorHandler(
+                mediatorDID: mediatorDID,
+                mercury: mercury,
+                store: BasicMediatorHandler.PlutoMediatorStoreImpl(pluto: pluto)
+            ),
+            seed: seed
         )
     }
 
@@ -115,29 +126,28 @@ public class PrismAgent {
      as well as any error thrown by `createNewPeerDID` and `connectionManager.registerMediator`
     */
     public func start() async throws {
-            guard state == .stoped else { return }
-            state = .starting
-            do {
-                try await connectionManager.startMediator()
-            } catch PrismAgentError.noMediatorAvailableError {
-                let hostDID = try await createNewPeerDID(
-                    services: [.init(
-                        id: "#didcomm-1",
-                        type: ["DIDCommMessaging"],
-                        serviceEndpoint:.init(uri: mediatorServiceEnpoint.string))
-                    ],
-                    updateMediator: false
-                )
-                try await connectionManager.registerMediator(
-                    hostDID: hostDID,
-                    mediatorDID: mediatorServiceEnpoint
-                )
-            }
-            state = .running
-            logger.info(message: "Mediation Achieved", metadata: [
-                .publicMetadata(key: "Routing DID", value: mediatorRoutingDID?.string ?? "")
-            ])
+        guard state == .stoped else { return }
+        logger.info(message: "Starting agent")
+        state = .starting
+        do {
+            try await connectionManager.startMediator()
+        } catch PrismAgentError.noMediatorAvailableError {
+            let hostDID = try await createNewPeerDID(
+                services: [.init(
+                    id: "#didcomm-1",
+                    type: ["DIDCommMessaging"],
+                    serviceEndpoint:.init(uri: mediationHandler.mediatorDID.string))
+                ],
+                updateMediator: false
+            )
+            try await connectionManager.registerMediator(hostDID: hostDID)
         }
+        state = .running
+        logger.info(message: "Mediation Achieved", metadata: [
+            .publicMetadata(key: "Routing DID", value: mediatorRoutingDID?.string ?? "")
+        ])
+        logger.info(message: "Agent running")
+    }
 
     /**
       This function is used to stop the PrismAgent.
@@ -149,10 +159,12 @@ public class PrismAgent {
       */
      public func stop() async throws {
          guard state == .running else { return }
+         logger.info(message: "Stoping agent")
          state = .stoping
          cancellables.forEach { $0.cancel() }
          connectionManager.stopAllEvents()
          state = .stoped
+         logger.info(message: "Agent not running")
      }
 
     // TODO: This is to be deleted in the future. For now it helps with proof of request logic

@@ -43,7 +43,7 @@ private let METADATA_PRIVACY_STR = "------"
 // MARK: Prism Logger
 
 public struct PrismLogger {
-    static var logLevels = [LogComponent: LogLevel]()
+    public static var logLevels = [LogComponent: LogLevel]()
     private static let hashingLog = UUID().uuidString
     private let logLevel: LogLevel
 

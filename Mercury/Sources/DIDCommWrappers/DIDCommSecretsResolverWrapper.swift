@@ -1,4 +1,5 @@
 import Combine
+import Core
 import DIDCommxSwift
 import Domain
 import Foundation
@@ -9,13 +10,15 @@ class DIDCommSecretsResolverWrapper {
     let apollo: Apollo
     let pluto: Pluto
     let castor: Castor
+    let logger: PrismLogger
     @Published var availableSecrets = [Domain.Secret]()
     var cancellables = [AnyCancellable]()
 
-    init(apollo: Apollo, pluto: Pluto, castor: Castor) {
+    init(apollo: Apollo, pluto: Pluto, castor: Castor, logger: PrismLogger) {
         self.apollo = apollo
         self.pluto = pluto
         self.castor = castor
+        self.logger = logger
 
         startUpdating()
     }
@@ -68,11 +71,14 @@ extension DIDCommSecretsResolverWrapper: SecretsResolver {
         $availableSecrets
             .first()
             .map { $0.first { $0.id == secretid } }
-            .sink {
+            .sink { [weak self] in
                 do {
                     try cb.success(result: $0.map { DIDCommxSwift.Secret(from: $0) })
                 } catch {
-                    print(error.localizedDescription)
+                    self?.logger.error(message: "Could not find secret", metadata: [
+                        .publicMetadata(key: "SecretId", value: secretid),
+                        .publicMetadata(key: "Error", value: error.localizedDescription)
+                    ])
                 }
             }
             .store(in: &cancellables)
@@ -90,11 +96,14 @@ extension DIDCommSecretsResolverWrapper: SecretsResolver {
                 .filter { secretids.contains($0.id) }
                 .map { $0.id }
             }
-            .sink {
+            .sink { [weak self] in
                 do {
                     try cb.success(result: $0)
                 } catch {
-                    print(error.localizedDescription)
+                    self?.logger.error(message: "Could not find secrets", metadata: [
+                        .publicMetadata(key: "SecretsIds", value: secretids.description),
+                        .publicMetadata(key: "Error", value: error.localizedDescription)
+                    ])
                 }
             }
             .store(in: &cancellables)

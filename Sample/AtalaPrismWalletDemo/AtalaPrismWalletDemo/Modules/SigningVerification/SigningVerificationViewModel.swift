@@ -11,7 +11,7 @@ final class SigningVerificationViewModel: ObservableObject {
         self.castor = CastorBuilder(
             apollo: ApolloBuilder().build()
         ).build()
-        self.agent = PrismAgent()
+        self.agent = PrismAgent(mediatorDID: DID(method: "peer", methodId: "1234"))
     }
 
     @Published var createdDID: DID?
