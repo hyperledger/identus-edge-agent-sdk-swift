@@ -88,23 +88,27 @@ extension DidDoc {
             )
         }
 
-        let services = from.services.map {
-            if $0.type.contains("DIDCommMessaging") {
-                return Service(
-                    id: $0.id,
-                    kind: .didCommMessaging(
-                        value: .init(
-                            serviceEndpoint: $0.serviceEndpoint.uri,
-                            accept: $0.serviceEndpoint.accept,
-                            routingKeys: $0.serviceEndpoint.routingKeys
+        let services = from.services.compactMap { service in
+            if service.type.contains("DIDCommMessaging") {
+                return service.serviceEndpoint.first.map {
+                    Service(
+                        id: service.id,
+                        kind: .didCommMessaging(
+                            value: .init(
+                                serviceEndpoint: $0.uri,
+                                accept: $0.accept,
+                                routingKeys: $0.routingKeys
+                            )
                         )
                     )
-                )
+                }
             } else {
-                return Service(
-                    id: $0.id,
-                    kind: .other(value: $0.serviceEndpoint.uri)
-                )
+                return service.serviceEndpoint.first.map {
+                    Service(
+                        id: service.id,
+                        kind: .other(value: $0.uri)
+                    )
+                }
             }
         }
         self.init(

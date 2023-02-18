@@ -142,15 +142,18 @@ struct CreatePeerDIDOperation {
     }
 
     private func encodeService(services: [DIDDocument.Service]) throws -> String {
-        let peerDidServices: [PeerDID.Service] = services.compactMap {
-            guard let type = $0.type.first else { return nil }
+        let peerDidServices: [PeerDID.Service] = services.map { service in
+            guard
+                let type = service.type.first,
+                let endpoint = service.serviceEndpoint.first
+            else { return nil }
             return PeerDID.Service(
                 type: type,
-                serviceEndpoint: $0.serviceEndpoint.uri,
-                routingKeys: $0.serviceEndpoint.routingKeys,
-                accept: $0.serviceEndpoint.accept
+                serviceEndpoint: endpoint.uri,
+                routingKeys: endpoint.routingKeys,
+                accept: endpoint.accept
             )
-        }
+        }.compactMap { $0 }
         let encoder = JSONEncoder()
         encoder.outputFormatting = .withoutEscapingSlashes
         if
