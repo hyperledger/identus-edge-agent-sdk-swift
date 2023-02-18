@@ -154,11 +154,11 @@ struct PeerDIDResolver: DIDResolverDomain {
             DIDDocument.Service(
                 id: did.string + $0.element.type.lowercased() + "-\($0.offset)",
                 type: [$0.element.type],
-                serviceEndpoint: .init(
+                serviceEndpoint: [.init(
                     uri: $0.element.serviceEndpoint,
                     accept: $0.element.accept,
                     routingKeys: $0.element.routingKeys
-                )
+                )]
             )
         }
     }
