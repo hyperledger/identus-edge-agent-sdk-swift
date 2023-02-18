@@ -16,7 +16,7 @@ extension MercuryImpl: Mercury {
         guard let toDID = msg.to else { throw MercuryError.noDIDReceiverSetError }
         let document = try await castor.resolveDID(did: toDID)
         guard
-            let urlString = document.services.first?.serviceEndpoint.uri,
+            let urlString = document.services.first?.serviceEndpoint.first?.uri,
             let url = URL(string: urlString)
         else {
             logger.error(message: "Could not find a valid service on the DID to send message")

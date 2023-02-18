@@ -136,8 +136,8 @@ public class PrismAgent {
                 services: [.init(
                     id: "#didcomm-1",
                     type: ["DIDCommMessaging"],
-                    serviceEndpoint:.init(uri: mediationHandler.mediatorDID.string))
-                ],
+                    serviceEndpoint: [.init(uri: mediationHandler.mediatorDID.string)]
+                )],
                 updateMediator: false
             )
             try await connectionManager.registerMediator(hostDID: hostDID)

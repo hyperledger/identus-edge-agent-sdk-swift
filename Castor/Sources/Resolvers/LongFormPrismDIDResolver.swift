@@ -66,8 +66,8 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
         let services = operation.createDid.didData.services.map {
             DIDDocument.Service(
                 id: $0.id,
-                type: $0.types,
-                serviceEndpoint: .init(uri: $0.serviceEndpoint)
+                type: [$0.type],
+                serviceEndpoint: $0.serviceEndpoint.map { .init(uri: $0) }
             )
         }
         return (publicKeys.reduce(

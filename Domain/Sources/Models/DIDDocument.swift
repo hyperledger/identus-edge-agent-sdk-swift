@@ -82,12 +82,12 @@ public struct DIDDocument {
         public let type: [String]
 
         /// The service endpoint of the service.
-        public let serviceEndpoint: ServiceEndpoint
+        public let serviceEndpoint: [ServiceEndpoint]
 
         public init(
             id: String,
             type: [String],
-            serviceEndpoint: ServiceEndpoint
+            serviceEndpoint: [ServiceEndpoint]
         ) {
             self.id = id
             self.type = type

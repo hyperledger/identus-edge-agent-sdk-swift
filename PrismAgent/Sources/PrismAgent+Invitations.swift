@@ -50,10 +50,10 @@ public extension PrismAgent {
             services: [.init(
                 id: "#didcomm-1",
                 type: ["DIDCommMessaging"],
-                serviceEndpoint: .init(
+                serviceEndpoint: [.init(
                     uri: "https://localhost:8080/didcomm"
-                ))
-            ],
+                )]
+            )],
             updateMediator: false
         )
 
@@ -91,10 +91,10 @@ public extension PrismAgent {
             services: [.init(
                 id: "#didcomm-1",
                 type: ["DIDCommMessaging"],
-                serviceEndpoint: .init(
+                serviceEndpoint: [.init(
                     uri: mediatorRoutingDID.string
-                ))
-            ],
+                )]
+            )],
             updateMediator: true
         )
 

@@ -5,7 +5,9 @@ struct PrismDIDPublicKey {
     enum Usage: String {
         case masterKey
         case issuingKey
-        case communicationKey
+        case keyAgreementKey
+        case capabilityDelegationKey
+        case capabilityInvocationKey
         case authenticationKey
         case revocationKey
         case unknownKey
@@ -20,12 +22,16 @@ struct PrismDIDPublicKey {
                 return .masterKey
             case .issuingKey:
                 return .issuingKey
-            case .communicationKey:
-                return .communicationKey
+            case .capabilityInvocationKey:
+                return .capabilityInvocationKey
+            case .capabilityDelegationKey:
+                return .capabilityDelegationKey
             case .authenticationKey:
                 return .authenticationKey
             case .revocationKey:
                 return .revocationKey
+            case .keyAgreementKey:
+                return .keyAgreementKey
             case .unknownKey:
                 return .unknownKey
             }
@@ -37,12 +43,16 @@ struct PrismDIDPublicKey {
                 return "master\(index)"
             case .issuingKey:
                 return "issuing\(index)"
-            case .communicationKey:
-                return "communication\(index)"
+            case .capabilityDelegationKey:
+                return "capabilityDelegationKey\(index)"
+            case .capabilityInvocationKey:
+                return "capabilityInvocationKey\(index)"
             case .authenticationKey:
                 return "authentication\(index)"
             case .revocationKey:
                 return "revocation\(index)"
+            case .keyAgreementKey:
+                return "keyAgreement\(index)"
             case .unknownKey:
                 return "unknown\(index)"
             }
@@ -92,12 +102,16 @@ private extension Io_Iohk_Atala_Prism_Protos_KeyUsage {
             return .unknownKey
         case .issuingKey:
             return .issuingKey
-        case .communicationKey:
-            return .communicationKey
+        case .capabilityInvocationKey:
+            return .capabilityInvocationKey
+        case .capabilityDelegationKey:
+            return .capabilityDelegationKey
         case .authenticationKey:
             return .authenticationKey
         case .revocationKey:
             return .revocationKey
+        case .keyAgreementKey:
+            return .keyAgreementKey
         case .UNRECOGNIZED:
             return .unknownKey
         }
