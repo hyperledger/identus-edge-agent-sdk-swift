@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CDDID" representedClassName="CDDID" isAbstract="YES" syncable="YES">
+        <attribute name="did" optional="YES" attributeType="String"/>
+        <attribute name="method" attributeType="String"/>
+        <attribute name="methodId" attributeType="String"/>
+        <attribute name="schema" attributeType="String"/>
+    </entity>
+    <entity name="CDDIDPair" representedClassName="CDDIDPair" parentEntity="CDDID" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="holderDID" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPrivateKey" inverseName="pair" inverseEntity="CDDIDPrivateKey"/>
+        <relationship name="messages" toMany="YES" deletionRule="Nullify" destinationEntity="CDMessage" inverseName="pair" inverseEntity="CDMessage"/>
+    </entity>
+    <entity name="CDDIDPrivateKey" representedClassName="CDDIDPrivateKey" parentEntity="CDDID" syncable="YES">
+        <attribute name="alias" optional="YES" attributeType="String"/>
+        <attribute name="curveAuthenticate" optional="YES" attributeType="String"/>
+        <attribute name="curveKeyAgreement" optional="YES" attributeType="String"/>
+        <attribute name="privateKeyAuthenticate" optional="YES" attributeType="Binary"/>
+        <attribute name="privateKeyKeyAgreement" optional="YES" attributeType="Binary"/>
+        <relationship name="pair" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPair" inverseName="holderDID" inverseEntity="CDDIDPair"/>
+    </entity>
+    <entity name="CDIssueCredentialProtocol" representedClassName="CDIssueCredentialProtocol" syncable="YES">
+        <attribute name="protocolId" optional="YES" attributeType="String"/>
+        <attribute name="threadId" optional="YES" attributeType="String"/>
+        <relationship name="credential" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDVerifiableCredential"/>
+        <relationship name="issue" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="offer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="propose" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="request" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+    </entity>
+    <entity name="CDMediatorDID" representedClassName="CDMediatorDID" syncable="YES">
+        <attribute name="mediatorId" optional="YES" attributeType="String"/>
+        <relationship name="mediatorDID" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDID"/>
+        <relationship name="peerDID" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPrivateKey"/>
+        <relationship name="routingDID" maxCount="1" deletionRule="Nullify" destinationEntity="CDDID"/>
+    </entity>
+    <entity name="CDMessage" representedClassName="CDMessage" syncable="YES">
+        <attribute name="createdTime" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dataJson" attributeType="Binary"/>
+        <attribute name="direction" optional="YES" attributeType="String"/>
+        <attribute name="from" optional="YES" attributeType="String"/>
+        <attribute name="messageId" attributeType="String"/>
+        <attribute name="thid" optional="YES" attributeType="String"/>
+        <attribute name="to" optional="YES" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+        <relationship name="pair" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPair" inverseName="messages" inverseEntity="CDDIDPair"/>
+    </entity>
+    <entity name="CDProofProtocol" representedClassName="CDProofProtocol" syncable="YES">
+        <attribute name="protocolId" optional="YES" attributeType="String"/>
+        <attribute name="threadId" optional="YES" attributeType="String"/>
+        <relationship name="presentation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="propose" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+        <relationship name="request" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDMessage"/>
+    </entity>
+    <entity name="CDRegisteredDID" representedClassName="CDRegisteredDID" parentEntity="CDDID" syncable="YES">
+        <attribute name="alias" optional="YES" attributeType="String"/>
+        <attribute name="keyIndex" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="CDVerifiableCredential" representedClassName="CDVerifiableCredential" syncable="YES">
+        <attribute name="credentialId" attributeType="String"/>
+        <attribute name="credentialType" optional="YES" attributeType="String"/>
+        <attribute name="expirationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="issuanceDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="schemaId" optional="YES" attributeType="String"/>
+        <attribute name="verifiableCredetialJson" attributeType="Binary"/>
+        <relationship name="context" toMany="YES" deletionRule="Nullify" destinationEntity="CDVerifiableCredentialContext" inverseName="credentials" inverseEntity="CDVerifiableCredentialContext"/>
+        <relationship name="issuer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDID"/>
+        <relationship name="type" toMany="YES" deletionRule="Nullify" destinationEntity="CDVerifiableCredentialType" inverseName="credentials" inverseEntity="CDVerifiableCredentialType"/>
+    </entity>
+    <entity name="CDVerifiableCredentialContext" representedClassName="CDVerifiableCredentialContext" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="credentials" toMany="YES" deletionRule="Nullify" destinationEntity="CDVerifiableCredential" inverseName="context" inverseEntity="CDVerifiableCredential"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="CDVerifiableCredentialType" representedClassName="CDVerifiableCredentialType" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="credentials" toMany="YES" deletionRule="Nullify" destinationEntity="CDVerifiableCredential" inverseName="type" inverseEntity="CDVerifiableCredential"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+</model>
