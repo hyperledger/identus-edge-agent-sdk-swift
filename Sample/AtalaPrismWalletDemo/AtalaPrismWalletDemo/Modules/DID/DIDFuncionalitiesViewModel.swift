@@ -21,14 +21,14 @@ final class DIDFuncionalitiesViewModel: ObservableObject {
         // Creates new PRISM DID
         let did = try? await agent.createNewPrismDID(
             // Add this if you want to provide a IndexPath
-            // keyPathIndex: <#T##Int?#>
+            keyPathIndex: 2,
             // Add this if you want to provide an alias for this DID
             // alias: <#T##String?#>
             // Add any services available in the DID
             services: [ .init(
                 id: "DemoID",
                 type: ["DemoType"],
-                serviceEndpoint: .init(uri: "DemoServiceEndpoint")
+                serviceEndpoint: [.init(uri: "DemoServiceEndpoint")]
             )
        ])
         

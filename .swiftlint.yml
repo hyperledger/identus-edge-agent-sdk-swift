@@ -80,19 +80,19 @@ excluded:
   - PrismAPISDK
   - Sources/PrismSwiftSDK/protobuf/*
   - Tests/PrismSwiftSDKTests
-  - Castor/Sources/DIDParser/DIDGrammar/*
-  - Castor/Tests
-  - Castor/Sources/protobuf
-  - Apollo/Tests
-  - Domain/Tests
-  - Authenticate/Tests
-  - Builders/Tests
+  - AtalaPrismSDK/Castor/Sources/DIDParser/DIDGrammar/*
+  - AtalaPrismSDK/Castor/Tests
+  - AtalaPrismSDK/Castor/Sources/protobuf
+  - AtalaPrismSDK/Apollo/Tests
+  - AtalaPrismSDK/Domain/Tests
+  - AtalaPrismSDK/Authenticate/Tests
+  - AtalaPrismSDK/Builders/Tests
   - Core/Tests
-  - Mercury/Tests
-  - Pluto/Tests
-  - Pollux/Tests
-  - PrismAgent/Tests
-  - Mercury/Sources/TestingConstants/*
+  - AtalaPrismSDK/Mercury/Tests
+  - AtalaPrismSDK/Pluto/Tests
+  - AtalaPrismSDK/Pollux/Tests
+  - AtalaPrismSDK/PrismAgent/Tests
+  - AtalaPrismSDK/Mercury/Sources/TestingConstants/*
   - Sample
 line_length:
   ignores_comments: true
