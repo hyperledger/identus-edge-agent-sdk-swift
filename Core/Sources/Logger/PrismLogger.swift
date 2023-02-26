@@ -147,7 +147,7 @@ public extension PrismLogger {
     ///   - metadata: Private/Public/Masked metadata
     func warning(message: String, metadata: [Metadata] = []) {
         guard logLevel != .none else { return }
-        logger.warning("\(message)", metadata: metadata.loggerMetadata(logLevel: logLevel))
+        logger.warning("⚠️ \(message)", metadata: metadata.loggerMetadata(logLevel: logLevel))
     }
 
     /// Logs error level message and metadata
@@ -156,7 +156,7 @@ public extension PrismLogger {
     ///   - metadata: Private/Public/Masked metadata
     func error(message: String, metadata: [Metadata] = []) {
         guard logLevel != .none else { return }
-        logger.error("\(message)", metadata: metadata.loggerMetadata(logLevel: logLevel))
+        logger.error("🛑 \(message)", metadata: metadata.loggerMetadata(logLevel: logLevel))
     }
 
     /// Logs error level message and metadata
@@ -165,7 +165,20 @@ public extension PrismLogger {
     ///   - metadata: Private/Public/Masked metadata
     func error(error: Error, metadata: [Metadata] = []) {
         guard logLevel != .none else { return }
-        logger.error("\(error.localizedDescription)", metadata: metadata.loggerMetadata(logLevel: logLevel))
+        if
+            let localized = error as? LocalizedError,
+            let message = localized.errorDescription
+        {
+            logger.error(
+                "🛑 \(message)",
+                metadata: metadata.loggerMetadata(logLevel: logLevel)
+            )
+        } else {
+            logger.error(
+                "🛑 \(error.localizedDescription)",
+                metadata: metadata.loggerMetadata(logLevel: logLevel)
+            )
+        }
     }
 }
 

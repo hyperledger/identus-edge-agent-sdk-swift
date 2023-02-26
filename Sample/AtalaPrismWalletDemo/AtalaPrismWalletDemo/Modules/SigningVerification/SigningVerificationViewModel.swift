@@ -31,7 +31,7 @@ final class SigningVerificationViewModel: ObservableObject {
             services: [ .init(
                 id: "DemoID",
                 type: ["DemoType"],
-                serviceEndpoint: .init(uri: "DemoServiceEndpoint")
+                serviceEndpoint: [.init(uri: "DemoServiceEndpoint")]
             )
        ])
         await MainActor.run {

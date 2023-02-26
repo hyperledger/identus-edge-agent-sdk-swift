@@ -5,8 +5,21 @@ import PackageDescription
 
 let package = Package(
     name: "AtalaPRISMSDK",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
+        .library(
+            name: "AtalaPrismSDK",
+            targets: [
+                "AtalaPrismSDK",
+                "Domain",
+                "Castor",
+                "Apollo",
+                "Mercury",
+                "Pluto",
+                "Pollux",
+                "PrismAgent"
+            ]
+        ),
         .library(
             name: "Domain",
             targets: ["Domain"]
@@ -56,17 +69,32 @@ let package = Package(
         .package(url: "git@github.com:input-output-hk/atala-prism-didcomm-swift.git", from: "0.3.4"),
         .package(url: "git@github.com:input-output-hk/atala-prism-crypto-sdk-sp.git", from: "1.4.1"),
         .package(url: "git@github.com:swift-libp2p/swift-multibase.git", branch: "main"),
-        .package(url: "git@github.com:Kitura/Swift-JWT.git", from: "4.0.0")
+        .package(url: "git@github.com:Kitura/Swift-JWT.git", from: "4.0.0"),
+        .package(url: "git@github.com:goncalo-frade-iohk/swift-docc-plugin.git", from: "1.2.0")
     ],
     targets: [
         .target(
+            name: "AtalaPrismSDK",
+            dependencies: [
+                "Domain",
+                "Castor",
+                "Apollo",
+                "Mercury",
+                "Pluto",
+                "Pollux",
+                "PrismAgent"
+            ],
+            path: "AtalaPrismSDK/AtalaPrismSDK/Sources",
+            resources: [.process("Documentation.docc/Resources")]
+        ),
+        .target(
             name: "Domain",
-            path: "Domain/Sources"
+            path: "AtalaPrismSDK/Domain/Sources"
         ),
         .testTarget(
             name: "DomainTests",
             dependencies: ["Domain"],
-            path: "Domain/Tests"
+            path: "AtalaPrismSDK/Domain/Tests"
         ),
         .target(
             name: "Apollo",
@@ -76,12 +104,12 @@ let package = Package(
                 .product(name: "PrismAPI", package: "atala-prism-crypto-sdk-sp"),
                 .product(name: "SwiftJWT", package: "Swift-JWT")
             ],
-            path: "Apollo/Sources"
+            path: "AtalaPrismSDK/Apollo/Sources"
         ),
         .testTarget(
             name: "ApolloTests",
             dependencies: ["Apollo"],
-            path: "Apollo/Tests"
+            path: "AtalaPrismSDK/Apollo/Tests"
         ),
         .target(
             name: "Castor",
@@ -92,12 +120,12 @@ let package = Package(
                 .product(name: "SwiftProtobuf", package: "swift-protobuf"),
                 .product(name: "Antlr4", package: "antlr4")
             ],
-            path: "Castor/Sources"
+            path: "AtalaPrismSDK/Castor/Sources"
         ),
         .testTarget(
             name: "CastorTests",
             dependencies: ["Castor", "Apollo"],
-            path: "Castor/Tests"
+            path: "AtalaPrismSDK/Castor/Tests"
         ),
         .target(
             name: "Pollux",
@@ -105,12 +133,12 @@ let package = Package(
                 "Domain",
                 "Core"
             ],
-            path: "Pollux/Sources"
+            path: "AtalaPrismSDK/Pollux/Sources"
         ),
         .testTarget(
             name: "PolluxTests",
             dependencies: ["Pollux"],
-            path: "Pollux/Tests"
+            path: "AtalaPrismSDK/Pollux/Tests"
         ),
         .target(
             name: "Mercury",
@@ -119,48 +147,48 @@ let package = Package(
                 "Core",
                 .product(name: "DIDCommxSwift", package: "atala-prism-didcomm-swift")
             ],
-            path: "Mercury/Sources"
+            path: "AtalaPrismSDK/Mercury/Sources"
         ),
         .testTarget(
             name: "MercuryTests",
             dependencies: ["Mercury"],
-            path: "Mercury/Tests"
+            path: "AtalaPrismSDK/Mercury/Tests"
         ),
         .target(
             name: "Pluto",
             dependencies: ["Domain"],
-            path: "Pluto/Sources",
+            path: "AtalaPrismSDK/Pluto/Sources",
             resources: [.process("Resources/PrismPluto.xcdatamodeld")]
         ),
         .testTarget(
             name: "PlutoTests",
             dependencies: ["Pluto"],
-            path: "Pluto/Tests"
+            path: "AtalaPrismSDK/Pluto/Tests"
         ),
         .target(
             name: "Builders",
             dependencies: ["Domain", "Castor", "Pollux", "Mercury", "Pluto", "Apollo"],
-            path: "Builders/Sources"
+            path: "AtalaPrismSDK/Builders/Sources"
         ),
         .target(
             name: "PrismAgent",
             dependencies: ["Domain", "Builders", "Core"],
-            path: "PrismAgent/Sources"
+            path: "AtalaPrismSDK/PrismAgent/Sources"
         ),
         .testTarget(
             name: "PrismAgentTests",
             dependencies: ["PrismAgent"],
-            path: "PrismAgent/Tests"
+            path: "AtalaPrismSDK/PrismAgent/Tests"
         ),
         .target(
             name: "Authenticate",
             dependencies: ["Domain", "Builders", "Core"],
-            path: "Authenticate/Sources"
+            path: "AtalaPrismSDK/Authenticate/Sources"
         ),
         .testTarget(
             name: "AuthenticateTests",
             dependencies: ["Authenticate"],
-            path: "Authenticate/Tests"
+            path: "AtalaPrismSDK/Authenticate/Tests"
         ),
 //        Internal core components (ex: logging) not public distributed
         .target(
