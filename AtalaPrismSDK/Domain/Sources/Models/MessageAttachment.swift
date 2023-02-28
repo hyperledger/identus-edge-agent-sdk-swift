@@ -135,7 +135,7 @@ public struct AttachmentDescriptor {
     ///   - byteCount: The byte count associated with the attachment.
     ///   - description: The description associated with the attachment.
     public init(
-        id: String,
+        id: String = UUID().uuidString,
         mediaType: String? = nil,
         data: AttachmentData,
         filename: [String]? = nil,

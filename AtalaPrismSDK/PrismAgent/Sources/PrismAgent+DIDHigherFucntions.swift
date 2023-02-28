@@ -231,6 +231,12 @@ Could not find key in storage please use Castor instead and provide the private 
         }
     }
 
+    func getAllRegisteredPeerDIDs() -> AnyPublisher<[(did: DID, alias: String?)], Error> {
+        pluto.getAllPeerDIDs()
+            .map { $0.map { ($0.did, $0.alias) } }
+            .eraseToAnyPublisher()
+    }
+
     /// This function registers a DID pair in the `pluto` store
     ///
     /// - Parameter pair: The DID pair to register

@@ -1,0 +1,497 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EEEC018D29AD3EFD00B69535 /* DIDManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEC018C29AD3EFD00B69535 /* DIDManagerViewModel.swift */; };
+		EEEC019029AD3F2B00B69535 /* DIDManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEC018F29AD3F2B00B69535 /* DIDManagerView.swift */; };
+		EEEC019229AD3F5D00B69535 /* DIDManagerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEC019129AD3F5D00B69535 /* DIDManagerState.swift */; };
+		EEF0DC8529A7E7F700F34CE1 /* DIDChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DC8429A7E7F700F34CE1 /* DIDChatApp.swift */; };
+		EEF0DC8929A7E7FA00F34CE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEF0DC8829A7E7FA00F34CE1 /* Assets.xcassets */; };
+		EEF0DC8D29A7E7FA00F34CE1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEF0DC8C29A7E7FA00F34CE1 /* Preview Assets.xcassets */; };
+		EEF0DC9829A7E95900F34CE1 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DC9729A7E95900F34CE1 /* ChatViewModel.swift */; };
+		EEF0DC9B29A7E99500F34CE1 /* PrismAgent in Frameworks */ = {isa = PBXBuildFile; productRef = EEF0DC9A29A7E99500F34CE1 /* PrismAgent */; };
+		EEF0DC9D29A7E9DA00F34CE1 /* ChatViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DC9C29A7E9DA00F34CE1 /* ChatViewState.swift */; };
+		EEF0DCA129A7FE5400F34CE1 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCA029A7FE5400F34CE1 /* ChatView.swift */; };
+		EEF0DCA429A8018200F34CE1 /* ContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCA329A8018200F34CE1 /* ContactsViewModel.swift */; };
+		EEF0DCA729A80D1600F34CE1 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCA629A80D1600F34CE1 /* DIContainer.swift */; };
+		EEF0DCA929A80E6100F34CE1 /* ContactsViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCA829A80E6100F34CE1 /* ContactsViewState.swift */; };
+		EEF0DCAB29A814BB00F34CE1 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCAA29A814BB00F34CE1 /* ContactsView.swift */; };
+		EEF0DCAE29A8186800F34CE1 /* MediatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCAD29A8186800F34CE1 /* MediatorViewModel.swift */; };
+		EEF0DCB029A819A700F34CE1 /* MediatorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCAF29A819A700F34CE1 /* MediatorRouter.swift */; };
+		EEF0DCB429A81C5400F34CE1 /* MediatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCB329A81C5400F34CE1 /* MediatorView.swift */; };
+		EEF0DCB629A81F5800F34CE1 /* ContactsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCB529A81F5800F34CE1 /* ContactsRouter.swift */; };
+		EEF0DCB829A8234E00F34CE1 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCB729A8234E00F34CE1 /* LazyView.swift */; };
+		EEF0DCBA29A90EB500F34CE1 /* Future+AsyncAwait.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCB929A90EB500F34CE1 /* Future+AsyncAwait.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		EEEC018C29AD3EFD00B69535 /* DIDManagerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDManagerViewModel.swift; sourceTree = "<group>"; };
+		EEEC018F29AD3F2B00B69535 /* DIDManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDManagerView.swift; sourceTree = "<group>"; };
+		EEEC019129AD3F5D00B69535 /* DIDManagerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDManagerState.swift; sourceTree = "<group>"; };
+		EEF0DC8129A7E7F700F34CE1 /* DIDChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIDChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EEF0DC8429A7E7F700F34CE1 /* DIDChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDChatApp.swift; sourceTree = "<group>"; };
+		EEF0DC8829A7E7FA00F34CE1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EEF0DC8A29A7E7FA00F34CE1 /* DIDChat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIDChat.entitlements; sourceTree = "<group>"; };
+		EEF0DC8C29A7E7FA00F34CE1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EEF0DC9429A7E91D00F34CE1 /* atala-prism-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "atala-prism-swift-sdk"; path = ../..; sourceTree = "<group>"; };
+		EEF0DC9729A7E95900F34CE1 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		EEF0DC9C29A7E9DA00F34CE1 /* ChatViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewState.swift; sourceTree = "<group>"; };
+		EEF0DCA029A7FE5400F34CE1 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		EEF0DCA329A8018200F34CE1 /* ContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewModel.swift; sourceTree = "<group>"; };
+		EEF0DCA629A80D1600F34CE1 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		EEF0DCA829A80E6100F34CE1 /* ContactsViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewState.swift; sourceTree = "<group>"; };
+		EEF0DCAA29A814BB00F34CE1 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
+		EEF0DCAD29A8186800F34CE1 /* MediatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediatorViewModel.swift; sourceTree = "<group>"; };
+		EEF0DCAF29A819A700F34CE1 /* MediatorRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediatorRouter.swift; sourceTree = "<group>"; };
+		EEF0DCB329A81C5400F34CE1 /* MediatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediatorView.swift; sourceTree = "<group>"; };
+		EEF0DCB529A81F5800F34CE1 /* ContactsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsRouter.swift; sourceTree = "<group>"; };
+		EEF0DCB729A8234E00F34CE1 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
+		EEF0DCB929A90EB500F34CE1 /* Future+AsyncAwait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Future+AsyncAwait.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EEF0DC7E29A7E7F700F34CE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEF0DC9B29A7E99500F34CE1 /* PrismAgent in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EEEC018E29AD3F0300B69535 /* DIDManagement */ = {
+			isa = PBXGroup;
+			children = (
+				EEEC018C29AD3EFD00B69535 /* DIDManagerViewModel.swift */,
+				EEEC018F29AD3F2B00B69535 /* DIDManagerView.swift */,
+				EEEC019129AD3F5D00B69535 /* DIDManagerState.swift */,
+			);
+			path = DIDManagement;
+			sourceTree = "<group>";
+		};
+		EEF0DC7829A7E7F700F34CE1 = {
+			isa = PBXGroup;
+			children = (
+				EEF0DC9329A7E91D00F34CE1 /* Packages */,
+				EEF0DC8329A7E7F700F34CE1 /* DIDChat */,
+				EEF0DC8229A7E7F700F34CE1 /* Products */,
+				EEF0DC9929A7E99500F34CE1 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EEF0DC8229A7E7F700F34CE1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EEF0DC8129A7E7F700F34CE1 /* DIDChat.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EEF0DC8329A7E7F700F34CE1 /* DIDChat */ = {
+			isa = PBXGroup;
+			children = (
+				EEF0DCA529A80D0400F34CE1 /* Helpers */,
+				EEF0DC9529A7E94000F34CE1 /* Modules */,
+				EEF0DC8429A7E7F700F34CE1 /* DIDChatApp.swift */,
+				EEF0DC8829A7E7FA00F34CE1 /* Assets.xcassets */,
+				EEF0DC8A29A7E7FA00F34CE1 /* DIDChat.entitlements */,
+				EEF0DC8B29A7E7FA00F34CE1 /* Preview Content */,
+			);
+			path = DIDChat;
+			sourceTree = "<group>";
+		};
+		EEF0DC8B29A7E7FA00F34CE1 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				EEF0DC8C29A7E7FA00F34CE1 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EEF0DC9329A7E91D00F34CE1 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				EEF0DC9429A7E91D00F34CE1 /* atala-prism-swift-sdk */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		EEF0DC9529A7E94000F34CE1 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				EEEC018E29AD3F0300B69535 /* DIDManagement */,
+				EEF0DCAC29A8184000F34CE1 /* MediatorView */,
+				EEF0DCA229A8016800F34CE1 /* ContactsView */,
+				EEF0DC9629A7E94700F34CE1 /* ChatView */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		EEF0DC9629A7E94700F34CE1 /* ChatView */ = {
+			isa = PBXGroup;
+			children = (
+				EEF0DC9729A7E95900F34CE1 /* ChatViewModel.swift */,
+				EEF0DC9C29A7E9DA00F34CE1 /* ChatViewState.swift */,
+				EEF0DCA029A7FE5400F34CE1 /* ChatView.swift */,
+			);
+			path = ChatView;
+			sourceTree = "<group>";
+		};
+		EEF0DC9929A7E99500F34CE1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EEF0DCA229A8016800F34CE1 /* ContactsView */ = {
+			isa = PBXGroup;
+			children = (
+				EEF0DCA329A8018200F34CE1 /* ContactsViewModel.swift */,
+				EEF0DCA829A80E6100F34CE1 /* ContactsViewState.swift */,
+				EEF0DCAA29A814BB00F34CE1 /* ContactsView.swift */,
+				EEF0DCB529A81F5800F34CE1 /* ContactsRouter.swift */,
+			);
+			path = ContactsView;
+			sourceTree = "<group>";
+		};
+		EEF0DCA529A80D0400F34CE1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				EEF0DCA629A80D1600F34CE1 /* DIContainer.swift */,
+				EEF0DCB729A8234E00F34CE1 /* LazyView.swift */,
+				EEF0DCB929A90EB500F34CE1 /* Future+AsyncAwait.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		EEF0DCAC29A8184000F34CE1 /* MediatorView */ = {
+			isa = PBXGroup;
+			children = (
+				EEF0DCAD29A8186800F34CE1 /* MediatorViewModel.swift */,
+				EEF0DCAF29A819A700F34CE1 /* MediatorRouter.swift */,
+				EEF0DCB329A81C5400F34CE1 /* MediatorView.swift */,
+			);
+			path = MediatorView;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EEF0DC8029A7E7F700F34CE1 /* DIDChat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EEF0DC9029A7E7FA00F34CE1 /* Build configuration list for PBXNativeTarget "DIDChat" */;
+			buildPhases = (
+				EEF0DC7D29A7E7F700F34CE1 /* Sources */,
+				EEF0DC7E29A7E7F700F34CE1 /* Frameworks */,
+				EEF0DC7F29A7E7F700F34CE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DIDChat;
+			packageProductDependencies = (
+				EEF0DC9A29A7E99500F34CE1 /* PrismAgent */,
+			);
+			productName = DIDChat;
+			productReference = EEF0DC8129A7E7F700F34CE1 /* DIDChat.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EEF0DC7929A7E7F700F34CE1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					EEF0DC8029A7E7F700F34CE1 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+				};
+			};
+			buildConfigurationList = EEF0DC7C29A7E7F700F34CE1 /* Build configuration list for PBXProject "DIDChat" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EEF0DC7829A7E7F700F34CE1;
+			productRefGroup = EEF0DC8229A7E7F700F34CE1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EEF0DC8029A7E7F700F34CE1 /* DIDChat */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EEF0DC7F29A7E7F700F34CE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEF0DC8D29A7E7FA00F34CE1 /* Preview Assets.xcassets in Resources */,
+				EEF0DC8929A7E7FA00F34CE1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EEF0DC7D29A7E7F700F34CE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EEF0DCBA29A90EB500F34CE1 /* Future+AsyncAwait.swift in Sources */,
+				EEEC019029AD3F2B00B69535 /* DIDManagerView.swift in Sources */,
+				EEF0DCB429A81C5400F34CE1 /* MediatorView.swift in Sources */,
+				EEEC018D29AD3EFD00B69535 /* DIDManagerViewModel.swift in Sources */,
+				EEEC019229AD3F5D00B69535 /* DIDManagerState.swift in Sources */,
+				EEF0DC9829A7E95900F34CE1 /* ChatViewModel.swift in Sources */,
+				EEF0DCAB29A814BB00F34CE1 /* ContactsView.swift in Sources */,
+				EEF0DCA429A8018200F34CE1 /* ContactsViewModel.swift in Sources */,
+				EEF0DCA729A80D1600F34CE1 /* DIContainer.swift in Sources */,
+				EEF0DCB829A8234E00F34CE1 /* LazyView.swift in Sources */,
+				EEF0DCA929A80E6100F34CE1 /* ContactsViewState.swift in Sources */,
+				EEF0DC9D29A7E9DA00F34CE1 /* ChatViewState.swift in Sources */,
+				EEF0DCB629A81F5800F34CE1 /* ContactsRouter.swift in Sources */,
+				EEF0DCAE29A8186800F34CE1 /* MediatorViewModel.swift in Sources */,
+				EEF0DCB029A819A700F34CE1 /* MediatorRouter.swift in Sources */,
+				EEF0DCA129A7FE5400F34CE1 /* ChatView.swift in Sources */,
+				EEF0DC8529A7E7F700F34CE1 /* DIDChatApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EEF0DC8E29A7E7FA00F34CE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EEF0DC8F29A7E7FA00F34CE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		EEF0DC9129A7E7FA00F34CE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DIDChat/DIDChat.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"DIDChat/Preview Content\"";
+				DEVELOPMENT_TEAM = 89TW38X994;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.iohk.atala.prism.swift.didChat.DIDChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EEF0DC9229A7E7FA00F34CE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DIDChat/DIDChat.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"DIDChat/Preview Content\"";
+				DEVELOPMENT_TEAM = 89TW38X994;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.iohk.atala.prism.swift.didChat.DIDChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EEF0DC7C29A7E7F700F34CE1 /* Build configuration list for PBXProject "DIDChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EEF0DC8E29A7E7FA00F34CE1 /* Debug */,
+				EEF0DC8F29A7E7FA00F34CE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EEF0DC9029A7E7FA00F34CE1 /* Build configuration list for PBXNativeTarget "DIDChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EEF0DC9129A7E7FA00F34CE1 /* Debug */,
+				EEF0DC9229A7E7FA00F34CE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EEF0DC9A29A7E99500F34CE1 /* PrismAgent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PrismAgent;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = EEF0DC7929A7E7F700F34CE1 /* Project object */;
+}

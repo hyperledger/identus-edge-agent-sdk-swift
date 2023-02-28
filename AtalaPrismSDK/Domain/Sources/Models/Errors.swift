@@ -81,6 +81,8 @@ public enum UnknownError: UnknownPrismError {
             return errors
         }
     }
+
+    public var errorDescription: String? { message }
 }
 
 extension UnknownError: Equatable {
@@ -142,6 +144,10 @@ public enum CommonError: KnownPrismError {
         case let .httpError(_, message):
             return message
         }
+    }
+
+    public var description: String {
+        "Code \(code): \(message)"
     }
 }
 
@@ -377,14 +383,7 @@ public enum MercuryError: KnownPrismError {
 
     /// An error case representing invalid body data in a message.
     case messageInvalidBodyDataError
-
-    /**
-     An error case representing a DIDComm error.
-
-     - Parameters:
-        - msg: The message describing the error.
-     */
-    case didcommError(msg: String)
+    case didcommError(msg: String, underlyingErrors: [Error]? = nil)
 
     /// The error code returned by the server.
     public var code: Int {
@@ -427,8 +426,11 @@ public enum MercuryError: KnownPrismError {
             return "While decoding a message, a message attachment was found without \"id\" this is invalid"
         case .messageInvalidBodyDataError:
             return "While decoding a message, a body was found to be invalid while decoding"
-        case .didcommError(let msg):
-            return "DIDComm error as ocurred with message: \(msg)"
+        case let .didcommError(msg, errors):
+            let errorsMessages = errors.map {
+                "\n" + $0.map { $0.localizedDescription }.joined(separator: "\n")
+            } ?? ""
+            return "DIDComm error as ocurred with message: \(msg)\nErrors: \(errorsMessages)"
         }
     }
 }

@@ -11,29 +11,26 @@ class DIDCommSecretsResolverWrapper {
     let pluto: Pluto
     let castor: Castor
     let logger: PrismLogger
-    @Published var availableSecrets = [Domain.Secret]()
-    var cancellables = [AnyCancellable]()
 
     init(apollo: Apollo, pluto: Pluto, castor: Castor, logger: PrismLogger) {
         self.apollo = apollo
         self.pluto = pluto
         self.castor = castor
         self.logger = logger
-
-        startUpdating()
     }
 
-    private func startUpdating() {
-        pluto
+    fileprivate func getListOfAllSecrets() async throws -> [Domain.Secret] {
+        try await pluto
             .getAllPeerDIDs()
-            .tryMap { [weak self] in
+            .first()
+            .tryMap {
                 try $0.map { did, privateKeys, _ in
-                    try self?.parsePrivateKeys(did: did, privateKeys: privateKeys)
+                    try self.parsePrivateKeys(did: did, privateKeys: privateKeys)
                 }
             }
             .map { $0.compactMap { $0 }.flatMap { $0 } }
-            .replaceError(with: [])
-            .assign(to: &$availableSecrets)
+            .first()
+            .await()
     }
 
     private func parsePrivateKeys(
@@ -68,20 +65,34 @@ extension DIDCommSecretsResolverWrapper: SecretsResolver {
         secretid: String,
         cb: OnGetSecretResult
     ) -> ErrorCode {
-        $availableSecrets
-            .first()
-            .map { $0.first { $0.id == secretid } }
-            .sink { [weak self] in
-                do {
-                    try cb.success(result: $0.map { DIDCommxSwift.Secret(from: $0) })
-                } catch {
-                    self?.logger.error(message: "Could not find secret", metadata: [
-                        .publicMetadata(key: "SecretId", value: secretid),
-                        .publicMetadata(key: "Error", value: error.localizedDescription)
-                    ])
-                }
+        Task {
+            do {
+                let secret = try await getListOfAllSecrets().first { $0.id == secretid }
+                try cb.success(result: secret.map { DIDCommxSwift.Secret(from: $0) })
+            } catch let error {
+                let mercuryError = MercuryError.didcommError(
+                    msg: "Could not find secret \(secretid)",
+                    underlyingErrors: [error]
+                )
+                logger.error(error: mercuryError)
             }
-            .store(in: &cancellables)
+        }
+//        getListOfAllSecrets()
+//            .first()
+//            .map {
+//                $0.first { $0.id == secretid }
+//            }
+//            .sink { [weak self] in
+//                do {
+//                    try cb.success(result: $0.map { DIDCommxSwift.Secret(from: $0) })
+//                } catch {
+//                    self?.logger.error(message: "Could not find secret", metadata: [
+//                        .publicMetadata(key: "SecretId", value: secretid),
+//                        .publicMetadata(key: "Error", value: error.localizedDescription)
+//                    ])
+//                }
+//            }
+//            .store(in: &cancellables)
         return .success
     }
 
@@ -89,24 +100,57 @@ extension DIDCommSecretsResolverWrapper: SecretsResolver {
         secretids: [String],
         cb: OnFindSecretsResult
     ) -> ErrorCode {
-        $availableSecrets
-            .first()
-            .map {
-                $0
-                .filter { secretids.contains($0.id) }
-                .map { $0.id }
-            }
-            .sink { [weak self] in
-                do {
-                    try cb.success(result: $0)
-                } catch {
-                    self?.logger.error(message: "Could not find secrets", metadata: [
-                        .publicMetadata(key: "SecretsIds", value: secretids.description),
-                        .publicMetadata(key: "Error", value: error.localizedDescription)
-                    ])
+        Task {
+            do {
+                let secrets = try await getListOfAllSecrets()
+                    .filter { secretids.contains($0.id) }
+                    .map { $0.id }
+                let secretsSet = Set(secretids)
+                let resultsSet = Set(secrets)
+                let missingSecrets = secretsSet.subtracting(resultsSet)
+                if !missingSecrets.isEmpty {
+                    logger.error(message:
+"""
+Could not find secrets the following secrets:\(missingSecrets.joined(separator: ", "))
+"""
+                    )
                 }
+                try cb.success(result: secrets)
+            } catch {
+                let mercuryError = MercuryError.didcommError(
+                    msg: "Could not find secrets \(secretids.joined(separator: "\n"))",
+                    underlyingErrors: [error]
+                )
+                logger.error(error: mercuryError)
             }
-            .store(in: &cancellables)
+        }
+//        getListOfAllSecrets()
+//            .first()
+//            .map {
+//                $0
+//                .filter { secretids.contains($0.id) }
+//                .map { $0.id }
+//            }
+//            .sink { [weak self] in
+//                do {
+//                    let secretsSet = Set(secretids)
+//                    let resultsSet = Set($0)
+//                    let missingSecrets = secretsSet.subtracting(resultsSet)
+//                    if !missingSecrets.isEmpty {
+//                        self?.logger.error(
+//                            message:
+//"""
+//Could not find secrets the following secrets:\(missingSecrets.joined(separator: ", "))
+//"""
+//                        )
+//                    }
+//                    try cb.success(result: $0)
+//                } catch {
+//                    let error = MercuryError.didcommError(msg: error.localizedDescription)
+//                    self?.logger.error(error: error)
+//                }
+//            }
+//            .store(in: &cancellables)
         return .success
     }
 }
