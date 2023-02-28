@@ -86,7 +86,7 @@ extension DIDCommxSwift.AttachmentData {
         } else if let linkData = domain as? AttachmentLinkData {
             self = .links(value: .init(links: linkData.links, hash: linkData.hash, jws: nil))
         } else if let jsonData = domain as? AttachmentJsonData {
-            self = .json(value: .init(json: jsonData.data.base64UrlEncodedString(), jws: nil))
+            self = .json(value: .init(json: String(data: jsonData.data, encoding: .utf8)!, jws: nil))
         } else if let jwsData = domain as? AttachmentJwsData {
             self = .base64(value: .init(base64: jwsData.base64, jws: jwsData.jws.signature))
         } else {

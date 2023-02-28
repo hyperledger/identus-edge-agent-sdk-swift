@@ -22,7 +22,7 @@ public protocol Mercury {
     /// - Returns: The response data
     /// - Throws: An error if the message is invalid or the send operation fails
     @discardableResult
-    func sendMessage(msg: Message) async throws -> Data?
+    func sendMessage(_ msg: Message) async throws -> Data?
 
     /// sendMessageParseMessage asynchronously sends a given message and returns the response message object. This function may throw an error if the message is invalid, the send operation fails, or the response message is invalid.
     ///

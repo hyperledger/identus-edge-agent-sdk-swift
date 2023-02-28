@@ -132,14 +132,7 @@ public class PrismAgent {
         do {
             try await connectionManager.startMediator()
         } catch PrismAgentError.noMediatorAvailableError {
-            let hostDID = try await createNewPeerDID(
-                services: [.init(
-                    id: "#didcomm-1",
-                    type: ["DIDCommMessaging"],
-                    serviceEndpoint: [.init(uri: mediationHandler.mediatorDID.string)]
-                )],
-                updateMediator: false
-            )
+            let hostDID = try await createNewPeerDID(updateMediator: false)
             try await connectionManager.registerMediator(hostDID: hostDID)
         }
         state = .running

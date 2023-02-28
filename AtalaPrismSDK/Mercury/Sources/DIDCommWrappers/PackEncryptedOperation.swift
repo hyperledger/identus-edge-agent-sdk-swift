@@ -7,17 +7,19 @@ import Foundation
 final class PackEncryptedOperation: OnPackEncryptedResult {
     private let didcomm: DIDCommProtocol
     private let logger: PrismLogger
+    private let message: Domain.Message
     private var published = CurrentValueSubject<String?, Error>(nil)
     private var cancellable: AnyCancellable?
 
-    init(didcomm: DIDCommProtocol, logger: PrismLogger) {
+    init(didcomm: DIDCommProtocol, message: Domain.Message, logger: PrismLogger) {
         self.didcomm = didcomm
         self.logger = logger
+        self.message = message
     }
 
-    func packEncrypted(msg: Domain.Message) async throws -> String {
-        guard let fromDID = msg.from else { throw MercuryError.noSenderDIDSetError }
-        guard let toDID = msg.to else { throw MercuryError.noRecipientDIDSetError }
+    func packEncrypted() async throws -> String {
+        guard let fromDID = message.from else { throw MercuryError.noSenderDIDSetError }
+        guard let toDID = message.to else { throw MercuryError.noRecipientDIDSetError }
 
         let result: String = try await withCheckedThrowingContinuation { [weak self] continuation in
             guard let self else { return }
@@ -42,8 +44,9 @@ final class PackEncryptedOperation: OnPackEncryptedResult {
                     continuation.resume(returning: result)
                 })
             do {
+                print("Packing message \(message.piuri) sender:\(fromDID) \nto:\(toDID)")
                 let status = didcomm.packEncrypted(
-                    msg: try DIDCommxSwift.Message(domain: msg, mediaType: .contentTypePlain),
+                    msg: try DIDCommxSwift.Message(domain: message, mediaType: .contentTypePlain),
                     to: toDID.string,
                     from: fromDID.string,
                     signBy: nil,
@@ -65,7 +68,7 @@ final class PackEncryptedOperation: OnPackEncryptedResult {
                         msg: "Unknown error on initializing pack encrypted function"
                     ))
                 }
-            } catch let error {
+            } catch {
                 continuation.resume(throwing: MercuryError.didcommError(
                     msg: "Error on parsing Domain message to DIDComm library model: \(error.localizedDescription)"
                 ))
@@ -80,19 +83,20 @@ final class PackEncryptedOperation: OnPackEncryptedResult {
     }
 
     func error(err: DIDCommxSwift.ErrorKind, msg: String) {
+        let error = MercuryError.didcommError(
+            msg: """
+Error on trying to pack encrypted a message of type \(message.piuri): \(msg)
+"""
+        )
         logger.error(
             message: "Packing message failed with error",
             metadata: [
                 .publicMetadata(
                     key: "Error",
-                    value: MercuryError
-                        .didcommError(msg: msg)
-                        .localizedDescription
+                    value: error.errorDescription ?? ""
                 )
             ]
         )
-        published.send(completion: .failure(MercuryError.didcommError(
-            msg: "Error on trying to pack encrypted a message: \(msg)"
-        )))
+        published.send(completion: .failure(error))
     }
 }
