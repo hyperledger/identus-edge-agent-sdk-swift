@@ -42,3 +42,5 @@ protobuf/*.swift
 Sources/PrismSwiftSDK/protobuf
 OpenAPI
 Package.resolved
+docs
+Documentation
