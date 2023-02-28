@@ -1,7 +1,18 @@
 import Domain
 import Foundation
 
+/**
+ A class that provides an implementation of `MediatorHandler` using a Pluto instance and a Mercury instance.
+
+ `BasicMediatorHandler` can be used to register, retrieve and update mediator information, achieve mediation, pick up unread messages, and register messages as read.
+ */
 public class BasicMediatorHandler: MediatorHandler {
+
+    /**
+     A struct that provides an implementation of `MediatorStore` using a `Pluto` instance.
+
+     `PlutoMediatorStoreImpl` can be used to store and retrieve mediator information in the `Pluto` store.
+     */
     public struct PlutoMediatorStoreImpl: MediatorStore {
         let pluto: Pluto
 
@@ -9,6 +20,12 @@ public class BasicMediatorHandler: MediatorHandler {
             self.pluto = pluto
         }
 
+        /**
+         Fetches all the mediators from the `Pluto` store.
+
+         - Returns: An array of `Mediator` objects.
+         - Throws: An error if there was a problem fetching the mediators.
+         */
         public func getAllMediators() async throws -> [Mediator] {
             try await pluto
                 .getAllMediators()
@@ -21,6 +38,12 @@ public class BasicMediatorHandler: MediatorHandler {
                 .await()
         }
 
+        /**
+         Stores a mediator in the `Pluto` store.
+
+         - Parameter mediator: The `Mediator` object to store.
+         - Throws: An error if there was a problem storing the mediator.
+         */
         public func storeMediator(mediator: Mediator) async throws {
             try await pluto
                 .storeMediator(
@@ -39,19 +62,34 @@ public class BasicMediatorHandler: MediatorHandler {
     private let mercury: Mercury
     private let mediatorStore: MediatorStore
 
+    /**
+     Initializes a new instance of `BasicMediatorHandler`.
+
+     - Parameters:
+        - mediatorDID: The DID of the mediator.
+        - mercury: The `Mercury` instance to use for sending messages.
+        - store: The `MediatorStore` instance to use for storing and retrieving mediator information.
+     */
     public init(mediatorDID: DID, mercury: Mercury, store: MediatorStore) {
         self.mediatorDID = mediatorDID
         self.mercury = mercury
         self.mediatorStore = store
     }
 
+    /**
+     Initializes a new instance of `BasicMediatorHandler` with a pre-registered mediator.
+
+     - Parameters:
+        - mediator: The pre-registered `Mediator` object.
+        - mercury: The `Mercury` instance to use for sending messages.
+        - store: The `MediatorStore` instance to use for storing and retrieving mediator information.
+     */
     public init(mediator: Mediator, mercury: Mercury, store: MediatorStore) {
         self.mediatorDID = mediator.mediatorDID
         self.mediator = mediator
         self.mercury = mercury
         self.mediatorStore = store
     }
-
     public func bootRegisteredMediator() async throws -> Mediator? {
         guard let mediator else {
             let mediator = try await mediatorStore.getAllMediators().first

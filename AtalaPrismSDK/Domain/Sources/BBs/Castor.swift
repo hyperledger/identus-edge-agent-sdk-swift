@@ -1,5 +1,6 @@
 import Foundation
 
+/// The Castor protocol defines the set of decentralized identifier (DID) operations that are used in the Atala PRISM architecture. It provides a way for users to create, manage, and control their DIDs and associated cryptographic keys.
 public protocol Castor {
     /// parseDID parses a string representation of a Decentralized Identifier (DID) into a DID object. This function may throw an error if the string is not a valid DID.
     ///

@@ -1,4 +1,4 @@
-# SDK Technical Considerations
+# Technical Considerations
 
 The architecture of the SDK is a result of a careful evaluation of different software development methodologies and patterns. We chose a modular, clean architecture that is based on protocol-oriented programming and domain-oriented programming principles, as well as dependency injection, for several reasons.
 
@@ -22,6 +22,5 @@ Dependency injection is a programming pattern that promotes loose coupling betwe
 
 ## Topics
 
-### <!--@START_MENU_TOKEN@-->Group<!--@END_MENU_TOKEN@-->
-
-- <!--@START_MENU_TOKEN@-->``Symbol``<!--@END_MENU_TOKEN@-->
+- <doc:ModularApproach>
+- <doc:BuildingBlocks>

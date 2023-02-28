@@ -33,9 +33,3 @@ Message Authentication Codes are a type of symmetric equivalent of digital signa
 Key exchange protocols enable two or more parties to securely negotiate a symmetric key, even if they only know each other’s public keys. Key exchange protocols are used to establish secure communication channels.
 
 By using the Apollo suite of cryptographic primitives, developers can build secure and provably secure applications that protect sensitive data from unauthorized access, tampering, or theft.
-
-## Topics
-
-### <!--@START_MENU_TOKEN@-->Group<!--@END_MENU_TOKEN@-->
-
-- <!--@START_MENU_TOKEN@-->``Symbol``<!--@END_MENU_TOKEN@-->
