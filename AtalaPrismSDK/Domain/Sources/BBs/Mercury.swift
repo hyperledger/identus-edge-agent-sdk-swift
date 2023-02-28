@@ -1,5 +1,6 @@
 import Foundation
 
+/// The Mercury protocol defines the set of secure, standards-based communication protocols that are used in the Atala PRISM architecture.
 public protocol Mercury {
     /// packMessage asynchronously packs a given message object into a string representation. This function may throw an error if the message object is invalid.
     ///
