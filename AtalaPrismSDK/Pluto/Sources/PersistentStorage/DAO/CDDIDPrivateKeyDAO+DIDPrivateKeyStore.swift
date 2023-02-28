@@ -37,6 +37,7 @@ private extension CDDIDPrivateKey {
                 break
             }
         }
+        self.alias = alias
     }
 }
 

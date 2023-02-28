@@ -89,7 +89,7 @@ extension CastorImpl: Castor {
     /// - Returns: The DID Document associated with the DID
     /// - Throws: An error if the DID is invalid or the document cannot be retrieved
     public func resolveDID(did: DID) async throws -> DIDDocument {
-        logger.info(message: "Trying to resolve DID", metadata: [
+        logger.debug(message: "Trying to resolve DID", metadata: [
             .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
         ])
 

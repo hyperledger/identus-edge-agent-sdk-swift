@@ -15,14 +15,14 @@ public extension PrismAgent {
             // Keep trying to fetch messages until the task is cancelled
             while true {
                 do {
-                    logger.debug(message: "Fetching new batch of 10 unread messages")
+                     logger.debug(message: "Fetching new batch of 10 unread messages")
                     // Wait for new messages to arrive
-                    _ = try await manager.awaitMessages()
-                    sleep(5)
+                     _ = try await manager.awaitMessages()
                 } catch {
                     // Handle errors that occur during the message fetching process
                     logger.error(error: error)
                 }
+                sleep(90)
             }
         }
     }
@@ -48,7 +48,7 @@ public extension PrismAgent {
     /// - Returns: The sent message if successful, otherwise `nil`.
     /// - Throws: An error if the sending fails.
     func sendMessage(message: Message) async throws -> Message? {
-        try await connectionManager.sendMessage(message)
+        return try await connectionManager.sendMessage(message)
     }
 
     /// Handles the received messages events and return a publisher of the messages
@@ -56,6 +56,7 @@ public extension PrismAgent {
     func handleReceivedMessagesEvents() -> AnyPublisher<Message, Error> {
         pluto.getAllMessagesReceived()
             .flatMap { $0.publisher }
+            .print()
             .eraseToAnyPublisher()
 //            .flatMap { message -> AnyPublisher<Message, Error> in
 //                if let issueCredential = try? IssueCredential(fromMessage: message) {

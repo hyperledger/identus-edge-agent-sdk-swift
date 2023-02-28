@@ -60,7 +60,7 @@ final class UnpackOperation: OnUnpackResult {
         do {
             let message: Domain.Message = try result.toDomain(castor: castor)
             published.send(message)
-        } catch {
+        } catch let error as LocalizedError {
             logger.error(
                 message: "Could not unpack message",
                 metadata: [
@@ -68,14 +68,38 @@ final class UnpackOperation: OnUnpackResult {
                 ]
             )
             published.send(completion: .failure(MercuryError.didcommError(
-                msg: "Error on parsing DIDComm library model message to Domain message : \(error.localizedDescription)"
+                msg:
+"""
+Error on parsing DIDComm library model message to Domain message : \(error.errorDescription ?? "")
+"""
+            )))
+        } catch {
+            published.send(completion: .failure(MercuryError.didcommError(
+                msg:
+"""
+Error on parsing DIDComm library model message to Domain message : \(error.localizedDescription)
+"""
             )))
         }
     }
 
     func error(err: DIDCommxSwift.ErrorKind, msg: String) {
-        published.send(completion: .failure(MercuryError.didcommError(
-            msg: "Error on trying to unpack a message: \(msg)"
-        )))
+        print(err.localizedDescription)
+        let error = MercuryError.didcommError(
+            msg:
+"""
+Error on trying to unpack a message: \(msg)
+"""
+        )
+        logger.error(
+            message: "Unpack message failed with error",
+            metadata: [
+                .publicMetadata(
+                    key: "Error",
+                    value: error.errorDescription ?? ""
+                )
+            ]
+        )
+        published.send(completion: .failure(error))
     }
 }

@@ -139,7 +139,7 @@ public class BasicMediatorHandler: MediatorHandler {
             to: mediator.mediatorDID,
             recipientDids: dids
         ).makeMessage()
-        try await mercury.sendMessage(msg: keyListUpdateMessage)
+        try await mercury.sendMessage(keyListUpdateMessage)
     }
 
     public func pickupUnreadMessages(limit: Int) async throws -> [(String, Message)] {
@@ -148,7 +148,7 @@ public class BasicMediatorHandler: MediatorHandler {
             from: mediator.hostDID,
             to: mediator.mediatorDID,
             body: .init(
-                limit: "10"
+                limit: "\(limit)"
             )
         ).makeMessage()
         guard let message = try await mercury.sendMessageParseMessage(msg: request) else {
@@ -165,6 +165,6 @@ public class BasicMediatorHandler: MediatorHandler {
             to: mediator.mediatorDID,
             body: .init(messageIdList: ids)
         ).makeMessage()
-        try await mercury.sendMessage(msg: message)
+        try await mercury.sendMessage(message)
     }
 }
