@@ -1,5 +1,6 @@
 import Foundation
 
+/// The Apollo protocol defines the set of cryptographic operations that are used in the Atala PRISM architecture.
 public protocol Apollo {
     /// createRandomMnemonics creates a random set of mnemonic phrases that can be used as a seed for generating a private key.
     ///

@@ -202,6 +202,11 @@ Could not find key in storage please use Castor instead and provide the private 
         try await mediationHandler.updateKeyListWithDIDs(dids: [did])
     }
 
+    /// This function gets the DID information (alias) for a given DID
+    ///
+    /// - Parameter did: The DID for which the information is requested
+    /// - Returns: A tuple containing the DID and the alias (if available), or nil if the DID method is not recognized
+    /// - Throws: An error if there was a problem fetching the information
     func getDIDInfo(did: DID) async throws -> (did: DID, alias: String?)? {
         let pluto = self.pluto
         switch did.method {
@@ -226,12 +231,19 @@ Could not find key in storage please use Castor instead and provide the private 
         }
     }
 
+    /// This function registers a DID pair in the `pluto` store
+    ///
+    /// - Parameter pair: The DID pair to register
+    /// - Throws: An error if there was a problem storing the pair
     func registerDIDPair(pair: DIDPair) async throws {
         try await pluto.storeDIDPair(pair: pair)
         .first()
         .await()
     }
 
+    /// This function gets all the DID pairs from the `pluto` store
+    /// 
+    /// - Returns: A publisher that emits an array of `DIDPair` objects, or an error if there was a problem getting the pairs
     func getAllDIDPairs() -> AnyPublisher<[DIDPair], Error> {
         pluto.getAllDidPairs()
     }
