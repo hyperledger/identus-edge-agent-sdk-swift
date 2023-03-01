@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Pluto Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Protocol/Pluto" class="dashAnchor"></a>
+
+    <a title="Pluto Protocol Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          Castor Docs
+        </a>
+        
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/input-output-hk/atala-prism-wallet-sdk-swift">
+            <img class="header-icon" src="../img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">Castor Reference</a>
+      <img class="carat" src="../img/carat.png" alt=""/>
+      Pluto Protocol Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Getting%20Started.html">Getting Started</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../atalaprismsdk.html">AtalaPrismSDK</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../mediation.html">Mediation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../logging.html">Logging</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Architecture.html">Architecture</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../buildingblocks.html">BuildingBlocks</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../technicalconsiderations.html">TechnicalConsiderations</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../modularapproach.html">ModularApproach</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Error%20Handling.html">Error Handling</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../errorhandling.html">ErrorHandling</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../apolloerrors.html">ApolloErrors</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../castorerrors.html">CastorErrors</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../mercuryerrors.html">MercuryErrors</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../plutoerrors.html">PlutoErrors</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../prismagenterrors.html">PrismAgentErrors</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Prism%20Agent.html">Prism Agent</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/PrismAgent.html">PrismAgent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/PrismAgent/State.html">– State</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/PrismAgent/DIDType.html">– DIDType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/PrismAgent/InvitationType.html">– InvitationType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../prismagent.html">PrismAgent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../prismagenttutorials.html">PrismAgentTutorials</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Apollo.html">Apollo</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Apollo.html">Apollo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../apollo.html">Apollo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../apollotutorials.html">ApolloTutorials</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Castor.html">Castor</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Castor.html">Castor</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../castor.html">Castor</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../castortutorials.html">CastorTutorials</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Pluto.html">Pluto</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Pluto.html">Pluto</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../pluto.html">Pluto</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Pollux.html">Pollux</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Pollux.html">Pollux</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Guides.html">Other Guides</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../mercury.html">Mercury</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../mercurytutorials.html">MercuryTutorials</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Classes.html">Other Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/BasicMediatorHandler.html">BasicMediatorHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/BasicMediatorHandler/PlutoMediatorStoreImpl.html">– PlutoMediatorStoreImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/CoreDataManager.html">CoreDataManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/CoreDataManager/CoreDataSetup.html">– CoreDataSetup</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/IssueCredentialProtocol.html">IssueCredentialProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/IssueCredentialProtocol/Stage.html">– Stage</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Enums.html">Other Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ApolloError.html">ApolloError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/CastorError.html">CastorError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/CommonError.html">CommonError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/CredentialType.html">CredentialType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/KeyCurve.html">KeyCurve</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/LogComponent.html">LogComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/LogLevel.html">LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/MercuryError.html">MercuryError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/PlutoError.html">PlutoError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/PolluxError.html">PolluxError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/PrismAgentError.html">PrismAgentError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/UnknownError.html">UnknownError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Extensions.html">Other Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/CDDID.html">CDDID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/CDMediatorDID.html">CDMediatorDID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/CDMessage.html">CDMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDVerifiableCredential">CDVerifiableCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDVerifiableCredentialContext">CDVerifiableCredentialContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDVerifiableCredentialType">CDVerifiableCredentialType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:10PrismAgent22ConnectionsManagerImplC">ConnectionsManagerImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:7Mercury25DIDCommDIDResolverWrapperC">DIDCommDIDResolverWrapper</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:7Mercury29DIDCommSecretsResolverWrapperC">DIDCommSecretsResolverWrapper</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Domain.html">Domain</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Domain/PublicKey.html">– PublicKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:13DIDCommxSwift18ExampleDidResolverC">ExampleDidResolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:13DIDCommxSwift22ExampleSecretsResolverC">ExampleSecretsResolver</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Protocols.html#/s:6Domain14AttachmentDataP">AttachmentData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/DIDCommConnection.html">DIDCommConnection</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Protocols.html#/s:6Domain23DIDDocumentCorePropertyP">DIDDocumentCoreProperty</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/DIDResolverDomain.html">DIDResolverDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/KnownPrismError.html">KnownPrismError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/MediatorHandler.html">MediatorHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/MediatorStore.html">MediatorStore</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Mercury.html">Mercury</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/SecretResolver.html">SecretResolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/UnknownPrismError.html">UnknownPrismError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/VerifiableCredential.html">VerifiableCredential</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Structs.html">Other Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ApolloImpl.html">ApolloImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AttachmentBase64.html">AttachmentBase64</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AttachmentDescriptor.html">AttachmentDescriptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AttachmentHeader.html">AttachmentHeader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AttachmentJsonData.html">AttachmentJsonData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AttachmentJws.html">AttachmentJws</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AttachmentJwsData.html">AttachmentJwsData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AttachmentLinkData.html">AttachmentLinkData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CompressedPublicKey.html">CompressedPublicKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ConnectionAccept.html">ConnectionAccept</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ConnectionAccept/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ConnectionRequest.html">ConnectionRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ConnectionRequest/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CredentialFormat.html">CredentialFormat</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CredentialPreview.html">CredentialPreview</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CredentialPreview/Attribute.html">– Attribute</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DID.html">DID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument.html">DIDDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/VerificationMethod.html">– VerificationMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/Service.html">– Service</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/AlsoKnownAs.html">– AlsoKnownAs</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/Controller.html">– Controller</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/VerificationMethods.html">– VerificationMethods</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/Services.html">– Services</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/Authentication.html">– Authentication</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/AssertionMethod.html">– AssertionMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/KeyAgreement.html">– KeyAgreement</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/CapabilityInvocation.html">– CapabilityInvocation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDDocument/CapabilityDelegation.html">– CapabilityDelegation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDPair.html">DIDPair</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DIDUrl.html">DIDUrl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/IssueCredential.html">IssueCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/IssueCredential/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/JWTCredentialPayload.html">JWTCredentialPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/JWTCredentialPayload/JWTVerfiableCredential.html">– JWTVerfiableCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeyPair.html">KeyPair</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Structs.html#/s:10PrismAgent8MediatorV">Mediator</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/MercuryImpl.html">MercuryImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Message.html">Message</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Message/Direction.html">– Direction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/OfferCredential.html">OfferCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/OutOfBandInvitation.html">OutOfBandInvitation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/OutOfBandInvitation/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PlutoImpl.html">PlutoImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PlutoImpl/PlutoSetup.html">– PlutoSetup</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PolluxImpl.html">PolluxImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Presentation.html">Presentation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PrivateKey.html">PrivateKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ProposeCredential.html">ProposeCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ProposePresentation.html">ProposePresentation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PublicKey.html">PublicKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RequestCredential.html">RequestCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RequestPresentation.html">RequestPresentation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RequestPresentation.html#/s:10PrismAgent19RequestPresentationV4BodyV">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Secret.html">Secret</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Secret/SecretMaterial.html">– SecretMaterial</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Secret/SecretType.html">– SecretType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Seed.html">Seed</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Session.html">Session</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Signature.html">Signature</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/VerifiableCredentialTypeContainer.html">VerifiableCredentialTypeContainer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/W3CVerifiableCredential.html">W3CVerifiableCredential</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Typealiases.html">Other Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Typealiases.html#/s:6Domain9DIDMethoda">DIDMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Typealiases.html#/s:6Domain11DIDMethodIda">DIDMethodId</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>Pluto</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Pluto</span></code></pre>
+
+                </div>
+              </div>
+            <p>The Pluto protocol defines the set of storage operations that are used in the Atala PRISM architecture. It provides an interface for storage operations in a portable, storage-agnostic manner, allowing data to be stored and retrieved using a variety of storage solutions.</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP13storePrismDID3did12keyPairIndex5alias7Combine12AnyPublisherVyyts5Error_pGAA0E0V_SiSSSgtF"></a>
+                    <a name="//apple_ref/swift/Method/storePrismDID(did:keyPairIndex:alias:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP13storePrismDID3did12keyPairIndex5alias7Combine12AnyPublisherVyyts5Error_pGAA0E0V_SiSSSgtF">storePrismDID(did:<wbr>keyPairIndex:<wbr>alias:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stores a PRISM DID and associated cryptographic key pair in the data store.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">storePrismDID</span><span class="p">(</span>
+    <span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span>
+    <span class="nv">keyPairIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
+    <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The DID to store.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyPairIndex</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The index of the key pair to associate with the DID.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>alias</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional alias to associate with the DID.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that completes when the operation finishes.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP12storePeerDID3did11privateKeys5alias7Combine12AnyPublisherVyyts5Error_pGAA0E0V_SayAA10PrivateKeyVGSSSgtF"></a>
+                    <a name="//apple_ref/swift/Method/storePeerDID(did:privateKeys:alias:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP12storePeerDID3did11privateKeys5alias7Combine12AnyPublisherVyyts5Error_pGAA0E0V_SayAA10PrivateKeyVGSSSgtF">storePeerDID(did:<wbr>privateKeys:<wbr>alias:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stores a peer DID and associated private keys in the data store.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">storePeerDID</span><span class="p">(</span>
+    <span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span>
+    <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/PrivateKey.html">PrivateKey</a></span><span class="p">],</span>
+    <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The DID to store.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>privateKeys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The private keys to associate with the DID.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>alias</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional alias to associate with the DID.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that completes when the operation finishes.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP12storeDIDPair4pair7Combine12AnyPublisherVyyts5Error_pGAA0D0V_tF"></a>
+                    <a name="//apple_ref/swift/Method/storeDIDPair(pair:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP12storeDIDPair4pair7Combine12AnyPublisherVyyts5Error_pGAA0D0V_tF">storeDIDPair(pair:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stores a DID pair in the data store.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">storeDIDPair</span><span class="p">(</span><span class="nv">pair</span><span class="p">:</span> <span class="kt"><a href="../Structs/DIDPair.html">DIDPair</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pair</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The DID pair to store.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that completes when the operation finishes.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP12storeMessage7message9direction7Combine12AnyPublisherVyyts5Error_pGAA0D0V_AM9DirectionOtF"></a>
+                    <a name="//apple_ref/swift/Method/storeMessage(message:direction:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP12storeMessage7message9direction7Combine12AnyPublisherVyyts5Error_pGAA0D0V_AM9DirectionOtF">storeMessage(message:<wbr>direction:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stores a message in the data store.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">storeMessage</span><span class="p">(</span>
+    <span class="nv">message</span><span class="p">:</span> <span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">,</span>
+    <span class="nv">direction</span><span class="p">:</span> <span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="o">.</span><span class="kt">Direction</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>message</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The message to store.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the message (incoming or outgoing).</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that completes when the operation finishes.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP13storeMessages8messages7Combine12AnyPublisherVyyts5Error_pGSayAA7MessageV_AL9DirectionOtG_tF"></a>
+                    <a name="//apple_ref/swift/Method/storeMessages(messages:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP13storeMessages8messages7Combine12AnyPublisherVyyts5Error_pGSayAA7MessageV_AL9DirectionOtG_tF">storeMessages(messages:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stores multiple messages in the data store.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">storeMessages</span><span class="p">(</span>
+    <span class="nv">messages</span><span class="p">:</span> <span class="p">[(</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">,</span> <span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="o">.</span><span class="kt">Direction</span><span class="p">)]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>messages</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The messages to store.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that completes when the operation finishes.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP13storeMediator4peer10routingDID08mediatorG07Combine12AnyPublisherVyyts5Error_pGAA0G0V_A2NtF"></a>
+                    <a name="//apple_ref/swift/Method/storeMediator(peer:routingDID:mediatorDID:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP13storeMediator4peer10routingDID08mediatorG07Combine12AnyPublisherVyyts5Error_pGAA0G0V_A2NtF">storeMediator(peer:<wbr>routingDID:<wbr>mediatorDID:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stores a mediator DID for a given peer DID and routing DID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">storeMediator</span><span class="p">(</span>
+    <span class="nv">peer</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span>
+    <span class="nv">routingDID</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span>
+    <span class="nv">mediatorDID</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>peer</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The peer DID.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>routingDID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The routing DID.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mediatorDID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The mediator DID.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that completes when the operation finishes.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP15storeCredential10credential7Combine12AnyPublisherVyyts5Error_pGAA010VerifiableD0_p_tF"></a>
+                    <a name="//apple_ref/swift/Method/storeCredential(credential:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP15storeCredential10credential7Combine12AnyPublisherVyyts5Error_pGAA010VerifiableD0_p_tF">storeCredential(credential:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stores a verifiable credential in the data store.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">storeCredential</span><span class="p">(</span>
+    <span class="nv">credential</span><span class="p">:</span> <span class="kt"><a href="../Protocols/VerifiableCredential.html">VerifiableCredential</a></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>credential</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The credential to store.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that completes when the operation finishes.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP15getAllPrismDIDs7Combine12AnyPublisherVySayAA3DIDV3did_Si12keyPairIndexSSSg5aliastGs5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/getAllPrismDIDs()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP15getAllPrismDIDs7Combine12AnyPublisherVySayAA3DIDV3did_Si12keyPairIndexSSSg5aliastGs5Error_pGyF">getAllPrismDIDs()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored PRISM DIDs, along with their associated key pair indices and aliases (if any).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllPrismDIDs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">keyPairIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of tuples representing the stored PRISM DIDs, along with their associated key pair indices and aliases (if any).</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP15getPrismDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_Si12keyPairIndexSSSg5aliastSgs5Error_pGAJ_tF"></a>
+                    <a name="//apple_ref/swift/Method/getPrismDIDInfo(did:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP15getPrismDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_Si12keyPairIndexSSSg5aliastSgs5Error_pGAJ_tF">getPrismDIDInfo(did:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the stored information for a given PRISM DID, including the associated key pair index and alias (if any).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPrismDIDInfo</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">keyPairIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The PRISM DID to retrieve information for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an optional tuple containing the stored information for the given PRISM DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP15getPrismDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_Si12keyPairIndextGs5Error_pGSS_tF"></a>
+                    <a name="//apple_ref/swift/Method/getPrismDIDInfo(alias:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP15getPrismDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_Si12keyPairIndextGs5Error_pGSS_tF">getPrismDIDInfo(alias:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the stored information for all PRISM DIDs that have a given alias, including the associated DIDs and key pair indices.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPrismDIDInfo</span><span class="p">(</span><span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">keyPairIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>alias</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The alias to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of tuples containing the stored information for the PRISM DIDs that have the given alias.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP23getPrismDIDKeyPairIndex3did7Combine12AnyPublisherVySiSgs5Error_pGAA3DIDV_tF"></a>
+                    <a name="//apple_ref/swift/Method/getPrismDIDKeyPairIndex(did:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP23getPrismDIDKeyPairIndex3did7Combine12AnyPublisherVySiSgs5Error_pGAA3DIDV_tF">getPrismDIDKeyPairIndex(did:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the key pair index associated with a given PRISM DID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPrismDIDKeyPairIndex</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The PRISM DID to retrieve the key pair index for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an optional integer representing the key pair index associated with the given PRISM DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP24getPrismLastKeyPairIndex7Combine12AnyPublisherVySis5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/getPrismLastKeyPairIndex()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP24getPrismLastKeyPairIndex7Combine12AnyPublisherVySis5Error_pGyF">getPrismLastKeyPairIndex()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the index of the last generated key pair for PRISM DIDs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPrismLastKeyPairIndex</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an integer representing the index of the last generated key pair for PRISM DIDs.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP14getAllPeerDIDs7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKeyVG11privateKeysSSSg5aliastGs5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/getAllPeerDIDs()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP14getAllPeerDIDs7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKeyVG11privateKeysSSSg5aliastGs5Error_pGyF">getAllPeerDIDs()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored peer DIDs, along with their associated private keys and aliases (if any).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllPeerDIDs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/PrivateKey.html">PrivateKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of tuples representing the stored peer DIDs, along with their associated private keys and aliases (if any).</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP14getPeerDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_SayAA10PrivateKeyVG11privateKeysSSSg5aliastSgs5Error_pGAJ_tF"></a>
+                    <a name="//apple_ref/swift/Method/getPeerDIDInfo(did:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP14getPeerDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_SayAA10PrivateKeyVG11privateKeysSSSg5aliastSgs5Error_pGAJ_tF">getPeerDIDInfo(did:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the stored information for a given peer DID, including the associated private keys and alias (if any).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPeerDIDInfo</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/PrivateKey.html">PrivateKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The peer DID to retrieve information for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an optional tuple containing the stored information for the given peer DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP14getPeerDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKeyVG11privateKeysSSSgAEtGs5Error_pGSS_tF"></a>
+                    <a name="//apple_ref/swift/Method/getPeerDIDInfo(alias:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP14getPeerDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKeyVG11privateKeysSSSgAEtGs5Error_pGSS_tF">getPeerDIDInfo(alias:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the stored information for all peer DIDs that have a given alias, including the associated DIDs and private keys.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPeerDIDInfo</span><span class="p">(</span><span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/PrivateKey.html">PrivateKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>alias</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The alias to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of tuples containing the stored information for the peer DIDs that have the given alias.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP21getPeerDIDPrivateKeys3did7Combine12AnyPublisherVySayAA10PrivateKeyVGSgs5Error_pGAA3DIDV_tF"></a>
+                    <a name="//apple_ref/swift/Method/getPeerDIDPrivateKeys(did:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP21getPeerDIDPrivateKeys3did7Combine12AnyPublisherVySayAA10PrivateKeyVGSgs5Error_pGAA3DIDV_tF">getPeerDIDPrivateKeys(did:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the private keys associated with a given peer DID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPeerDIDPrivateKeys</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Structs/PrivateKey.html">PrivateKey</a></span><span class="p">]?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The peer DID to retrieve the private keys for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an optional array of private keys associated with the given peer DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP14getAllDidPairs7Combine12AnyPublisherVySayAA7DIDPairVGs5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/getAllDidPairs()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP14getAllDidPairs7Combine12AnyPublisherVySayAA7DIDPairVGs5Error_pGyF">getAllDidPairs()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored DID pairs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllDidPairs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Structs/DIDPair.html">DIDPair</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of DID pairs.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP7getPair8otherDID7Combine12AnyPublisherVyAA7DIDPairVSgs5Error_pGAA0F0V_tF"></a>
+                    <a name="//apple_ref/swift/Method/getPair(otherDID:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP7getPair8otherDID7Combine12AnyPublisherVyAA7DIDPairVSgs5Error_pGAA0F0V_tF">getPair(otherDID:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the stored DID pair that includes a given DID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPair</span><span class="p">(</span><span class="nv">otherDID</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/DIDPair.html">DIDPair</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>otherDID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The DID to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an optional DID pair that includes the given DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP7getPair4name7Combine12AnyPublisherVyAA7DIDPairVSgs5Error_pGSS_tF"></a>
+                    <a name="//apple_ref/swift/Method/getPair(name:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP7getPair4name7Combine12AnyPublisherVyAA7DIDPairVSgs5Error_pGSS_tF">getPair(name:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the stored DID pair that has a given name.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPair</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/DIDPair.html">DIDPair</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an optional DID pair that has the given name.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP7getPair9holderDID7Combine12AnyPublisherVyAA7DIDPairVSgs5Error_pGAA0F0V_tF"></a>
+                    <a name="//apple_ref/swift/Method/getPair(holderDID:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP7getPair9holderDID7Combine12AnyPublisherVyAA7DIDPairVSgs5Error_pGAA0F0V_tF">getPair(holderDID:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the stored DID pair that includes a given holder DID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPair</span><span class="p">(</span><span class="nv">holderDID</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/DIDPair.html">DIDPair</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>holderDID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The holder DID to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an optional DID pair that includes the given holder DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP14getAllMessages7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/getAllMessages()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP14getAllMessages7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGyF">getAllMessages()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored messages.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllMessages</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of messages.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP14getAllMessages3did7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGAA3DIDV_tF"></a>
+                    <a name="//apple_ref/swift/Method/getAllMessages(did:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP14getAllMessages3did7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGAA3DIDV_tF">getAllMessages(did:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored messages that are associated with a given DID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllMessages</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The DID to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of messages that are associated with the given DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP18getAllMessagesSent7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/getAllMessagesSent()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP18getAllMessagesSent7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGyF">getAllMessagesSent()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored messages that were sent.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllMessagesSent</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of messages that were sent.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP22getAllMessagesReceived7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/getAllMessagesReceived()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP22getAllMessagesReceived7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGyF">getAllMessagesReceived()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored messages that were received.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllMessagesReceived</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of messages that were received.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP20getAllMessagesSentTo3did7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGAA3DIDV_tF"></a>
+                    <a name="//apple_ref/swift/Method/getAllMessagesSentTo(did:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP20getAllMessagesSentTo3did7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGAA3DIDV_tF">getAllMessagesSentTo(did:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored messages that were sent to a given DID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllMessagesSentTo</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The DID to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of messages that were sent to the given DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP26getAllMessagesReceivedFrom3did7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGAA3DIDV_tF"></a>
+                    <a name="//apple_ref/swift/Method/getAllMessagesReceivedFrom(did:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP26getAllMessagesReceivedFrom3did7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGAA3DIDV_tF">getAllMessagesReceivedFrom(did:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored messages that were received from a given DID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllMessagesReceivedFrom</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The DID to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of messages that were received from the given DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP20getAllMessagesOfType4type14relatedWithDID7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGSS_AA0K0VSgtF"></a>
+                    <a name="//apple_ref/swift/Method/getAllMessagesOfType(type:relatedWithDID:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP20getAllMessagesOfType4type14relatedWithDID7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGSS_AA0K0VSgtF">getAllMessagesOfType(type:<wbr>relatedWithDID:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored messages of a given type that are related to a given DID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllMessagesOfType</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">relatedWithDID</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The type of message to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>relatedWithDID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The DID to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of messages of the given type that are related to the given DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP14getAllMessages4from2to7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGAA3DIDV_APtF"></a>
+                    <a name="//apple_ref/swift/Method/getAllMessages(from:to:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP14getAllMessages4from2to7Combine12AnyPublisherVySayAA7MessageVGs5Error_pGAA3DIDV_APtF">getAllMessages(from:<wbr>to:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored messages that were sent from one DID to another.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllMessages</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>from</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The sender DID to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>to</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The recipient DID to search for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of messages that were sent from the given sender DID to the given recipient DID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP10getMessage2id7Combine12AnyPublisherVyAA0D0VSgs5Error_pGSS_tF"></a>
+                    <a name="//apple_ref/swift/Method/getMessage(id:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP10getMessage2id7Combine12AnyPublisherVyAA0D0VSgs5Error_pGSS_tF">getMessage(id:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the stored message with the given ID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getMessage</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>id</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ID of the message to retrieve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an optional message with the given ID.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP15getAllMediators7Combine12AnyPublisherVySayAA3DIDV3did_AI07routingI0AI08mediatorI0tGs5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/getAllMediators()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP15getAllMediators7Combine12AnyPublisherVySayAA3DIDV3did_AI07routingI0AI08mediatorI0tGs5Error_pGyF">getAllMediators()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored mediators, along with their associated routing DIDs and mediator DIDs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllMediators</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">routingDID</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">mediatorDID</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of tuples representing the stored mediators, along with their associated routing DIDs and mediator DIDs.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain5PlutoP17getAllCredentials7Combine12AnyPublisherVySayAA20VerifiableCredential_pGs5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/getAllCredentials()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain5PlutoP17getAllCredentials7Combine12AnyPublisherVySayAA20VerifiableCredential_pGs5Error_pGyF">getAllCredentials()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns all stored verifiable credentials.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllCredentials</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Protocols/VerifiableCredential.html">VerifiableCredential</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of stored verifiable credentials.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-03-01)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>

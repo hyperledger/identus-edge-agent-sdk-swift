@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Mediation  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="Mediation  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          Castor Docs
+        </a>
+        
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/input-output-hk/atala-prism-wallet-sdk-swift">
+            <img class="header-icon" src="img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">Castor Reference</a>
+      <img class="carat" src="img/carat.png" alt=""/>
+      Mediation  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Getting%20Started.html">Getting Started</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="atalaprismsdk.html">AtalaPrismSDK</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="mediation.html">Mediation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="logging.html">Logging</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Architecture.html">Architecture</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="buildingblocks.html">BuildingBlocks</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="technicalconsiderations.html">TechnicalConsiderations</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="modularapproach.html">ModularApproach</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Error%20Handling.html">Error Handling</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="errorhandling.html">ErrorHandling</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="apolloerrors.html">ApolloErrors</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="castorerrors.html">CastorErrors</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="mercuryerrors.html">MercuryErrors</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="plutoerrors.html">PlutoErrors</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="prismagenterrors.html">PrismAgentErrors</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Prism%20Agent.html">Prism Agent</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/PrismAgent.html">PrismAgent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/PrismAgent/State.html">– State</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/PrismAgent/DIDType.html">– DIDType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/PrismAgent/InvitationType.html">– InvitationType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="prismagent.html">PrismAgent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="prismagenttutorials.html">PrismAgentTutorials</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Apollo.html">Apollo</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/Apollo.html">Apollo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="apollo.html">Apollo</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="apollotutorials.html">ApolloTutorials</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Castor.html">Castor</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/Castor.html">Castor</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="castor.html">Castor</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="castortutorials.html">CastorTutorials</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Pluto.html">Pluto</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/Pluto.html">Pluto</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="pluto.html">Pluto</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Pollux.html">Pollux</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/Pollux.html">Pollux</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other%20Guides.html">Other Guides</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="mercury.html">Mercury</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="mercurytutorials.html">MercuryTutorials</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other%20Classes.html">Other Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/BasicMediatorHandler.html">BasicMediatorHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/BasicMediatorHandler/PlutoMediatorStoreImpl.html">– PlutoMediatorStoreImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/CoreDataManager.html">CoreDataManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/CoreDataManager/CoreDataSetup.html">– CoreDataSetup</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/IssueCredentialProtocol.html">IssueCredentialProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/IssueCredentialProtocol/Stage.html">– Stage</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other%20Enums.html">Other Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/ApolloError.html">ApolloError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/CastorError.html">CastorError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/CommonError.html">CommonError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/CredentialType.html">CredentialType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/KeyCurve.html">KeyCurve</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/LogComponent.html">LogComponent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/LogLevel.html">LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/MercuryError.html">MercuryError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/PlutoError.html">PlutoError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/PolluxError.html">PolluxError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/PrismAgentError.html">PrismAgentError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/UnknownError.html">UnknownError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other%20Extensions.html">Other Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/CDDID.html">CDDID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/CDMediatorDID.html">CDMediatorDID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/CDMessage.html">CDMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDVerifiableCredential">CDVerifiableCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDVerifiableCredentialContext">CDVerifiableCredentialContext</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDVerifiableCredentialType">CDVerifiableCredentialType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/s:10PrismAgent22ConnectionsManagerImplC">ConnectionsManagerImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/s:7Mercury25DIDCommDIDResolverWrapperC">DIDCommDIDResolverWrapper</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/s:7Mercury29DIDCommSecretsResolverWrapperC">DIDCommSecretsResolverWrapper</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Domain.html">Domain</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Domain/PublicKey.html">– PublicKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/s:13DIDCommxSwift18ExampleDidResolverC">ExampleDidResolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/s:13DIDCommxSwift22ExampleSecretsResolverC">ExampleSecretsResolver</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other%20Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Protocols.html#/s:6Domain14AttachmentDataP">AttachmentData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/DIDCommConnection.html">DIDCommConnection</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Protocols.html#/s:6Domain23DIDDocumentCorePropertyP">DIDDocumentCoreProperty</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/DIDResolverDomain.html">DIDResolverDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/KnownPrismError.html">KnownPrismError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/MediatorHandler.html">MediatorHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/MediatorStore.html">MediatorStore</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/Mercury.html">Mercury</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/SecretResolver.html">SecretResolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/UnknownPrismError.html">UnknownPrismError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/VerifiableCredential.html">VerifiableCredential</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other%20Structs.html">Other Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ApolloImpl.html">ApolloImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AttachmentBase64.html">AttachmentBase64</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AttachmentDescriptor.html">AttachmentDescriptor</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AttachmentHeader.html">AttachmentHeader</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AttachmentJsonData.html">AttachmentJsonData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AttachmentJws.html">AttachmentJws</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AttachmentJwsData.html">AttachmentJwsData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AttachmentLinkData.html">AttachmentLinkData</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CompressedPublicKey.html">CompressedPublicKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ConnectionAccept.html">ConnectionAccept</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ConnectionAccept/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ConnectionRequest.html">ConnectionRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ConnectionRequest/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CredentialFormat.html">CredentialFormat</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CredentialPreview.html">CredentialPreview</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/CredentialPreview/Attribute.html">– Attribute</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DID.html">DID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument.html">DIDDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/VerificationMethod.html">– VerificationMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/Service.html">– Service</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/AlsoKnownAs.html">– AlsoKnownAs</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/Controller.html">– Controller</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/VerificationMethods.html">– VerificationMethods</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/Services.html">– Services</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/Authentication.html">– Authentication</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/AssertionMethod.html">– AssertionMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/KeyAgreement.html">– KeyAgreement</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/CapabilityInvocation.html">– CapabilityInvocation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDDocument/CapabilityDelegation.html">– CapabilityDelegation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDPair.html">DIDPair</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/DIDUrl.html">DIDUrl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/IssueCredential.html">IssueCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/IssueCredential/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/JWTCredentialPayload.html">JWTCredentialPayload</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/JWTCredentialPayload/JWTVerfiableCredential.html">– JWTVerfiableCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/KeyPair.html">KeyPair</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Structs.html#/s:10PrismAgent8MediatorV">Mediator</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/MercuryImpl.html">MercuryImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Message.html">Message</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Message/Direction.html">– Direction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/OfferCredential.html">OfferCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/OutOfBandInvitation.html">OutOfBandInvitation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/OutOfBandInvitation/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/PlutoImpl.html">PlutoImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/PlutoImpl/PlutoSetup.html">– PlutoSetup</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/PolluxImpl.html">PolluxImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Presentation.html">Presentation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/PrivateKey.html">PrivateKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ProposeCredential.html">ProposeCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ProposePresentation.html">ProposePresentation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/PublicKey.html">PublicKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/RequestCredential.html">RequestCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/RequestPresentation.html">RequestPresentation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/RequestPresentation.html#/s:10PrismAgent19RequestPresentationV4BodyV">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Secret.html">Secret</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Secret/SecretMaterial.html">– SecretMaterial</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Secret/SecretType.html">– SecretType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Seed.html">Seed</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Session.html">Session</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Signature.html">Signature</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/VerifiableCredentialTypeContainer.html">VerifiableCredentialTypeContainer</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/W3CVerifiableCredential.html">W3CVerifiableCredential</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other%20Typealiases.html">Other Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Typealiases.html#/s:6Domain9DIDMethoda">DIDMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Typealiases.html#/s:6Domain11DIDMethodIda">DIDMethodId</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <h1 id='mediation-and-forward-messaging' class='heading'>Mediation and Forward Messaging</h1>
+
+<p>The SDK provides a set of functionalities that enable communication between different entities through DIDs and DIDComm protocols. One of the core features of the SDK is the ability to send and receive messages, which is achieved by using the DIDComm protocol.</p>
+<h2 id='didcomm-mediation' class='heading'>DIDComm Mediation</h2>
+
+<p>However, the use cases for the SDK often cannot rely on the ability to have open endpoints where they can listen to incoming messages. For instance, mobile apps running on iOS or Android platforms typically cannot have an open port to listen for incoming messages.</p>
+
+<p>To address this limitation, the SDK provides support for DIDComm mediation. DIDComm mediation is a mechanism that enables the communication between two parties that cannot communicate directly by routing messages through one or more mediators. This mechanism allows the SDK to work even in situations where a direct communication path is not possible.</p>
+
+<p>The mediator is identified through a DID (Decentralized Identifier) that is shared between the two parties. The DID is used to send the message to the mediator, who then relays it to the recipient. The mediator can perform additional functions such as message validation, translation, or modification.</p>
+
+<p>The use of a mediator in the SDK allows for the following benefits:</p>
+
+<ul>
+<li><strong>Secure communication:</strong> With DIDComm mediation, the SDK provides a secure way to communicate even when direct communication is not possible.</li>
+<li><strong>Flexibility:</strong> The use of a mediator allows the SDK to be used in a wide range of scenarios where direct communication is not possible or practical.</li>
+<li><strong>Scalability:</strong> The use of a mediator allows the SDK to scale to large deployments with many entities communicating with each other.</li>
+</ul>
+
+<p>To achieve this, the mediator needs to have established a connection with both agents beforehand. Once the connection is established, the mediator can forward the message from the sending agent to the receiving agent, transparently relaying the necessary information between them.</p>
+<h2 id='forward-messaging' class='heading'>Forward Messaging</h2>
+
+<p>Forward messaging is a DIDComm message that is sent through a mediator to an intended recipient. The mediator acts as an intermediary, receiving the message from the sender, validating it, and then forwarding it to the intended recipient.</p>
+
+<p>Forward messaging is useful in situations where the sender and recipient cannot communicate directly. For example, if the recipient is behind a firewall or if the recipient&rsquo;s IP address is not known.</p>
+
+<p>In the Prism SDK, forward messaging is implemented using DIDComm mediation. The mediator receives the message, validates it, and then forwards it to the recipient. The recipient can then respond to the message, and the mediator will forward the response back to the original sender.</p>
+
+<p>Forward messaging is a powerful feature that allows messages to be sent securely between two parties even if they cannot communicate directly. This makes it ideal for use in applications that require secure communication between parties with strict security requirements.</p>
+
+<p>In summary, DIDComm mediation and forward messaging are essential features in the Prism SDK that enable secure communication between parties that cannot communicate directly. The mediator acts as an intermediary, receiving messages from the sender and forwarding them to the recipient. This makes it ideal for use in applications with strict security requirements that cannot rely on the ability to have open endpoints where they can listen to incoming messages.</p>
+<h2 id='how-to-enable-forward-messaging-in-the-sdk' class='heading'>How to enable Forward Messaging in the SDK?</h2>
+
+<p>Forward messaging to a mediator is enabled by default when the mediator is running and available. To take advantage of this feature, you can create a Peer DID using the PrismAgent with the updateMediator flag set to true. This will insert the didcommmessage service with the routingDID of the mediator into the DID.</p>
+
+<p>When attempting to send a message, the Mercury library will automatically detect any forward DIDs in the service and pack a ForwardMessage with the original packed message included in its contents. This allows the message to be routed through the mediator to its intended recipient.</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-03-01)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>
