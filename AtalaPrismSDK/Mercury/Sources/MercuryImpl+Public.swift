@@ -10,7 +10,7 @@ extension MercuryImpl: Mercury {
     /// - Returns: The string representation of the packed message
     /// - Throws: An error if the message object is invalid
     public func packMessage(msg: Domain.Message) async throws -> String {
-        try await PackEncryptedOperation(didcomm: didcomm, message: msg, logger: logger).packEncrypted()
+        try await PackEncryptedOperation(didcomm: getDidcomm(), message: msg, logger: logger).packEncrypted()
     }
 
     /// unpackMessage asynchronously unpacks a given string representation of a message into a message object. This function may throw an error if the string is not a valid message representation.
@@ -19,6 +19,6 @@ extension MercuryImpl: Mercury {
     /// - Returns: The message object
     /// - Throws: An error if the string is not a valid message representation
     public func unpackMessage(msg: String) async throws -> Domain.Message {
-        try await UnpackOperation(didcomm: didcomm, castor: castor, logger: logger).unpackEncrypted(messageString: msg)
+        try await UnpackOperation(didcomm: getDidcomm(), castor: castor, logger: logger).unpackEncrypted(messageString: msg)
     }
 }

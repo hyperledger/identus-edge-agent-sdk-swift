@@ -24,6 +24,7 @@ struct ChatView<ViewModel: ChatViewModel>: View {
                     MessageView(text: message.text, isSent: message.sent)
                 }
             }
+            .padding()
 
             HStack {
                 TextField("Type your message...", text: $viewModel.sendingText)

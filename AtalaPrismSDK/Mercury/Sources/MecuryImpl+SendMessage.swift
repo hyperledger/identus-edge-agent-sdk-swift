@@ -10,7 +10,6 @@ extension MercuryImpl {
     public func sendMessage(_ msg: Message) async throws -> Data? {
         guard let toDID = msg.to else { throw MercuryError.noRecipientDIDSetError }
         guard let fromDID = msg.from else { throw MercuryError.noRecipientDIDSetError }
-        print("Send message \(msg.piuri) sender:\(fromDID.string) \nto:\(toDID.string)")
         let document = try await castor.resolveDID(did: toDID)
 
         let originalPackedMessage = try await packMessage(msg: msg)
@@ -24,8 +23,23 @@ extension MercuryImpl {
                 encrypted: encryptedData,
                 mediatorDID: mediatorDID
             )
-            print("Send message \(forwardMessage.piuri) sender:\(forwardMessage.from?.string) \nto:\(forwardMessage.to?.string)")
-            let forwardPackedMessage = try await packMessage(msg: forwardMessage)
+
+            logger.debug(
+                message: "Sending forward message with internal message type \(msg.piuri)",
+                metadata: [
+                    .maskedMetadataByLevel(
+                        key: "Sender",
+                        value: forwardMessage.from.string,
+                        level: .debug
+                    ),
+                    .maskedMetadataByLevel(
+                        key: "Receiver",
+                        value: forwardMessage.to.string,
+                        level: .debug
+                    )
+                ]
+            )
+            let forwardPackedMessage = try await packMessage(msg: forwardMessage.makeMessage())
             let mediatorDocument = try await castor.resolveDID(did: mediatorDID)
             guard
                 let url = getDIDCommURL(document: mediatorDocument),
@@ -41,6 +55,21 @@ extension MercuryImpl {
             else {
                 throw MercuryError.noValidServiceFoundError(did: toDID.string)
             }
+            logger.debug(
+                message: "Sending message with type \(msg.piuri)",
+                metadata: [
+                    .maskedMetadataByLevel(
+                        key: "Sender",
+                        value: fromDID.string,
+                        level: .debug
+                    ),
+                    .maskedMetadataByLevel(
+                        key: "Receiver",
+                        value: toDID.string,
+                        level: .debug
+                    )
+                ]
+            )
             return try await sendHTTPMessage(url: url, packedMessage: data)
         }
     }
@@ -56,7 +85,6 @@ extension MercuryImpl {
             let msgStr = String(data: msgData, encoding: .utf8),
             msgStr != "null"
         else { return nil }
-        print("Data returned: \(msgStr)")
         return try? await self.unpackMessage(msg: msgStr)
     }
 
@@ -67,15 +95,19 @@ extension MercuryImpl {
             headers: ["content-type": MediaType.contentTypeEncrypted.rawValue]
         )
     }
-    private func prepareForwardMessage(msg: Message, encrypted: Data, mediatorDID: DID) throws -> Message {
+    private func prepareForwardMessage(
+        msg: Message,
+        encrypted: Data,
+        mediatorDID: DID
+    ) throws -> ForwardMessage {
         guard let fromDID = msg.from else { throw MercuryError.noSenderDIDSetError }
         guard let toDID = msg.to else { throw MercuryError.noRecipientDIDSetError }
-        return try ForwardMessage(
+        return ForwardMessage(
             from: fromDID,
             to: mediatorDID,
             body: .init(next: toDID.string),
             encryptedJsonMessage: encrypted
-        ).makeMessage()
+        )
     }
 
     private func getDIDCommURL(document: DIDDocument) -> URL? {

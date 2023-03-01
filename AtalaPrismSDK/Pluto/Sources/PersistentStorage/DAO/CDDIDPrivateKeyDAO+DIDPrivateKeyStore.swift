@@ -21,6 +21,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyStore {
 
 private extension CDDIDPrivateKey {
     func parseFrom(did: DID, privateKeys: [PrivateKey], alias: String?) {
+        self.alias = alias
         self.did = did.string
         self.schema = did.schema
         self.method = did.method
@@ -37,7 +38,6 @@ private extension CDDIDPrivateKey {
                 break
             }
         }
-        self.alias = alias
     }
 }
 

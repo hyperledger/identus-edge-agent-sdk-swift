@@ -84,7 +84,6 @@ Error on parsing DIDComm library model message to Domain message : \(error.local
     }
 
     func error(err: DIDCommxSwift.ErrorKind, msg: String) {
-        print(err.localizedDescription)
         let error = MercuryError.didcommError(
             msg:
 """
