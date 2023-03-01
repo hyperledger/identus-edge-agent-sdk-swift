@@ -231,12 +231,6 @@ Could not find key in storage please use Castor instead and provide the private 
         }
     }
 
-    func getAllRegisteredPeerDIDs() -> AnyPublisher<[(did: DID, alias: String?)], Error> {
-        pluto.getAllPeerDIDs()
-            .map { $0.map { ($0.did, $0.alias) } }
-            .eraseToAnyPublisher()
-    }
-
     /// This function registers a DID pair in the `pluto` store
     ///
     /// - Parameter pair: The DID pair to register
@@ -252,5 +246,14 @@ Could not find key in storage please use Castor instead and provide the private 
     /// - Returns: A publisher that emits an array of `DIDPair` objects, or an error if there was a problem getting the pairs
     func getAllDIDPairs() -> AnyPublisher<[DIDPair], Error> {
         pluto.getAllDidPairs()
+    }
+
+    /// This function gets all the DID peers from the `pluto` store
+    ///
+    /// - Returns: A publisher that emits an array of tuples (`DID`, `String?`) objects, or an error if there was a problem getting the dids
+    func getAllRegisteredPeerDIDs() -> AnyPublisher<[(did: DID, alias: String?)], Error> {
+        pluto.getAllPeerDIDs()
+            .map { $0.map { ($0.did, $0.alias) } }
+            .eraseToAnyPublisher()
     }
 }

@@ -5,8 +5,8 @@ import Foundation
 // MARK: Messaging events funcionalities
 public extension PrismAgent {
     /// Start fetching the messages from the mediator
-    func startFetchingMessages() {
-        // Check if messagesStreamTask is nil
+    func startFetchingMessages(timeBetweenRequests: Int = 5) {
+        let timeInterval = max(timeBetweenRequests, 5)
         guard messagesStreamTask == nil else { return }
 
         logger.info(message: "Start streaming new unread messages")
@@ -22,7 +22,7 @@ public extension PrismAgent {
                     // Handle errors that occur during the message fetching process
                     logger.error(error: error)
                 }
-                sleep(90)
+                sleep(UInt32(timeInterval))
             }
         }
     }
@@ -56,39 +56,6 @@ public extension PrismAgent {
     func handleReceivedMessagesEvents() -> AnyPublisher<Message, Error> {
         pluto.getAllMessagesReceived()
             .flatMap { $0.publisher }
-            .print()
             .eraseToAnyPublisher()
-//            .flatMap { message -> AnyPublisher<Message, Error> in
-//                if let issueCredential = try? IssueCredential(fromMessage: message) {
-//                    let credentials = try? issueCredential.getCredentialStrings().map {
-//                        try pollux.parseVerifiableCredential(jwtString: $0)
-//                    }
-//                    guard let credential = credentials?.first else {
-//                        return Just(message)
-//                            .tryMap { $0 }
-//                            .eraseToAnyPublisher()
-//                    }
-//                    return pluto
-//                        .storeCredential(credential: credential)
-//                        .map { message }
-//                        .eraseToAnyPublisher()
-//                }
-//                return Just(message)
-//                    .tryMap { $0 }
-//                    .eraseToAnyPublisher()
-//            }
-//            .flatMap { [weak self] message -> AnyPublisher<Message, Error> in
-//                if
-//                    let self,
-//                    let request = try? RequestPresentation(fromMessage: message),
-//                    !self.requestedPresentations.value.contains(where: { $0.0.id == request.id })
-//                {
-//                    self.requestedPresentations.value = self.requestedPresentations.value + [(request, false)]
-//                }
-//                return Just(message)
-//                    .tryMap { $0 }
-//                    .eraseToAnyPublisher()
-//            }
-//            .eraseToAnyPublisher()
     }
 }

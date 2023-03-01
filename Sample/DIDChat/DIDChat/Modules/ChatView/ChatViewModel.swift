@@ -61,6 +61,7 @@ final class ChatViewModelImpl: ChatViewModel {
                 ))
 
                 self.messages = self.messageList.sorted { $0.date < $1.date }
+                self.sendingText = ""
             }
         }
     }

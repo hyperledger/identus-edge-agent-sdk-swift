@@ -383,6 +383,13 @@ public enum MercuryError: KnownPrismError {
 
     /// An error case representing invalid body data in a message.
     case messageInvalidBodyDataError
+
+    /**
+     An error case representing a DIDComm error.
+     - Parameters:
+        - msg: The message describing the error.
+        - underlyingErrors: An array of underlying errors that may have contributed to this error, if provided.
+    */
     case didcommError(msg: String, underlyingErrors: [Error]? = nil)
 
     /// The error code returned by the server.

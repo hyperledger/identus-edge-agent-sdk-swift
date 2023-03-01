@@ -62,7 +62,7 @@ struct AddContactView<ViewModel: ContactsViewModel>: View {
     @EnvironmentObject var viewModel: ViewModel
     @Environment(\.presentationMode) var presentationMode
     @State var newContactName: String = "Bob"
-    @State var newContactPeerDID: String = "did:peer:2.Ez6LSpAMSF7BxhxJEqWApn258toZ3RYFD5Bp6TaCCE1JkSNZW.Vz6MkmSoU3wZ1TfXEmrC8nzm5WvHvxrg8mmxe1BnGAZPXzTpR.SeyJyIjpbXSwicyI6ImRpZDpwZWVyOjIuRXo2TFNtaWJDSkxkeHFTc21hYUJ1c1NrUXdYek1ZUnFVTHRCWEdaWDd1dERKSE5HbS5WejZNa293a0Vxd1dEVVM0TUNOTG50UFpHVGV0YWM3dGtKbk1HWVB2eDlnZmh1N2RyLlNleUpwWkNJNkltNWxkeTFwWkNJc0luUWlPaUprYlNJc0luTWlPaUpvZEhSd2N6b3ZMMjFsWkdsaGRHOXlMbkp2YjNSemFXUXVZMnh2ZFdRaUxDSmhJanBiSW1ScFpHTnZiVzB2ZGpJaVhYMCIsImEiOltdLCJ0IjoiZG0ifQ"
+    @State var newContactPeerDID: String = "did:peer:2.Ez6LSc9cZDE5ioLyEV9WKtcpejzr7GvzcWHHP8rwnWeZwYyaV.Vz6MkkbB59SstKEkTLfLhGmc5iyesyMzCgmNuZqgMz3c4sLgy.SeyJyIjpbXSwicyI6ImRpZDpwZWVyOjIuRXo2TFNjUGI0ZG1GbUR3RXd2aGpLTXphN1p0TnhDRlVGeWkxb0xKSHF0REZDWWhTVC5WejZNa3J2TWFjV0daa3RiWk16UFdDQ2dCYUs1VEdYdGJSUlNWZk1rZmtROWlrTER0LlNleUpwWkNJNkltNWxkeTFwWkNJc0luUWlPaUprYlNJc0luTWlPaUpvZEhSd2N6b3ZMMjFsWkdsaGRHOXlMbkp2YjNSemFXUXVZMnh2ZFdRaUxDSmhJanBiSW1ScFpHTnZiVzB2ZGpJaVhYMCIsImEiOltdLCJ0IjoiZG0ifQ"
     @State var newPeerDIDAlias: String = ""
 
     var body: some View {
