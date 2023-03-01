@@ -26,7 +26,6 @@ struct MediationKeysUpdateList {
         self.id = id
         self.from = from
         self.to = to
-        print(recipientDids.map { $0.string })
         self.body = .init(
             updates: recipientDids.map {
                 Body.Update(recipientDid: $0.string)

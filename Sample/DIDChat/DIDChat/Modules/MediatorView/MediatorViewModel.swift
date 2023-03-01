@@ -29,7 +29,8 @@ class MediatorViewModelImpl: MediatorViewModel {
             do {
                 PrismAgent.setupLogging(logLevels: [
                     .prismAgent: .debug,
-                    .mercury: .debug
+                    .mercury: .debug,
+                    .castor: .debug
                 ])
                 let agent = PrismAgent(mediatorDID: did)
                 try await agent.start()

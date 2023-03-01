@@ -44,7 +44,10 @@ final class PackEncryptedOperation: OnPackEncryptedResult {
                     continuation.resume(returning: result)
                 })
             do {
-                print("Packing message \(message.piuri) sender:\(fromDID) \nto:\(toDID)")
+                logger.debug(message: "Packing message \(message.piuri)", metadata: [
+                    .maskedMetadataByLevel(key: "Sender", value: fromDID.string, level: .debug),
+                    .maskedMetadataByLevel(key: "Receiver", value: toDID.string, level: .debug)
+                ])
                 let status = didcomm.packEncrypted(
                     msg: try DIDCommxSwift.Message(domain: message, mediaType: .contentTypePlain),
                     to: toDID.string,

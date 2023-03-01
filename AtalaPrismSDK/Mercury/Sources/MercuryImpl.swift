@@ -8,7 +8,6 @@ public struct MercuryImpl {
     let castor: Castor
     let apollo: Apollo
     let pluto: Pluto
-    let didcomm: DidComm
     let logger: PrismLogger
 
     public init(
@@ -24,6 +23,9 @@ public struct MercuryImpl {
         self.castor = castor
         self.apollo = apollo
         self.pluto = pluto
+    }
+
+    func getDidcomm() -> DidComm {
         let didResolver = DIDCommDIDResolverWrapper(castor: castor, logger: logger)
         let secretsResolver = DIDCommSecretsResolverWrapper(
             apollo: apollo,
@@ -31,7 +33,7 @@ public struct MercuryImpl {
             castor: castor,
             logger: logger
         )
-        self.didcomm = DidComm(
+        return DidComm(
             didResolver: didResolver,
             secretResolver: secretsResolver
         )

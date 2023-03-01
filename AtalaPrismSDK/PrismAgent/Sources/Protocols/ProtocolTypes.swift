@@ -1,6 +1,7 @@
 import Foundation
 
 enum ProtocolTypes: String {
+    case didcommBasicMessage = "https://didcomm.org/basicmessage/2.0/message"
     case didcommMediationRequest = "https://didcomm.org/coordinate-mediation/2.0/mediate-request"
     case didcommMediationGrant = "https://didcomm.org/coordinate-mediation/2.0/mediate-grant"
     case didcommMediationDeny = "https://didcomm.org/coordinate-mediation/2.0/mediate-deny"
