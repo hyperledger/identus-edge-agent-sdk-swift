@@ -356,6 +356,12 @@
                 <a class="nav-group-task-link" href="../Structs/AttachmentLinkData.html">AttachmentLinkData</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/BasicMessage.html">BasicMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/BasicMessage/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/CompressedPublicKey.html">CompressedPublicKey</a>
               </li>
               <li class="nav-group-task">
@@ -423,6 +429,12 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/DIDUrl.html">DIDUrl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ForwardMessage.html">ForwardMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ForwardMessage/Body.html">– Body</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/IssueCredential.html">IssueCredential</a>
@@ -970,64 +982,6 @@ After all the events are stopped the state of the PrismAgent is set to .stoped.<
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span> <span class="k">async</span> <span class="k">throws</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10PrismAgentAAC22presentCredentialProof7request10credentialyAA19RequestPresentationV_6Domain010VerifiableD0_ptYaKF"></a>
-                    <a name="//apple_ref/swift/Method/presentCredentialProof(request:credential:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10PrismAgentAAC22presentCredentialProof7request10credentialyAA19RequestPresentationV_6Domain010VerifiableD0_ptYaKF">presentCredentialProof(request:<wbr>credential:<wbr>)</a>
-                    </code>
-                      <span class="declaration-note">
-                        Asynchronous
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">presentCredentialProof</span><span class="p">(</span>
-    <span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="../Structs/RequestPresentation.html">RequestPresentation</a></span><span class="p">,</span>
-    <span class="nv">credential</span><span class="p">:</span> <span class="kt"><a href="../Protocols/VerifiableCredential.html">VerifiableCredential</a></span>
-<span class="p">)</span> <span class="k">async</span> <span class="k">throws</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10PrismAgentAAC23issueCredentialProtocolyyF"></a>
-                    <a name="//apple_ref/swift/Method/issueCredentialProtocol()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10PrismAgentAAC23issueCredentialProtocolyyF">issueCredentialProtocol()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">issueCredentialProtocol</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -1690,6 +1644,37 @@ After all the events are stopped the state of the PrismAgent is set to .stoped.<
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10PrismAgentAAC24getAllRegisteredPeerDIDs7Combine12AnyPublisherVySay6Domain3DIDV3did_SSSg5aliastGs5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/getAllRegisteredPeerDIDs()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10PrismAgentAAC24getAllRegisteredPeerDIDs7Combine12AnyPublisherVySay6Domain3DIDV3did_SSSg5aliastGs5Error_pGyF">getAllRegisteredPeerDIDs()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This function gets all the DID peers from the <code>pluto</code> store</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllRegisteredPeerDIDs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that emits an array of tuples (<code><a href="../Structs/DID.html">DID</a></code>, <code>String?</code>) objects, or an error if there was a problem getting the dids</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -2083,9 +2068,9 @@ After all the events are stopped the state of the PrismAgent is set to .stoped.<
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10PrismAgentAAC21startFetchingMessagesyyF"></a>
-                    <a name="//apple_ref/swift/Method/startFetchingMessages()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10PrismAgentAAC21startFetchingMessagesyyF">startFetchingMessages()</a>
+                    <a name="/s:10PrismAgentAAC21startFetchingMessages19timeBetweenRequestsySi_tF"></a>
+                    <a name="//apple_ref/swift/Method/startFetchingMessages(timeBetweenRequests:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10PrismAgentAAC21startFetchingMessages19timeBetweenRequestsySi_tF">startFetchingMessages(timeBetweenRequests:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2100,7 +2085,7 @@ After all the events are stopped the state of the PrismAgent is set to .stoped.<
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startFetchingMessages</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startFetchingMessages</span><span class="p">(</span><span class="nv">timeBetweenRequests</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>

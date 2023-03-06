@@ -356,6 +356,12 @@
                 <a class="nav-group-task-link" href="../Structs/AttachmentLinkData.html">AttachmentLinkData</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/BasicMessage.html">BasicMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/BasicMessage/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/CompressedPublicKey.html">CompressedPublicKey</a>
               </li>
               <li class="nav-group-task">
@@ -423,6 +429,12 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/DIDUrl.html">DIDUrl</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ForwardMessage.html">ForwardMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ForwardMessage/Body.html">– Body</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/IssueCredential.html">IssueCredential</a>
@@ -588,6 +600,122 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:7Mercury0A4ImplV11sendMessagey10Foundation4DataVSg6Domain0D0VYaKF"></a>
+                    <a name="//apple_ref/swift/Method/sendMessage(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Mercury0A4ImplV11sendMessagey10Foundation4DataVSg6Domain0D0VYaKF">sendMessage(_:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>sendMessage asynchronously sends a given message and returns the response data. This function may throw an error if the message is invalid or the send operation fails.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error if the message is invalid or the send operation fails
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendMessage</span><span class="p">(</span><span class="n">_</span> <span class="nv">msg</span><span class="p">:</span> <span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>msg</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The message to send</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The response data</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7Mercury0A4ImplV016sendMessageParseD03msg6Domain0D0VSgAH_tYaKF"></a>
+                    <a name="//apple_ref/swift/Method/sendMessageParseMessage(msg:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Mercury0A4ImplV016sendMessageParseD03msg6Domain0D0VSgAH_tYaKF">sendMessageParseMessage(msg:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>sendMessageParseMessage asynchronously sends a given message and returns the response message object. This function may throw an error if the message is invalid, the send operation fails, or the response message is invalid.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error if the message is invalid, the send operation fails, or the response message is invalid
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendMessageParseMessage</span><span class="p">(</span><span class="nv">msg</span><span class="p">:</span> <span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>msg</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The message to send</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The response message object</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:7Mercury0A4ImplV11packMessage3msgSS6Domain0D0V_tYaKF"></a>
                     <a name="//apple_ref/swift/Method/packMessage(msg:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:7Mercury0A4ImplV11packMessage3msgSS6Domain0D0V_tYaKF">packMessage(msg:<wbr>)</a>
@@ -697,122 +825,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>The message object</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Mercury0A4ImplV11sendMessage3msg10Foundation4DataVSg6Domain0D0V_tYaKF"></a>
-                    <a name="//apple_ref/swift/Method/sendMessage(msg:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Mercury0A4ImplV11sendMessage3msg10Foundation4DataVSg6Domain0D0V_tYaKF">sendMessage(msg:<wbr>)</a>
-                    </code>
-                      <span class="declaration-note">
-                        Asynchronous
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>sendMessage asynchronously sends a given message and returns the response data. This function may throw an error if the message is invalid or the send operation fails.</p>
-<div class="aside aside-throws">
-    <p class="aside-title">Throws</p>
-    An error if the message is invalid or the send operation fails
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendMessage</span><span class="p">(</span><span class="nv">msg</span><span class="p">:</span> <span class="kt">Domain</span><span class="o">.</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>msg</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The message to send</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>The response data</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7Mercury0A4ImplV016sendMessageParseD03msg6Domain0D0VSgAH_tYaKF"></a>
-                    <a name="//apple_ref/swift/Method/sendMessageParseMessage(msg:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Mercury0A4ImplV016sendMessageParseD03msg6Domain0D0VSgAH_tYaKF">sendMessageParseMessage(msg:<wbr>)</a>
-                    </code>
-                      <span class="declaration-note">
-                        Asynchronous
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>sendMessageParseMessage asynchronously sends a given message and returns the response message object. This function may throw an error if the message is invalid, the send operation fails, or the response message is invalid.</p>
-<div class="aside aside-throws">
-    <p class="aside-title">Throws</p>
-    An error if the message is invalid, the send operation fails, or the response message is invalid
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendMessageParseMessage</span><span class="p">(</span><span class="nv">msg</span><span class="p">:</span> <span class="kt">Domain</span><span class="o">.</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Domain</span><span class="o">.</span><span class="kt"><a href="../Structs/Message.html">Message</a></span><span class="p">?</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>msg</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The message to send</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>The response message object</p>
                       </div>
                     </section>
                   </div>
