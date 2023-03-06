@@ -20,7 +20,7 @@ class MercuryStub: Mercury {
         return message
     }
 
-    func sendMessage(msg: Domain.Message) async throws -> Data? {
+    func sendMessage(_ msg: Domain.Message) async throws -> Data? {
         guard throwSendMessageError == nil else { throw throwSendMessageError! }
         return sendMessageDataReturn
     }
