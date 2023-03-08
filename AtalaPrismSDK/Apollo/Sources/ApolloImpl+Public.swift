@@ -42,7 +42,7 @@ returns random mnemonics nerver returns invalid mnemonics
     ///   - seed: A seed object used to generate the key pair
     ///   - curve: The key curve to use for generating the key pair
     /// - Returns: A key pair object containing a private and public key
-    public func createKeyPair(seed: Seed, curve: KeyCurve) -> KeyPair {
+    public func createKeyPair(seed: Seed, curve: KeyCurve) throws -> KeyPair {
         switch curve {
         case .x25519:
             return CreateX25519KeyPairOperation(logger: ApolloImpl.logger)
@@ -51,7 +51,7 @@ returns random mnemonics nerver returns invalid mnemonics
             return CreateEd25519KeyPairOperation(logger: ApolloImpl.logger)
                 .compute()
         case let .secp256k1(index):
-            return CreateSec256k1KeyPairOperation(
+            return try CreateSec256k1KeyPairOperation(
                 logger: ApolloImpl.logger,
                 seed: seed,
                 keyPath: .init(index: index)
@@ -69,7 +69,7 @@ returns random mnemonics nerver returns invalid mnemonics
     public func createKeyPair(seed: Seed, privateKey: PrivateKey) throws -> KeyPair {
         switch privateKey.curve {
         case .secp256k1:
-            return createKeyPair(seed: seed, curve: privateKey.curve)
+            return try createKeyPair(seed: seed, curve: privateKey.curve)
         case .x25519:
             return try CreateX25519KeyPairOperation(logger: ApolloImpl.logger)
                 .compute(fromPrivateKey: privateKey)
@@ -84,15 +84,25 @@ returns random mnemonics nerver returns invalid mnemonics
     /// - Parameter publicKey: The public key to compress
     /// - Returns: The compressed public key
     public func compressedPublicKey(publicKey: PublicKey) -> CompressedPublicKey {
-        publicKey.compressed()
+        CompressedPublicKey(
+            uncompressed: publicKey,
+            value: LockPublicKey(
+                bytes: publicKey.value
+            ).compressedPublicKey().data
+        )
     }
 
     /// compressedPublicKey decompresses a given compressed public key into its original form.
     ///
     /// - Parameter compressedData: The compressed public key data
     /// - Returns: The decompressed public key
-    public func compressedPublicKey(compressedData: Data) -> CompressedPublicKey {
-        CompressedPublicKey(compressedData: compressedData)
+    public func uncompressedPublicKey(compressedData: Data) -> PublicKey {
+        PublicKey(
+            curve: KeyCurve.secp256k1().name,
+            value: LockPublicKey(
+                bytes: compressedData
+            ).uncompressedPublicKey().data
+        )
     }
 
     /// signMessage signs a message using a given private key, returning the signature.
@@ -101,8 +111,8 @@ returns random mnemonics nerver returns invalid mnemonics
     ///   - privateKey: The private key to use for signing the message
     ///   - message: The message to sign, in binary data form
     /// - Returns: The signature of the message
-    public func signMessage(privateKey: PrivateKey, message: Data) -> Signature {
-        return SignMessageOperation(
+    public func signMessage(privateKey: PrivateKey, message: Data) throws -> Signature {
+        return try SignMessageOperation(
             logger: ApolloImpl.logger,
             privateKey: privateKey,
             message: message
@@ -118,7 +128,7 @@ returns random mnemonics nerver returns invalid mnemonics
     /// - Throws: An error if the message is invalid
     public func signMessage(privateKey: PrivateKey, message: String) throws -> Signature {
         guard let data = message.data(using: .utf8) else { throw ApolloError.couldNotParseMessageString }
-        return signMessage(privateKey: privateKey, message: data)
+        return try signMessage(privateKey: privateKey, message: data)
     }
 
     /// verifySignature verifies the authenticity of a signature using the corresponding public key, challenge, and signature. This function returns a boolean value indicating whether the signature is valid or not.
@@ -128,8 +138,12 @@ returns random mnemonics nerver returns invalid mnemonics
     ///   - challenge: The challenge used to generate the signature
     ///   - signature: The signature to verify
     /// - Returns: A boolean value indicating whether the signature is valid or not
-    public func verifySignature(publicKey: PublicKey, challenge: Data, signature: Signature) -> Bool {
-        return VerifySignatureOperation(
+    public func verifySignature(
+        publicKey: PublicKey,
+        challenge: Data,
+        signature: Signature
+    ) throws -> Bool {
+        return try VerifySignatureOperation(
             logger: ApolloImpl.logger,
             publicKey: publicKey,
             challenge: challenge,

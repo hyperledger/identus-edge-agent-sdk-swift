@@ -159,30 +159,6 @@ public class PrismAgent {
          state = .stoped
          logger.info(message: "Agent not running")
      }
-
-//    // TODO: This is to be deleted in the future. For now it helps with proof of request logic
-//    public func presentCredentialProof(
-//        request: RequestPresentation,
-//        credential: VerifiableCredential
-//    ) async throws {
-//        guard let jwtBase64 = credential.id.data(using: .utf8)?.base64UrlEncodedString() else {
-//            throw UnknownError.somethingWentWrongError(
-//                customMessage: "Could not decode JWT Credential",
-//                underlyingErrors: nil
-//            )
-//        }
-//        let presentation = Presentation(
-//            body: .init(goalCode: request.body.goalCode, comment: request.body.comment),
-//            attachments: [try .build(
-//                payload: AttachmentBase64(base64: jwtBase64),
-//                mediaType: "prism/jwt"
-//            )],
-//            thid: request.id,
-//            from: request.to,
-//            to: request.from
-//        )
-//        _ = try await connectionManager.sendMessage(presentation.makeMessage())
-//    }
 //
 //    // TODO: This is to be deleted in the future. For now it helps with issue credentials logic
 //    public func issueCredentialProtocol() {

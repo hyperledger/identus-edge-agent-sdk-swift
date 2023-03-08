@@ -77,7 +77,7 @@ struct PrismDIDPublicKey {
         usage = proto.usage.fromProto()
         switch proto.keyData {
         case let .compressedEcKeyData(value):
-            keyData = apollo.compressedPublicKey(compressedData: value.data).uncompressed
+            keyData = apollo.uncompressedPublicKey(compressedData: value.data)
         default:
             throw CastorError.invalidPublicKeyCoding(didMethod: "prism", curve: "secp256k1")
         }
