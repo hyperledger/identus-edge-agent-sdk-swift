@@ -98,4 +98,12 @@ public protocol Apollo {
     /// - Returns: The public key pair in JWK format, as a string
     /// - Throws: An error if the key pair is invalid
     func getPublicJWKJson(id: String, keyPair: KeyPair) throws -> String
+
+    func keyDataToPEMString(_ keyData: PrivateKey) -> String?
+
+    func keyDataToPEMString(_ keyData: PublicKey) -> String?
+
+    func publicKeyFrom(x: Data, y: Data) -> PublicKey
+
+    func publicKeyPointCurve(publicKey: PublicKey) throws -> (x: Data, y: Data)
 }

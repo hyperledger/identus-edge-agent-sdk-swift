@@ -76,6 +76,8 @@ struct PrismDIDPublicKey {
         id = proto.id
         usage = proto.usage.fromProto()
         switch proto.keyData {
+        case let .ecKeyData(value):
+            keyData = apollo.publicKeyFrom(x: value.x, y: value.y)
         case let .compressedEcKeyData(value):
             keyData = apollo.uncompressedPublicKey(compressedData: value.data)
         default:
@@ -83,12 +85,15 @@ struct PrismDIDPublicKey {
         }
     }
 
-    func toProto() -> Io_Iohk_Atala_Prism_Protos_PublicKey {
+    func toProto() throws -> Io_Iohk_Atala_Prism_Protos_PublicKey {
         var protoKey = Io_Iohk_Atala_Prism_Protos_PublicKey()
         protoKey.id = id
         protoKey.usage = usage.toProto()
-        let compressed = apollo.compressedPublicKey(publicKey: keyData)
-        protoKey.keyData = .compressedEcKeyData(compressed.toProto())
+        let points = try apollo.publicKeyPointCurve(publicKey: keyData)
+        var protoEC = Io_Iohk_Atala_Prism_Protos_ECKeyData()
+        protoEC.x = points.x
+        protoEC.y = points.y
+        protoKey.keyData = .ecKeyData(protoEC)
         return protoKey
     }
 }
