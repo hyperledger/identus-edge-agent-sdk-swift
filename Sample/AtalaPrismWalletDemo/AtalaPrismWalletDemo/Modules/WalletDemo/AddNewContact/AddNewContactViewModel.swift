@@ -68,9 +68,7 @@ final class AddNewContactViewModelImpl: AddNewContactViewModel {
                 }
             } catch let error as MercuryError {
                 switch error {
-                case let .urlSessionError(statusCode, error, msg):
-                    print("HTTP Error: \(statusCode)")
-                case let .didcommError(msg):
+                case let .didcommError(msg, _):
                     print("Error: \(msg)")
                 default:
                     break
@@ -78,11 +76,23 @@ final class AddNewContactViewModelImpl: AddNewContactViewModel {
                 await MainActor.run {
                     self.flowStep = .error(DisplayErrorState(error: error))
                 }
-                print("Error: \(error.localizedDescription)")
-            } catch {
+                print("Error: \(error.errorDescription)")
+                
+            } catch let error as CommonError {
+                switch error {
+                case let .httpError(code, _):
+                    print("HTTP Error: \(code)")
+                default:
+                    break
+                }
                 await MainActor.run {
                     self.flowStep = .error(DisplayErrorState(error: error))
-                    print(error.localizedDescription)
+                }
+                print("Error: \(error.localizedDescription)")
+            } catch let error as LocalizedError {
+                await MainActor.run {
+                    self.flowStep = .error(DisplayErrorState(error: error))
+                    print(error.errorDescription)
                 }
             }
         }

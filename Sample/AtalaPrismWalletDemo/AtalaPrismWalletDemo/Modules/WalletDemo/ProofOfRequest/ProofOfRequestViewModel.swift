@@ -59,7 +59,7 @@ final class ProofOfRequestViewModelImpl: ProofOfRequestViewModel {
         loading = true
         Task {
             do {
-                try await agent.presentCredentialProof(
+                try await self.presentCredentialProof(
                     request: self.proofOfRequest,
                     credential: selectedCredential
                 )
@@ -79,6 +79,29 @@ final class ProofOfRequestViewModelImpl: ProofOfRequestViewModel {
                 }
             }
         }
+    }
+
+    func presentCredentialProof(
+        request: RequestPresentation,
+        credential: VerifiableCredential
+    ) async throws {
+        guard let jwtBase64 = credential.id.data(using: .utf8)?.base64UrlEncodedString() else {
+            throw UnknownError.somethingWentWrongError(
+                customMessage: "Could not decode JWT Credential",
+                underlyingErrors: nil
+            )
+        }
+        let presentation = Presentation(
+            body: .init(goalCode: request.body.goalCode, comment: request.body.comment),
+            attachments: [try .build(
+                payload: AttachmentBase64(base64: jwtBase64),
+                mediaType: "prism/jwt"
+            )],
+            thid: request.id,
+            from: request.to,
+            to: request.from
+        )
+        _ = try await agent.sendMessage(message: presentation.makeMessage())
     }
 
     func confirmDismiss() {
