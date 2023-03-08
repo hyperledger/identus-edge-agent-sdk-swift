@@ -3,7 +3,7 @@ import Domain
 import Foundation
 
 extension AttachmentDescriptor {
-    static func build<T: Encodable>(
+    public static func build<T: Encodable>(
         id: String = UUID().uuidString,
         payload: T,
         mediaType: String? = "application/json"

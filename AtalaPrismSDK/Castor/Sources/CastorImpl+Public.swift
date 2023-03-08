@@ -57,9 +57,17 @@ extension CastorImpl: Castor {
     ///   - signature: The signature data to verify
     /// - Returns: A boolean value indicating whether the signature is valid or not
     /// - Throws: An error if the DID or signature data are invalid
-    public func verifySignature(did: DID, challenge: Data, signature: Data) async throws -> Bool {
+    public func verifySignature(
+        did: DID,
+        challenge: Data,
+        signature: Data
+    ) async throws -> Bool {
         let document = try await resolveDID(did: did)
-        return verifySignature(document: document, challenge: challenge, signature: signature)
+        return try verifySignature(
+            document: document,
+            challenge: challenge,
+            signature: signature
+        )
     }
 
     /// verifySignature verifies the authenticity of a signature using the corresponding DID Document, challenge, and signature data. This function returns a boolean value indicating whether the signature is valid or not. This function may throw an error if the DID Document or signature data are invalid.
@@ -74,8 +82,8 @@ extension CastorImpl: Castor {
         document: DIDDocument,
         challenge: Data,
         signature: Data
-    ) -> Bool {
-        return VerifyDIDSignatureOperation(
+    ) throws -> Bool {
+        return try VerifyDIDSignatureOperation(
             apollo: apollo,
             document: document,
             challenge: challenge,

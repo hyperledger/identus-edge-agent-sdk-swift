@@ -2,18 +2,18 @@ import Core
 import Domain
 import Foundation
 
-struct ProofTypes: Codable, Equatable {
-    let schema: String
-    let requiredFields: [String]?
-    let trustIssuers: [String]?
+public struct ProofTypes: Codable, Equatable {
+    public let schema: String
+    public let requiredFields: [String]?
+    public let trustIssuers: [String]?
 }
 
 public struct Presentation {
-    struct Body: Codable, Equatable {
-        let goalCode: String?
-        let comment: String?
+    public struct Body: Codable, Equatable {
+        public let goalCode: String?
+        public let comment: String?
 
-        init(
+        public init(
             goalCode: String? = nil,
             comment: String? = nil
         ) {
@@ -23,13 +23,13 @@ public struct Presentation {
     }
     public let id: String
     public let type = ProtocolTypes.didcommPresentation.rawValue
-    let body: Body
-    let attachments: [AttachmentDescriptor]
+    public let body: Body
+    public let attachments: [AttachmentDescriptor]
     public let thid: String?
     public let from: DID
     public let to: DID
 
-    init(
+    public init(
         id: String = UUID().uuidString,
         body: Body,
         attachments: [AttachmentDescriptor],

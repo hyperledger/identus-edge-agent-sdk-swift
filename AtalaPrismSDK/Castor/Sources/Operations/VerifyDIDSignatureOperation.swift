@@ -8,11 +8,11 @@ struct VerifyDIDSignatureOperation {
     let challenge: Data
     let signature: Data
 
-    func compute() -> Bool {
-        return document.authenticate
+    func compute() throws -> Bool {
+        return try document.authenticate
             .compactMap { $0.publicKey }
             .contains {
-                apollo.verifySignature(
+                try apollo.verifySignature(
                     publicKey: $0,
                     challenge: challenge,
                     signature: Signature(value: signature)
