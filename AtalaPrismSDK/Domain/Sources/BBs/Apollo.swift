@@ -28,7 +28,7 @@ public protocol Apollo {
     ///   - seed: A seed object used to generate the key pair
     ///   - curve: The key curve to use for generating the key pair
     /// - Returns: A key pair object containing a private and public key
-    func createKeyPair(seed: Seed, curve: KeyCurve) -> KeyPair
+    func createKeyPair(seed: Seed, curve: KeyCurve) throws -> KeyPair
 
     /// createKeyPair creates a key pair using a given seed and a specified private key. This function may throw an error if the private key is invalid.
     ///
@@ -49,7 +49,7 @@ public protocol Apollo {
     ///
     /// - Parameter compressedData: The compressed public key data
     /// - Returns: The decompressed public key
-    func compressedPublicKey(compressedData: Data) -> CompressedPublicKey
+    func uncompressedPublicKey(compressedData: Data) -> PublicKey
 
     /// signMessage signs a message using a given private key, returning the signature.
     ///
@@ -57,7 +57,7 @@ public protocol Apollo {
     ///   - privateKey: The private key to use for signing the message
     ///   - message: The message to sign, in binary data form
     /// - Returns: The signature of the message
-    func signMessage(privateKey: PrivateKey, message: Data) -> Signature
+    func signMessage(privateKey: PrivateKey, message: Data) throws -> Signature
 
     /// signMessage signs a message using a given private key, returning the signature. This function may throw an error if the message is invalid.
     ///
@@ -79,7 +79,7 @@ public protocol Apollo {
         publicKey: PublicKey,
         challenge: Data,
         signature: Signature
-    ) -> Bool
+    ) throws -> Bool
 
     /// getPrivateJWKJson converts a private key pair into a JSON Web Key (JWK) format with a given ID. This function may throw an error if the key pair is invalid.
     ///

@@ -39,12 +39,12 @@ Could not find key in storage please use Castor instead and provide the private 
                     throw PrismAgentError.cannotFindDIDKeyPairIndex
                 }
                 // Re-Create the key pair to sign the message
-                let keyPair = apollo.createKeyPair(seed: seed, curve: .secp256k1(index: index))
+                let keyPair = try apollo.createKeyPair(seed: seed, curve: .secp256k1(index: index))
 
                 self?.logger.debug(message: "Signing message", metadata: [
                     .maskedMetadataByLevel(key: "messageB64", value: message.base64Encoded(), level: .debug)
                 ])
-                return apollo.signMessage(privateKey: keyPair.privateKey, message: message)
+                return try apollo.signMessage(privateKey: keyPair.privateKey, message: message)
             }
             .first()
             .await()
@@ -71,7 +71,7 @@ Could not find key in storage please use Castor instead and provide the private 
                 // If the user provided a key path index use it, if not use the last + 1
                 let index = keyPathIndex ?? ($0 + 1)
                 // Create the key pair
-                let keyPair = apollo.createKeyPair(seed: seed, curve: .secp256k1(index: index))
+                let keyPair = try apollo.createKeyPair(seed: seed, curve: .secp256k1(index: index))
                 let newDID = try castor.createPrismDID(masterPublicKey: keyPair.publicKey, services: services)
                 self?.logger.debug(message: "Created new Prism DID", metadata: [
                     .maskedMetadataByLevel(key: "DID", value: newDID.string, level: .debug),
@@ -119,8 +119,8 @@ Could not find key in storage please use Castor instead and provide the private 
         alias: String? = "",
         updateMediator: Bool
     ) async throws -> DID {
-        let keyAgreementKeyPair = apollo.createKeyPair(seed: seed, curve: .x25519)
-        let authenticationKeyPair = apollo.createKeyPair(seed: seed, curve: .ed25519)
+        let keyAgreementKeyPair = try apollo.createKeyPair(seed: seed, curve: .x25519)
+        let authenticationKeyPair = try apollo.createKeyPair(seed: seed, curve: .ed25519)
 
         let withServices: [DIDDocument.Service]
         if updateMediator, let routingDID = mediatorRoutingDID?.string {

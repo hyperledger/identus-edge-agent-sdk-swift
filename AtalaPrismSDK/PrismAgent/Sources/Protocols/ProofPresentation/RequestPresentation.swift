@@ -4,12 +4,12 @@ import Foundation
 
 public struct RequestPresentation {
     public struct Body: Codable, Equatable {
-        let goalCode: String?
-        let comment: String?
-        let willConfirm: Bool?
-        let proofTypes: [ProofTypes]
+        public let goalCode: String?
+        public let comment: String?
+        public let willConfirm: Bool?
+        public let proofTypes: [ProofTypes]
 
-        init(
+        public init(
             goalCode: String? = nil,
             comment: String? = nil,
             willConfirm: Bool? = false,
