@@ -1,27 +1,29 @@
 import Core
+import CryptoKit
 import Domain
 import Foundation
-import PrismAPI
 
 struct SignMessageOperation {
     let logger: PrismLogger
     let privateKey: Domain.PrivateKey
     let message: Data
 
-    func compute() -> Signature {
-        logger.debug(
-            message: "Signing message",
-            metadata: [
-                .maskedMetadata(key: "message", value: message.description)
-            ]
-        )
+    init(
+        logger: PrismLogger = PrismLogger(category: .apollo),
+        privateKey: Domain.PrivateKey,
+        message: Data
+    ) {
+        self.logger = logger
+        self.privateKey = privateKey
+        self.message = message
+    }
 
-        let ec = EC()
-        let ecPrivateKey = ec.toPrivateKeyFromBytes(encoded: privateKey.value.toKotlinByteArray())
-        logger.debug(message: "Decoded internaly the private key")
-        return Signature(value: ec.signBytes(
-            data: message.toKotlinByteArray(),
-            privateKey: ecPrivateKey
-        ).getEncoded().toData())
+    func compute() throws -> Signature {
+        return Signature(
+            value: try ECSigning(
+                data: Data(SHA256.hash(data: message)),
+                privateKey: privateKey.value
+            ).signMessage()
+        )
     }
 }
