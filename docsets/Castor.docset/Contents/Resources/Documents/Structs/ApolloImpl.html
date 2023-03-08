@@ -250,6 +250,9 @@
             <a class="nav-group-name-link" href="../Other%20Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:6Apollo8BitArrayV">BitArray</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/CDDID.html">CDDID</a>
               </li>
               <li class="nav-group-task">
@@ -277,16 +280,16 @@
                 <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:7Mercury29DIDCommSecretsResolverWrapperC">DIDCommSecretsResolverWrapper</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Extensions/Domain.html">Domain</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Extensions/Domain/PublicKey.html">– PublicKey</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:13DIDCommxSwift18ExampleDidResolverC">ExampleDidResolver</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:13DIDCommxSwift22ExampleSecretsResolverC">ExampleSecretsResolver</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/LockPrivateKey.html">LockPrivateKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:6Apollo13LockPublicKeyV">LockPublicKey</a>
               </li>
             </ul>
           </li>
@@ -485,7 +488,13 @@
                 <a class="nav-group-task-link" href="../Structs/Presentation.html">Presentation</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Presentation/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/PrivateKey.html">PrivateKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ProofTypes.html">ProofTypes</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ProposeCredential.html">ProposeCredential</a>
@@ -503,7 +512,13 @@
                 <a class="nav-group-task-link" href="../Structs/RequestPresentation.html">RequestPresentation</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/RequestPresentation.html#/s:10PrismAgent19RequestPresentationV4BodyV">– Body</a>
+                <a class="nav-group-task-link" href="../Structs/RequestPresentation/Body.html">– Body</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Scalar32Bytes.html">Scalar32Bytes</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Scalar32Bytes/Error.html">– Error</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Secret.html">Secret</a>
@@ -724,9 +739,9 @@ This function may throw an error if the mnemonics or passphrase are invalid.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Apollo0A4ImplV13createKeyPair4seed5curve6Domain0dE0VAG4SeedV_AG0D5CurveOtF"></a>
+                    <a name="/s:6Apollo0A4ImplV13createKeyPair4seed5curve6Domain0dE0VAG4SeedV_AG0D5CurveOtKF"></a>
                     <a name="//apple_ref/swift/Method/createKeyPair(seed:curve:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Apollo0A4ImplV13createKeyPair4seed5curve6Domain0dE0VAG4SeedV_AG0D5CurveOtF">createKeyPair(seed:<wbr>curve:<wbr>)</a>
+                    <a class="token" href="#/s:6Apollo0A4ImplV13createKeyPair4seed5curve6Domain0dE0VAG4SeedV_AG0D5CurveOtKF">createKeyPair(seed:<wbr>curve:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -741,7 +756,7 @@ This function may throw an error if the mnemonics or passphrase are invalid.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createKeyPair</span><span class="p">(</span><span class="nv">seed</span><span class="p">:</span> <span class="kt"><a href="../Structs/Seed.html">Seed</a></span><span class="p">,</span> <span class="nv">curve</span><span class="p">:</span> <span class="kt"><a href="../Enums/KeyCurve.html">KeyCurve</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/KeyPair.html">KeyPair</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">createKeyPair</span><span class="p">(</span><span class="nv">seed</span><span class="p">:</span> <span class="kt"><a href="../Structs/Seed.html">Seed</a></span><span class="p">,</span> <span class="nv">curve</span><span class="p">:</span> <span class="kt"><a href="../Enums/KeyCurve.html">KeyCurve</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/KeyPair.html">KeyPair</a></span></code></pre>
 
                         </div>
                       </div>
@@ -903,9 +918,9 @@ This function may throw an error if the mnemonics or passphrase are invalid.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Apollo0A4ImplV19compressedPublicKey0C4Data6Domain010CompresseddE0V10Foundation0F0V_tF"></a>
-                    <a name="//apple_ref/swift/Method/compressedPublicKey(compressedData:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Apollo0A4ImplV19compressedPublicKey0C4Data6Domain010CompresseddE0V10Foundation0F0V_tF">compressedPublicKey(compressedData:<wbr>)</a>
+                    <a name="/s:6Apollo0A4ImplV21uncompressedPublicKey14compressedData6Domain0dE0V10Foundation0G0V_tF"></a>
+                    <a name="//apple_ref/swift/Method/uncompressedPublicKey(compressedData:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Apollo0A4ImplV21uncompressedPublicKey14compressedData6Domain0dE0V10Foundation0G0V_tF">uncompressedPublicKey(compressedData:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -920,7 +935,7 @@ This function may throw an error if the mnemonics or passphrase are invalid.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">compressedPublicKey</span><span class="p">(</span><span class="nv">compressedData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/CompressedPublicKey.html">CompressedPublicKey</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">uncompressedPublicKey</span><span class="p">(</span><span class="nv">compressedData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/PublicKey.html">PublicKey</a></span></code></pre>
 
                         </div>
                       </div>
@@ -953,9 +968,9 @@ This function may throw an error if the mnemonics or passphrase are invalid.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Apollo0A4ImplV11signMessage10privateKey7message6Domain9SignatureVAG07PrivateF0V_10Foundation4DataVtF"></a>
+                    <a name="/s:6Apollo0A4ImplV11signMessage10privateKey7message6Domain9SignatureVAG07PrivateF0V_10Foundation4DataVtKF"></a>
                     <a name="//apple_ref/swift/Method/signMessage(privateKey:message:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Apollo0A4ImplV11signMessage10privateKey7message6Domain9SignatureVAG07PrivateF0V_10Foundation4DataVtF">signMessage(privateKey:<wbr>message:<wbr>)</a>
+                    <a class="token" href="#/s:6Apollo0A4ImplV11signMessage10privateKey7message6Domain9SignatureVAG07PrivateF0V_10Foundation4DataVtKF">signMessage(privateKey:<wbr>message:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -970,7 +985,7 @@ This function may throw an error if the mnemonics or passphrase are invalid.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signMessage</span><span class="p">(</span><span class="nv">privateKey</span><span class="p">:</span> <span class="kt"><a href="../Structs/PrivateKey.html">PrivateKey</a></span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Signature.html">Signature</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signMessage</span><span class="p">(</span><span class="nv">privateKey</span><span class="p">:</span> <span class="kt"><a href="../Structs/PrivateKey.html">PrivateKey</a></span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Signature.html">Signature</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1082,9 +1097,9 @@ This function may throw an error if the mnemonics or passphrase are invalid.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Apollo0A4ImplV15verifySignature9publicKey9challenge9signatureSb6Domain06PublicF0V_10Foundation4DataVAH0D0VtF"></a>
+                    <a name="/s:6Apollo0A4ImplV15verifySignature9publicKey9challenge9signatureSb6Domain06PublicF0V_10Foundation4DataVAH0D0VtKF"></a>
                     <a name="//apple_ref/swift/Method/verifySignature(publicKey:challenge:signature:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Apollo0A4ImplV15verifySignature9publicKey9challenge9signatureSb6Domain06PublicF0V_10Foundation4DataVAH0D0VtF">verifySignature(publicKey:<wbr>challenge:<wbr>signature:<wbr>)</a>
+                    <a class="token" href="#/s:6Apollo0A4ImplV15verifySignature9publicKey9challenge9signatureSb6Domain06PublicF0V_10Foundation4DataVAH0D0VtKF">verifySignature(publicKey:<wbr>challenge:<wbr>signature:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1099,7 +1114,11 @@ This function may throw an error if the mnemonics or passphrase are invalid.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">verifySignature</span><span class="p">(</span><span class="nv">publicKey</span><span class="p">:</span> <span class="kt"><a href="../Structs/PublicKey.html">PublicKey</a></span><span class="p">,</span> <span class="nv">challenge</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">signature</span><span class="p">:</span> <span class="kt"><a href="../Structs/Signature.html">Signature</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">verifySignature</span><span class="p">(</span>
+    <span class="nv">publicKey</span><span class="p">:</span> <span class="kt"><a href="../Structs/PublicKey.html">PublicKey</a></span><span class="p">,</span>
+    <span class="nv">challenge</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span>
+    <span class="nv">signature</span><span class="p">:</span> <span class="kt"><a href="../Structs/Signature.html">Signature</a></span>
+<span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -1321,7 +1340,7 @@ This function may throw an error if the mnemonics or passphrase are invalid.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-03-06)</p>
+      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-03-08)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
