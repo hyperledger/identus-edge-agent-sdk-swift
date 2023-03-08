@@ -1,7 +1,6 @@
 import Core
 import Domain
 import Foundation
-import PrismAPI
 
 struct CreateSec256k1KeyPairOperation {
     struct KeyPath {
@@ -18,37 +17,27 @@ struct CreateSec256k1KeyPairOperation {
     }
 
     let logger: PrismLogger
-    let keyDerivation = KeyDerivation()
     let seed: Seed
     let keyPath: KeyPath
 
-    init(logger: PrismLogger, seed: Seed, keyPath: KeyPath) {
+    init(logger: PrismLogger = PrismLogger(category: .apollo), seed: Seed, keyPath: KeyPath) {
         self.logger = logger
         self.seed = seed
         self.keyPath = keyPath
     }
 
-    func compute() -> KeyPair {
-        let newDerivationPath = DerivationPath.Companion().fromPath(path: keyPath.keyPathString())
-        logger.debug(message: "New Derivation path from \(keyPath.keyPathString())")
-        let newKey = keyDerivation.deriveKey(seed: seed.value.toKotlinByteArray(), path: newDerivationPath)
-        logger.debug(message: "KeyPair created", metadata: [
-            .privateMetadataByLevel(
-                key: "privateKey",
-                value: newKey.privateKey().getEncoded().toData().description,
-                level: .debug
-            ),
-            .privateMetadataByLevel(
-                key: "publicKey",
-                value: newKey.privateKey().getEncoded().toData().description,
-                level: .debug
-            )
-        ])
+    func compute() throws -> KeyPair {
+        let derivedKey = try HDKeychain(seed: seed.value).derivedKey(path: keyPath.keyPathString())
 
-        return KeyPair(
-            curve: .secp256k1(index: keyPath.index),
-            privateKey: PrivateKey(curve: .secp256k1(index: keyPath.index), fromEC: newKey.keyPair().privateKey),
-            publicKey: PublicKey(fromEC: newKey.keyPair().publicKey)
+        return .init(
+            privateKey: .init(
+                curve: .secp256k1(index: keyPath.index),
+                value: derivedKey.privateKey().data
+            ),
+            publicKey: .init(
+                curve: KeyCurve.secp256k1(index: keyPath.index).name,
+                value: derivedKey.extendedPublicKey().publicKey().data
+            )
         )
     }
 }
