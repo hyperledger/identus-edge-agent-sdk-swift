@@ -36,6 +36,7 @@ struct ContactList<ViewModel: ContactsViewModel, Router: ContactsListRouter>: Vi
                 }
             }
         }
+        #if !os(macOS)
         .navigationBarTitle("Contacts")
         .navigationBarItems(trailing: HStack {
             Button(action: {
@@ -49,6 +50,7 @@ struct ContactList<ViewModel: ContactsViewModel, Router: ContactsListRouter>: Vi
                 Image(systemName: "doc.plaintext")
             }
         })
+        #endif
         .sheet(isPresented: $showAddContact) {
             AddContactView<ViewModel>().environmentObject(viewModel)
         }
