@@ -10,7 +10,7 @@ struct CreatePrismDIDOperation {
 
     func compute() throws -> DID {
         var operation = Io_Iohk_Atala_Prism_Protos_AtalaOperation()
-        operation.createDid = createDIDAtalaOperation(
+        operation.createDid = try createDIDAtalaOperation(
             publicKeys: [PrismDIDPublicKey(
                 apollo: apollo,
                 id: PrismDIDPublicKey.Usage.masterKey.defaultId,
@@ -25,9 +25,9 @@ struct CreatePrismDIDOperation {
     private func createDIDAtalaOperation(
         publicKeys: [PrismDIDPublicKey],
         services: [DIDDocument.Service]
-    ) -> Io_Iohk_Atala_Prism_Protos_CreateDIDOperation {
+    ) throws -> Io_Iohk_Atala_Prism_Protos_CreateDIDOperation {
         var didData = Io_Iohk_Atala_Prism_Protos_CreateDIDOperation.DIDCreationData()
-        didData.publicKeys = publicKeys.map { $0.toProto() }
+        didData.publicKeys = try publicKeys.map { try $0.toProto() }
         didData.services = services.map {
             var service = Io_Iohk_Atala_Prism_Protos_Service()
             service.id = $0.id

@@ -105,6 +105,18 @@ returns random mnemonics nerver returns invalid mnemonics
         )
     }
 
+    public func publicKeyFrom(x: Data, y: Data) -> PublicKey {
+        PublicKey(
+            curve: KeyCurve.secp256k1().name,
+            value: LockPublicKey(x: x, y: y).data
+        )
+    }
+
+    public func publicKeyPointCurve(publicKey: PublicKey) throws -> (x: Data, y: Data) {
+        let points = try LockPublicKey(bytes: publicKey.value).pointCurve()
+        return (points.x.data, points.y.data)
+    }
+
     /// signMessage signs a message using a given private key, returning the signature.
     ///
     /// - Parameters:
@@ -190,6 +202,26 @@ returns random mnemonics nerver returns invalid mnemonics
             let decoder = JWTDecoder(jwtVerifier: verifier)
             return jwk
         }
+    }
+
+    public func keyDataToPEMString(_ keyData: PrivateKey) -> String? {
+        let keyBase64 = keyData.value.base64EncodedString(options: .lineLength64Characters)
+        let pemString = """
+        -----BEGIN PRIVATE KEY-----
+        \(keyBase64)
+        -----END PRIVATE KEY-----
+        """
+        return pemString
+    }
+
+    public func keyDataToPEMString(_ keyData: PublicKey) -> String? {
+        let keyBase64 = keyData.value.base64EncodedString(options: .lineLength64Characters)
+        let pemString = """
+        -----BEGIN PUBLIC KEY-----
+        \(keyBase64)
+        -----END PUBLIC KEY-----
+        """
+        return pemString
     }
 }
 
