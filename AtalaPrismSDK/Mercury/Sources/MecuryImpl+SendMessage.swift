@@ -125,7 +125,7 @@ extension MercuryImpl {
             .first { $0.type.contains("DIDCommMessaging") }
             .map {
                 $0.serviceEndpoint
-                    .map { try? DID(string: $0.uri) }
+                    .map { try? castor.parseDID(str: $0.uri) }
                     .compactMap { $0 }
             }?.first
     }
