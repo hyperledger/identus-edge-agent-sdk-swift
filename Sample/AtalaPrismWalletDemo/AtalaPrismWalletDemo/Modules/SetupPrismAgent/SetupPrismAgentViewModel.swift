@@ -50,15 +50,17 @@ final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewM
 
     func parseOOBMessage() async throws {
         do {
-            let message = try await agent.parseOOBInvitation(url: oobUrl)
+            let message = try agent.parseOOBInvitation(url: oobUrl)
             try await agent.acceptDIDCommInvitation(invitation: message)
-        } catch let error as MercuryError {
+        } catch let error as CommonError {
             switch error {
-            case let .urlSessionError(statusCode, error, msg):
-                print("Error: \(statusCode)")
+            case let .httpError(_, message):
+                print("Error: \(message)")
             default:
                 break
             }
+        } catch let error as LocalizedError {
+            print("Error: \(error.errorDescription)")
         }
     }
 
@@ -97,30 +99,31 @@ final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewM
     }
 
     func startIssueCredentialProtocol() async {
-        do {
-            try await agent.issueCredentialProtocol()
-        } catch let error as MercuryError {
-            switch error {
-            case let .urlSessionError(statusCode, error, msg):
-                print("Error: \(statusCode)")
-            case let .didcommError(msg):
-                if msg.contains("Invalid state") {
-                    print("")
-                }
-                print("Error: \(msg)")
-            default:
-                break
-            }
-            if error.localizedDescription.contains("Invalid state") {
-                print("")
-            }
-            print("Error: \(error.localizedDescription)")
-        } catch {
-            await MainActor.run {
-                self.error = error.localizedDescription
-                print(error.localizedDescription)
-            }
-        }
-        print("Finished")
+        // TODO: This needs to be redone.
+//        do {
+//            try await agent.issueCredentialProtocol()
+//        } catch let error as MercuryError {
+//            switch error {
+//            case let .urlSessionError(statusCode, error, msg):
+//                print("Error: \(statusCode)")
+//            case let .didcommError(msg):
+//                if msg.contains("Invalid state") {
+//                    print("")
+//                }
+//                print("Error: \(msg)")
+//            default:
+//                break
+//            }
+//            if error.localizedDescription.contains("Invalid state") {
+//                print("")
+//            }
+//            print("Error: \(error.localizedDescription)")
+//        } catch {
+//            await MainActor.run {
+//                self.error = error.localizedDescription
+//                print(error.localizedDescription)
+//            }
+//        }
+//        print("Finished")
     }
 }
