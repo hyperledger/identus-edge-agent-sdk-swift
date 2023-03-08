@@ -36,8 +36,6 @@ To get started with the Atala PRISM Swift SDK, you can set up the SDK and start 
 - MacOS 12 or later
 - iOS 15 or later
 
-> ⚠️ **Currently you need to always open the XCode in ROSETTA mode**
-
 ### Integrating the SDK in an existing project
 
 To integrate the SDK into an existing project, you can use the Swift Package Manager, which is distributed with Xcode.

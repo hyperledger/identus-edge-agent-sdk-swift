@@ -41,12 +41,44 @@ struct LockPublicKey {
         self.isCompressed = (header == 0x02 || header == 0x03)
     }
 
+    /**
+     * Guarantees to init a public key uncompressed with 65 bytes in the following form:
+     *
+     * 0x04 ++ xBytes ++ yBytes
+     *
+     * Where `xBytes` and `yBytes` represent a 32-byte coordinates of a point
+     * on the secp256k1 elliptic curve, which follow the formula below:
+     *
+     * y^2 == x^3 + 7
+     *
+     * @return uncompressed public key
+     */
+    init(x: Data, y: Data) {
+        let header: UInt8 = 0x04
+        self.data = [header] + x + y
+        self.isCompressed = false
+    }
+
     func compressedPublicKey() -> LockPublicKey {
         LockPublicKey(bytes: KeyHelpers.compressPublicKey(fromPublicKey: data))
     }
 
     func uncompressedPublicKey() -> LockPublicKey {
         LockPublicKey(bytes: KeyHelpers.uncompressPublicKey(fromPublicKey: data))
+    }
+
+    func pointCurve() throws -> PointOnCurve {
+        let selfUncompressed = uncompressedPublicKey()
+        var xAndY = selfUncompressed.data
+        xAndY.removeFirst() // Remove the header
+        let expectedLengthOfScalar = Scalar32Bytes.expectedByteCount
+        let expectedLengthOfKey = expectedLengthOfScalar * 2
+        guard xAndY.count == expectedLengthOfKey else {
+            fatalError("expected length of key is \(expectedLengthOfKey) bytes, but got: \(xAndY.count)")
+        }
+        let x = xAndY.prefix(expectedLengthOfScalar)
+        let y = xAndY.suffix(expectedLengthOfScalar)
+        return try PointOnCurve(x: x, y: y)
     }
 }
 
