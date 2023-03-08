@@ -1,4 +1,4 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -62,15 +62,12 @@ let package = Package(
             url: "https://github.com/apple/swift-log.git",
             from: "1.4.4"
         ),
-        // This doesnt seem to be working properly on command line, removing for now
-//        .package(url: "https://github.com/realm/SwiftLint.git", branch: "main"),
         .package(url: "git@github.com:apple/swift-protobuf.git", from: "1.7.0"),
         .package(url: "git@github.com:antlr/antlr4.git", branch: "master"),
-        .package(url: "git@github.com:input-output-hk/atala-prism-didcomm-swift.git", from: "0.3.4"),
-        .package(url: "git@github.com:input-output-hk/atala-prism-crypto-sdk-sp.git", from: "1.4.1"),
+        .package(url: "git@github.com:input-output-hk/atala-prism-didcomm-swift.git", from: "0.3.6"),
         .package(url: "git@github.com:swift-libp2p/swift-multibase.git", branch: "main"),
         .package(url: "git@github.com:Kitura/Swift-JWT.git", from: "4.0.0"),
-        .package(url: "git@github.com:goncalo-frade-iohk/swift-docc-plugin.git", from: "1.2.0")
+        .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", from: "0.5.0")
     ],
     targets: [
         .target(
@@ -84,8 +81,7 @@ let package = Package(
                 "Pollux",
                 "PrismAgent"
             ],
-            path: "AtalaPrismSDK/AtalaPrismSDK/Sources",
-            resources: [.process("Documentation.docc/Resources")]
+            path: "AtalaPrismSDK/AtalaPrismSDK/Sources"
         ),
         .target(
             name: "Domain",
@@ -101,7 +97,7 @@ let package = Package(
             dependencies: [
                 "Domain",
                 "Core",
-                .product(name: "PrismAPI", package: "atala-prism-crypto-sdk-sp"),
+                .product(name: "secp256k1", package: "secp256k1.swift"),
                 .product(name: "SwiftJWT", package: "Swift-JWT")
             ],
             path: "AtalaPrismSDK/Apollo/Sources"
