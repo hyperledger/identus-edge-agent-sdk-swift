@@ -65,6 +65,7 @@ extension CDVerifiableCredential {
         case let jwt as JWTCredentialPayload:
             self.verifiableCredetialJson = try JSONEncoder().encode(jwt)
             self.credentialType = "jwt"
+            self.originalJWT = jwt.originalJWTString
         case let w3c as W3CVerifiableCredential:
             self.verifiableCredetialJson = try JSONEncoder().encode(w3c)
             self.credentialType = "w3c"

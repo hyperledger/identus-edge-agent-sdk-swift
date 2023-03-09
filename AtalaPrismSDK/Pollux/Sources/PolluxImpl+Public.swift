@@ -28,4 +28,8 @@ extension PolluxImpl: Pollux {
             throw PolluxError.invalidCredentialError
         }
     }
+
+    public func createVerifiablePresentationJWT(credential: VerifyJWTCredential) throws -> String {
+        let presentation = JWTCredentialPayload
+    }
 }

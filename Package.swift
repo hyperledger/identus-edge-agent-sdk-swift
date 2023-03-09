@@ -66,8 +66,9 @@ let package = Package(
         .package(url: "git@github.com:antlr/antlr4.git", branch: "master"),
         .package(url: "git@github.com:input-output-hk/atala-prism-didcomm-swift.git", from: "0.3.6"),
         .package(url: "git@github.com:swift-libp2p/swift-multibase.git", branch: "main"),
-        .package(url: "git@github.com:Kitura/Swift-JWT.git", from: "4.0.0"),
-        .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", from: "0.5.0")
+        .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", from: "0.10.0"),
+//        .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", branch: "master")
+        .package(path: "Swift-JWT")
     ],
     targets: [
         .target(
@@ -97,8 +98,7 @@ let package = Package(
             dependencies: [
                 "Domain",
                 "Core",
-                .product(name: "secp256k1", package: "secp256k1.swift"),
-                .product(name: "SwiftJWT", package: "Swift-JWT")
+                .product(name: "secp256k1", package: "secp256k1.swift")
             ],
             path: "AtalaPrismSDK/Apollo/Sources"
         ),
@@ -127,13 +127,14 @@ let package = Package(
             name: "Pollux",
             dependencies: [
                 "Domain",
-                "Core"
+                "Core",
+                .product(name: "SwiftJWT", package: "Swift-JWT")
             ],
             path: "AtalaPrismSDK/Pollux/Sources"
         ),
         .testTarget(
             name: "PolluxTests",
-            dependencies: ["Pollux"],
+            dependencies: ["Pollux", "Apollo", "Castor"],
             path: "AtalaPrismSDK/Pollux/Tests"
         ),
         .target(

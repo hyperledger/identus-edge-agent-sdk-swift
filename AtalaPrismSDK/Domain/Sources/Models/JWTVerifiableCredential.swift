@@ -63,6 +63,7 @@ public struct JWTCredentialPayload {
     public let exp: Date?
     public let jti: String
     public let aud: Set<String>
+    public let originalJWTString: String?
 
     /**
      Initializes a new instance of `JWTCredentialPayload`.
@@ -83,7 +84,8 @@ public struct JWTCredentialPayload {
         nbf: Date,
         exp: Date? = nil,
         jti: String,
-        aud: Set<String> = Set()
+        aud: Set<String> = Set(),
+        originalJWTString: String? = nil
     ) {
         self.iss = iss
         self.sub = sub
@@ -92,6 +94,7 @@ public struct JWTCredentialPayload {
         self.exp = exp
         self.jti = jti
         self.aud = aud
+        self.originalJWTString = originalJWTString
     }
 }
 

@@ -3,11 +3,10 @@ import Builders
 import Combine
 import Domain
 import Foundation
-import SwiftJWT
 
 final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewModel {
 
-    @Published var oobUrl: String = "https://domain.com/path?_oob=eyJpZCI6IjlmMDBkMTg1LWEwZGQtNDcyNy1iY2I1LWQwMTc0NmIwYWNkNCIsInR5cGUiOiJodHRwczovL2RpZGNvbW0ub3JnL291dC1vZi1iYW5kLzIuMC9pbnZpdGF0aW9uIiwiZnJvbSI6ImRpZDpwZWVyOjIuRXo2TFNmdVhkcDRybmNwQnZxanlXYVE1Z1IxWHB3dFVHbzZVYmpmQ3lINldKYzhCbi5WejZNa29ZUWRoVm1rSEthVGhZU1ZSOFRvYzVkZWp1ZW0yTENzWDRlU280WHRYQ1ZDLlNleUowSWpvaVpHMGlMQ0p6SWpvaWFIUjBjRG92TDJodmMzUXVaRzlqYTJWeUxtbHVkR1Z5Ym1Gc09qZ3dPREF2Wkdsa1kyOXRiU0lzSW5JaU9sdGRMQ0poSWpwYkltUnBaR052YlcwdmRqSWlYWDAiLCJib2R5Ijp7ImdvYWxfY29kZSI6ImNvbm5lY3QiLCJnb2FsIjoiRXN0YWJsaXNoIGEgdHJ1c3QgY29ubmVjdGlvbiBiZXR3ZWVuIHR3byBwZWVycyIsImFjY2VwdCI6W119fQ=="
+    @Published var oobUrl: String = "https://domain.com/path?_oob=eyJpZCI6ImNjZmM0MjYyLTczZjItNGFkMy1iYWVhLTgwNmQ0MjNkZjQ5NyIsInR5cGUiOiJodHRwczovL2RpZGNvbW0ub3JnL291dC1vZi1iYW5kLzIuMC9pbnZpdGF0aW9uIiwiZnJvbSI6ImRpZDpwZWVyOjIuRXo2TFNmTTlGYVp1a0JDR3hVVlpLVkN4RlRrb1BZcW00dkxCbm9XN202R1E1dlBUOC5WejZNa3FUOWV2NmU3Wm5xVlM2OUZ5d3ZUQkVpdG41SGNQeFRkVzVTYmFkdzZtTWY3LlNleUowSWpvaVpHMGlMQ0p6SWpvaWFIUjBjRG92TDJ4dlkyRnNhRzl6ZERvNU1ERXdMMlJwWkdOdmJXMGlMQ0p5SWpwYlhTd2lZU0k2V3lKa2FXUmpiMjF0TDNZeUlsMTkiLCJib2R5Ijp7ImdvYWxfY29kZSI6ImlvLmF0YWxhcHJpc20uY29ubmVjdCIsImdvYWwiOiJFc3RhYmxpc2ggYSB0cnVzdCBjb25uZWN0aW9uIGJldHdlZW4gdHdvIHBlZXJzIHVzaW5nIHRoZSBwcm90b2NvbCAnaHR0cHM6Ly9hdGFsYXByaXNtLmlvL21lcmN1cnkvY29ubmVjdGlvbnMvMS4wL3JlcXVlc3QnIiwiYWNjZXB0IjpbXX19"
     @Published var status: String = ""
     @Published var error: String?
 
@@ -83,7 +82,7 @@ final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewM
                             let str = String(data: b64, encoding: .utf8)!
                             let apollo = ApolloBuilder().build()
                             let castor = CastorBuilder(apollo: apollo).build()
-                            let pollux = PolluxBuilder(castor: castor).build()
+                            let pollux = PolluxBuilder(apollo: apollo, castor: castor).build()
                             let credential = try pollux.parseVerifiableCredential(jwtString: str)
                             print(credential)
                         default:

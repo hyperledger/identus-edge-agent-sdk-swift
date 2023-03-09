@@ -28,8 +28,18 @@ extension CDVerifiableCredential {
     func toDomain() throws -> VerifiableCredential {
         switch self.credentialType {
         case "jwt":
-            return try JSONDecoder()
+            let credential = try JSONDecoder()
                 .decode(JWTCredentialPayload.self, from: self.verifiableCredetialJson)
+            return JWTCredentialPayload(
+                iss: credential.iss,
+                sub: credential.sub,
+                verifiableCredential: credential.verifiableCredential,
+                nbf: credential.nbf,
+                exp: credential.exp,
+                jti: credential.jti,
+                aud: credential.aud,
+                originalJWTString: self.originalJWT
+            )
         case "w3c":
             return try JSONDecoder()
                 .decode(W3CVerifiableCredential.self, from: self.verifiableCredetialJson)
