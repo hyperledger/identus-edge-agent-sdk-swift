@@ -97,7 +97,7 @@ public class PrismAgent {
         let apollo = ApolloBuilder().build()
         let castor = CastorBuilder(apollo: apollo).build()
         let pluto = PlutoBuilder().build()
-        let pollux = PolluxBuilder(castor: castor).build()
+        let pollux = PolluxBuilder(apollo: apollo, castor: castor).build()
         let mercury = MercuryBuilder(
             apollo: apollo,
             castor: castor,

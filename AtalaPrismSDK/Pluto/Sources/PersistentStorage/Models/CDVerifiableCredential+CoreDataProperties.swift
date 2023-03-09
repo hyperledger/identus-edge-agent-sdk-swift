@@ -15,6 +15,7 @@ extension CDVerifiableCredential {
     @NSManaged var issuer: CDDID
     @NSManaged var context: Set<CDVerifiableCredentialContext>
     @NSManaged var type: Set<CDVerifiableCredentialType>
+    @NSManaged var originalJWT: String?
 }
 
 extension CDVerifiableCredential {
