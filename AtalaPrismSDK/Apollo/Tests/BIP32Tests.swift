@@ -2,6 +2,7 @@
 import Core
 import Domain
 import XCTest
+import secp256k1
 
 final class BIP32Tests: XCTestCase {
 
@@ -24,6 +25,16 @@ final class BIP32Tests: XCTestCase {
         XCTAssertEqual(
             privateKey.privateKey.value.base64UrlEncodedString(),
             "N_JFgvYaReyRXwassz5FHg33A4I6dczzdXrjdHGksmg"
+        )
+    }
+
+    func testBip32KeyPathGenerationPublicKey() throws {
+        let seed = try CreateSeedOperation(words: mnemonics).compute()
+        let operation = CreateSec256k1KeyPairOperation(seed: seed, keyPath: .init(index: 3))
+        let privateKey = try operation.compute()
+        XCTAssertEqual(
+            privateKey.publicKey.value.base64UrlEncodedString(),
+            "BD-l4lrQ6Go-oN5XtdpY6o5dyf2V2v5EbMAvRjVGJpE1gYVURJfxKMpNPnKlLr4MOLNVaYvBNOoy9L50E8jVx8Q"
         )
     }
 }

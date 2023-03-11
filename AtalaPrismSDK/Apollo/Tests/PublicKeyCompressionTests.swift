@@ -7,12 +7,12 @@ final class PublicKeyCompressionTests: XCTestCase {
         let privateKey = LockPrivateKey(data: Data(fromBase64URL: "xURclKhT6as1Tb9vg4AJRRLPAMWb9dYTTthDvXEKjMc")!)
 
         let pubKey = privateKey.publicKey()
-        print("Is key compressed: \(pubKey.isCompressed)")
+        XCTAssertFalse(pubKey.isCompressed)
 
         let compressedPubKey = pubKey.compressedPublicKey()
-        print("Is key compressed: \(compressedPubKey.isCompressed)")
+        XCTAssertTrue(compressedPubKey.isCompressed)
 
         let uncompressedPubKey = pubKey.uncompressedPublicKey()
-        print("Is key compressed: \(uncompressedPubKey.isCompressed)")
+        XCTAssertFalse(uncompressedPubKey.isCompressed)
     }
 }
