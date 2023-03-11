@@ -76,7 +76,7 @@ struct LockPrivateKey {
         self.data = key
     }
 
-    init(data: Data, isPublicKeyCompressed: Bool = true) {
+    init(data: Data, isPublicKeyCompressed: Bool = false) {
         self.data = data
         self.isPublicKeyCompressed = isPublicKeyCompressed
     }

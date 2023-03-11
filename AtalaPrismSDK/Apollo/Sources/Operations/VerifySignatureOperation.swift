@@ -24,7 +24,7 @@ struct VerifySignatureOperation {
     func compute() throws -> Bool {
         try ECVerify(
             signature: signature.value,
-            message: Data(SHA256.hash(data: challenge)),
+            message: challenge,
             publicKey: publicKey.value
         ).verifySignature()
     }

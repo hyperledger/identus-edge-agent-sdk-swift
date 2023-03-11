@@ -65,7 +65,7 @@ struct HDPrivateKey {
     }
 
     func privateKey() -> LockPrivateKey {
-        return LockPrivateKey(data: raw, isPublicKeyCompressed: true)
+        return LockPrivateKey(data: raw, isPublicKeyCompressed: false)
     }
 
     func extendedPublicKey() -> HDPublicKey {

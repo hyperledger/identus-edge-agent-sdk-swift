@@ -1,62 +1,38 @@
-//
-//  File.swift
-//  
-//
-//  Created by Goncalo Frade IOHK on 07/03/2023.
-//
-
+import CryptoKit
 import Foundation
 import secp256k1
 
 struct ECVerify {
+    public enum CryptoError: String, Error {
+        case signatureParseFailed
+        case publicKeyParseFailed
+    }
+
     let signature: Data
     let message: Data
     let publicKey: Data
 
-
     func verifySignature() throws -> Bool {
-        let ctx = secp256k1_context_create(UInt32(SECP256K1_CONTEXT_VERIFY))!
-        defer { secp256k1_context_destroy(ctx) }
-
-        let signaturePointer = UnsafeMutablePointer<secp256k1_ecdsa_signature>.allocate(capacity: 1)
-        defer { signaturePointer.deallocate() }
-        guard signature.withUnsafeBytes({
-            secp256k1_ecdsa_signature_parse_der(
-                ctx,
-                signaturePointer,
-                $0.bindMemory(to: UInt8.self).baseAddress.unsafelyUnwrapped,
-                signature.count
+        let signature = try getSignatureFromData(signature)
+        return try secp256k1
+            .Signing
+            .PublicKey(
+                rawRepresentation: publicKey,
+                format: LockPublicKey(bytes: publicKey).isCompressed ? .compressed : .uncompressed
             )
-        }) == 1 else {
-            throw CryptoError.signatureParseFailed
-        }
-
-        let pubkeyPointer = UnsafeMutablePointer<secp256k1_pubkey>.allocate(capacity: 1)
-        defer { pubkeyPointer.deallocate() }
-        guard publicKey.withUnsafeBytes({
-            secp256k1_ec_pubkey_parse(
-                ctx,
-                pubkeyPointer,
-                $0.bindMemory(to: UInt8.self).baseAddress.unsafelyUnwrapped,
-                publicKey.count
-            ) }) == 1 else {
-            throw CryptoError.publicKeyParseFailed
-        }
-
-        guard message.withUnsafeBytes ({
-            secp256k1_ecdsa_verify(
-                ctx,
-                signaturePointer,
-                $0.bindMemory(to: UInt8.self).baseAddress.unsafelyUnwrapped,
-                pubkeyPointer) }) == 1 else {
-            return false
-        }
-
-        return true
+            .ecdsa
+            .isValidSignature(signature, for: SHA256.hash(data: message))
     }
 
-    public enum CryptoError: Error {
-        case signatureParseFailed
-        case publicKeyParseFailed
+    private func getSignatureFromData(_ data: Data) throws -> secp256k1.Signing.ECDSASignature {
+        if let derSignature = try? secp256k1.Signing.ECDSASignature(derRepresentation: data) {
+            return derSignature
+        } else if let rawSignature = try? secp256k1.Signing.ECDSASignature(rawRepresentation: data) {
+            return rawSignature
+        } else if let compactSignature = try? secp256k1.Signing.ECDSASignature(compactRepresentation: data) {
+            return compactSignature
+        } else {
+            throw CryptoError.signatureParseFailed
+        }
     }
 }

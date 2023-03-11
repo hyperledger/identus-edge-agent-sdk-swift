@@ -1,6 +1,5 @@
 import Domain
 import Foundation
-import SwiftJWT
 
 extension ApolloImpl: Apollo {
     /// createRandomMnemonics creates a random set of mnemonic phrases that can be used as a seed for generating a private key.
@@ -191,21 +190,8 @@ returns random mnemonics nerver returns invalid mnemonics
         return jsonString
     }
 
-    public func verifyJWT(jwk: String, publicKey: PublicKey) throws -> String {
-        switch publicKey.curve {
-        case "secp256k1":
-            let verifier = JWTVerifier.es256(publicKey: publicKey.value)
-            let decoder = JWTDecoder(jwtVerifier: verifier)
-            return jwk
-        default:
-            let verifier = JWTVerifier.none
-            let decoder = JWTDecoder(jwtVerifier: verifier)
-            return jwk
-        }
-    }
-
     public func keyDataToPEMString(_ keyData: PrivateKey) -> String? {
-        let keyBase64 = keyData.value.base64EncodedString(options: .lineLength64Characters)
+        let keyBase64 = keyData.value.base64EncodedString()
         let pemString = """
         -----BEGIN PRIVATE KEY-----
         \(keyBase64)
@@ -215,7 +201,7 @@ returns random mnemonics nerver returns invalid mnemonics
     }
 
     public func keyDataToPEMString(_ keyData: PublicKey) -> String? {
-        let keyBase64 = keyData.value.base64EncodedString(options: .lineLength64Characters)
+        let keyBase64 = keyData.value.base64EncodedString()
         let pemString = """
         -----BEGIN PUBLIC KEY-----
         \(keyBase64)
@@ -223,10 +209,4 @@ returns random mnemonics nerver returns invalid mnemonics
         """
         return pemString
     }
-}
-
-struct MyClaims: Claims {
-    let iss: String
-    let sub: String
-    let exp: Date
 }
