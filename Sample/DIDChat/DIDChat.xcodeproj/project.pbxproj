@@ -7,14 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE7AF87129C33FC100BB0615 /* FancyToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7AF86F29C33FC100BB0615 /* FancyToastModifier.swift */; };
+		EE7AF87229C33FC100BB0615 /* FancyToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7AF87029C33FC100BB0615 /* FancyToast.swift */; };
 		EEEC018D29AD3EFD00B69535 /* DIDManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEC018C29AD3EFD00B69535 /* DIDManagerViewModel.swift */; };
 		EEEC019029AD3F2B00B69535 /* DIDManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEC018F29AD3F2B00B69535 /* DIDManagerView.swift */; };
 		EEEC019229AD3F5D00B69535 /* DIDManagerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEC019129AD3F5D00B69535 /* DIDManagerState.swift */; };
+		EEECB29D29C339B300BBB4B9 /* PrismAgent in Frameworks */ = {isa = PBXBuildFile; productRef = EEECB29C29C339B300BBB4B9 /* PrismAgent */; };
 		EEF0DC8529A7E7F700F34CE1 /* DIDChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DC8429A7E7F700F34CE1 /* DIDChatApp.swift */; };
 		EEF0DC8929A7E7FA00F34CE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEF0DC8829A7E7FA00F34CE1 /* Assets.xcassets */; };
 		EEF0DC8D29A7E7FA00F34CE1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEF0DC8C29A7E7FA00F34CE1 /* Preview Assets.xcassets */; };
 		EEF0DC9829A7E95900F34CE1 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DC9729A7E95900F34CE1 /* ChatViewModel.swift */; };
-		EEF0DC9B29A7E99500F34CE1 /* PrismAgent in Frameworks */ = {isa = PBXBuildFile; productRef = EEF0DC9A29A7E99500F34CE1 /* PrismAgent */; };
 		EEF0DC9D29A7E9DA00F34CE1 /* ChatViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DC9C29A7E9DA00F34CE1 /* ChatViewState.swift */; };
 		EEF0DCA129A7FE5400F34CE1 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCA029A7FE5400F34CE1 /* ChatView.swift */; };
 		EEF0DCA429A8018200F34CE1 /* ContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF0DCA329A8018200F34CE1 /* ContactsViewModel.swift */; };
@@ -30,15 +32,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE7AF86F29C33FC100BB0615 /* FancyToastModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FancyToastModifier.swift; path = ../../../AtalaPrismWalletDemo/AtalaPrismWalletDemo/Helper/FancyToastModifier.swift; sourceTree = "<group>"; };
+		EE7AF87029C33FC100BB0615 /* FancyToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FancyToast.swift; path = ../../../AtalaPrismWalletDemo/AtalaPrismWalletDemo/Helper/FancyToast.swift; sourceTree = "<group>"; };
 		EEEC018C29AD3EFD00B69535 /* DIDManagerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDManagerViewModel.swift; sourceTree = "<group>"; };
 		EEEC018F29AD3F2B00B69535 /* DIDManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDManagerView.swift; sourceTree = "<group>"; };
 		EEEC019129AD3F5D00B69535 /* DIDManagerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDManagerState.swift; sourceTree = "<group>"; };
+		EEECB29B29C339A600BBB4B9 /* atala-prism-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "atala-prism-swift-sdk"; path = ../..; sourceTree = "<group>"; };
 		EEF0DC8129A7E7F700F34CE1 /* DIDChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIDChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EEF0DC8429A7E7F700F34CE1 /* DIDChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDChatApp.swift; sourceTree = "<group>"; };
 		EEF0DC8829A7E7FA00F34CE1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EEF0DC8A29A7E7FA00F34CE1 /* DIDChat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIDChat.entitlements; sourceTree = "<group>"; };
 		EEF0DC8C29A7E7FA00F34CE1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		EEF0DC9429A7E91D00F34CE1 /* atala-prism-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "atala-prism-swift-sdk"; path = ../..; sourceTree = "<group>"; };
 		EEF0DC9729A7E95900F34CE1 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		EEF0DC9C29A7E9DA00F34CE1 /* ChatViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewState.swift; sourceTree = "<group>"; };
 		EEF0DCA029A7FE5400F34CE1 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -59,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EEF0DC9B29A7E99500F34CE1 /* PrismAgent in Frameworks */,
+				EEECB29D29C339B300BBB4B9 /* PrismAgent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,7 +122,7 @@
 		EEF0DC9329A7E91D00F34CE1 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				EEF0DC9429A7E91D00F34CE1 /* atala-prism-swift-sdk */,
+				EEECB29B29C339A600BBB4B9 /* atala-prism-swift-sdk */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -165,6 +169,8 @@
 		EEF0DCA529A80D0400F34CE1 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				EE7AF87029C33FC100BB0615 /* FancyToast.swift */,
+				EE7AF86F29C33FC100BB0615 /* FancyToastModifier.swift */,
 				EEF0DCA629A80D1600F34CE1 /* DIContainer.swift */,
 				EEF0DCB729A8234E00F34CE1 /* LazyView.swift */,
 				EEF0DCB929A90EB500F34CE1 /* Future+AsyncAwait.swift */,
@@ -199,7 +205,7 @@
 			);
 			name = DIDChat;
 			packageProductDependencies = (
-				EEF0DC9A29A7E99500F34CE1 /* PrismAgent */,
+				EEECB29C29C339B300BBB4B9 /* PrismAgent */,
 			);
 			productName = DIDChat;
 			productReference = EEF0DC8129A7E7F700F34CE1 /* DIDChat.app */;
@@ -269,7 +275,9 @@
 				EEF0DC9D29A7E9DA00F34CE1 /* ChatViewState.swift in Sources */,
 				EEF0DCB629A81F5800F34CE1 /* ContactsRouter.swift in Sources */,
 				EEF0DCAE29A8186800F34CE1 /* MediatorViewModel.swift in Sources */,
+				EE7AF87129C33FC100BB0615 /* FancyToastModifier.swift in Sources */,
 				EEF0DCB029A819A700F34CE1 /* MediatorRouter.swift in Sources */,
+				EE7AF87229C33FC100BB0615 /* FancyToast.swift in Sources */,
 				EEF0DCA129A7FE5400F34CE1 /* ChatView.swift in Sources */,
 				EEF0DC8529A7E7F700F34CE1 /* DIDChatApp.swift in Sources */,
 			);
@@ -487,7 +495,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		EEF0DC9A29A7E99500F34CE1 /* PrismAgent */ = {
+		EEECB29C29C339B300BBB4B9 /* PrismAgent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PrismAgent;
 		};

@@ -11,6 +11,7 @@ protocol ChatViewModel: ObservableObject {
     var name: String { get }
     var sendingText: String { get set }
     var messages: [ChatViewState.Message] { get set }
+    var error: FancyToast? { get set }
     func sendMessage(text: String)
 }
 
@@ -39,6 +40,7 @@ struct ChatView<ViewModel: ChatViewModel>: View {
             .padding()
         }
         .navigationTitle(viewModel.name)
+        .toastView(toast: $viewModel.error)
     }
 }
 
@@ -73,6 +75,7 @@ private class MockedModel: ChatViewModel {
     var name: String = ""
     var sendingText: String = ""
     var messages = [ChatViewState.Message]()
+    var error: FancyToast?
 
     func sendMessage(text: String) {}
 }

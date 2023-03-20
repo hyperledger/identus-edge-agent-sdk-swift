@@ -6,6 +6,7 @@ final class ChatViewModelImpl: ChatViewModel {
     @Published var name = ""
     @Published var sendingText = ""
     @Published var messages = [ChatViewState.Message]()
+    @Published var error: FancyToast?
 
     private let agent: PrismAgent
     private let pair: DIDPair
@@ -46,22 +47,32 @@ final class ChatViewModelImpl: ChatViewModel {
     func sendMessage(text: String) {
         Task.detached { [weak self] in
             guard let self else { return }
-            let sendingMessage = BasicMessage(
-                from: self.pair.holder,
-                to: self.pair.other,
-                body: .init(content: text)
-            )
-            _ = try await self.agent.sendMessage(message: sendingMessage.makeMessage())
+            do {
+                let sendingMessage = BasicMessage(
+                    from: self.pair.holder,
+                    to: self.pair.other,
+                    body: .init(content: text)
+                )
+                _ = try await self.agent.sendMessage(message: sendingMessage.makeMessage())
 
-            await MainActor.run {
-                self.messageList.insert(.init(
-                    date: sendingMessage.date,
-                    text: sendingMessage.body.content,
-                    sent: true
-                ))
+                await MainActor.run {
+                    self.messageList.insert(.init(
+                        date: sendingMessage.date,
+                        text: sendingMessage.body.content,
+                        sent: true
+                    ))
 
-                self.messages = self.messageList.sorted { $0.date < $1.date }
-                self.sendingText = ""
+                    self.messages = self.messageList.sorted { $0.date < $1.date }
+                    self.sendingText = ""
+                }
+            } catch let error as LocalizedError {
+                await MainActor.run { [weak self] in
+                    self?.error = .init(
+                        type: .error,
+                        title: "Error",
+                        message: error.errorDescription ?? error.localizedDescription
+                    )
+                }
             }
         }
     }
