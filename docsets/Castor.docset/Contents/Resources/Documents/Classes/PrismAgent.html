@@ -242,6 +242,9 @@
                 <a class="nav-group-task-link" href="../Enums/PrismAgentError.html">PrismAgentError</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ProtocolTypes.html">ProtocolTypes</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/UnknownError.html">UnknownError</a>
               </li>
             </ul>
@@ -290,6 +293,14 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Extensions.html#/s:6Apollo13LockPublicKeyV">LockPublicKey</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other%20Functions.html">Other Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Functions.html#/s:6Pollux18keyDataToPEMStringySSSg6Domain9PublicKeyVF">keyDataToPEMString(_:)</a>
               </li>
             </ul>
           </li>
@@ -507,6 +518,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/RequestCredential.html">RequestCredential</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RequestCredential/Body.html">– Body</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/RequestPresentation.html">RequestPresentation</a>
@@ -745,9 +759,9 @@ a provided Mediator Service Endpoint and seed data.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10PrismAgentAAC6apollo6castor5pluto6pollux7mercury16mediationHandler4seedAB6Domain6Apollo_p_AJ6Castor_pAJ5Pluto_pAJ6Pollux_pAJ7Mercury_pAA08MediatorI0_pAJ4SeedVSgtcfc"></a>
+                    <a name="/s:10PrismAgentAAC6apollo6castor5pluto6pollux7mercury16mediationHandler4seedAB6Domain6Apollo_p_AJ6Castor_pAJ5Pluto_pAJ6Pollux_pAJ7Mercury_pAA08MediatorI0_pSgAJ4SeedVSgtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(apollo:castor:pluto:pollux:mercury:mediationHandler:seed:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10PrismAgentAAC6apollo6castor5pluto6pollux7mercury16mediationHandler4seedAB6Domain6Apollo_p_AJ6Castor_pAJ5Pluto_pAJ6Pollux_pAJ7Mercury_pAA08MediatorI0_pAJ4SeedVSgtcfc">init(apollo:<wbr>castor:<wbr>pluto:<wbr>pollux:<wbr>mercury:<wbr>mediationHandler:<wbr>seed:<wbr>)</a>
+                    <a class="token" href="#/s:10PrismAgentAAC6apollo6castor5pluto6pollux7mercury16mediationHandler4seedAB6Domain6Apollo_p_AJ6Castor_pAJ5Pluto_pAJ6Pollux_pAJ7Mercury_pAA08MediatorI0_pSgAJ4SeedVSgtcfc">init(apollo:<wbr>castor:<wbr>pluto:<wbr>pollux:<wbr>mercury:<wbr>mediationHandler:<wbr>seed:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -768,7 +782,7 @@ a provided Mediator Service Endpoint and seed data.</p>
     <span class="nv">pluto</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Pluto.html">Pluto</a></span><span class="p">,</span>
     <span class="nv">pollux</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Pollux.html">Pollux</a></span><span class="p">,</span>
     <span class="nv">mercury</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Mercury.html">Mercury</a></span><span class="p">,</span>
-    <span class="nv">mediationHandler</span><span class="p">:</span> <span class="kt"><a href="../Protocols/MediatorHandler.html">MediatorHandler</a></span><span class="p">,</span>
+    <span class="nv">mediationHandler</span><span class="p">:</span> <span class="kt"><a href="../Protocols/MediatorHandler.html">MediatorHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">seed</span><span class="p">:</span> <span class="kt"><a href="../Structs/Seed.html">Seed</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span></code></pre>
 
@@ -932,6 +946,64 @@ a provided Mediator Service Endpoint and seed data.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10PrismAgentAAC20setupMediatorHandler09mediationE0yAA0dE0_p_tYaKF"></a>
+                    <a name="//apple_ref/swift/Method/setupMediatorHandler(mediationHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10PrismAgentAAC20setupMediatorHandler09mediationE0yAA0dE0_p_tYaKF">setupMediatorHandler(mediationHandler:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setupMediatorHandler</span><span class="p">(</span><span class="nv">mediationHandler</span><span class="p">:</span> <span class="kt"><a href="../Protocols/MediatorHandler.html">MediatorHandler</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10PrismAgentAAC16setupMediatorDID3didy6Domain0E0V_tYaKF"></a>
+                    <a name="//apple_ref/swift/Method/setupMediatorDID(did:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10PrismAgentAAC16setupMediatorDID3didy6Domain0E0V_tYaKF">setupMediatorDID(did:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setupMediatorDID</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10PrismAgentAAC5startyyYaKF"></a>
                     <a name="//apple_ref/swift/Method/start()" class="dashAnchor"></a>
                     <a class="token" href="#/s:10PrismAgentAAC5startyyYaKF">start()</a>
@@ -1044,6 +1116,134 @@ After all the events are stopped the state of the PrismAgent is set to .stoped.<
                         <h4>Return Value</h4>
                         <p>A publisher that emits an array of <code><a href="../Protocols/VerifiableCredential.html">VerifiableCredential</a></code> and completes when all the
          credentials are emitted or terminates with an error if any occurs</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10PrismAgentAAC30processIssuedCredentialMessage7message6Domain010VerifiableE0_pAA05IssueE0V_tYaKF"></a>
+                    <a name="//apple_ref/swift/Method/processIssuedCredentialMessage(message:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10PrismAgentAAC30processIssuedCredentialMessage7message6Domain010VerifiableE0_pAA05IssueE0V_tYaKF">processIssuedCredentialMessage(message:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This function parses an issued credential message, stores and returns the verifiable credential.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    PrismAgentError, if there is a problem parsing the credential.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">processIssuedCredentialMessage</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt"><a href="../Structs/IssueCredential.html">IssueCredential</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/VerifiableCredential.html">VerifiableCredential</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>message</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Issue credential Message.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The parsed verifiable credential.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10PrismAgentAAC34prepareRequestCredentialWithIssuer3did5offerAA0dE0VSg6Domain3DIDV_AA05OfferE0VtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/prepareRequestCredentialWithIssuer(did:offer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10PrismAgentAAC34prepareRequestCredentialWithIssuer3did5offerAA0dE0VSg6Domain3DIDV_AA05OfferE0VtYaKF">prepareRequestCredentialWithIssuer(did:<wbr>offer:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This function prepares a request credential from an offer given the subject DID.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    PrismAgentError, if there is a problem creating the request credential.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">prepareRequestCredentialWithIssuer</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">offer</span><span class="p">:</span> <span class="kt"><a href="../Structs/OfferCredential.html">OfferCredential</a></span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/RequestCredential.html">RequestCredential</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Received offer credential.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>did</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Received offer credential.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Created request credential</p>
                       </div>
                     </section>
                   </div>
@@ -2256,13 +2456,99 @@ After all the events are stopped the state of the PrismAgent is set to .stoped.<
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Credentials%20proof%20functionalities"></a>
+                <a name="//apple_ref/swift/Section/Credentials proof functionalities" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Credentials%20proof%20functionalities"></a>
+                  <h3 class="section-name"><span>Credentials proof functionalities</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10PrismAgentAAC33createPresentationForRequestProof7request10credentialAA0D0VAA0fD0V_6Domain20VerifiableCredential_ptYaKF"></a>
+                    <a name="//apple_ref/swift/Method/createPresentationForRequestProof(request:credential:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10PrismAgentAAC33createPresentationForRequestProof7request10credentialAA0D0VAA0fD0V_6Domain20VerifiableCredential_ptYaKF">createPresentationForRequestProof(request:<wbr>credential:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This function creates a Presentation from a request verfication.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    PrismAgentError, if there is a problem creating the presentation.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createPresentationForRequestProof</span><span class="p">(</span>
+    <span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="../Structs/RequestPresentation.html">RequestPresentation</a></span><span class="p">,</span>
+    <span class="nv">credential</span><span class="p">:</span> <span class="kt"><a href="../Protocols/VerifiableCredential.html">VerifiableCredential</a></span>
+<span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Presentation.html">Presentation</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>request</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request message received.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>credential</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Verifiable Credential to present.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Presentation message prepared to send.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
 
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-03-11)</p>
+      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-03-20)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
