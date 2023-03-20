@@ -93,6 +93,7 @@ struct PrismDIDPublicKey {
         var protoEC = Io_Iohk_Atala_Prism_Protos_ECKeyData()
         protoEC.x = points.x
         protoEC.y = points.y
+        protoEC.curve = "secp256k1"
         protoKey.keyData = .ecKeyData(protoEC)
         return protoKey
     }
