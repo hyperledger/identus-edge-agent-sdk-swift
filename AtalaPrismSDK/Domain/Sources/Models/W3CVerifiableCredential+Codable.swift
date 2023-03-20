@@ -6,6 +6,7 @@ extension W3CVerifiableCredential: Codable {
         case type = "@type"
         case id
         case issuer
+        case subject
         case issuanceDate
         case expirationDate
         case validFrom
@@ -30,6 +31,9 @@ extension W3CVerifiableCredential: Codable {
         }
         try container.encode(self.id, forKey: .id)
         try container.encode(self.issuer.string, forKey: .issuer)
+        if let subject = self.subject?.string {
+            try container.encode(subject, forKey: .subject)
+        }
         try container.encode(self.issuanceDate, forKey: .issuanceDate)
         try container.encode(self.expirationDate, forKey: .expirationDate)
         try container.encode(self.validFrom, forKey: .validFrom)
@@ -63,6 +67,11 @@ extension W3CVerifiableCredential: Codable {
         let proof = try? container.decode(String.self, forKey: .proof)
         let aud = (try? container.decode(Set<String>.self, forKey: .proof)) ?? Set()
         let credentialSubject = try container.decode([String: String].self, forKey: .credentialSubject)
+        let subjectString = try? container.decode(
+            String.self,
+            forKey: .subject
+        )
+        let subject = subjectString.flatMap { try? DID(string: $0) }
         let credentialStatus = try? container.decode(
             VerifiableCredentialTypeContainer.self,
             forKey: .credentialStatus
@@ -89,6 +98,7 @@ extension W3CVerifiableCredential: Codable {
             type: type,
             id: id,
             issuer: issuer,
+            subject: subject,
             issuanceDate: issuanceDate,
             expirationDate: expirationDate,
             credentialSchema: credentialSchema,

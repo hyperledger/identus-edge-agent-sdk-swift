@@ -83,7 +83,8 @@ extension MercuryImpl {
         guard
             let msgData = try await sendMessage(msg),
             let msgStr = String(data: msgData, encoding: .utf8),
-            msgStr != "null"
+            msgStr != "null",
+            !msgStr.isEmpty
         else { return nil }
         return try? await self.unpackMessage(msg: msgStr)
     }

@@ -7,7 +7,10 @@ public extension PrismAgent {
     /// Start fetching the messages from the mediator
     func startFetchingMessages(timeBetweenRequests: Int = 5) {
         let timeInterval = max(timeBetweenRequests, 5)
-        guard messagesStreamTask == nil else { return }
+        guard
+            let connectionManager,
+            messagesStreamTask == nil
+        else { return }
 
         logger.info(message: "Start streaming new unread messages")
         let manager = connectionManager
@@ -48,7 +51,7 @@ public extension PrismAgent {
     /// - Returns: The sent message if successful, otherwise `nil`.
     /// - Throws: An error if the sending fails.
     func sendMessage(message: Message) async throws -> Message? {
-        return try await connectionManager.sendMessage(message)
+        return try await connectionManager?.sendMessage(message)
     }
 
     /// Handles the received messages events and return a publisher of the messages

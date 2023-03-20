@@ -18,7 +18,8 @@ struct JWTCredential {
             nbf: jwtVerifiableCredential.nbf,
             exp: jwtVerifiableCredential.exp,
             jti: id,
-            aud: jwtVerifiableCredential.aud
+            aud: jwtVerifiableCredential.aud,
+            originalJWTString: id
         )
     }
 }

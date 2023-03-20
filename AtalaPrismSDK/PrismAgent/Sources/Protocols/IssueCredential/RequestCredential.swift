@@ -5,12 +5,12 @@ import Foundation
 // ALL parameters are DIDCOMMV2 format and naming conventions and follows the protocol
 // https://github.com/hyperledger/aries-rfcs/tree/main/features/0453-issue-credential-v2
 public struct RequestCredential {
-    struct Body: Codable, Equatable {
-        let goalCode: String?
-        let comment: String?
-        let formats: [CredentialFormat]
+    public struct Body: Codable, Equatable {
+        public let goalCode: String?
+        public let comment: String?
+        public let formats: [CredentialFormat]
 
-        init(
+        public init(
             goalCode: String? = nil,
             comment: String? = nil,
             formats: [CredentialFormat]
@@ -23,8 +23,8 @@ public struct RequestCredential {
 
     public let id: String
     public let type = ProtocolTypes.didcommRequestCredential.rawValue
-    let body: Body
-    let attachments: [AttachmentDescriptor]
+    public let body: Body
+    public let attachments: [AttachmentDescriptor]
     public let thid: String?
     public let from: DID
     public let to: DID
@@ -74,7 +74,8 @@ public struct RequestCredential {
             to: to,
             body: try JSONEncoder.didComm().encode(body),
             attachments: attachments,
-            thid: thid
+            thid: thid,
+            direction: .sent
         )
     }
 

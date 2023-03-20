@@ -33,6 +33,12 @@ public protocol KnownPrismError: LocalizedError {
     var message: String { get }
 }
 
+extension KnownPrismError {
+    public var errorDescription: String? {
+        message
+    }
+}
+
 /**
  An enum representing an unknown error in a Prism API response.
 
@@ -141,8 +147,8 @@ public enum CommonError: KnownPrismError {
         switch self {
         case .invalidURLError(let url):
             return "Invalid url while trying to send message: \(url)"
-        case let .httpError(_, message):
-            return message
+        case let .httpError(code, message):
+            return "HTTP Request Error \(code): \(message)"
         }
     }
 
@@ -548,6 +554,8 @@ public enum PolluxError: KnownPrismError {
 
     /// An error case representing an invalid JWT string.
     case invalidJWTString
+    case invalidPrismDID
+    case invalidJWTCredential
 
     /// The error code returned by the server.
     public var code: Int {
@@ -556,6 +564,10 @@ public enum PolluxError: KnownPrismError {
             return 51
         case .invalidJWTString:
             return 52
+        case .invalidPrismDID:
+            return 53
+        case .invalidJWTCredential:
+            return 54
         }
     }
 
@@ -572,6 +584,10 @@ public enum PolluxError: KnownPrismError {
             return "Invalid credential, could not decode"
         case .invalidJWTString:
             return "Invalid JWT while decoding credential"
+        case .invalidPrismDID:
+            return "To create a JWT presentation a Prism DID is required"
+        case .invalidJWTCredential:
+            return "To create a JWT presentation please provide a valid JWTCredential"
         }
     }
 }

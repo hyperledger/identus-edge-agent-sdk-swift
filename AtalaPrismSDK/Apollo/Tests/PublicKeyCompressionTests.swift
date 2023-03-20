@@ -1,5 +1,7 @@
 @testable import Apollo
+import Domain
 import XCTest
+import secp256k1
 
 final class PublicKeyCompressionTests: XCTestCase {
 
