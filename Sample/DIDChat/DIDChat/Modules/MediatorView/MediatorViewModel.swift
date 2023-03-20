@@ -27,11 +27,6 @@ class MediatorViewModelImpl: MediatorViewModel {
     private func startAgentWithMediatorDID(did: DID) {
         Task { [weak self] in
             do {
-                PrismAgent.setupLogging(logLevels: [
-                    .prismAgent: .debug,
-                    .mercury: .debug,
-                    .castor: .debug
-                ])
                 let agent = PrismAgent(mediatorDID: did)
                 try await agent.start()
                 agent.startFetchingMessages()
