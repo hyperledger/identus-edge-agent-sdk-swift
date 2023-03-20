@@ -167,7 +167,8 @@ public struct ConnectionRequest {
             from: from,
             to: to,
             body: try JSONEncoder.didComm().encode(self.body),
-            thid: thid
+            thid: thid,
+            direction: .sent
         )
     }
 }

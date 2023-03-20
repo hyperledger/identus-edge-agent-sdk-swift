@@ -13,6 +13,12 @@ struct CreatePrismDIDOperation {
         operation.createDid = try createDIDAtalaOperation(
             publicKeys: [PrismDIDPublicKey(
                 apollo: apollo,
+                id: PrismDIDPublicKey.Usage.authenticationKey.defaultId,
+                usage: .authenticationKey,
+                keyData: masterPublicKey
+            ),
+            PrismDIDPublicKey(
+                apollo: apollo,
                 id: PrismDIDPublicKey.Usage.masterKey.defaultId,
                 usage: .masterKey,
                 keyData: masterPublicKey

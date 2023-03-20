@@ -85,18 +85,12 @@ public extension PrismAgent {
     /// - Parameter invitation: The Out-of-Band invitation to accept
     /// - Throws: `PrismAgentError` if there is no mediator available or other errors occur during the acceptance process
     func acceptDIDCommInvitation(invitation: OutOfBandInvitation) async throws {
-        guard let mediatorRoutingDID else { throw PrismAgentError.noMediatorAvailableError }
+        guard
+            let connectionManager,
+            let mediatorRoutingDID
+        else { throw PrismAgentError.noMediatorAvailableError }
         logger.info(message: "Start accept DIDComm invitation")
-        let ownDID = try await createNewPeerDID(
-            services: [.init(
-                id: "#didcomm-1",
-                type: ["DIDCommMessaging"],
-                serviceEndpoint: [.init(
-                    uri: mediatorRoutingDID.string
-                )]
-            )],
-            updateMediator: true
-        )
+        let ownDID = try await createNewPeerDID(updateMediator: true)
 
         logger.info(message: "Sending DIDComm Connection message")
 

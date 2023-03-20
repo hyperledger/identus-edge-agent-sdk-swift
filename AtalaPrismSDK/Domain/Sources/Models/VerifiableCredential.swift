@@ -77,6 +77,8 @@ public protocol VerifiableCredential {
     var type: Set<String> { get }
     /// The issuer of this credential.
     var issuer: DID { get }
+    /// The subject of this credential.
+    var subject: DID? { get }
     /// The date of issuance of this credential.
     var issuanceDate: Date { get }
     /// The expiration date of this credential, if any.
