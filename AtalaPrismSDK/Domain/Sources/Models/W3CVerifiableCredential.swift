@@ -27,6 +27,9 @@ public struct W3CVerifiableCredential: VerifiableCredential {
     // The DID of the entity that issued the credential
     public let issuer: DID
 
+    // The DID of the entity that is subject of the credential
+    public let subject: DID?
+
     // The date on which the credential was issued
     public let issuanceDate: Date
 
@@ -90,6 +93,7 @@ public struct W3CVerifiableCredential: VerifiableCredential {
         type: Set<String> = Set(),
         id: String,
         issuer: DID,
+        subject: DID?,
         issuanceDate: Date,
         expirationDate: Date? = nil,
         credentialSchema: VerifiableCredentialTypeContainer? = nil,
@@ -107,6 +111,7 @@ public struct W3CVerifiableCredential: VerifiableCredential {
         self.type = type
         self.id = id
         self.issuer = issuer
+        self.subject = subject
         self.issuanceDate = issuanceDate
         self.expirationDate = expirationDate
         self.credentialSchema = credentialSchema

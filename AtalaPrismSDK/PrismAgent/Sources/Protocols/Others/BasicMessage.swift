@@ -55,7 +55,8 @@ public struct BasicMessage {
             from: from,
             to: to,
             body: try JSONEncoder.didComm().encode(body),
-            createdTime: date
+            createdTime: date,
+            direction: .sent
         )
     }
 }

@@ -83,7 +83,8 @@ public struct OfferCredential {
             to: to,
             body: try JSONEncoder.didComm().encode(body),
             attachments: attachments,
-            thid: thid
+            thid: thid,
+            direction: .sent
         )
     }
 

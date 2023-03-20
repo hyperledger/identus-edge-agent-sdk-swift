@@ -104,6 +104,7 @@ extension JWTCredentialPayload: VerifiableCredential {
     public var type: Set<String> { verifiableCredential.type }
     public var id: String { jti }
     public var issuer: DID { iss }
+    public var subject: DID? { sub.flatMap { try? DID(string: $0) } }
     public var issuanceDate: Date { nbf }
     public var expirationDate: Date? { exp }
     public var credentialSchema: VerifiableCredentialTypeContainer? { verifiableCredential.credentialSchema }

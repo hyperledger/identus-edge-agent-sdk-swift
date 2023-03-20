@@ -1,6 +1,7 @@
 import Core
 import Domain
 import Foundation
+import SwiftJWT
 
 extension PolluxImpl: Pollux {
     public func parseVerifiableCredential(jwtString: String) throws -> VerifiableCredential {
@@ -29,7 +30,35 @@ extension PolluxImpl: Pollux {
         }
     }
 
-    public func createVerifiablePresentationJWT(credential: VerifyJWTCredential) throws -> String {
-        let presentation = JWTCredentialPayload
+    public func createVerifiablePresentationJWT(
+        did: DID,
+        privateKey: PrivateKey,
+        credential: VerifiableCredential,
+        challenge: String,
+        domain: String
+    ) throws -> String {
+        let pemKey = apollo.keyDataToPEMString(privateKey)
+        guard
+            did.method == "prism",
+            let keyPemData = pemKey?.data(using: .utf8)
+        else { throw PolluxError.invalidCredentialError }
+        guard
+            let credentialJWT = (credential as? JWTCredentialPayload)?.originalJWTString
+        else { throw PolluxError.invalidJWTCredential }
+        let presentation = VerifiablePresentationPayload(
+            iss: did.string,
+            aud: domain,
+            nonce: challenge,
+            vp: [
+                .init(
+                    context: Set(["https://www.w3.org/2018/presentations/v1"]),
+                    type: Set(["VerifiablePresentation"]),
+                    verifiableCredential: [credentialJWT]
+                )
+            ]
+        )
+        let jwt = JWT(header: .init(), claims: presentation)
+        let signer = JWTSigner.es256k(privateKey: keyPemData)
+        return try JWTEncoder(jwtSigner: signer).encodeToString(jwt)
     }
 }

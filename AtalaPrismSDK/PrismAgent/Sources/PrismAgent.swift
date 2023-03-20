@@ -28,7 +28,7 @@ public class PrismAgent {
 
     /// The mediator routing DID if one is currently registered.
     public var mediatorRoutingDID: DID? {
-        connectionManager.mediationHandler.mediator?.routingDID
+        connectionManager?.mediationHandler.mediator?.routingDID
     }
 
     let logger = PrismLogger(category: .prismAgent)
@@ -37,9 +37,9 @@ public class PrismAgent {
     let pluto: Pluto
     let pollux: Pollux
     let mercury: Mercury
-    let mediationHandler: MediatorHandler
+    var mediationHandler: MediatorHandler?
 
-    var connectionManager: ConnectionsManagerImpl
+    var connectionManager: ConnectionsManagerImpl?
     var cancellables = [AnyCancellable]()
     // Not a "stream"
     var messagesStreamTask: Task<Void, Error>?
@@ -64,7 +64,7 @@ public class PrismAgent {
         pluto: Pluto,
         pollux: Pollux,
         mercury: Mercury,
-        mediationHandler: MediatorHandler,
+        mediationHandler: MediatorHandler? = nil,
         seed: Seed? = nil
     ) {
         self.apollo = apollo
@@ -74,13 +74,15 @@ public class PrismAgent {
         self.mercury = mercury
         self.seed = seed ?? apollo.createRandomSeed().seed
         self.mediationHandler = mediationHandler
-        self.connectionManager = ConnectionsManagerImpl(
-            castor: castor,
-            mercury: mercury,
-            pluto: pluto,
-            mediationHandler: mediationHandler,
-            pairings: []
-        )
+        mediationHandler.map {
+            self.connectionManager = ConnectionsManagerImpl(
+                castor: castor,
+                mercury: mercury,
+                pluto: pluto,
+                mediationHandler: $0,
+                pairings: []
+            )
+        }
     }
 
     /**
@@ -119,6 +121,27 @@ public class PrismAgent {
         )
     }
 
+    public func setupMediatorHandler(mediationHandler: MediatorHandler) async throws {
+        try await stop()
+        self.mediationHandler = mediationHandler
+        self.connectionManager = ConnectionsManagerImpl(
+            castor: castor,
+            mercury: mercury,
+            pluto: pluto,
+            mediationHandler: mediationHandler,
+            pairings: []
+        )
+    }
+
+    public func setupMediatorDID(did: DID) async throws {
+        let mediatorHandler = BasicMediatorHandler(
+            mediatorDID: did,
+            mercury: mercury,
+            store: BasicMediatorHandler.PlutoMediatorStoreImpl(pluto: pluto)
+        )
+        try await setupMediatorHandler(mediationHandler: mediatorHandler)
+    }
+
     /**
      Start the PrismAgent and Mediator services
 
@@ -126,7 +149,10 @@ public class PrismAgent {
      as well as any error thrown by `createNewPeerDID` and `connectionManager.registerMediator`
     */
     public func start() async throws {
-        guard state == .stoped else { return }
+        guard
+            let connectionManager,
+            state == .stoped
+        else { return }
         logger.info(message: "Starting agent")
         state = .starting
         do {
@@ -155,7 +181,7 @@ public class PrismAgent {
          logger.info(message: "Stoping agent")
          state = .stoping
          cancellables.forEach { $0.cancel() }
-         connectionManager.stopAllEvents()
+         connectionManager?.stopAllEvents()
          state = .stoped
          logger.info(message: "Agent not running")
      }

@@ -199,7 +199,7 @@ Could not find key in storage please use Castor instead and provide the private 
             .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
         ])
 
-        try await mediationHandler.updateKeyListWithDIDs(dids: [did])
+        try await mediationHandler?.updateKeyListWithDIDs(dids: [did])
     }
 
     /// This function gets the DID information (alias) for a given DID
