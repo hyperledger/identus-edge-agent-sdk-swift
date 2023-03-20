@@ -63,12 +63,11 @@ let package = Package(
             from: "1.4.4"
         ),
         .package(url: "git@github.com:apple/swift-protobuf.git", from: "1.7.0"),
-        .package(url: "git@github.com:antlr/antlr4.git", branch: "master"),
+        .package(url: "git@github.com:antlr/antlr4.git", exact: "4.12.0"),
         .package(url: "git@github.com:input-output-hk/atala-prism-didcomm-swift.git", from: "0.3.6"),
         .package(url: "git@github.com:swift-libp2p/swift-multibase.git", branch: "main"),
         .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", from: "0.10.0"),
-//        .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", branch: "master")
-        .package(path: "Swift-JWT")
+        .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", from: "4.1.2")
     ],
     targets: [
         .target(
@@ -169,7 +168,12 @@ let package = Package(
         ),
         .target(
             name: "PrismAgent",
-            dependencies: ["Domain", "Builders", "Core"],
+            dependencies: [
+                "Domain",
+                "Builders",
+                "Core",
+                .product(name: "SwiftJWT", package: "Swift-JWT")
+            ],
             path: "AtalaPrismSDK/PrismAgent/Sources"
         ),
         .testTarget(
