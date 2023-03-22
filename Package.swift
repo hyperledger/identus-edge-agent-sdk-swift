@@ -67,7 +67,7 @@ let package = Package(
         .package(url: "git@github.com:input-output-hk/atala-prism-didcomm-swift.git", from: "0.3.6"),
         .package(url: "git@github.com:swift-libp2p/swift-multibase.git", branch: "main"),
         .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", from: "0.10.0"),
-        .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", from: "4.1.2")
+        .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", from: "4.1.3")
     ],
     targets: [
         .target(
