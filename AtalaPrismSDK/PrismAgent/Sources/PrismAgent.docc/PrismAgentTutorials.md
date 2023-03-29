@@ -38,9 +38,9 @@ do {
 }
 ```
 
-## High-level DID functionalities
+## High-level SSI functionalities
 
-The PrismAgent has some high-level did functionalities that make it easy to interact with the ledger and perform various cryptographic operations.
+The PrismAgent has some high-level ssi functionalities that make it easy to interact with the ledger and perform various cryptographic operations.
 
 ### DID Management
 

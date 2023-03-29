@@ -11,3 +11,5 @@ The Atala PRISM SDK provides implementations for each of the building blocks, bu
 For instance, Pluto is the storage module within the Atala PRISM SDK, and its implementation uses CoreData and Keychain to securely store data. However, if a developer wants to use their own implementation of Pluto, they can do so and still use the rest of the SDK. This approach allows developers to choose the storage solution that best suits their use case, without being tied to a specific implementation within the Atala PRISM SDK.
 
 Overall, the modular approach of Atala PRISM architecture provides developers with flexibility, extensibility, and maintainability, allowing them to create innovative decentralized identity solutions with ease.
+
+Adding an diagram explaining how the different components leverage each other would be helpful. (eg: apollo uses castor)

@@ -1,6 +1,6 @@
 # Mercury SDK API Tutorial
 
-The Mercury protocol defines a set of functions for packing and sending messages. Here's a brief explanation of each function:
+The Mercury library defines a set of functions for packing and sending messages. Here's a brief explanation of each function:
 
 - `packMessage`: This function asynchronously packs a given message object into a string representation. It may throw an error if the message object is invalid.
 

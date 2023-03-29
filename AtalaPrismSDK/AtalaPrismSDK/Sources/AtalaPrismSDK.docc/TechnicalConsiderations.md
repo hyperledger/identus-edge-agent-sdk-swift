@@ -1,8 +1,10 @@
 # Technical Considerations
 
-The architecture of the SDK is a result of a careful evaluation of different software development methodologies and patterns. We chose a modular, clean architecture that is based on protocol-oriented programming and domain-oriented programming principles, as well as dependency injection, for several reasons.
+The architecture of the SDK is a result of a careful evaluation of different software development methodologies and patterns. We chose a modular, clean architecture that is based on protocol-oriented programming and domain-oriented programming principles, as well as dependency injection, for several reasons like: ???
+
 
 ## Overview
+Adding an diagram explaining how the different components leverage each other would be helpful. (eg: apollo uses castor)
 
 ### Modular Clean Architecture
 

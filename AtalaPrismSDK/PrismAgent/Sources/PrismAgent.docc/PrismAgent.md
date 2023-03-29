@@ -6,7 +6,7 @@ Prism Agent is a powerful and flexible library for working with decentralized id
 
 Prism Agent is a comprehensive library that brings together all the building blocks of the Prism platform - Apollo, Castor, Pluto, Mercury, and Pollux - to provide a seamless experience for developers working with decentralized identifiers (DIDs) on the Prism platform.
 
-Prism Agent is designed to provide high-level functionality for DID management and DID communication. This includes features such as DID management, DIDComm mediation management, and support for a range of DIDComm protocols, including mediation, proof presentation, issue credential, and out-of-band messages.
+Prism Agent is designed to provide high-level functionality for DID management and DID communication. This includes features such as DID management, DIDComm mediation management, and support for a range of DIDComm protocols, [including mediation](https://didcomm.org/mediator-coordination/2.0/), [proof presentation](https://didcomm.org/present-proof/3.0/), [issue credential](https://didcomm.org/issue-credential/3.0/), and [out-of-band](https://identity.foundation/didcomm-messaging/spec/#out-of-band-messages) messages.
 
 With Prism Agent, developers can easily manage and communicate with DIDs in a seamless and efficient manner. Prism Agent provides a range of advanced features, including support for secure and private messaging using the Mercury protocol, and secure and portable data storage using the Pluto library.
 

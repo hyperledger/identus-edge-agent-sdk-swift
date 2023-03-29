@@ -1,6 +1,6 @@
 # Apollo API Tutorial
 
-The Apollo protocol defines a set of functions for working with cryptography and key pairs. Here's a brief explanation of each function:
+The Apollo protocol defines a set of functions for working with cryptography and key pairs. It currently supports secp256k1 and ed25519 and x25519 keys. Here's a brief explanation of each function:
 
 - `createRandomMnemonics`: This function creates a random set of mnemonic phrases that can be used as a seed for generating a private key.
 

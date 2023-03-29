@@ -17,7 +17,7 @@ Atala PRISM Swift SDK provides the following building blocks to create, manage a
 - __Pollux__: Building block that provides a suite of credential operations in a privacy-preserving manner.
 - __Mercury__: Building block that provides a set of secure, standards-based communications protocols in a transport-agnostic and interoperable manner.
 - __Pluto__: Building block that provides an interface for storage operations in a portable, storage-agnostic manner.
-- __PrismAgent__: PrismAgent using all the building blocks provides an agent that can offer a set of high level DID functionalities.
+- __PrismAgent__: PrismAgent using all the building blocks provides an agent that can offer a set of high level SSI functionalities.
 
 ## Documentation
 

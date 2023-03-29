@@ -1,6 +1,6 @@
 # Castor API Tutorial
 
-The Castor protocol defines a set of functions for working with Decentralized Identifiers (DIDs) and DID Documents. Here's a brief explanation of each function:
+The Castor protocol defines a set of functions for working with Decentralized Identifiers (DIDs) and DID Documents. It currently supports did peer and did prism. Here's a brief explanation of each function:
 
 - `parseDID`: This function takes a string representation of a DID and returns a `DID` object. It may throw an error if the string is not a valid DID.
 
