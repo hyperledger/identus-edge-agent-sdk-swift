@@ -16,6 +16,8 @@ Let's take a closer look at each building block:
 
 Together, these building blocks provide a solid foundation for building decentralized identity applications that are secure, privacy-preserving, and interoperable. By using Atala PRISM, developers can focus on building innovative identity solutions without having to worry about the underlying infrastructure.
 
+NOTE: it would be helpful to add a diagram on how the different components interact with each other eg: castor uses apollo
+
 ## Prism Agent
 
 Prism Agent is a comprehensive library that brings together all the building blocks of the Prism platform - Apollo, Castor, Pluto, Mercury, and Pollux - to provide a seamless experience for developers working with decentralized identifiers (DIDs) on the Prism platform.
