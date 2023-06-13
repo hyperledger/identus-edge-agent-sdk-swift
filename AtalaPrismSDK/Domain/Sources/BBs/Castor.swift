@@ -17,7 +17,7 @@ public protocol Castor {
     /// - Returns: The DID of the prism
     /// - Throws: An error if the master public key or services are invalid
     func createPrismDID(
-        masterPublicKey: PublicKeyD,
+        masterPublicKey: PublicKey,
         services: [DIDDocument.Service]
     ) throws -> DID
 
@@ -44,8 +44,8 @@ public protocol Castor {
     /// - Returns: The DID of the peer
     /// - Throws: An error if the key pairs or services are invalid
     func createPeerDID(
-        keyAgreementPublicKey: PublicKeyD,
-        authenticationPublicKey: PublicKeyD,
+        keyAgreementPublicKey: PublicKey,
+        authenticationPublicKey: PublicKey,
         services: [DIDDocument.Service]
     ) throws -> DID
 
@@ -91,12 +91,12 @@ public protocol Castor {
     ///   - keyPair: The key pair to use for generating the ECNUM basis
     /// - Returns: The ECNUM basis string
     /// - Throws: An error if the DID or key pair are invalid
-    func getEcnumbasis(did: DID, publicKey: PublicKeyD) throws -> String
+    func getEcnumbasis(did: DID, publicKey: PublicKey) throws -> String
 }
 
 extension Castor {
     func createPrismDID(
-        masterPublicKey: PublicKeyD,
+        masterPublicKey: PublicKey,
         services: [DIDDocument.Service] = []
     ) throws -> DID {
         try createPrismDID(masterPublicKey: masterPublicKey, services: services)

@@ -5,6 +5,7 @@ import XCTest
 final class CDDIDPairDAOTests: XCTestCase {
     private var coreDataManager: CoreDataManager!
     private var privateKeyDao: CDDIDPrivateKeyDAO!
+    private var keyRestoration: KeyRestoration!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -12,10 +13,13 @@ final class CDDIDPairDAOTests: XCTestCase {
             modelPath: .storeName("PrismPluto"),
             storeType: .memory
         ))
+        keyRestoration = MockKeyRestoration()
         privateKeyDao = CDDIDPrivateKeyDAO(
+            keyRestoration: keyRestoration,
             readContext: coreDataManager.mainContext,
             writeContext: coreDataManager.editContext
         )
+
     }
     
     func testStoreSingleDIDPair() throws {
@@ -26,7 +30,7 @@ final class CDDIDPairDAOTests: XCTestCase {
         )
         
         let testHolderDID = DID(index: 0)
-        let testPrivateKey = PrivateKey(curve: .x25519, value: Data())
+        let testPrivateKey = MockPrivateKey(curve: .x25519)
         let testOtherDID = DID(index: 1)
         let testName = "test"
         let expectation = expectation(description: "Awaiting publisher")
@@ -100,7 +104,7 @@ final class CDDIDPairDAOTests: XCTestCase {
         let testHolderDID2 = DID(index: 1)
         let testOtherDID1 = DID(index: 2)
         let testOtherDID2 = DID(index: 2)
-        let testPrivateKey = PrivateKey(curve: .x25519, value: Data())
+        let testPrivateKey = MockPrivateKey(curve: .x25519)
         let testName = "test"
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateKeyDao
@@ -151,7 +155,7 @@ final class CDDIDPairDAOTests: XCTestCase {
         let testHolderDID = DID(index: 0)
         let testOtherDID1 = DID(index: 1)
         let testOtherDID2 = DID(index: 2)
-        let testPrivateKey = PrivateKey(curve: .ed25519, value: Data())
+        let testPrivateKey = MockPrivateKey(curve: .x25519)
         let testName = "test"
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateKeyDao
@@ -196,7 +200,7 @@ final class CDDIDPairDAOTests: XCTestCase {
         let testHolderDID2 = DID(index: 1)
         let testOtherDID1 = DID(index: 2)
         let testOtherDID2 = DID(index: 3)
-        let testPrivateKey = PrivateKey(curve: .ed25519, value: Data())
+        let testPrivateKey = MockPrivateKey(curve: .x25519)
         let testName = "test"
         let expectation = expectation(description: "Awaiting publisher")
         let cancellable = privateKeyDao

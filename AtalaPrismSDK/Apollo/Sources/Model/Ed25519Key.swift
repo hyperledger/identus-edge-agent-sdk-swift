@@ -5,7 +5,7 @@ import Foundation
 struct Ed25519PrivateKey: PrivateKey {
     private let appleCurve: Curve25519.Signing.PrivateKey
     let keyType: String = "EC"
-    let keySpecifications: [String : Any] = [
+    let keySpecifications: [String : String] = [
         "curve" : "Ed25519"
     ]
     var size: Int { raw.count }
@@ -33,6 +33,7 @@ extension Ed25519PrivateKey: SignableKey {
 }
 
 extension Ed25519PrivateKey: StorableKey {
+    var securityLevel: SecurityLevel { SecurityLevel.high }
     var restorationIdentifier: String { "ed25519+prv" }
     var storableData: Data { raw }
 }
@@ -40,7 +41,7 @@ extension Ed25519PrivateKey: StorableKey {
 struct Ed25519PublicKey: PublicKey {
     private let appleCurve: Curve25519.Signing.PublicKey
     let keyType: String = "EC"
-    let keySpecifications: [String : Any] = [
+    let keySpecifications: [String : String] = [
         "curve" : "Ed25519"
     ]
     var size: Int { raw.count }
@@ -56,6 +57,7 @@ struct Ed25519PublicKey: PublicKey {
 }
 
 extension Ed25519PublicKey: StorableKey {
+    var securityLevel: SecurityLevel { SecurityLevel.low }
     var restorationIdentifier: String { "ed25519+pub" }
     var storableData: Data { raw }
 }
