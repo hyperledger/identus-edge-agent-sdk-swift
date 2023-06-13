@@ -10,7 +10,7 @@ extension ApolloImpl: KeyRestoration {
         identifier.hasSuffix("pub")
     }
 
-    public func restorePrivateKey(identifier: String?, data: Data) throws -> PrivateKeyD {
+    public func restorePrivateKey(identifier: String?, data: Data) throws -> PrivateKey {
         guard let identifier else { throw UnknownError.somethingWentWrongError() }
         switch identifier {
         case "secp256k1+priv":
@@ -24,7 +24,7 @@ extension ApolloImpl: KeyRestoration {
         }
     }
 
-    public func restorePublicKey(identifier: String?, data: Data) throws -> PublicKeyD {
+    public func restorePublicKey(identifier: String?, data: Data) throws -> PublicKey {
         guard let identifier else { throw UnknownError.somethingWentWrongError() }
         switch identifier {
         case "secp256k1+pub":
