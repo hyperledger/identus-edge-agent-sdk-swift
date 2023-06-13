@@ -32,16 +32,11 @@ extension PolluxImpl: Pollux {
 
     public func createVerifiablePresentationJWT(
         did: DID,
-        privateKey: PrivateKey,
+        privateKey: PrivateKey & SignableKey,
         credential: VerifiableCredential,
         challenge: String,
         domain: String
-    ) throws -> String {
-        let pemKey = apollo.keyDataToPEMString(privateKey)
-        guard
-            did.method == "prism",
-            let keyPemData = pemKey?.data(using: .utf8)
-        else { throw PolluxError.invalidCredentialError }
+    ) async throws -> String {
         guard
             let credentialJWT = (credential as? JWTCredentialPayload)?.originalJWTString
         else { throw PolluxError.invalidJWTCredential }
@@ -58,7 +53,11 @@ extension PolluxImpl: Pollux {
             ]
         )
         let jwt = JWT(header: .init(), claims: presentation)
-        let signer = JWTSigner.es256k(privateKey: keyPemData)
-        return try JWTEncoder(jwtSigner: signer).encodeToString(jwt)
+        let signer = JWTSigner.none
+        let withoutSignature = try JWTEncoder(jwtSigner: signer).encodeToString(jwt)
+        let signature = try await privateKey.sign(data: withoutSignature.data(using: .utf8)!)
+        let signatureBase64 = signature.raw.base64UrlEncodedString()
+        let jwtString = withoutSignature + "." + signatureBase64
+        return jwtString
     }
 }
