@@ -6,7 +6,7 @@ import XCTest
 
 final class PrismDIDPublicKeyTests: XCTestCase {
     var seed: Seed!
-    var privateKey: PrivateKeyD!
+    var privateKey: PrivateKey!
     var apollo: Apollo!
 
     override func setUp() async throws {

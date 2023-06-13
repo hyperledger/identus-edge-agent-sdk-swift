@@ -66,7 +66,7 @@ let package = Package(
         .package(url: "git@github.com:antlr/antlr4.git", exact: "4.12.0"),
         .package(url: "git@github.com:input-output-hk/atala-prism-didcomm-swift.git", from: "0.3.6"),
         .package(url: "git@github.com:swift-libp2p/swift-multibase.git", from: "0.0.1"),
-        .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", from: "0.10.0"),
+        .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", exact: "0.10.0"),
         .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", from: "4.1.3")
     ],
     targets: [
@@ -152,7 +152,7 @@ let package = Package(
         ),
         .target(
             name: "Pluto",
-            dependencies: ["Domain"],
+            dependencies: ["Domain", "Core"],
             path: "AtalaPrismSDK/Pluto/Sources",
             resources: [.process("Resources/PrismPluto.xcdatamodeld")]
         ),

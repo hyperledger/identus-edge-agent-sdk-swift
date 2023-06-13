@@ -23,8 +23,8 @@ struct CreatePeerDIDOperation {
     }
 
     private let method: DIDMethod = "peer"
-    let autenticationPublicKey: PublicKeyD
-    let agreementPublicKey: PublicKeyD
+    let autenticationPublicKey: PublicKey
+    let agreementPublicKey: PublicKey
     let services: [DIDDocument.Service]
 
     func compute() throws -> DID {
@@ -35,7 +35,7 @@ struct CreatePeerDIDOperation {
         ).did
     }
 
-    func computeEcnumbasis(did: DID, publicKey: PublicKeyD) throws -> String {
+    func computeEcnumbasis(did: DID, publicKey: PublicKey) throws -> String {
         guard
             let curve = publicKey.getProperty(.curve)?.lowercased()
         else { throw UnknownError.somethingWentWrongError() }
@@ -83,7 +83,7 @@ struct CreatePeerDIDOperation {
         ))
     }
 
-    private func keyAgreementFromPublicKey(publicKey: PublicKeyD) throws -> VerificationMaterialAgreement {
+    private func keyAgreementFromPublicKey(publicKey: PublicKey) throws -> VerificationMaterialAgreement {
         guard
             let exportable = publicKey.exporting,
             publicKey.getProperty(.curve)?.lowercased() == KnownKeyCurves.x25519.rawValue,
@@ -96,7 +96,7 @@ struct CreatePeerDIDOperation {
         )
     }
 
-    private func authenticationFromPublicKey(publicKey: PublicKeyD) throws -> VerificationMaterialAuthentication {
+    private func authenticationFromPublicKey(publicKey: PublicKey) throws -> VerificationMaterialAuthentication {
         guard
             let exportable = publicKey.exporting,
             publicKey.getProperty(.curve)?.lowercased() == KnownKeyCurves.ed25519.rawValue,

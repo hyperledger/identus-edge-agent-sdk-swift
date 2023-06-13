@@ -25,4 +25,22 @@ public protocol Apollo {
     func publicKeyFrom(x: Data, y: Data) -> PublicKey
 
     func createPrivateKey(parameters: [String: String]) throws -> PrivateKey
+
+    /// compressedPublicKey compresses a given public key into a shorter, more efficient form.
+    ///
+    /// - Parameter publicKey: The public key to compress
+    /// - Returns: The compressed public key
+    func compressedPublicKey(publicKey: PublicKey) throws -> PublicKey
+
+//    /// compressedPublicKey decompresses a given compressed public key into its original form.
+//    ///
+//    /// - Parameter compressedData: The compressed public key data
+//    /// - Returns: The decompressed public key
+//    func uncompressedPublicKey(compressedData: Data) -> PublicKey
+
+    /// compressedPublicKey decompresses a given compressed public key into its original form.
+    ///
+    /// - Parameter compressedData: The compressed public key data
+    /// - Returns: The decompressed public key
+    func uncompressedPublicKey(compressedData: Data) -> PublicKey
 }

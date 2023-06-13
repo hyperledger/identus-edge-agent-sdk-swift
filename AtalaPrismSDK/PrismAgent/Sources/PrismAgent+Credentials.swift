@@ -52,18 +52,15 @@ public extension PrismAgent {
         guard did.method == "prism" else { throw PolluxError.invalidPrismDID }
         let apollo = self.apollo
         let seed = self.seed
-        let keyPair = try await pluto
-            .getPrismDIDInfo(did: did)
-            .tryMap {
-                guard let info = $0 else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
-                return try apollo.createKeyPair(seed: seed, curve: .secp256k1(index: info.keyPairIndex))
-            }
+        let didInfo = try await pluto
+            .getDIDInfo(did: did)
             .first()
             .await()
 
-        print(did.string)
+        guard let privateKey = didInfo?.privateKeys.first else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+
         guard
-            let pem = apollo.keyDataToPEMString(keyPair.privateKey)?.data(using: .utf8)
+            let signing = privateKey.signing
         else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
         guard let offerData = offer
@@ -95,7 +92,19 @@ public extension PrismAgent {
                 "VerifiablePresentation"
             ]))
         ))
-        let jwtString = try JWTEncoder(jwtSigner: .es256k(privateKey: pem)).encodeToString(jwt)
+
+        let signer = JWTSigner.none
+        let withoutSignature = try JWTEncoder(jwtSigner: signer).encodeToString(jwt)
+        print(withoutSignature)
+        let removedHeader = withoutSignature.components(separatedBy: ".").last!
+        let headerBase64 = "{\"typ\": \"JWT\", \"alg\": \"ES256K\"}".data(using: .utf8)!.base64UrlEncodedString()
+        let body = headerBase64 + "." + removedHeader
+        let signature = try await signing.sign(data: body.data(using: .utf8)!)
+        let signatureBase64 = signature.raw.base64UrlEncodedString()
+
+        let jwtString =  body + "." + signatureBase64
+        print("JWTString: \(jwtString)")
+//        let jwtString = try JWTEncoder(jwtSigner: .es256k(privateKey: pem)).encodeToString(jwt)
 
         guard let base64String = jwtString.data(using: .utf8)?.base64EncodedString() else {
             throw UnknownError.somethingWentWrongError()

@@ -4,7 +4,7 @@ import CoreData
 import Domain
 
 extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
-    func getAll() -> AnyPublisher<[(did: DID, privateKeys: [PrivateKeyD], alias: String?)], Error> {
+    func getAll() -> AnyPublisher<[(did: DID, privateKeys: [PrivateKey], alias: String?)], Error> {
         fetchController(context: readContext)
             .flatMap { array in
                 Future {
@@ -19,7 +19,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
             .eraseToAnyPublisher()
     }
 
-    func getDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKeys: [PrivateKeyD], alias: String?)?, Error> {
+    func getDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKeys: [PrivateKey], alias: String?)?, Error> {
         fetchByIDsPublisher(did.string, context: readContext)
             .flatMap { object in
                 Future {
@@ -34,7 +34,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
             .eraseToAnyPublisher()
     }
 
-    func getDIDInfo(alias: String) -> AnyPublisher<[(did: DID, privateKeys: [PrivateKeyD], alias: String?)], Error> {
+    func getDIDInfo(alias: String) -> AnyPublisher<[(did: DID, privateKeys: [PrivateKey], alias: String?)], Error> {
         fetchController(
             predicate: NSPredicate(format: "alias == %@", alias),
             context: readContext
@@ -52,7 +52,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
         .eraseToAnyPublisher()
     }
 
-    func getPrivateKeys(did: DID) -> AnyPublisher<[PrivateKeyD]?, Error> {
+    func getPrivateKeys(did: DID) -> AnyPublisher<[PrivateKey]?, Error> {
         fetchByIDsPublisher(did.string, context: readContext)
             .flatMap { did in
                 Future {
@@ -65,7 +65,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
 }
 
 extension CDDIDPrivateKey {
-    func to(keyRestoration: KeyRestoration) -> AnyPublisher<(did: DID, privateKeys: [PrivateKeyD], alias: String?), Error> {
+    func to(keyRestoration: KeyRestoration) -> AnyPublisher<(did: DID, privateKeys: [PrivateKey], alias: String?), Error> {
         let object = self
         return Future {
             return (
@@ -75,8 +75,8 @@ extension CDDIDPrivateKey {
             )
         }.eraseToAnyPublisher()
     }
-    func parsePrivateKeys(restoration: KeyRestoration) async throws -> [PrivateKeyD] {
-        var privateKeys = [PrivateKeyD]()
+    func parsePrivateKeys(restoration: KeyRestoration) async throws -> [PrivateKey] {
+        var privateKeys = [PrivateKey]()
         if
             let privateKeyKeyAgreement,
             let curveKeyAgreement,
