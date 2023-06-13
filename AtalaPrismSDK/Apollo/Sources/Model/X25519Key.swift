@@ -40,10 +40,7 @@ struct X25519PublicKey: PublicKey {
     }
 
     func verify(data: Data, signature: Data) throws -> Bool {
-        throw UnknownError.somethingWentWrongError(
-            customMessage: "Only key agreement is supported",
-            underlyingErrors: nil
-        )
+        throw ApolloError.keyAgreementDoesNotSupportVerification
     }
 }
 

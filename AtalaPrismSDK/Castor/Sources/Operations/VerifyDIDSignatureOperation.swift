@@ -21,7 +21,7 @@ struct VerifyDIDSignatureOperation {
 
     private func verificationMethodToPublicKey(method: DIDDocument.VerificationMethod) async throws -> PublicKey {
         guard let multibaseData = method.publicKeyMultibase else {
-            throw UnknownError.somethingWentWrongError()
+            throw CastorError.cannotRetrievePublicKeyFromDocument
         }
         return try await apollo.createPrivateKey(
             parameters: [

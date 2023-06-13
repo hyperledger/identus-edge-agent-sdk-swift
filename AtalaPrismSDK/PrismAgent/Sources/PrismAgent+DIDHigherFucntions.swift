@@ -47,7 +47,7 @@ Could not find key in storage please use Castor instead and provide the private 
         ])
 
         guard let signable = privateKey.signing else {
-            throw UnknownError.somethingWentWrongError()
+            throw KeyError.keyRequiresConformation(conformations: ["SignableKey"])
         }
 
         return try await signable.sign(data: message)
@@ -111,7 +111,7 @@ Could not find key in storage please use Castor instead and provide the private 
         let storablePrivateKeys = try [privateKey]
             .map {
                 guard let storablePrivateKey = $0 as? (PrivateKey & StorableKey) else {
-                    throw UnknownError.somethingWentWrongError()
+                    throw KeyError.keyRequiresConformation(conformations: ["PrivateKey", "StorableKey"])
                 }
                 return storablePrivateKey
             }
@@ -201,7 +201,7 @@ Could not find key in storage please use Castor instead and provide the private 
         let storablePrivateKeys = try privateKeys
             .map {
                 guard let storablePrivateKey = $0 as? (PrivateKey & StorableKey) else {
-                    throw UnknownError.somethingWentWrongError()
+                    throw KeyError.keyRequiresConformation(conformations: ["PrivateKey", "StorableKey"])
                 }
                 return storablePrivateKey
             }

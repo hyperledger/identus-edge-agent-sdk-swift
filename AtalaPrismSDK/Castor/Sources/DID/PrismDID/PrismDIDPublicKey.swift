@@ -95,7 +95,10 @@ struct PrismDIDPublicKey {
             let pointX = Data(base64URLEncoded: pointXStr),
             let pointY = Data(base64URLEncoded: pointYStr)
         else {
-            throw UnknownError.somethingWentWrongError()
+            throw ApolloError.missingKeyParameters(missing: [
+                KeyProperties.curvePointX.rawValue,
+                KeyProperties.curvePointY.rawValue
+            ])
         }
         var protoEC = Io_Iohk_Atala_Prism_Protos_ECKeyData()
         protoEC.x = pointX
