@@ -2,6 +2,7 @@ import Domain
 import Foundation
 
 extension ApolloImpl: Apollo {
+
     /// createRandomMnemonics creates a random set of mnemonic phrases that can be used as a seed for generating a private key.
     ///
     /// - Returns: An array of mnemonic phrases
@@ -35,178 +36,102 @@ returns random mnemonics nerver returns invalid mnemonics
         return (words, seed)
     }
 
-    /// createKeyPair creates a key pair (a private and public key) using a given seed and key curve.
-    ///
-    /// - Parameters:
-    ///   - seed: A seed object used to generate the key pair
-    ///   - curve: The key curve to use for generating the key pair
-    /// - Returns: A key pair object containing a private and public key
-    public func createKeyPair(seed: Seed, curve: KeyCurve) throws -> KeyPair {
-        switch curve {
-        case .x25519:
-            return CreateX25519KeyPairOperation(logger: ApolloImpl.logger)
-                .compute()
-        case .ed25519:
-            return CreateEd25519KeyPairOperation(logger: ApolloImpl.logger)
-                .compute()
-        case let .secp256k1(index):
-            return try CreateSec256k1KeyPairOperation(
-                logger: ApolloImpl.logger,
-                seed: seed,
-                keyPath: .init(index: index)
-            ).compute()
-        }
-    }
-
-    /// createKeyPair creates a key pair using a given seed and a specified private key. This function may throw an error if the private key is invalid.
-    ///
-    /// - Parameters:
-    ///   - seed: A seed object used to generate the key pair
-    ///   - privateKey: The private key to use for generating the key pair
-    /// - Returns: A key pair object containing a private and public key
-    /// - Throws: An error if the private key is invalid
-    public func createKeyPair(seed: Seed, privateKey: PrivateKey) throws -> KeyPair {
-        switch privateKey.curve {
-        case .secp256k1:
-            return try createKeyPair(seed: seed, curve: privateKey.curve)
-        case .x25519:
-            return try CreateX25519KeyPairOperation(logger: ApolloImpl.logger)
-                .compute(fromPrivateKey: privateKey)
-        case .ed25519:
-            return try CreateEd25519KeyPairOperation(logger: ApolloImpl.logger)
-                .compute(fromPrivateKey: privateKey)
-        }
-    }
-
     /// compressedPublicKey compresses a given public key into a shorter, more efficient form.
     ///
     /// - Parameter publicKey: The public key to compress
     /// - Returns: The compressed public key
-    public func compressedPublicKey(publicKey: PublicKey) -> CompressedPublicKey {
-        CompressedPublicKey(
-            uncompressed: publicKey,
-            value: LockPublicKey(
-                bytes: publicKey.value
-            ).compressedPublicKey().data
-        )
+    public func compressedPublicKey(publicKey: PublicKey) throws -> PublicKey {
+        guard
+            publicKey.getProperty(.curve)?.lowercased() == KnownKeyCurves.secp256k1.rawValue
+        else {
+            throw UnknownError.somethingWentWrongError()
+        }
+        return Secp256k1PublicKey(lockedPublicKey: LockPublicKey(bytes: publicKey.raw).compressedPublicKey())
     }
+
+//    /// compressedPublicKey decompresses a given compressed public key into its original form.
+//    ///
+//    /// - Parameter compressedData: The compressed public key data
+//    /// - Returns: The decompressed public key
+//    public func uncompressedPublicKey(compressedData: Data) -> PublicKey {
+//        PublicKey(
+//            curve: KeyCurve.secp256k1().name,
+//            value: LockPublicKey(
+//                bytes: compressedData
+//            ).uncompressedPublicKey().data
+//        )
+//    }
 
     /// compressedPublicKey decompresses a given compressed public key into its original form.
     ///
     /// - Parameter compressedData: The compressed public key data
     /// - Returns: The decompressed public key
     public func uncompressedPublicKey(compressedData: Data) -> PublicKey {
-        PublicKey(
-            curve: KeyCurve.secp256k1().name,
-            value: LockPublicKey(
-                bytes: compressedData
-            ).uncompressedPublicKey().data
+        Secp256k1PublicKey(
+            lockedPublicKey: LockPublicKey(bytes: compressedData).uncompressedPublicKey()
         )
     }
 
     public func publicKeyFrom(x: Data, y: Data) -> PublicKey {
-        PublicKey(
-            curve: KeyCurve.secp256k1().name,
-            value: LockPublicKey(x: x, y: y).data
-        )
+        Secp256k1PublicKey(lockedPublicKey: LockPublicKey(x: x, y: y))
     }
 
     public func publicKeyPointCurve(publicKey: PublicKey) throws -> (x: Data, y: Data) {
-        let points = try LockPublicKey(bytes: publicKey.value).pointCurve()
+        let points = try LockPublicKey(bytes: publicKey.raw).pointCurve()
         return (points.x.data, points.y.data)
     }
 
-    /// signMessage signs a message using a given private key, returning the signature.
-    ///
-    /// - Parameters:
-    ///   - privateKey: The private key to use for signing the message
-    ///   - message: The message to sign, in binary data form
-    /// - Returns: The signature of the message
-    public func signMessage(privateKey: PrivateKey, message: Data) throws -> Signature {
-        return try SignMessageOperation(
-            logger: ApolloImpl.logger,
-            privateKey: privateKey,
-            message: message
-        ).compute()
-    }
-
-    /// signMessage signs a message using a given private key, returning the signature. This function may throw an error if the message is invalid.
-    ///
-    /// - Parameters:
-    ///   - privateKey: The private key to use for signing the message
-    ///   - message: The message to sign, in string form
-    /// - Returns: The signature of the message
-    /// - Throws: An error if the message is invalid
-    public func signMessage(privateKey: PrivateKey, message: String) throws -> Signature {
-        guard let data = message.data(using: .utf8) else { throw ApolloError.couldNotParseMessageString }
-        return try signMessage(privateKey: privateKey, message: data)
-    }
-
-    /// verifySignature verifies the authenticity of a signature using the corresponding public key, challenge, and signature. This function returns a boolean value indicating whether the signature is valid or not.
-    ///
-    /// - Parameters:
-    ///   - publicKey: The public key associated with the signature
-    ///   - challenge: The challenge used to generate the signature
-    ///   - signature: The signature to verify
-    /// - Returns: A boolean value indicating whether the signature is valid or not
-    public func verifySignature(
-        publicKey: PublicKey,
-        challenge: Data,
-        signature: Signature
-    ) throws -> Bool {
-        return try VerifySignatureOperation(
-            logger: ApolloImpl.logger,
-            publicKey: publicKey,
-            challenge: challenge,
-            signature: signature
-        ).compute()
-    }
-
-    /// getPrivateJWKJson converts a private key pair into a JSON Web Key (JWK) format with a given ID. This function may throw an error if the key pair is invalid.
-    ///
-    /// - Parameters:
-    ///   - id: The ID to use for the JWK
-    ///   - keyPair: The private key pair to convert to JWK format
-    /// - Returns: The private key pair in JWK format, as a string
-    /// - Throws: An error if the key pair is invalid
-    public func getPrivateJWKJson(id: String, keyPair: KeyPair) throws -> String {
+    public func createPrivateKey(parameters: [String : String]) throws -> PrivateKey {
         guard
-            let jsonString = try OctetKeyPair(id: id, from: keyPair).privateJson
-        else { throw ApolloError.invalidJWKError }
-        return jsonString
-    }
-
-    /// getPublicJWKJson converts a public key pair into a JSON Web Key (JWK) format with a given ID. This function may throw an error if the key pair is invalid.
-    ///
-    /// - Parameters:
-    ///   - id: The ID to use for the JWK
-    ///   - keyPair: The public key pair to convert to JWK format
-    /// - Returns: The public key pair in JWK format, as a string
-    /// - Throws: An error if the key pair is invalid
-    public func getPublicJWKJson(id: String, keyPair: KeyPair) throws -> String {
-        guard
-            let jsonString = try OctetKeyPair(id: id, from: keyPair).privateJson
-        else { throw ApolloError.invalidJWKError }
-        return jsonString
-    }
-
-    public func keyDataToPEMString(_ keyData: PrivateKey) -> String? {
-        let keyBase64 = keyData.value.base64EncodedString()
-        let pemString = """
-        -----BEGIN PRIVATE KEY-----
-        \(keyBase64)
-        -----END PRIVATE KEY-----
-        """
-        return pemString
-    }
-
-    public func keyDataToPEMString(_ keyData: PublicKey) -> String? {
-        let keyBase64 = keyData.value.base64EncodedString()
-        let pemString = """
-        -----BEGIN PUBLIC KEY-----
-        \(keyBase64)
-        -----END PUBLIC KEY-----
-        """
-        return pemString
+            let keyType = parameters[KeyProperties.type.rawValue]
+        else { throw UnknownError.somethingWentWrongError() }
+        switch keyType {
+        case ValidCryptographicTypes.ec.rawValue:
+            guard
+                let curveStr = parameters[KeyProperties.curve.rawValue],
+                let curve = ValidECCurves(rawValue: curveStr)
+            else {
+                throw UnknownError.somethingWentWrongError()
+            }
+            switch curve {
+            case .secp256k1:
+                if
+                    let keyData = parameters[KeyProperties.rawKey.rawValue].flatMap({ Data(base64Encoded: $0) })
+                {
+                    return Secp256k1PrivateKey(lockedPrivateKey: .init(data: keyData))
+                } else {
+                    guard
+                        let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue],
+                        let seedStr = parameters[KeyProperties.seed.rawValue],
+                        let seed = Data(base64Encoded: seedStr)
+                    else {
+                        throw UnknownError.somethingWentWrongError()
+                    }
+                    let derivationPath = try DerivationPath(string: derivationPathStr)
+                    return try CreateSec256k1KeyPairOperation(
+                        seed: Seed(value: seed),
+                        keyPath: derivationPath
+                    ).compute()
+                }
+            case .ed25519:
+                if
+                    let keyStr = parameters[KeyProperties.rawKey.rawValue],
+                    let keyData = Data(base64Encoded: keyStr)
+                {
+                    return try CreateEd25519KeyPairOperation(logger: ApolloImpl.logger).compute(fromPrivateKey: keyData)
+                }
+                return CreateEd25519KeyPairOperation(logger: ApolloImpl.logger).compute()
+            case .x25519:
+                if
+                    let keyStr = parameters[KeyProperties.rawKey.rawValue],
+                    let keyData = Data(base64Encoded: keyStr)
+                {
+                    return try CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute(fromPrivateKey: keyData)
+                }
+                return CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute()
+            }
+        default:
+            throw UnknownError.somethingWentWrongError()
+        }
     }
 }

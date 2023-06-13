@@ -6,24 +6,15 @@ import Foundation
 struct CreateEd25519KeyPairOperation {
     let logger: PrismLogger
 
-    func compute() -> KeyPair {
+    func compute() -> PrivateKey {
         let privateKey = Curve25519.Signing.PrivateKey()
-        let publicKey = privateKey.publicKey
-        return KeyPair(
-            curve: .ed25519,
-            privateKey: .init(curve: .ed25519, value: privateKey.rawRepresentation),
-            publicKey: .init(curve: "Ed25519", value: publicKey.rawRepresentation)
-        )
+        return Ed25519PrivateKey(appleCurve: privateKey)
     }
 
-    func compute(fromPrivateKey: PrivateKey) throws -> KeyPair {
+    func compute(fromPrivateKey: Data) throws -> PrivateKey {
         let privateKey = try Curve25519
             .Signing
-            .PrivateKey(rawRepresentation: fromPrivateKey.value)
-        return KeyPair(
-            curve: fromPrivateKey.curve,
-            privateKey: fromPrivateKey,
-            publicKey: .init(curve: "Ed25519", value: privateKey.publicKey.rawRepresentation)
-        )
+            .PrivateKey(rawRepresentation: fromPrivateKey)
+        return Ed25519PrivateKey(appleCurve: privateKey)
     }
 }
