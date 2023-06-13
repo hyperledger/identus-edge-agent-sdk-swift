@@ -37,25 +37,31 @@ class DIDCommSecretsResolverWrapper {
         did: DID,
         privateKeys: [PrivateKey]
     ) throws -> [Domain.Secret] {
-        return try privateKeys.map { privateKey in
-            let keyPair = try apollo.createKeyPair(
-                seed: Seed(value: Data()), // We dont need seed for peer did
-                privateKey: privateKey
-            )
-            let ecnumbasis = try castor.getEcnumbasis(did: did, keyPair: keyPair)
-            return (did, keyPair, ecnumbasis)
+        return try privateKeys
+            .map { $0 as? (PrivateKey & ExportableKey) }
+            .compactMap { $0 }
+            .map { privateKey in
+            let ecnumbasis = try castor.getEcnumbasis(did: did, publicKey: privateKey.publicKey())
+            return (did, privateKey, ecnumbasis)
         }
-        .map { did, keyPair, ecnumbasis in
-            try parseToSecret(did: did, keyPair: keyPair, ecnumbasis: ecnumbasis)
+        .map { did, privateKey, ecnumbasis in
+            try parseToSecret(did: did, privateKey: privateKey, ecnumbasis: ecnumbasis)
         }
     }
 
-    private func parseToSecret(did: DID, keyPair: KeyPair, ecnumbasis: String) throws -> Domain.Secret {
+    private func parseToSecret(did: DID, privateKey: PrivateKey & ExportableKey, ecnumbasis: String) throws -> Domain.Secret {
         let id = did.string + "#" + ecnumbasis
+        let jwk = privateKey.jwk
+        guard
+            let dataJson = try? JSONEncoder().encode(jwk),
+            let stringJson = String(data: dataJson, encoding: .utf8)
+        else {
+            throw UnknownError.somethingWentWrongError()
+        }
         return .init(
             id: id,
             type: .jsonWebKey2020,
-            secretMaterial: .jwk(value: try apollo.getPrivateJWKJson(id: id, keyPair: keyPair))
+            secretMaterial: .jwk(value: stringJson)
         )
     }
 }
