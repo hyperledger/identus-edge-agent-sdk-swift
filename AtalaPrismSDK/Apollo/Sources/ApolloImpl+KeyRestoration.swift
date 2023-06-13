@@ -11,7 +11,7 @@ extension ApolloImpl: KeyRestoration {
     }
 
     public func restorePrivateKey(identifier: String?, data: Data) throws -> PrivateKey {
-        guard let identifier else { throw UnknownError.somethingWentWrongError() }
+        guard let identifier else { throw ApolloError.restoratonFailedNoIdentifierOrInvalid }
         switch identifier {
         case "secp256k1+priv":
             return Secp256k1PrivateKey(lockedPrivateKey: .init(data: data))
@@ -20,12 +20,12 @@ extension ApolloImpl: KeyRestoration {
         case "ed25519+priv":
             return Ed25519PrivateKey(appleCurve: try .init(rawRepresentation: data))
         default:
-            throw UnknownError.somethingWentWrongError()
+            throw ApolloError.restoratonFailedNoIdentifierOrInvalid
         }
     }
 
     public func restorePublicKey(identifier: String?, data: Data) throws -> PublicKey {
-        guard let identifier else { throw UnknownError.somethingWentWrongError() }
+        guard let identifier else { throw ApolloError.restoratonFailedNoIdentifierOrInvalid }
         switch identifier {
         case "secp256k1+pub":
             return Secp256k1PublicKey(lockedPublicKey: .init(bytes: data))
@@ -34,7 +34,7 @@ extension ApolloImpl: KeyRestoration {
         case "ed25519+pub":
             return Ed25519PublicKey(appleCurve: try .init(rawRepresentation: data))
         default:
-            throw UnknownError.somethingWentWrongError()
+            throw ApolloError.restoratonFailedNoIdentifierOrInvalid
         }
     }
 }

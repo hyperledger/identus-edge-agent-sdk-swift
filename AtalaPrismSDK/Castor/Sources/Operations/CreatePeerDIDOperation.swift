@@ -38,7 +38,7 @@ struct CreatePeerDIDOperation {
     func computeEcnumbasis(did: DID, publicKey: PublicKey) throws -> String {
         guard
             let curve = publicKey.getProperty(.curve)?.lowercased()
-        else { throw UnknownError.somethingWentWrongError() }
+        else { throw ApolloError.missingKeyParameters(missing: [KeyProperties.curve.rawValue]) }
         switch curve {
         case KnownKeyCurves.x25519.rawValue:
             let material = try keyAgreementFromPublicKey(publicKey: agreementPublicKey)
