@@ -11,6 +11,24 @@ extension CastorImpl: Castor {
         try DIDParser(didString: str).parse()
     }
 
+//    /// createPrismDID creates a DID for a prism (a device or server that acts as a DID owner and controller) using a given master public key and list of services. This function may throw an error if the master public key or services are invalid.
+//    ///
+//    /// - Parameters:
+//    ///   - masterPublicKey: The master public key of the prism
+//    ///   - services: The list of services offered by the prism
+//    /// - Returns: The DID of the prism
+//    /// - Throws: An error if the master public key or services are invalid
+//    public func createPrismDID(
+//        masterPublicKey: PublicKey,
+//        services: [DIDDocument.Service]
+//    ) throws -> DID {
+//        try CreatePrismDIDOperation(
+//            apollo: apollo,
+//            masterPublicKey: masterPublicKey,
+//            services: services
+//        ).compute()
+//    }
+
     /// createPrismDID creates a DID for a prism (a device or server that acts as a DID owner and controller) using a given master public key and list of services. This function may throw an error if the master public key or services are invalid.
     ///
     /// - Parameters:
@@ -19,7 +37,7 @@ extension CastorImpl: Castor {
     /// - Returns: The DID of the prism
     /// - Throws: An error if the master public key or services are invalid
     public func createPrismDID(
-        masterPublicKey: PublicKey,
+        masterPublicKey: PublicKeyD,
         services: [DIDDocument.Service]
     ) throws -> DID {
         try CreatePrismDIDOperation(
@@ -38,13 +56,13 @@ extension CastorImpl: Castor {
     /// - Returns: The DID of the peer
     /// - Throws: An error if the key pairs or services are invalid
     public func createPeerDID(
-        keyAgreementKeyPair: KeyPair,
-        authenticationKeyPair: KeyPair,
+        keyAgreementPublicKey: PublicKeyD,
+        authenticationPublicKey: PublicKeyD,
         services: [DIDDocument.Service]
     ) throws -> DID {
         try CreatePeerDIDOperation(
-            autenticationKeyPair: authenticationKeyPair,
-            agreementKeyPair: keyAgreementKeyPair,
+            autenticationPublicKey: authenticationPublicKey,
+            agreementPublicKey: keyAgreementPublicKey,
             services: services
         ).compute()
     }
@@ -63,7 +81,7 @@ extension CastorImpl: Castor {
         signature: Data
     ) async throws -> Bool {
         let document = try await resolveDID(did: did)
-        return try verifySignature(
+        return try await verifySignature(
             document: document,
             challenge: challenge,
             signature: signature
@@ -82,8 +100,8 @@ extension CastorImpl: Castor {
         document: DIDDocument,
         challenge: Data,
         signature: Data
-    ) throws -> Bool {
-        return try VerifyDIDSignatureOperation(
+    ) async throws -> Bool {
+        return try await VerifyDIDSignatureOperation(
             apollo: apollo,
             document: document,
             challenge: challenge,
@@ -119,14 +137,14 @@ extension CastorImpl: Castor {
     ///   - keyPair: The key pair to use for generating the ECNUM basis
     /// - Returns: The ECNUM basis string
     /// - Throws: An error if the DID or key pair are invalid
-    public func getEcnumbasis(did: DID, keyPair: KeyPair) throws -> String {
+    public func getEcnumbasis(did: DID, publicKey: PublicKeyD) throws -> String {
         logger.debug(message: "Getting ecnumbasis", metadata: [
             .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
         ])
         return try CreatePeerDIDOperation(
-            autenticationKeyPair: keyPair,
-            agreementKeyPair: keyPair,
+            autenticationPublicKey: publicKey,
+            agreementPublicKey: publicKey,
             services: []
-        ).computeEcnumbasis(did: did, keyPair: keyPair)
+        ).computeEcnumbasis(did: did, publicKey: publicKey)
     }
 }

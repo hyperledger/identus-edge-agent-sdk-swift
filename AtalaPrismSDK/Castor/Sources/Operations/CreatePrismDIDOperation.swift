@@ -5,7 +5,7 @@ import Foundation
 struct CreatePrismDIDOperation {
     private let method: DIDMethod = "prism"
     let apollo: Apollo
-    let masterPublicKey: PublicKey
+    let masterPublicKey: PublicKeyD
     let services: [DIDDocument.Service]
 
     func compute() throws -> DID {

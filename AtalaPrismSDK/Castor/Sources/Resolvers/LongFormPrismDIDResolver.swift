@@ -81,8 +81,8 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
             let method = DIDDocument.VerificationMethod(
                 id: didUrl,
                 controller: did,
-                type: publicKey.keyData.curve,
-                publicKeyMultibase: publicKey.keyData.value.base64EncodedString()
+                type: publicKey.keyData.getProperty(.curve) ?? "",
+                publicKeyMultibase: publicKey.keyData.raw.base64EncodedString()
             )
             var result = partialResult
             result[didUrl.string] = method

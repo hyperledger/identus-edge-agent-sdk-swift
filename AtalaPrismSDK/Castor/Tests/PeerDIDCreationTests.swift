@@ -8,27 +8,18 @@ final class PeerDIDCreationTests: XCTestCase {
         let validPeerDID = "did:peer:2.Ez6LSoHkfN1Y4nK9RCjx7vopWsLrMGNFNgTNZgoCNQrTzmb1n.Vz6MknRZmapV7uYZQuZez9n9N3tQotjRN18UGS68Vcfo6gR4h.SeyJyIjpbImRpZDpleGFtcGxlOnNvbWVtZWRpYXRvciNzb21la2V5Il0sInMiOiJodHRwczovL2V4YW1wbGUuY29tL2VuZHBvaW50IiwiYSI6W10sInQiOiJkbSJ9"
         let apollo = ApolloImpl()
         let castor = CastorImpl(apollo: apollo)
-        let keyAgreementKeyPair = KeyPair(
-            curve: .x25519,
-            privateKey: .init(
-                curve: .x25519,
-                value: Data(base64URLEncoded: "COd9Xhr-amD7fuswWId2706JBUY_tmjp9eiNEieJeEE")!
-            ),
-            publicKey: .init(
-                curve: "X25519",
-                value: Data(base64URLEncoded: "rI3CjEk-yaFi5bQTavOmV25EJHQnDQJeIi4OV6p_f2U")!
-        ))
+        let keyAgreementPrivateKey = try apollo.createPrivateKey(parameters: [
+            KeyProperties.type.rawValue: "EC",
+            KeyProperties.curve.rawValue: KnownKeyCurves.x25519.rawValue,
+            KeyProperties.rawKey.rawValue: Data(base64URLEncoded: "COd9Xhr-amD7fuswWId2706JBUY_tmjp9eiNEieJeEE")!.base64Encoded()
+        ])
 
-        let authenticationKeyPair = KeyPair(
-            curve: .ed25519,
-            privateKey: .init(
-                curve: .ed25519,
-                value: Data(base64URLEncoded: "JLIJQ5jlkyqtGmtOth6yggJLLC0zuRhUPiBhd1-rGPs")!
-            ),
-            publicKey: .init(
-                curve: "Ed25519",
-                value: Data(base64URLEncoded: "dm5f2GdR5BaHpRxB8bTElvE_0gIC2p404Msx9swJ914")!
-        ))
+
+        let authenticationPrivateKey = try apollo.createPrivateKey(parameters: [
+            KeyProperties.type.rawValue: "EC",
+            KeyProperties.curve.rawValue: KnownKeyCurves.ed25519.rawValue,
+            KeyProperties.rawKey.rawValue: Data(base64URLEncoded: "JLIJQ5jlkyqtGmtOth6yggJLLC0zuRhUPiBhd1-rGPs")!.base64Encoded()
+        ])
 
         let service = DIDDocument.Service(
             id: "didcomm",
@@ -39,8 +30,8 @@ final class PeerDIDCreationTests: XCTestCase {
             )]
         )
         let did = try castor.createPeerDID(
-            keyAgreementKeyPair: keyAgreementKeyPair,
-            authenticationKeyPair: authenticationKeyPair,
+            keyAgreementPublicKey: keyAgreementPrivateKey.publicKey(),
+            authenticationPublicKey: authenticationPrivateKey.publicKey(),
             services: [service]
         )
 

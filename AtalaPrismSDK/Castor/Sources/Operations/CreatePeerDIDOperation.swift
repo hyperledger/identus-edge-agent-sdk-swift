@@ -23,30 +23,33 @@ struct CreatePeerDIDOperation {
     }
 
     private let method: DIDMethod = "peer"
-    let autenticationKeyPair: KeyPair
-    let agreementKeyPair: KeyPair
+    let autenticationPublicKey: PublicKeyD
+    let agreementPublicKey: PublicKeyD
     let services: [DIDDocument.Service]
 
     func compute() throws -> DID {
         return try createPeerDID(
-            encryptionKeys: [try keyAgreementFromKeyPair(keyPair: agreementKeyPair)],
-            signingKeys: [try authenticationFromKeyPair(keyPair: autenticationKeyPair)],
+            encryptionKeys: [try keyAgreementFromPublicKey(publicKey: agreementPublicKey)],
+            signingKeys: [try authenticationFromPublicKey(publicKey: autenticationPublicKey)],
             services: services
         ).did
     }
 
-    func computeEcnumbasis(did: DID, keyPair: KeyPair) throws -> String {
-        switch keyPair.curve {
-        case .x25519:
-            let material = try keyAgreementFromKeyPair(keyPair: keyPair)
+    func computeEcnumbasis(did: DID, publicKey: PublicKeyD) throws -> String {
+        guard
+            let curve = publicKey.getProperty(.curve)?.lowercased()
+        else { throw UnknownError.somethingWentWrongError() }
+        switch curve {
+        case KnownKeyCurves.x25519.rawValue:
+            let material = try keyAgreementFromPublicKey(publicKey: agreementPublicKey)
             let multibaseEcnumbasis = try createMultibaseEncnumbasis(material: material)
             return String(multibaseEcnumbasis.dropFirst())
-        case .ed25519:
-            let material = try authenticationFromKeyPair(keyPair: keyPair)
+        case KnownKeyCurves.ed25519.rawValue:
+            let material = try authenticationFromPublicKey(publicKey: autenticationPublicKey)
             let multibaseEcnumbasis = try createMultibaseEncnumbasis(material: material)
             return String(multibaseEcnumbasis.dropFirst())
         default:
-            throw CastorError.keyCurveNotSupported(curve: keyPair.curve.name)
+            throw CastorError.keyCurveNotSupported(curve: curve)
         }
     }
 
@@ -80,36 +83,29 @@ struct CreatePeerDIDOperation {
         ))
     }
 
-    private func keyAgreementFromKeyPair(keyPair: KeyPair) throws -> VerificationMaterialAgreement {
-        let octet = octetPublicKey(keyPair: keyPair)
+    private func keyAgreementFromPublicKey(publicKey: PublicKeyD) throws -> VerificationMaterialAgreement {
         guard
-            keyPair.curve == .x25519,
-            let octetString = String(data: try JSONEncoder.didComm().encode(octet), encoding: .utf8)
-        else { throw CastorError.invalidPublicKeyCoding(didMethod: "peer", curve: "x25519") }
+            let exportable = publicKey.exporting,
+            publicKey.getProperty(.curve)?.lowercased() == KnownKeyCurves.x25519.rawValue,
+            let jwkString = String(data: try JSONEncoder.didComm().encode(exportable.jwk), encoding: .utf8)
+        else { throw CastorError.invalidPublicKeyCoding(didMethod: "peer", curve: KnownKeyCurves.x25519.rawValue) }
         return .init(
             format: .jwk,
-            value: octetString,
+            value: jwkString,
             type: .jsonWebKey2020
         )
     }
 
-    private func authenticationFromKeyPair(keyPair: KeyPair) throws -> VerificationMaterialAuthentication {
-        let octet = octetPublicKey(keyPair: keyPair)
+    private func authenticationFromPublicKey(publicKey: PublicKeyD) throws -> VerificationMaterialAuthentication {
         guard
-            keyPair.curve == .ed25519,
-            let octetString = String(data: try JSONEncoder.didComm().encode(octet), encoding: .utf8)
-        else { throw CastorError.invalidPublicKeyCoding(didMethod: "peer", curve: "ed25519") }
+            let exportable = publicKey.exporting,
+            publicKey.getProperty(.curve)?.lowercased() == KnownKeyCurves.ed25519.rawValue,
+            let jwkString = String(data: try JSONEncoder.didComm().encode(exportable.jwk), encoding: .utf8)
+        else { throw CastorError.invalidPublicKeyCoding(didMethod: "peer", curve: KnownKeyCurves.ed25519.rawValue) }
         return .init(
             format: .jwk,
-            value: octetString,
+            value: jwkString,
             type: .jsonWebKey2020
-        )
-    }
-
-    private func octetPublicKey(keyPair: KeyPair) -> OctetPublicKey {
-        OctetPublicKey(
-            crv: keyPair.curve.name,
-            key: keyPair.publicKey.value.base64UrlEncodedString()
         )
     }
 
