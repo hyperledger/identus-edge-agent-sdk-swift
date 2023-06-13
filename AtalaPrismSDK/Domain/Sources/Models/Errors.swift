@@ -126,6 +126,23 @@ public enum CommonError: KnownPrismError {
      */
     case httpError(code: Int, message: String)
 
+    /**
+     An error case representing an invalid regular expression.
+
+     - Parameters:
+        - regex: The invalid regular expression that caused the error.
+        - invalid: The string that failed to match the regular expression.
+     */
+    case invalidRegex(regex: String, invalid: String)
+
+    /**
+     An error case representing invalid coding or decoding process.
+
+     - Parameters:
+        - message: The error message detailing what went wrong during the encoding/decoding process.
+     */
+    case invalidCoding(message: String)
+
     /// The error code returned by the server.
     public var code: Int {
         switch self {
@@ -133,6 +150,10 @@ public enum CommonError: KnownPrismError {
             return -2
         case let .httpError(code, _):
             return code
+        case .invalidRegex:
+            return -3
+        case .invalidCoding:
+            return -4
         }
     }
 
@@ -149,6 +170,10 @@ public enum CommonError: KnownPrismError {
             return "Invalid url while trying to send message: \(url)"
         case let .httpError(code, message):
             return "HTTP Request Error \(code): \(message)"
+        case .invalidRegex(let regex, let invalid):
+            return "String '\(invalid)' does not match the provided regex: '\(regex)'"
+        case .invalidCoding(let message):
+            return "Invalid encoding or decoding: \(message)"
         }
     }
 
@@ -192,6 +217,38 @@ public enum ApolloError: KnownPrismError {
     /// An error case representing an invalid JWK format.
     case invalidJWKError
 
+    /// An error case representing a key agreement that does not support verification.
+    case keyAgreementDoesNotSupportVerification
+
+    /// An error case representing a failed restoration due to either a missing or invalid identifier.
+    case restoratonFailedNoIdentifierOrInvalid
+
+    /**
+     An error case representing an invalid key curve.
+
+     - Parameters:
+        - invalid: The invalid key curve that caused the error.
+        - valid: An array of valid key curves.
+     */
+    case invalidKeyCurve(invalid: String, valid: [String])
+
+    /**
+     An error case representing an invalid key type.
+
+     - Parameters:
+        - invalid: The invalid key type that caused the error.
+        - valid: An array of valid key types.
+     */
+    case invalidKeyType(invalid: String, valid: [String])
+
+    /**
+     An error case representing missing key parameters.
+
+     - Parameters:
+        - missing: An array of missing key parameters that caused the error.
+     */
+    case missingKeyParameters(missing: [String])
+
     /// The error code returned by the server.
     public var code: Int {
         switch self {
@@ -201,6 +258,16 @@ public enum ApolloError: KnownPrismError {
             return 12
         case .invalidJWKError:
             return 13
+        case .keyAgreementDoesNotSupportVerification:
+            return 14
+        case .restoratonFailedNoIdentifierOrInvalid:
+            return 15
+        case .invalidKeyCurve:
+            return 16
+        case .invalidKeyType:
+            return 17
+        case .missingKeyParameters:
+            return 18
         }
     }
 
@@ -214,11 +281,21 @@ public enum ApolloError: KnownPrismError {
     public var message: String {
         switch self {
         case .invalidMnemonicWord(let words):
-            return "The following mnemonic words are invalid: \(words.joined(separator: ","))"
+            return "The following mnemonic words are invalid: \(words.joined(separator: ", "))"
         case .couldNotParseMessageString:
-            return "Could not get UTF8 Data from message string"
+            return "Could not parse message string"
         case .invalidJWKError:
-            return "JWK is not in a valid format"
+            return "Invalid JWK format"
+        case .keyAgreementDoesNotSupportVerification:
+            return "Key agreement does not support verification"
+        case .restoratonFailedNoIdentifierOrInvalid:
+            return "Restoration failed: no identifier or invalid"
+        case .invalidKeyCurve(let invalid, let valid):
+            return "Invalid key curve: \(invalid). Valid options are: \(valid.joined(separator: ", "))"
+        case .invalidKeyType(let invalid, let valid):
+            return "Invalid key type: \(invalid). Valid options are: \(valid.joined(separator: ", "))"
+        case .missingKeyParameters(let missing):
+            return "Missing key parameters: \(missing.joined(separator: ", "))"
         }
     }
 }
@@ -297,6 +374,9 @@ public enum CastorError: KnownPrismError {
      */
     case noResolversAvailableForDIDMethod(method: String)
 
+    /// An error case representing inability to retrieve the public key from a document.
+    case cannotRetrievePublicKeyFromDocument
+
     /// The error code returned by the server.
     public var code: Int {
         switch self {
@@ -318,6 +398,8 @@ public enum CastorError: KnownPrismError {
             return 28
         case .noResolversAvailableForDIDMethod:
             return 29
+        case .cannotRetrievePublicKeyFromDocument:
+            return 30
         }
     }
 
@@ -348,6 +430,8 @@ public enum CastorError: KnownPrismError {
             return "JWK is not in a valid format"
         case .noResolversAvailableForDIDMethod(let method):
             return "No resolvers in castor are able to resolve the method \(method), please provide a resolver"
+        case .cannotRetrievePublicKeyFromDocument:
+            return "The public keys in the DIDDocument are not in multibase or the multibase is invalid"
         }
     }
 }
@@ -549,12 +633,16 @@ extension PlutoError: Equatable {
  */
 public enum PolluxError: KnownPrismError {
 
-    /// An error case representing an invalid credential.
+    /// An error case representing an invalid credential. The server could not decode the provided credential.
     case invalidCredentialError
 
-    /// An error case representing an invalid JWT string.
+    /// An error case representing an invalid JWT string. The JWT could not be decoded.
     case invalidJWTString
+
+    /// An error case representing an invalid Prism DID. This error is thrown when attempting to create a JWT presentation without a required Prism DID.
     case invalidPrismDID
+
+    /// An error case representing an invalid JWT credential. This error is thrown when attempting to create a JWT presentation without a valid JWTCredential.
     case invalidJWTCredential
 
     /// The error code returned by the server.
@@ -576,7 +664,7 @@ public enum PolluxError: KnownPrismError {
 
      - Note: For this enum, the error message is determined based on the specific error case that was encountered.
 
-     - SeeAlso: `invalidCredentialError`, `invalidJWTString`
+     - SeeAlso: `invalidCredentialError`, `invalidJWTString`, `invalidPrismDID`, `invalidJWTCredential`
      */
     public var message: String {
         switch self {
@@ -592,8 +680,50 @@ public enum PolluxError: KnownPrismError {
     }
 }
 
+
 extension PolluxError: Equatable {
     public static func == (lhs: PolluxError, rhs: PolluxError) -> Bool {
+        lhs.message == rhs.message
+    }
+}
+
+/**
+ KeyError` is an enumeration representing known errors related to key management.
+
+ - Note: When an error occurs during an API request/response cycle, the server may return an error object in the response. This object may include an error code and an error message. If the error received conforms to the `KnownPrismError` protocol, it will be classified as a known error.
+
+ - SeeAlso: `UnknownPrismError`, `KnownPrismError`
+ */
+public enum KeyError: KnownPrismError {
+
+    /// An error indicating that a key requires certain protocol conformances that are not met.
+    /// The associated value `conformations` lists the names of the required protocols as Strings.
+    case keyRequiresConformation(conformations: [String])
+
+    /// The error code returned by the server. For `keyRequiresConformation`, the error code is 61.
+    public var code: Int {
+        switch self {
+        case .keyRequiresConformation:
+            return 61
+        }
+    }
+
+    /// A human-readable message describing the error. For `keyRequiresConformation`, it lists the required protocol conformances.
+    public var message: String {
+        switch self {
+        case .keyRequiresConformation(let conformations):
+            return "Key requires conformation with the following protocols: \(conformations.joined(separator: ", "))"
+        }
+    }
+
+    /// A full description of the error, including its code and message.
+    public var description: String {
+        "Code \(code): \(message)"
+    }
+}
+
+extension KeyError: Equatable {
+    public static func == (lhs: KeyError, rhs: KeyError) -> Bool {
         lhs.message == rhs.message
     }
 }

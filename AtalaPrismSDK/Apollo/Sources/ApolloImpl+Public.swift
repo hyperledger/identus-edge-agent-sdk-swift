@@ -44,7 +44,10 @@ returns random mnemonics nerver returns invalid mnemonics
         guard
             publicKey.getProperty(.curve)?.lowercased() == KnownKeyCurves.secp256k1.rawValue
         else {
-            throw UnknownError.somethingWentWrongError()
+            throw ApolloError.invalidKeyCurve(
+                invalid: publicKey.getProperty(.curve)?.lowercased() ?? "",
+                valid: [KnownKeyCurves.secp256k1.rawValue]
+            )
         }
         return Secp256k1PublicKey(lockedPublicKey: LockPublicKey(bytes: publicKey.raw).compressedPublicKey())
     }
@@ -84,14 +87,17 @@ returns random mnemonics nerver returns invalid mnemonics
     public func createPrivateKey(parameters: [String : String]) throws -> PrivateKey {
         guard
             let keyType = parameters[KeyProperties.type.rawValue]
-        else { throw UnknownError.somethingWentWrongError() }
+        else { throw ApolloError.invalidKeyType(invalid: "", valid: ValidCryptographicTypes.allCases.map(\.rawValue)) }
         switch keyType {
         case ValidCryptographicTypes.ec.rawValue:
             guard
                 let curveStr = parameters[KeyProperties.curve.rawValue],
                 let curve = ValidECCurves(rawValue: curveStr)
             else {
-                throw UnknownError.somethingWentWrongError()
+                throw ApolloError.invalidKeyCurve(
+                    invalid: parameters[KeyProperties.curve.rawValue] ?? "",
+                    valid: ValidECCurves.allCases.map(\.rawValue)
+                )
             }
             switch curve {
             case .secp256k1:
@@ -105,7 +111,9 @@ returns random mnemonics nerver returns invalid mnemonics
                         let seedStr = parameters[KeyProperties.seed.rawValue],
                         let seed = Data(base64Encoded: seedStr)
                     else {
-                        throw UnknownError.somethingWentWrongError()
+                        throw ApolloError.missingKeyParameters(missing: [
+                            KeyProperties.derivationPath.rawValue, KeyProperties.seed.rawValue
+                        ])
                     }
                     let derivationPath = try DerivationPath(string: derivationPathStr)
                     return try CreateSec256k1KeyPairOperation(
@@ -131,7 +139,7 @@ returns random mnemonics nerver returns invalid mnemonics
                 return CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute()
             }
         default:
-            throw UnknownError.somethingWentWrongError()
+            throw ApolloError.invalidKeyType(invalid: keyType, valid: ValidCryptographicTypes.allCases.map(\.rawValue))
         }
     }
 }

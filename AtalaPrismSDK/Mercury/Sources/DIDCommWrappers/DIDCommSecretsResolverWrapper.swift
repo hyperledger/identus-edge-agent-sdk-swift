@@ -56,7 +56,7 @@ class DIDCommSecretsResolverWrapper {
             let dataJson = try? JSONEncoder().encode(jwk),
             let stringJson = String(data: dataJson, encoding: .utf8)
         else {
-            throw UnknownError.somethingWentWrongError()
+            throw CommonError.invalidCoding(message: "Could not encode privateKey.jwk")
         }
         return .init(
             id: id,

@@ -103,8 +103,6 @@ public extension PrismAgent {
         let signatureBase64 = signature.raw.base64UrlEncodedString()
 
         let jwtString =  body + "." + signatureBase64
-        print("JWTString: \(jwtString)")
-//        let jwtString = try JWTEncoder(jwtSigner: .es256k(privateKey: pem)).encodeToString(jwt)
 
         guard let base64String = jwtString.data(using: .utf8)?.base64EncodedString() else {
             throw UnknownError.somethingWentWrongError()
