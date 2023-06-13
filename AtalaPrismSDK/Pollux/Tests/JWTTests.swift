@@ -12,14 +12,13 @@ final class JWTTests: XCTestCase {
     lazy var castor = CastorImpl(apollo: apollo)
 
     func testJWTPresentationSignature() throws {
-        let privKey = PrivateKey(
-            curve: .secp256k1(index: 3),
-            value: Data(fromBase64URL: "N_JFgvYaReyRXwassz5FHg33A4I6dczzdXrjdHGksmg")!
-        )
-        let pubKey = PublicKey(
-            curve: KeyCurve.secp256k1().name,
-            value: Data(fromBase64URL: "BD-l4lrQ6Go-oN5XtdpY6o5dyf2V2v5EbMAvRjVGJpE1gYVURJfxKMpNPnKlLr4MOLNVaYvBNOoy9L50E8jVx8Q")!
-        )
+        let privKey = try apollo.createPrivateKey(parameters: [
+            KeyProperties.type.rawValue: "EC",
+            KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue,
+            KeyProperties.rawKey.rawValue: Data(fromBase64URL: "N_JFgvYaReyRXwassz5FHg33A4I6dczzdXrjdHGksmg")!.base64Encoded()
+        ]) as! PrivateKeyD & ExportableKey
+
+        let pubKey = privKey.publicKey()
         let issuerPrismDID = try castor.createPrismDID(masterPublicKey: pubKey, services: [])
         let jwtCredential = JWTCredentialPayload(
             iss: issuerPrismDID,
