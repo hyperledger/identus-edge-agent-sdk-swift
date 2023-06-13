@@ -1,74 +1,96 @@
 import Combine
+import Core
 import CoreData
 import Domain
 
 extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
-    func getAll() -> AnyPublisher<[(did: DID, privateKeys: [PrivateKey], alias: String?)], Error> {
+    func getAll() -> AnyPublisher<[(did: DID, privateKeys: [PrivateKeyD], alias: String?)], Error> {
         fetchController(context: readContext)
-            .tryMap { try $0.map { (
-                    DID(from: $0),
-                    try $0.parsePrivateKeys(),
-                    $0.alias
-                )
+            .flatMap { array in
+                Future {
+                    try await array.asyncMap {
+                        (
+                            DID(from: $0),
+                            try await $0.parsePrivateKeys(restoration: keyRestoration),
+                            $0.alias
+                        )
+                    }
             }}
             .eraseToAnyPublisher()
     }
 
-    func getDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKeys: [PrivateKey], alias: String?)?, Error> {
+    func getDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKeys: [PrivateKeyD], alias: String?)?, Error> {
         fetchByIDsPublisher(did.string, context: readContext)
-            .tryMap {
-                try $0.map { (
-                    DID(from: $0),
-                    try $0.parsePrivateKeys(),
-                    $0.alias
-                )
+            .flatMap { object in
+                Future {
+                    guard let obj = object else {
+                        return nil
+                    }
+                    return (DID(from: obj),
+                        try await obj.parsePrivateKeys(restoration: keyRestoration),
+                        obj.alias
+                    )
             }}
             .eraseToAnyPublisher()
     }
 
-    func getDIDInfo(alias: String) -> AnyPublisher<[(did: DID, privateKeys: [PrivateKey], alias: String?)], Error> {
+    func getDIDInfo(alias: String) -> AnyPublisher<[(did: DID, privateKeys: [PrivateKeyD], alias: String?)], Error> {
         fetchController(
             predicate: NSPredicate(format: "alias == %@", alias),
             context: readContext
         )
-        .tryMap {
-            try $0.map { (
-                DID(from: $0),
-                try $0.parsePrivateKeys(),
-                $0.alias
-            )
+        .flatMap { array in
+            Future {
+                try await array.asyncMap {
+                    (
+                        DID(from: $0),
+                        try await $0.parsePrivateKeys(restoration: keyRestoration),
+                        $0.alias
+                    )
+                }
         }}
         .eraseToAnyPublisher()
     }
 
-    func getPrivateKeys(did: DID) -> AnyPublisher<[PrivateKey]?, Error> {
+    func getPrivateKeys(did: DID) -> AnyPublisher<[PrivateKeyD]?, Error> {
         fetchByIDsPublisher(did.string, context: readContext)
-            .tryMap { did in
-                try did.map { try $0.parsePrivateKeys() } }
+            .flatMap { did in
+                Future {
+                    guard let didExists = did else { return nil }
+                    return try await didExists.parsePrivateKeys(restoration: keyRestoration)
+                }
+            }
             .eraseToAnyPublisher()
     }
 }
 
 extension CDDIDPrivateKey {
-    func parsePrivateKeys() throws -> [PrivateKey] {
-        var privateKeys = [PrivateKey]()
+    func to(keyRestoration: KeyRestoration) -> AnyPublisher<(did: DID, privateKeys: [PrivateKeyD], alias: String?), Error> {
+        let object = self
+        return Future {
+            return (
+                DID(from: object),
+                try await object.parsePrivateKeys(restoration: keyRestoration),
+                object.alias
+            )
+        }.eraseToAnyPublisher()
+    }
+    func parsePrivateKeys(restoration: KeyRestoration) async throws -> [PrivateKeyD] {
+        var privateKeys = [PrivateKeyD]()
         if
             let privateKeyKeyAgreement,
-            let curveKeyAgreement
+            let curveKeyAgreement,
+            let key = try? await restoration.restorePrivateKey(identifier: curveKeyAgreement, data: privateKeyKeyAgreement)
         {
-            privateKeys.append(PrivateKey(
-                curve: try KeyCurve(storageName: curveKeyAgreement),
-                value: privateKeyKeyAgreement
-            ))
+            privateKeys.append(key)
         }
+
         if
             let privateKeyAuthenticate,
-            let curveAuthenticate
+            let curveAuthenticate,
+            let key = try? await restoration.restorePrivateKey(identifier: curveAuthenticate, data: privateKeyAuthenticate)
         {
-            privateKeys.append(PrivateKey(
-                curve: try KeyCurve(storageName: curveAuthenticate),
-                value: privateKeyAuthenticate
-            ))
+            privateKeys.append(key)
         }
         return privateKeys
     }

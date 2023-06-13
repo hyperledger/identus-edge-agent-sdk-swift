@@ -5,7 +5,7 @@ import Foundation
 struct X25519PrivateKey: PrivateKey {
     private let appleCurve: Curve25519.KeyAgreement.PrivateKey
     let keyType: String = "EC"
-    let keySpecifications: [String : Any] = [
+    let keySpecifications: [String : String] = [
         "curve" : "x25519"
     ]
     var size: Int { raw.count }
@@ -21,6 +21,7 @@ struct X25519PrivateKey: PrivateKey {
 }
 
 extension X25519PrivateKey: StorableKey {
+    var securityLevel: SecurityLevel { SecurityLevel.high }
     var restorationIdentifier: String { "x25519+prv" }
     var storableData: Data { raw }
 }
@@ -28,7 +29,7 @@ extension X25519PrivateKey: StorableKey {
 struct X25519PublicKey: PublicKey {
     private let appleCurve: Curve25519.KeyAgreement.PublicKey
     let keyType: String = "EC"
-    let keySpecifications: [String : Any] = [
+    let keySpecifications: [String : String] = [
         "curve" : "x25519"
     ]
     var size: Int { raw.count }
@@ -47,6 +48,7 @@ struct X25519PublicKey: PublicKey {
 }
 
 extension X25519PublicKey: StorableKey {
+    var securityLevel: SecurityLevel { SecurityLevel.low }
     var restorationIdentifier: String { "x25519+pub" }
     var storableData: Data { raw }
 }
