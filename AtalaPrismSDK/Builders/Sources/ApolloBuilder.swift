@@ -4,7 +4,7 @@ import Domain
 public struct ApolloBuilder {
     public init() {}
 
-    public func build() -> Apollo {
+    public func build() -> Apollo & KeyRestoration {
         ApolloImpl()
     }
 }
