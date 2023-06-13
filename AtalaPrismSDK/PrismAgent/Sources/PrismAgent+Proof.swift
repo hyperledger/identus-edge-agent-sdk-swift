@@ -45,16 +45,16 @@ public extension PrismAgent {
 
         let apollo = apollo
         let seed = seed
-        let pemPrivateKey = try await pluto.getPrismDIDInfo(did: subjectDID)
-            .tryMap {
-                guard let info = $0 else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
-                let keyPair = try apollo.createKeyPair(seed: seed, curve: .secp256k1(index: info.keyPairIndex))
-                return apollo.keyDataToPEMString(keyPair.privateKey)?.data(using: .utf8)
-            }
+        let didInfo = try await pluto
+            .getDIDInfo(did: subjectDID)
             .first()
             .await()
 
-        guard let pemPrivateKey else { throw UnknownError.somethingWentWrongError() }
+        guard let privateKey = didInfo?.privateKeys.first else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+
+        guard
+            let signing = privateKey.signing
+        else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
         let jwt = JWT(claims: ClaimsProofPresentationJWT(
             iss: subjectDID.string,
@@ -66,7 +66,18 @@ public extension PrismAgent {
                 verifiableCredential: [credential.id]
             )
         ))
-        let jwtString = try JWTEncoder(jwtSigner: .es256k(privateKey: pemPrivateKey)).encodeToString(jwt)
+        let signer = JWTSigner.none
+        let withoutSignature = try JWTEncoder(jwtSigner: signer).encodeToString(jwt)
+        print(withoutSignature)
+        let removedHeader = withoutSignature.components(separatedBy: ".").last!
+        let headerBase64 = "{\"typ\": \"JWT\", \"alg\": \"ES256K\"}".data(using: .utf8)!.base64UrlEncodedString()
+        let body = headerBase64 + "." + removedHeader
+        let signature = try await signing.sign(data: body.data(using: .utf8)!)
+        let signatureBase64 = signature.raw.base64UrlEncodedString()
+
+        let jwtString =  body + "." + signatureBase64
+        print("JWTString: \(jwtString)")
+        //let jwtString = try JWTEncoder(jwtSigner: .es256k(privateKey: pemPrivateKey)).encodeToString(jwt)
         guard let base64String = jwtString.data(using: .utf8)?.base64EncodedString() else {
             throw UnknownError.somethingWentWrongError()
         }
