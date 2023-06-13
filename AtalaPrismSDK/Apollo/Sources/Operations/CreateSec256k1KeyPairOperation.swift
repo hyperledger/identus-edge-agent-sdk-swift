@@ -3,41 +3,19 @@ import Domain
 import Foundation
 
 struct CreateSec256k1KeyPairOperation {
-    struct KeyPath {
-        let index: Int
-
-        /// Initializes a KeyPath by giving it an Index
-        init(index: Int) {
-            self.index = index
-        }
-
-        func keyPathString() -> String {
-            return "m/\(index)'/0'/0'"
-        }
-    }
-
     let logger: PrismLogger
     let seed: Seed
-    let keyPath: KeyPath
+    let keyPath: DerivationPath
 
-    init(logger: PrismLogger = PrismLogger(category: .apollo), seed: Seed, keyPath: KeyPath) {
+    init(logger: PrismLogger = PrismLogger(category: .apollo), seed: Seed, keyPath: DerivationPath) {
         self.logger = logger
         self.seed = seed
         self.keyPath = keyPath
     }
 
-    func compute() throws -> KeyPair {
+    func compute() throws -> PrivateKey {
         let derivedKey = try HDKeychain(seed: seed.value).derivedKey(path: keyPath.keyPathString())
 
-        return .init(
-            privateKey: .init(
-                curve: .secp256k1(index: keyPath.index),
-                value: derivedKey.privateKey().data
-            ),
-            publicKey: .init(
-                curve: KeyCurve.secp256k1(index: keyPath.index).name,
-                value: derivedKey.extendedPublicKey().publicKey().data
-            )
-        )
+        return Secp256k1PrivateKey(lockedPrivateKey: derivedKey.privateKey())
     }
 }
