@@ -10,7 +10,7 @@ struct VerifyDIDSignatureOperation {
 
     func compute() async throws -> Bool {
         try await document.authenticate
-            .asyncMap { verificationMethod -> PublicKeyD in
+            .asyncMap { verificationMethod -> PublicKey in
                 try await verificationMethodToPublicKey(method: verificationMethod)
             }
             .compactMap { $0 }
@@ -19,7 +19,7 @@ struct VerifyDIDSignatureOperation {
             }
     }
 
-    private func verificationMethodToPublicKey(method: DIDDocument.VerificationMethod) async throws -> PublicKeyD {
+    private func verificationMethodToPublicKey(method: DIDDocument.VerificationMethod) async throws -> PublicKey {
         guard let multibaseData = method.publicKeyMultibase else {
             throw UnknownError.somethingWentWrongError()
         }

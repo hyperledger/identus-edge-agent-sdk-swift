@@ -11,12 +11,12 @@ final class JWTTests: XCTestCase {
     lazy var apollo = ApolloImpl()
     lazy var castor = CastorImpl(apollo: apollo)
 
-    func testJWTPresentationSignature() throws {
+    func testJWTPresentationSignature() async throws {
         let privKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue,
             KeyProperties.rawKey.rawValue: Data(fromBase64URL: "N_JFgvYaReyRXwassz5FHg33A4I6dczzdXrjdHGksmg")!.base64Encoded()
-        ]) as! PrivateKeyD & ExportableKey
+        ]) as! PrivateKey & ExportableKey
 
         let pubKey = privKey.publicKey()
         let issuerPrismDID = try castor.createPrismDID(masterPublicKey: pubKey, services: [])
@@ -36,9 +36,9 @@ final class JWTTests: XCTestCase {
         let pollux = PolluxImpl(apollo: apollo, castor: castor)
 
 
-        let jwt = try pollux.createVerifiablePresentationJWT(
+        let jwt = try await pollux.createVerifiablePresentationJWT(
             did: ownerPrismDID,
-            privateKey: privKey,
+            privateKey: privKey as! PrivateKey & SignableKey,
             credential: jwtCredential,
             challenge: "testChallenge",
             domain: "testDomain"

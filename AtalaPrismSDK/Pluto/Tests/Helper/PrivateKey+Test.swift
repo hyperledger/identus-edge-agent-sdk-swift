@@ -1,12 +1,13 @@
 import Domain
 import Foundation
 
-struct MockPrivateKey: PrivateKeyD, StorableKey, Equatable {
+struct MockPrivateKey: PrivateKey, StorableKey, Equatable {
     let keyType = "testEC"
     let keySpecifications: [String : String]
     let size = 0
     let raw: Data
 
+    let securityLevel = SecurityLevel.high
     let restorationIdentifier = "MockPrivate"
     var storableData: Data { raw }
 
@@ -24,7 +25,7 @@ struct MockPrivateKey: PrivateKeyD, StorableKey, Equatable {
         ]
     }
 
-    func publicKey() -> Domain.PublicKeyD {
+    func publicKey() -> PublicKey {
         MockPublicKey()
     }
 
@@ -33,7 +34,8 @@ struct MockPrivateKey: PrivateKeyD, StorableKey, Equatable {
     }
 }
 
-struct MockPublicKey: PublicKeyD, Equatable {
+struct MockPublicKey: PublicKey, Equatable {
+    let securityLevel = SecurityLevel.low
     let keyType = "testEC"
     let keySpecifications = [String : String]()
     let size = 0
