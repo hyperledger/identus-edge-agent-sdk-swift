@@ -44,11 +44,15 @@ public struct AuthenticateChallenged {
     public func acceptChallenge(
         challenge: ChallengeObject,
         privateKey: PrivateKey
-    ) throws -> SubmitedChallengeObject {
-        let signature = try apollo.signMessage(privateKey: privateKey, message: challenge.challenge)
+    ) async throws -> SubmitedChallengeObject {
+        guard
+            let signable = privateKey.signing,
+            let data = challenge.challenge.data(using: .utf8)
+        else { throw AuthenticateError.notSignableKey }
+        let signature = try await signable.sign(data: data)
         return .init(
             challengeObject: challenge,
-            response: .accept(signature: Base64Utils().encode(signature.value))
+            response: .accept(signature: Base64Utils().encode(signature.raw))
         )
     }
 
