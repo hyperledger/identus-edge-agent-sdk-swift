@@ -2,10 +2,6 @@ import Domain
 import Foundation
 
 struct CastorStub: Castor {
-    func getEcnumbasis(did: Domain.DID, keyPair: Domain.KeyPair) throws -> String {
-        ""
-    }
-
     var throwParseDIDError: Error?
     var parseDIDResponse: DID!
     var throwCreateDIDError: Error?
@@ -26,10 +22,10 @@ struct CastorStub: Castor {
     }
 
     func createPeerDID(
-        keyAgreementKeyPair: KeyPair,
-        authenticationKeyPair: KeyPair,
-        services: [DIDDocument.Service]
-    ) throws -> DID {
+        keyAgreementPublicKey: PublicKey,
+        authenticationPublicKey: PublicKey,
+        services: [Domain.DIDDocument.Service]
+    ) throws -> Domain.DID {
         guard throwCreateDIDError == nil else { throw throwCreateDIDError! }
         return createDIDResponse
     }
@@ -47,5 +43,9 @@ struct CastorStub: Castor {
     func verifySignature(document: DIDDocument, challenge: Data, signature: Data) throws -> Bool {
         guard throwVerifySignatureError == nil else { throw throwVerifySignatureError! }
         return verifySignatureResponse
+    }
+
+    func getEcnumbasis(did: Domain.DID, publicKey: PublicKey) throws -> String {
+        ""
     }
 }

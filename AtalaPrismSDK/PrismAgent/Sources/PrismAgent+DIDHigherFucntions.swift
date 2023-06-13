@@ -25,29 +25,32 @@ public extension PrismAgent {
         let seed = self.seed
         let apollo = self.apollo
         let pluto = self.pluto
-        return try await pluto
+        let info = try await pluto
             // First get DID info (KeyPathIndex in this case)
-            .getPrismDIDInfo(did: did)
-            .tryMap { [weak self] in
-                // if no register is found throw an error
-                guard let index = $0?.keyPairIndex else {
-                    self?.logger.error(
-                        message: """
-Could not find key in storage please use Castor instead and provide the private key
-"""
-                    )
-                    throw PrismAgentError.cannotFindDIDKeyPairIndex
-                }
-                // Re-Create the key pair to sign the message
-                let keyPair = try apollo.createKeyPair(seed: seed, curve: .secp256k1(index: index))
-
-                self?.logger.debug(message: "Signing message", metadata: [
-                    .maskedMetadataByLevel(key: "messageB64", value: message.base64Encoded(), level: .debug)
-                ])
-                return try apollo.signMessage(privateKey: keyPair.privateKey, message: message)
-            }
+            .getDIDInfo(did: did)
             .first()
             .await()
+
+        guard
+            let privateKey = info?.privateKeys.first
+        else {
+            logger.error(
+                message: """
+Could not find key in storage please use Castor instead and provide the private key
+"""
+            )
+            throw PrismAgentError.cannotFindDIDKeyPairIndex
+        }
+
+        logger.debug(message: "Signing message", metadata: [
+            .maskedMetadataByLevel(key: "messageB64", value: message.base64Encoded(), level: .debug)
+        ])
+
+        guard let signable = privateKey.signing else {
+            throw UnknownError.somethingWentWrongError()
+        }
+
+        return try await signable.sign(data: message)
     }
 
     /// This method create a new Prism DID, that can be used to identify the agent and interact with other agents.
@@ -65,24 +68,28 @@ Could not find key in storage please use Castor instead and provide the private 
         let apollo = self.apollo
         let castor = self.castor
 
-        let (newDID, keyPathIndex) = try await pluto
+        let lastKeyPairIndex = try await pluto
             .getPrismLastKeyPairIndex()
-            .tryMap { [weak self] in
-                // If the user provided a key path index use it, if not use the last + 1
-                let index = keyPathIndex ?? ($0 + 1)
-                // Create the key pair
-                let keyPair = try apollo.createKeyPair(seed: seed, curve: .secp256k1(index: index))
-                let newDID = try castor.createPrismDID(masterPublicKey: keyPair.publicKey, services: services)
-                self?.logger.debug(message: "Created new Prism DID", metadata: [
-                    .maskedMetadataByLevel(key: "DID", value: newDID.string, level: .debug),
-                    .maskedMetadataByLevel(key: "keyPathIndex", value: "\(index)", level: .debug)
-                ])
-                return (newDID, index)
-            }
             .first()
             .await()
 
-        try await registerPrismDID(did: newDID, keyPathIndex: keyPathIndex, alias: alias)
+        // If the user provided a key path index use it, if not use the last + 1
+        let index = keyPathIndex ?? (lastKeyPairIndex + 1)
+        // Create the key pair
+        let privateKey = try await apollo.createPrivateKey(parameters: [
+            KeyProperties.type.rawValue: "EC",
+            KeyProperties.seed.rawValue: seed.value.base64Encoded(),
+            KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue,
+            KeyProperties.derivationPath.rawValue: DerivationPath(index: index).keyPathString()
+        ])
+
+        let newDID = try castor.createPrismDID(masterPublicKey: privateKey.publicKey(), services: services)
+        logger.debug(message: "Created new Prism DID", metadata: [
+            .maskedMetadataByLevel(key: "DID", value: newDID.string, level: .debug),
+            .maskedMetadataByLevel(key: "keyPathIndex", value: "\(index)", level: .debug)
+        ])
+
+        try await registerPrismDID(did: newDID, privateKey: privateKey, alias: alias)
         return newDID
     }
 
@@ -94,15 +101,22 @@ Could not find key in storage please use Castor instead and provide the private 
     /// - Returns: The new created DID
     func registerPrismDID(
         did: DID,
-        keyPathIndex: Int,
+        privateKey: PrivateKey,
         alias: String? = nil
     ) async throws {
         logger.debug(message: "Register of DID in storage", metadata: [
             .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
         ])
 
+        let storablePrivateKeys = try [privateKey]
+            .map {
+                guard let storablePrivateKey = $0 as? (PrivateKey & StorableKey) else {
+                    throw UnknownError.somethingWentWrongError()
+                }
+                return storablePrivateKey
+            }
         try await pluto
-            .storePrismDID(did: did, keyPairIndex: keyPathIndex, alias: alias)
+            .storeDID(did: did, privateKeys: storablePrivateKeys, alias: alias)
             .first()
             .await()
     }
@@ -119,8 +133,15 @@ Could not find key in storage please use Castor instead and provide the private 
         alias: String? = "",
         updateMediator: Bool
     ) async throws -> DID {
-        let keyAgreementKeyPair = try apollo.createKeyPair(seed: seed, curve: .x25519)
-        let authenticationKeyPair = try apollo.createKeyPair(seed: seed, curve: .ed25519)
+        let keyAgreementPrivateKey = try await apollo.createPrivateKey(parameters: [
+            KeyProperties.type.rawValue: "EC",
+            KeyProperties.curve.rawValue: KnownKeyCurves.x25519.rawValue
+        ])
+
+        let authenticationPrivateKey = try await apollo.createPrivateKey(parameters: [
+            KeyProperties.type.rawValue: "EC",
+            KeyProperties.curve.rawValue: KnownKeyCurves.ed25519.rawValue
+        ])
 
         let withServices: [DIDDocument.Service]
         if updateMediator, let routingDID = mediatorRoutingDID?.string {
@@ -135,8 +156,8 @@ Could not find key in storage please use Castor instead and provide the private 
         }
 
         let newDID = try castor.createPeerDID(
-            keyAgreementKeyPair: keyAgreementKeyPair,
-            authenticationKeyPair: authenticationKeyPair,
+            keyAgreementPublicKey: keyAgreementPrivateKey.publicKey(),
+            authenticationPublicKey: authenticationPrivateKey.publicKey(),
             services: withServices
         )
 
@@ -147,8 +168,8 @@ Could not find key in storage please use Castor instead and provide the private 
         try await registerPeerDID(
             did: newDID,
             privateKeys: [
-                keyAgreementKeyPair.privateKey,
-                authenticationKeyPair.privateKey
+                keyAgreementPrivateKey,
+                authenticationPrivateKey
             ],
             alias: alias,
             updateMediator: updateMediator
@@ -177,10 +198,18 @@ Could not find key in storage please use Castor instead and provide the private 
             .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
         ])
 
+        let storablePrivateKeys = try privateKeys
+            .map {
+                guard let storablePrivateKey = $0 as? (PrivateKey & StorableKey) else {
+                    throw UnknownError.somethingWentWrongError()
+                }
+                return storablePrivateKey
+            }
+
         try await pluto
             .storePeerDID(
                 did: did,
-                privateKeys: privateKeys,
+                privateKeys: storablePrivateKeys,
                 alias: alias
             )
             .first()
