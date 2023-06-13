@@ -32,7 +32,7 @@ public class PrismAgent {
     }
 
     let logger = PrismLogger(category: .prismAgent)
-    let apollo: Apollo
+    let apollo: Apollo & KeyRestoration
     let castor: Castor
     let pluto: Pluto
     let pollux: Pollux
@@ -59,7 +59,7 @@ public class PrismAgent {
     ///   - seed: A unique seed used to generate the unique DID.
     ///   - mediatorServiceEnpoint: The endpoint of the Mediator service to use.
     public init(
-        apollo: Apollo,
+        apollo: Apollo & KeyRestoration,
         castor: Castor,
         pluto: Pluto,
         pollux: Pollux,
@@ -98,7 +98,7 @@ public class PrismAgent {
     ) {
         let apollo = ApolloBuilder().build()
         let castor = CastorBuilder(apollo: apollo).build()
-        let pluto = PlutoBuilder().build()
+        let pluto = PlutoBuilder(keyRestoration: apollo).build()
         let pollux = PolluxBuilder(apollo: apollo, castor: castor).build()
         let mercury = MercuryBuilder(
             apollo: apollo,
