@@ -3,7 +3,7 @@ import CoreData
 import Domain
 
 extension CDDIDPrivateKeyDAO: DIDPrivateKeyStore {
-    func addDID(did: DID, privateKeys: [PrivateKeyD & StorableKey], alias: String?) -> AnyPublisher<Void, Error> {
+    func addDID(did: DID, privateKeys: [PrivateKey & StorableKey], alias: String?) -> AnyPublisher<Void, Error> {
         updateOrCreate(did.string, context: writeContext) { cdobj, _ in
             cdobj.parseFrom(did: did, privateKeys: privateKeys, alias: alias)
         }
@@ -20,7 +20,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyStore {
 }
 
 private extension CDDIDPrivateKey {
-    func parseFrom(did: DID, privateKeys: [PrivateKeyD & StorableKey], alias: String?) {
+    func parseFrom(did: DID, privateKeys: [PrivateKey & StorableKey], alias: String?) {
         self.alias = alias
         self.did = did.string
         self.schema = did.schema

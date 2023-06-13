@@ -7,4 +7,5 @@ public enum AuthenticateError: Error {
     case urlNotAuthenticateServiceError
     case invalidSignatureError
     case challengeRefusedError
+    case notSignableKey
 }

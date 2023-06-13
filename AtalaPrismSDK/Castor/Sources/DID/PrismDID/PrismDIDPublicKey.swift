@@ -62,9 +62,9 @@ struct PrismDIDPublicKey {
     let apollo: Apollo
     let id: String
     let usage: Usage
-    let keyData: PublicKeyD
+    let keyData: PublicKey
 
-    init(apollo: Apollo, id: String, usage: Usage, keyData: PublicKeyD) {
+    init(apollo: Apollo, id: String, usage: Usage, keyData: PublicKey) {
         self.apollo = apollo
         self.id = id
         self.usage = usage

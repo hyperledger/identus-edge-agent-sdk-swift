@@ -152,7 +152,7 @@ let package = Package(
         ),
         .target(
             name: "Pluto",
-            dependencies: ["Domain"],
+            dependencies: ["Domain", "Core"],
             path: "AtalaPrismSDK/Pluto/Sources",
             resources: [.process("Resources/PrismPluto.xcdatamodeld")]
         ),
