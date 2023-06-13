@@ -62,9 +62,9 @@ struct PrismDIDPublicKey {
     let apollo: Apollo
     let id: String
     let usage: Usage
-    let keyData: PublicKey
+    let keyData: PublicKeyD
 
-    init(apollo: Apollo, id: String, usage: Usage, keyData: PublicKey) {
+    init(apollo: Apollo, id: String, usage: Usage, keyData: PublicKeyD) {
         self.apollo = apollo
         self.id = id
         self.usage = usage
@@ -89,10 +89,17 @@ struct PrismDIDPublicKey {
         var protoKey = Io_Iohk_Atala_Prism_Protos_PublicKey()
         protoKey.id = id
         protoKey.usage = usage.toProto()
-        let points = try apollo.publicKeyPointCurve(publicKey: keyData)
+        guard
+            let pointXStr = keyData.getProperty(.curvePointX),
+            let pointYStr = keyData.getProperty(.curvePointY),
+            let pointX = Data(base64URLEncoded: pointXStr),
+            let pointY = Data(base64URLEncoded: pointYStr)
+        else {
+            throw UnknownError.somethingWentWrongError()
+        }
         var protoEC = Io_Iohk_Atala_Prism_Protos_ECKeyData()
-        protoEC.x = points.x
-        protoEC.y = points.y
+        protoEC.x = pointX
+        protoEC.y = pointY
         protoEC.curve = "secp256k1"
         protoKey.keyData = .ecKeyData(protoEC)
         return protoKey
@@ -124,11 +131,11 @@ private extension Io_Iohk_Atala_Prism_Protos_KeyUsage {
     }
 }
 
-private extension CompressedPublicKey {
-    func toProto() -> Io_Iohk_Atala_Prism_Protos_CompressedECKeyData {
-        var proto = Io_Iohk_Atala_Prism_Protos_CompressedECKeyData()
-        proto.curve = uncompressed.curve
-        proto.data = value
-        return proto
-    }
-}
+//private extension CompressedPublicKey {
+//    func toProto() -> Io_Iohk_Atala_Prism_Protos_CompressedECKeyData {
+//        var proto = Io_Iohk_Atala_Prism_Protos_CompressedECKeyData()
+//        proto.curve = uncompressed.curve
+//        proto.data = value
+//        return proto
+//    }
+//}
