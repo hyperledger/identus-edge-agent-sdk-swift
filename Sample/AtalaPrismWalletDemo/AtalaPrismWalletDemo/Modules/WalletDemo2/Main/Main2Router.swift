@@ -9,7 +9,7 @@ final class Main2RouterImpl: Main2ViewRouter {
     init() {
         let apollo = ApolloBuilder().build()
         let castor = CastorBuilder(apollo: apollo).build()
-        let pluto = PlutoBuilder().build()
+        let pluto = PlutoBuilder(keyRestoration: apollo).build()
         let pollux = PolluxBuilder(apollo: apollo, castor: castor).build()
         let mercury = MercuryBuilder(apollo: apollo, castor: castor, pluto: pluto).build()
         let agent = PrismAgent(

@@ -61,7 +61,7 @@ final class SigningVerificationViewModel: ObservableObject {
         else { return }
 
         // Verifies a message signature given a DID
-        let verifiedMessage = try? await castor.verifySignature(did: did, challenge: messageData, signature: signedMessage.value)
+        let verifiedMessage = try? await castor.verifySignature(did: did, challenge: messageData, signature: signedMessage.raw)
         await MainActor.run {
             self.verifiedMessage = verifiedMessage
         }
