@@ -6,14 +6,17 @@ final class CDMessagesDAOTests: XCTestCase {
     private var coreDataManager: CoreDataManager!
     private var privateDAO: CDDIDPrivateKeyDAO!
     private var pairDAO: CDDIDPairDAO!
+    private var keyRestoration: KeyRestoration!
 
     override func setUpWithError() throws {
         try super.setUpWithError()
+        keyRestoration = MockKeyRestoration()
         coreDataManager = CoreDataManager(setup: .init(
             modelPath: .storeName("PrismPluto"),
             storeType: .memory
         ))
         privateDAO = CDDIDPrivateKeyDAO(
+            keyRestoration: keyRestoration,
             readContext: coreDataManager.mainContext,
             writeContext: coreDataManager.editContext
         )
@@ -31,7 +34,7 @@ final class CDMessagesDAOTests: XCTestCase {
             pairDAO: pairDAO
         )
         let testHolderDID = DID(index: 0)
-        let testPrivateKey = PrivateKey(curve: .x25519, value: Data())
+        let testPrivateKey = MockPrivateKey(curve: .x25519)
         let testOtherDID = DID(index: 1)
         let testName = "test"
         let testMessage = Message(
@@ -78,7 +81,7 @@ final class CDMessagesDAOTests: XCTestCase {
             pairDAO: pairDAO
         )
         let testHolderDID = DID(index: 0)
-        let testPrivateKey = PrivateKey(curve: .x25519, value: Data())
+        let testPrivateKey = MockPrivateKey(curve: .x25519)
         let testOtherDID = DID(index: 1)
         let testName = "test"
         let testMessage = Message(
@@ -127,10 +130,10 @@ final class CDMessagesDAOTests: XCTestCase {
             pairDAO: pairDAO
         )
         let testHolderDID = DID(index: 0)
-        let testPrivateKey = PrivateKey(curve: .ed25519, value: Data())
+        let testPrivateKey = MockPrivateKey(curve: .ed25519)
         let testOtherDID = DID(index: 1)
         let testHolderDID2 = DID(index: 2)
-        let testPrivateKey2 = PrivateKey(curve: .x25519, value: Data())
+        let testPrivateKey2 = MockPrivateKey(curve: .x25519)
         let testOtherDID2 = DID(index: 3)
         let testName = "test"
         let testMessage1 = Message(
@@ -187,11 +190,5 @@ final class CDMessagesDAOTests: XCTestCase {
             }
 
         waitForExpectations(timeout: 5)
-    }
-}
-
-extension Message: Equatable {
-    public static func == (lhs: Domain.Message, rhs: Domain.Message) -> Bool {
-        lhs.id == rhs.id && lhs.piuri == rhs.piuri
     }
 }

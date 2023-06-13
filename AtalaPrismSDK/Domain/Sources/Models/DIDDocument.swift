@@ -41,12 +41,12 @@ public struct DIDDocument {
             self.publicKeyJwk = publicKeyJwk
             self.publicKeyMultibase = publicKeyMultibase
         }
-
-        public var publicKey: PublicKey? {
-            publicKeyMultibase
-                .flatMap { Data(base64Encoded: $0) }
-                .map { PublicKey(curve: type, value: $0) }
-        }
+//
+//        public var publicKey: PublicKey? {
+//            publicKeyMultibase
+//                .flatMap { Data(base64Encoded: $0) }
+//                .map { PublicKey(curve: type, value: $0) }
+//        }
     }
 
     /// Represents a Service, which is a capability or endpoint offered by a Decentralized Identifier (DID) or other subject or object.
