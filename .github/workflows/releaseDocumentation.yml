@@ -2,11 +2,9 @@
 name: Release Documentation
 
 on:
-#  push:
-#    branches:
-#      - main
-  pull_request:
-    branches: [main]
+  push:
+    tags:
+      - "*"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
