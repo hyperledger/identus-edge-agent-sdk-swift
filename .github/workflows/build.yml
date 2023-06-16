@@ -16,9 +16,6 @@ jobs:
   lint:
     name: build
     runs-on: macos-latest
-    env:
-      GITHUB_ACTOR: ${{ github.actor }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout Code
@@ -34,4 +31,15 @@ jobs:
         run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
       - name: Build
-        run: xcodebuild build test -scheme "AtalaPRISMSDK-Package" -destination "platform=iOS Simulator,name=IPhone 14"
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: xcodebuild build test -scheme "AtalaPRISMSDK-Package" -destination "platform=iOS Simulator,name=IPhone 14" -resultBundlePath TestResults
+
+      - name: Publish tests results
+        uses: kishikawakatsumi/xcresulttool@v1.7.1
+        with:
+          path: TestResults.xcresult
+          token: ${{ secrets.GITHUB_TOKEN }}
+          show-code-coverage: true
+        if: success() || failure()
