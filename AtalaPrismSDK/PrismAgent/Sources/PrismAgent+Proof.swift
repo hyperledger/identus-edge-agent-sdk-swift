@@ -43,8 +43,6 @@ public extension PrismAgent {
             throw UnknownError.somethingWentWrongError()
         }
 
-        let apollo = apollo
-        let seed = seed
         let didInfo = try await pluto
             .getDIDInfo(did: subjectDID)
             .first()
@@ -53,7 +51,8 @@ public extension PrismAgent {
         guard let privateKey = didInfo?.privateKeys.first else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
         guard
-            let signing = privateKey.signing
+            let exporting = privateKey.exporting,
+            let pemData = exporting.pem.data(using: .utf8)
         else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
         let jwt = JWT(claims: ClaimsProofPresentationJWT(
@@ -66,18 +65,8 @@ public extension PrismAgent {
                 verifiableCredential: [credential.id]
             )
         ))
-        let signer = JWTSigner.none
-        let withoutSignature = try JWTEncoder(jwtSigner: signer).encodeToString(jwt)
-        print(withoutSignature)
-        let removedHeader = withoutSignature.components(separatedBy: ".").last!
-        let headerBase64 = "{\"typ\": \"JWT\", \"alg\": \"ES256K\"}".data(using: .utf8)!.base64UrlEncodedString()
-        let body = headerBase64 + "." + removedHeader
-        let signature = try await signing.sign(data: body.data(using: .utf8)!)
-        let signatureBase64 = signature.raw.base64UrlEncodedString()
-
-        let jwtString =  body + "." + signatureBase64
-        print("JWTString: \(jwtString)")
-        //let jwtString = try JWTEncoder(jwtSigner: .es256k(privateKey: pemPrivateKey)).encodeToString(jwt)
+        let jwtString = try JWTEncoder(jwtSigner: .es256k(privateKey: pemData)).encodeToString(jwt)
+        
         guard let base64String = jwtString.data(using: .utf8)?.base64EncodedString() else {
             throw UnknownError.somethingWentWrongError()
         }
