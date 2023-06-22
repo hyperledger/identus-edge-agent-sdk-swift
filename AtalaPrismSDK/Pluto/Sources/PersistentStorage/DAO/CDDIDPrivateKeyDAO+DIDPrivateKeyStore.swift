@@ -33,8 +33,8 @@ private extension CDDIDPrivateKey {
             else { return }
             switch curve {
             case .x25519:
-                self.privateKeyKeyAgreement = $0.storableData
-                self.curveKeyAgreement = $0.restorationIdentifier
+                self.privateKeyAuthenticate = $0.storableData
+                self.curveAuthenticate = $0.restorationIdentifier
             case .ed25519:
                 self.privateKeyAuthenticate = $0.storableData
                 self.curveAuthenticate = $0.restorationIdentifier

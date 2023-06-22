@@ -22,7 +22,7 @@ struct X25519PrivateKey: PrivateKey {
 
 extension X25519PrivateKey: StorableKey {
     var securityLevel: SecurityLevel { SecurityLevel.high }
-    var restorationIdentifier: String { "x25519+prv" }
+    var restorationIdentifier: String { "x25519+priv" }
     var storableData: Data { raw }
 }
 

@@ -34,7 +34,7 @@ extension Ed25519PrivateKey: SignableKey {
 
 extension Ed25519PrivateKey: StorableKey {
     var securityLevel: SecurityLevel { SecurityLevel.high }
-    var restorationIdentifier: String { "ed25519+prv" }
+    var restorationIdentifier: String { "ed25519+priv" }
     var storableData: Data { raw }
 }
 
