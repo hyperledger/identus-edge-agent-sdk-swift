@@ -68,7 +68,7 @@ final class Main2RouterImpl: Main2ViewRouter {
 
     func routeToCredentials() -> some View {
         let viewModel = CredentialListViewModelImpl(
-            pluto: container.resolve(type: Pluto.self)!
+            agent: container.resolve(type: PrismAgent.self)!
         )
 
         return CredentialListView(

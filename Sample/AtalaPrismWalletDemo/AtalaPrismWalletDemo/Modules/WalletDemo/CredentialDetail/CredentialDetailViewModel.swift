@@ -26,14 +26,17 @@ final class CredentialDetailViewModelImpl: CredentialDetailViewModel {
     private func bind() {
         agent.verifiableCredentials()
             .map { [weak self] in
-                $0.first { $0.id == self?.credentialId }
+                $0.first { $0.subject == self?.credentialId }
             }
             .replaceError(with: nil)
             .sink { [weak self] in
-                guard let credential = $0 else { return }
-                self?.schema = credential.credentialSchema?.type ?? ""
-                self?.types = Array(credential.type)
-                self?.issued = credential.issuanceDate.ISO8601Format()
+                guard
+                    let credential = $0,
+                    let schema = credential.properties["credentialSchema"] as? String
+                else { return }
+                self?.schema = schema
+                self?.types = [""]
+                self?.issued = ""
             }
             .store(in: &cancellables)
     }

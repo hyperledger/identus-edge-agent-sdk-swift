@@ -80,7 +80,7 @@ final class MessageDetailViewModelImpl: MessageDetailViewModel {
             do {
                 switch msgType {
                 case .didcommRequestPresentation:
-                    let credential = try await pluto.getAllCredentials().map { $0.first }.first().await()
+                    let credential = try await agent.verifiableCredentials().map { $0.first }.first().await()
                     guard let credential else {
                         throw UnknownError.somethingWentWrongError()
                     }

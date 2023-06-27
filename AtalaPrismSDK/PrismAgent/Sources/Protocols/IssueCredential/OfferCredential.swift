@@ -5,15 +5,15 @@ import Foundation
 // ALL parameters are DIDCOMMV2 format and naming conventions and follows the protocol
 // https://github.com/hyperledger/aries-rfcs/tree/main/features/0453-issue-credential-v2
 public struct OfferCredential {
-    struct Body: Codable, Equatable {
-        let goalCode: String?
-        let comment: String?
-        let replacementId: String?
-        let multipleAvailable: String?
-        let credentialPreview: CredentialPreview
-        let formats: [CredentialFormat]
+    public struct Body: Codable, Equatable {
+        public let goalCode: String?
+        public let comment: String?
+        public let replacementId: String?
+        public let multipleAvailable: String?
+        public let credentialPreview: CredentialPreview
+        public let formats: [CredentialFormat]
 
-        init(
+        public init(
             goalCode: String? = nil,
             comment: String? = nil,
             replacementId: String? = nil,
@@ -32,13 +32,13 @@ public struct OfferCredential {
 
     public let id: String
     public let type = ProtocolTypes.didcommOfferCredential.rawValue
-    let body: Body
-    let attachments: [AttachmentDescriptor]
+    public let body: Body
+    public let attachments: [AttachmentDescriptor]
     public let thid: String?
     public let from: DID
     public let to: DID
 
-    init(
+    public init(
         id: String = UUID().uuidString,
         body: Body,
         attachments: [AttachmentDescriptor],

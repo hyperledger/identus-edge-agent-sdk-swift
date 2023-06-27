@@ -7,6 +7,12 @@ public struct CredentialPreview: Codable, Equatable {
         public let name: String
         public let value: String
         public let mimeType: String?
+        
+        public init(name: String, value: String, mimeType: String?) {
+            self.name = name
+            self.value = value
+            self.mimeType = mimeType
+        }
     }
 
     public let type: String

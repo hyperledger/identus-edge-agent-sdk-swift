@@ -79,12 +79,10 @@ final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewM
                         switch $0.data {
                         case let data as AttachmentBase64:
                             let b64 = Data(base64URLEncoded: data.base64)!
-                            let str = String(data: b64, encoding: .utf8)!
                             let apollo = ApolloBuilder().build()
                             let castor = CastorBuilder(apollo: apollo).build()
                             let pollux = PolluxBuilder(apollo: apollo, castor: castor).build()
-                            let credential = try pollux.parseVerifiableCredential(jwtString: str)
-                            print(credential)
+                            let credential = try pollux.parseCredential(data: b64)
                         default:
                             return
                         }

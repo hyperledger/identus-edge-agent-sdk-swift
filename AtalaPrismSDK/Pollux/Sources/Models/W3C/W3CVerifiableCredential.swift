@@ -1,3 +1,4 @@
+import Domain
 import Foundation
 
 /**
@@ -10,61 +11,58 @@ import Foundation
  - Note: The W3CVerifiableCredential struct is designed to work with W3C-compliant verifiable credentials.
 
  */
-public struct W3CVerifiableCredential: VerifiableCredential {
-
-    // The credential type for this verifiable credential is set to `CredentialType.w3c`
-    public let credentialType = CredentialType.w3c
+struct W3CVerifiableCredential {
 
     // The set of context strings associated with the credential
-    public let context: Set<String>
+    let context: Set<String>
 
     // The set of type strings associated with the credential
-    public let type: Set<String>
+    let type: Set<String>
 
     // The ID of the credential
-    public let id: String
+    let id: String
 
     // The DID of the entity that issued the credential
-    public let issuer: DID
+    let issuerDID: DID
 
     // The DID of the entity that is subject of the credential
-    public let subject: DID?
+    let subjectDID: DID?
 
     // The date on which the credential was issued
-    public let issuanceDate: Date
+    let issuanceDate: Date
 
     // The date on which the credential expires, if applicable
-    public let expirationDate: Date?
+    let expirationDate: Date?
 
     // The schema for the credential
-    public let credentialSchema: VerifiableCredentialTypeContainer?
+    let credentialSchema: VerifiableCredentialTypeContainer?
 
     // The subject of the credential, represented as a dictionary of key-value pairs
-    public let credentialSubject: [String: String]
+    let credentialSubject: [String: String]
 
     // The status of the credential
-    public let credentialStatus: VerifiableCredentialTypeContainer?
+    let credentialStatus: VerifiableCredentialTypeContainer?
 
     // The refresh service for the credential
-    public let refreshService: VerifiableCredentialTypeContainer?
+    let refreshService: VerifiableCredentialTypeContainer?
 
     // The evidence associated with the credential
-    public let evidence: VerifiableCredentialTypeContainer?
+    let evidence: VerifiableCredentialTypeContainer?
 
     // The terms of use for the credential
-    public let termsOfUse: VerifiableCredentialTypeContainer?
+    let termsOfUse: VerifiableCredentialTypeContainer?
 
     // The earliest date from which the credential is valid
-    public let validFrom: VerifiableCredentialTypeContainer?
+    let validFrom: VerifiableCredentialTypeContainer?
 
     // The latest date at which the credential is valid
-    public let validUntil: VerifiableCredentialTypeContainer?
+    let validUntil: VerifiableCredentialTypeContainer?
 
     // The proof associated with the credential
-    public let proof: String?
+    let proof: String?
 
     // The audience for the credential
-    public let aud: Set<String>
+    let aud: Set<String>
 
     /**
      Initializes a new instance of the W3CVerifiableCredential struct.
@@ -88,12 +86,12 @@ public struct W3CVerifiableCredential: VerifiableCredential {
         - aud: The audience for the credential.
 
      */
-    public init(
+    init(
         context: Set<String> = Set(),
         type: Set<String> = Set(),
         id: String,
-        issuer: DID,
-        subject: DID?,
+        issuerDID: DID,
+        subjectDID: DID?,
         issuanceDate: Date,
         expirationDate: Date? = nil,
         credentialSchema: VerifiableCredentialTypeContainer? = nil,
@@ -110,8 +108,8 @@ public struct W3CVerifiableCredential: VerifiableCredential {
         self.context = context
         self.type = type
         self.id = id
-        self.issuer = issuer
-        self.subject = subject
+        self.issuerDID = issuerDID
+        self.subjectDID = subjectDID
         self.issuanceDate = issuanceDate
         self.expirationDate = expirationDate
         self.credentialSchema = credentialSchema
@@ -124,5 +122,44 @@ public struct W3CVerifiableCredential: VerifiableCredential {
         self.validUntil = validUntil
         self.proof = proof
         self.aud = aud
+    }
+}
+
+extension W3CVerifiableCredential: Credential {
+    
+    var issuer: String {
+        self.issuerDID.string
+    }
+    
+    var subject: String? {
+        self.subjectDID?.string
+    }
+    
+    var claims: [Claim] {
+        credentialSubject.map {
+            Claim(key: $0, value: .string($1))
+        }
+    }
+    
+    var properties: [String : Any] {
+        var properties = [
+            "issuanceDate" : issuanceDate,
+            "context" : context,
+            "type" : type,
+            "id" : id,
+            "aud" : aud
+        ] as [String : Any]
+        
+        expirationDate.map { properties["expirationDate"] = $0 }
+        credentialSchema.map { properties["schema"] = $0.type }
+        credentialStatus.map { properties["credentialStatus"] = $0.type }
+        refreshService.map { properties["refreshService"] = $0.type }
+        evidence.map { properties["evidence"] = $0.type }
+        termsOfUse.map { properties["termsOfUse"] = $0.type }
+        validFrom.map { properties["validFrom"] = $0.type }
+        validUntil.map { properties["validUntil"] = $0.type }
+        proof.map { properties["proof"] = $0 }
+        
+        return properties
     }
 }
