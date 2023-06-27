@@ -27,9 +27,6 @@ public enum PrismAgentError: KnownPrismError {
     /// An error case representing that a mediation request has failed.
     case mediationRequestFailedError(underlyingErrors: [Error]?)
 
-    /// An error case
-    case offerDoesntProvideEnoughInformation
-
     /// The error code returned by the server.
     public var code: Int {
         switch self {
@@ -45,8 +42,6 @@ public enum PrismAgentError: KnownPrismError {
             return 115
         case .mediationRequestFailedError:
             return 116
-        case .offerDoesntProvideEnoughInformation:
-            return 117
         }
     }
 
@@ -81,9 +76,6 @@ You need to provide a mediation handler and start the prism agent before doing s
                 .joined(separator: ", ")
             let message = errorsMessages.map { "Errors: " + $0 } ?? ""
             return "Something failed while trying to achieve mediation. \(message)"
-
-        case .offerDoesntProvideEnoughInformation:
-            return "Offer provided doesnt have challenge and domain in the attachments"
         }
     }
 }

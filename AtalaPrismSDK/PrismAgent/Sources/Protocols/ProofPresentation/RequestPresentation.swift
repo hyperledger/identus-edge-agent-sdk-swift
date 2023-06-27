@@ -29,7 +29,7 @@ public struct RequestPresentation {
     public let from: DID
     public let to: DID
 
-    init(
+    public init(
         id: String = UUID().uuidString,
         body: Body,
         attachments: [AttachmentDescriptor],

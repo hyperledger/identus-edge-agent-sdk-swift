@@ -2,10 +2,10 @@ import Combine
 import Domain
 import Foundation
 
-protocol VerifiableCredentialProvider {
-    func getAll() -> AnyPublisher<[VerifiableCredential], Error>
-    func getCredential(id: String) -> AnyPublisher<VerifiableCredential?, Error>
-    func getBySchema(schema: String) -> AnyPublisher<[VerifiableCredential], Error>
+protocol CredentialProvider {
+    func getAll() -> AnyPublisher<[StorableCredential], Error>
+    func getCredential(id: String) -> AnyPublisher<StorableCredential?, Error>
+    func getBySchema(schema: String) -> AnyPublisher<[StorableCredential], Error>
     // TODO: Other filtering options
 //    func getAllFor(contexts: [String]) -> AnyPublisher<[VerifiableCredential], Error>
 //    func getAllFor(types: [String]) -> AnyPublisher<[VerifiableCredential], Error>

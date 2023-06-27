@@ -1,3 +1,4 @@
+import Domain
 import Foundation
 
 extension W3CVerifiableCredential: Codable {
@@ -97,8 +98,8 @@ extension W3CVerifiableCredential: Codable {
             context: context,
             type: type,
             id: id,
-            issuer: issuer,
-            subject: subject,
+            issuerDID: issuer,
+            subjectDID: subject,
             issuanceDate: issuanceDate,
             expirationDate: expirationDate,
             credentialSchema: credentialSchema,

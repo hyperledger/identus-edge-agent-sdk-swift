@@ -1,6 +1,7 @@
+import Domain
 import Foundation
 
-extension JWTCredentialPayload.JWTVerfiableCredential: Codable {
+extension JWTPayload.JWTVerfiableCredential: Codable {
     enum CodingKeys: String, CodingKey {
         case context = "@context"
         case type = "@type"
@@ -71,7 +72,7 @@ extension JWTCredentialPayload.JWTVerfiableCredential: Codable {
     }
 }
 
-extension JWTCredentialPayload: Codable {
+extension JWTPayload: Codable {
     enum CodingKeys: String, CodingKey {
         case iss
         case sub
@@ -80,6 +81,7 @@ extension JWTCredentialPayload: Codable {
         case exp
         case jti
         case aud
+        case originalJWTString
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -91,6 +93,7 @@ extension JWTCredentialPayload: Codable {
         try container.encode(self.exp, forKey: .exp)
         try container.encode(self.jti, forKey: .jti)
         try container.encode(self.aud, forKey: .aud)
+        try container.encode(self.originalJWTString, forKey: .originalJWTString)
     }
 
     public init(from decoder: Decoder) throws {
@@ -115,6 +118,10 @@ extension JWTCredentialPayload: Codable {
             Set<String>.self,
             forKey: .aud
         )) ?? Set<String>()
+        let originalJWTString = (try? container.decode(
+            String.self,
+            forKey: .originalJWTString
+        )) ?? ""
 
         self.init(
             iss: iss,
@@ -123,7 +130,8 @@ extension JWTCredentialPayload: Codable {
             nbf: nbf,
             exp: exp,
             jti: jti,
-            aud: aud
+            aud: aud,
+            originalJWTString: originalJWTString
         )
     }
 }
