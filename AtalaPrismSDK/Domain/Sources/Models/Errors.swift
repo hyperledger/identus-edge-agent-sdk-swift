@@ -644,6 +644,12 @@ public enum PolluxError: KnownPrismError {
 
     /// An error case representing an invalid JWT credential. This error is thrown when attempting to create a JWT presentation without a valid JWTCredential.
     case invalidJWTCredential
+    
+    /// An error case when the offer doesnt present enough information like Domain or Challenge
+    case offerDoesntProvideEnoughInformation
+    
+    /// An error case there is missing an `ExportableKey`
+    case requiresExportableKeyForOperation(operation: String)
 
     /// The error code returned by the server.
     public var code: Int {
@@ -656,6 +662,10 @@ public enum PolluxError: KnownPrismError {
             return 53
         case .invalidJWTCredential:
             return 54
+        case .offerDoesntProvideEnoughInformation:
+            return 55
+        case .requiresExportableKeyForOperation:
+            return 56
         }
     }
 
@@ -676,6 +686,10 @@ public enum PolluxError: KnownPrismError {
             return "To create a JWT presentation a Prism DID is required"
         case .invalidJWTCredential:
             return "To create a JWT presentation please provide a valid JWTCredential"
+        case .offerDoesntProvideEnoughInformation:
+            return "Offer provided doesnt have challenge or domain in the attachments, or there is no Json Attachment"
+        case .requiresExportableKeyForOperation(let operation):
+            return "Operation \(operation) requires an ExportableKey"
         }
     }
 }

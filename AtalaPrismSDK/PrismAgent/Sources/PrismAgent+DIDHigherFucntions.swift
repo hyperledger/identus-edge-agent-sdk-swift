@@ -22,8 +22,6 @@ public extension PrismAgent {
         - Signature: The signature of the message.
     */
     func signWith(did: DID, message: Data) async throws -> Signature {
-        let seed = self.seed
-        let apollo = self.apollo
         let pluto = self.pluto
         let info = try await pluto
             // First get DID info (KeyPathIndex in this case)
@@ -76,7 +74,7 @@ Could not find key in storage please use Castor instead and provide the private 
         // If the user provided a key path index use it, if not use the last + 1
         let index = keyPathIndex ?? (lastKeyPairIndex + 1)
         // Create the key pair
-        let privateKey = try await apollo.createPrivateKey(parameters: [
+        let privateKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.seed.rawValue: seed.value.base64Encoded(),
             KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue,
@@ -133,12 +131,12 @@ Could not find key in storage please use Castor instead and provide the private 
         alias: String? = "",
         updateMediator: Bool
     ) async throws -> DID {
-        let keyAgreementPrivateKey = try await apollo.createPrivateKey(parameters: [
+        let keyAgreementPrivateKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.curve.rawValue: KnownKeyCurves.x25519.rawValue
         ])
 
-        let authenticationPrivateKey = try await apollo.createPrivateKey(parameters: [
+        let authenticationPrivateKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.curve.rawValue: KnownKeyCurves.ed25519.rawValue
         ])

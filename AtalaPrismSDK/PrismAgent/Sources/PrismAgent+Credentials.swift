@@ -10,8 +10,17 @@ public extension PrismAgent {
     ///
     /// - Returns:  A publisher that emits an array of `VerifiableCredential` and completes when all the
     ///              credentials are emitted or terminates with an error if any occurs
-    func verifiableCredentials() -> AnyPublisher<[VerifiableCredential], Error> {
-        pluto.getAllCredentials()
+    func verifiableCredentials() -> AnyPublisher<[Credential], Error> {
+        let pollux = self.pollux
+        return pluto.getAllCredentials().tryMap {
+            try $0.map {
+                try pollux.restoreCredential(
+                    restorationIdentifier: $0.recoveryId,
+                    credentialData: $0.credentialData
+                )
+            }
+        }
+        .eraseToAnyPublisher()
     }
 
     /// This function parses an issued credential message, stores and returns the verifiable credential.
@@ -20,11 +29,10 @@ public extension PrismAgent {
     ///   - message: Issue credential Message.
     /// - Returns: The parsed verifiable credential.
     /// - Throws: PrismAgentError, if there is a problem parsing the credential.
-    func processIssuedCredentialMessage(message: IssueCredential) async throws -> VerifiableCredential {
+    func processIssuedCredentialMessage(message: IssueCredential) async throws -> Credential {
         guard
             let attachment = message.attachments.first?.data as? AttachmentBase64,
-            let jwtData = Data(fromBase64URL: attachment.base64),
-            let jwtString = String(data: jwtData, encoding: .utf8)
+            let data = Data(fromBase64URL: attachment.base64)
         else {
             throw UnknownError.somethingWentWrongError(
                 customMessage: "Cannot find attachment base64 in message",
@@ -32,10 +40,13 @@ public extension PrismAgent {
             )
         }
 
-        let credential = try pollux.parseVerifiableCredential(jwtString: jwtString)
-        print(credential)
+        let credential = try pollux.parseCredential(data: data)
+        
+        guard let storableCredential = credential.storable else {
+            return credential
+        }
         try await pluto
-            .storeCredential(credential: credential)
+            .storeCredential(credential: storableCredential)
             .first()
             .await()
         return credential
@@ -58,43 +69,18 @@ public extension PrismAgent {
         guard let privateKey = didInfo?.privateKeys.first else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
         guard
-            let exporting = privateKey.exporting,
-            let pemData = exporting.pem.data(using: .utf8)
+            let exporting = privateKey.exporting
         else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+        
+        let requestString = try pollux.processCredentialRequest(
+            offerMessage: try offer.makeMessage(),
+            options: [
+                .exportableKey(exporting),
+                .subjectDID(did)
+            ]
+        )
 
-        guard let offerData = offer
-            .attachments
-            .map({
-                switch $0.data {
-                case let json as AttachmentJsonData:
-                    return json.data
-                default:
-                    return nil
-                }
-            })
-            .compactMap({ $0 })
-            .first
-        else { throw PrismAgentError.offerDoesntProvideEnoughInformation }
-        let jsonObject = try JSONSerialization.jsonObject(with: offerData)
-        guard
-            let domain = findValue(forKey: "domain", in: jsonObject),
-            let challenge = findValue(forKey: "challenge", in: jsonObject)
-        else { throw PrismAgentError.offerDoesntProvideEnoughInformation }
-
-        let jwt = JWT(claims: ClaimsRequestSignatureJWT(
-            iss: did.string,
-            aud: domain,
-            nonce: challenge,
-            vp: .init(context: .init([
-                "https://www.w3.org/2018/presentations/v1"
-            ]), type: .init([
-                "VerifiablePresentation"
-            ]))
-        ))
-
-        let jwtString = try JWTEncoder(jwtSigner: .es256k(privateKey: pemData)).encodeToString(jwt)
-
-        guard let base64String = jwtString.data(using: .utf8)?.base64EncodedString() else {
+        guard let base64String = requestString.data(using: .utf8)?.base64EncodedString() else {
             throw UnknownError.somethingWentWrongError()
         }
         let requestCredential = RequestCredential(
@@ -111,47 +97,6 @@ public extension PrismAgent {
             from: offer.to,
             to: offer.from
         )
-        print(requestCredential)
         return requestCredential
     }
-
-    
-}
-
-// TODO: This function is not the most appropriate but will do the job now to change later.
-private func findValue(forKey key: String, in json: Any) -> String? {
-    if let dict = json as? [String: Any] {
-        if let value = dict[key] {
-            return value as? String
-        }
-        for (_, subJson) in dict {
-            if let foundValue = findValue(forKey: key, in: subJson) {
-                return foundValue
-            }
-        }
-    } else if let array = json as? [Any] {
-        for subJson in array {
-            if let foundValue = findValue(forKey: key, in: subJson) {
-                return foundValue
-            }
-        }
-    }
-    return nil
-}
-
-private struct ClaimsRequestSignatureJWT: Claims {
-    struct VerifiablePresentation: Codable {
-        enum CodingKeys: String, CodingKey {
-            case context = "@context"
-            case type = "type"
-        }
-
-        let context: Set<String>
-        let type: Set<String>
-    }
-
-    let iss: String
-    let aud: String
-    let nonce: String
-    let vp: VerifiablePresentation
 }

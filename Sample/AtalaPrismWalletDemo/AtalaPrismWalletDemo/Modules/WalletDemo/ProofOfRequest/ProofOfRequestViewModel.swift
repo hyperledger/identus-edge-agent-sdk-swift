@@ -13,7 +13,7 @@ final class ProofOfRequestViewModelImpl: ProofOfRequestViewModel {
 
     private let proofOfRequest: RequestPresentation
     private let agent: PrismAgent
-    private var selectedCredential: VerifiableCredential?
+    private var selectedCredential: Credential?
     private var cancellables = Set<AnyCancellable>()
 
     init(
@@ -29,7 +29,7 @@ final class ProofOfRequestViewModelImpl: ProofOfRequestViewModel {
         agent.verifiableCredentials()
             .first { !$0.isEmpty }
             .receive(on: DispatchQueue.main)
-            .map { credentials -> [VerifiableCredential] in
+            .map { credentials -> [Credential] in
                 self.selectedCredential = credentials.first
                 return credentials
             }
@@ -37,7 +37,7 @@ final class ProofOfRequestViewModelImpl: ProofOfRequestViewModel {
                 credentials.map {
                     ProofOfRequestState.Credential(
                         id: $0.id,
-                        text: $0.credentialSubject.sorted { $0.key < $1.key }.first?.value ?? ""
+                        text: $0.claims.sorted { $0.key < $1.key }.first?.getValueAsString() ?? ""
                     )
                 }
             }
@@ -48,6 +48,7 @@ final class ProofOfRequestViewModelImpl: ProofOfRequestViewModel {
             }
             .assign(to: &$credential)
     }
+
 
     func sendPresentation() {
         guard !loading else { return }
@@ -83,7 +84,7 @@ final class ProofOfRequestViewModelImpl: ProofOfRequestViewModel {
 
     func presentCredentialProof(
         request: RequestPresentation,
-        credential: VerifiableCredential
+        credential: Credential
     ) async throws {
         guard let jwtBase64 = credential.id.data(using: .utf8)?.base64UrlEncodedString() else {
             throw UnknownError.somethingWentWrongError(

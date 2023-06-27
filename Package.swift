@@ -133,7 +133,7 @@ let package = Package(
         ),
         .testTarget(
             name: "PolluxTests",
-            dependencies: ["Pollux", "Apollo", "Castor"],
+            dependencies: ["Pollux", "Apollo", "Castor", "PrismAgent"],
             path: "AtalaPrismSDK/Pollux/Tests"
         ),
         .target(

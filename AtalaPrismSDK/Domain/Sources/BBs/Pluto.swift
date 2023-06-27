@@ -78,7 +78,7 @@ public protocol Pluto {
     /// - Parameter credential: The credential to store.
     /// - Returns: A publisher that completes when the operation finishes.
     func storeCredential(
-        credential: VerifiableCredential
+        credential: StorableCredential
     ) -> AnyPublisher<Void, Error>
 
     /// Returns all stored PRISM DIDs, along with their associated key pair indices and aliases (if any).
@@ -213,5 +213,5 @@ public protocol Pluto {
 
     /// Returns all stored verifiable credentials.
     /// - Returns: A publisher that emits an array of stored verifiable credentials.
-    func getAllCredentials() -> AnyPublisher<[VerifiableCredential], Error>
+    func getAllCredentials() -> AnyPublisher<[StorableCredential], Error>
 }

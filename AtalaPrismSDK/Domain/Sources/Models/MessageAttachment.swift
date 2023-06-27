@@ -154,3 +154,71 @@ public struct AttachmentDescriptor {
         self.description = description
     }
 }
+
+extension AttachmentDescriptor: Codable {
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case mediaType
+        case data
+        case filename
+        case format
+        case lastmodTime
+        case byteCount
+        case description
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(mediaType, forKey: .mediaType)
+        try container.encode(data, forKey: .data)
+        try container.encode(filename, forKey: .filename)
+        try container.encode(format, forKey: .format)
+        try container.encode(lastmodTime, forKey: .lastmodTime)
+        try container.encode(byteCount, forKey: .byteCount)
+        try container.encode(description, forKey: .description)
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let id = try container.decode(String.self, forKey: .id)
+        let mediaType = try? container.decode(String.self, forKey: .mediaType)
+        let filename = try? container.decode([String].self, forKey: .filename)
+        let format = try? container.decode(String.self, forKey: .format)
+        let lastmodTime = try? container.decode(Date.self, forKey: .lastmodTime)
+        let byteCount = try? container.decode(Int.self, forKey: .byteCount)
+        let description = try? container.decode(String.self, forKey: .description)
+        let data: AttachmentData?
+        if let attchData = try? container.decode(AttachmentBase64.self, forKey: .data) {
+            data = attchData
+        } else if let attchData = try? container.decode(AttachmentJws.self, forKey: .data) {
+            data = attchData
+        } else if let attchData = try? container.decode(AttachmentHeader.self, forKey: .data) {
+            data = attchData
+        } else if let attchData = try? container.decode(AttachmentJwsData.self, forKey: .data) {
+            data = attchData
+        } else if let attchData = try? container.decode(AttachmentJsonData.self, forKey: .data) {
+            data = attchData
+        } else if let attchData = try? container.decode(AttachmentLinkData.self, forKey: .data) {
+            data = attchData
+        } else { data = nil }
+        
+        guard let data else { throw CommonError.invalidCoding(
+            message: """
+Could not parse AttachmentData to any of the following: AttachmentBase64, AttachmentJws, AttachmentHeader, AttachmentJwsData, AttachmentJsonData, AttachmentLinkData
+"""
+        )}
+
+        self.init(
+            id: id,
+            mediaType: mediaType,
+            data: data,
+            filename: filename,
+            format: format,
+            lastmodTime: lastmodTime,
+            byteCount: byteCount,
+            description: description
+        )
+    }
+}

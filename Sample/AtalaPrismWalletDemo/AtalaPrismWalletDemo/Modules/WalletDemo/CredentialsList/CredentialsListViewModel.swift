@@ -36,12 +36,12 @@ final class CredentialsListViewModelImpl: CredentialsListViewModel {
 }
 
 private func mapCredentialType(
-    _ credential: VerifiableCredential
+    _ credential: Credential
 ) -> CredentialsListState.Credential {
     .init(
         id: credential.id,
         icon: .name(""),
-        title: credential.credentialSubject.sorted { $0.key < $1.key }.first?.value ?? "",
-        subtitle: credential.credentialSubject.sorted { $0.key < $1.key }.last?.value ?? ""
+        title: credential.claims.sorted { $0.key < $1.key }.first?.getValueAsString() ?? "",
+        subtitle: credential.claims.sorted { $0.key < $1.key }.last?.getValueAsString() ?? ""
     )
 }
