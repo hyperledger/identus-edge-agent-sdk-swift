@@ -178,7 +178,7 @@ let package = Package(
         ),
         .testTarget(
             name: "PrismAgentTests",
-            dependencies: ["PrismAgent"],
+            dependencies: ["PrismAgent", "Core"],
             path: "AtalaPrismSDK/PrismAgent/Tests"
         ),
         .target(

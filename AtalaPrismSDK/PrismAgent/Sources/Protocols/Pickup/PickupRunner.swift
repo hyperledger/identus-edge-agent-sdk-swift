@@ -31,7 +31,11 @@ class PickupRunner {
             return try await message.attachments.compactMap { attachment in
                 switch attachment.data {
                 case let base64 as AttachmentBase64:
-                    return (base64.base64, attachment.id)
+                    guard
+                        let base64Data = Data(base64URLEncoded: base64.base64),
+                        let base64String = String(data: base64Data, encoding: .utf8)
+                    else { return nil }
+                    return (base64String, attachment.id)
                 case let json as AttachmentJsonData:
                     return String(data: json.data, encoding: .utf8).map { ($0, attachment.id) }
                 default:

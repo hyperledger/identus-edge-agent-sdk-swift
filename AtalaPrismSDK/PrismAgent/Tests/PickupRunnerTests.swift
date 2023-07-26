@@ -1,3 +1,4 @@
+import Core
 @testable import Domain
 @testable import PrismAgent
 import XCTest
@@ -19,7 +20,11 @@ final class PickupRunnerTests: XCTestCase {
 
     func testWhenReceiveDeliveryMessageThenParseMessages() async throws {
         attachments = try await messagesExamples.asyncMap {
-            AttachmentBase64(base64: try await mercury.packMessage(msg: $0))
+            try await mercury.packMessage(msg: $0).data(using: .utf8)?.base64UrlEncodedString()
+        }
+        .compactMap { $0 }
+        .map {
+            AttachmentBase64(base64: $0)
         }
         let message = Message(
             piuri: ProtocolTypes.pickupDelivery.rawValue,
@@ -36,7 +41,11 @@ final class PickupRunnerTests: XCTestCase {
 
     func testWhenReceiveNotDeliveryMessageThenThrowError() async throws {
         attachments = try await messagesExamples.asyncMap {
-            AttachmentBase64(base64: try await mercury.packMessage(msg: $0))
+            try await mercury.packMessage(msg: $0).data(using: .utf8)?.base64UrlEncodedString()
+        }
+        .compactMap { $0 }
+        .map {
+            AttachmentBase64(base64: $0)
         }
         let message = Message(
             piuri: "SomethingElse",
