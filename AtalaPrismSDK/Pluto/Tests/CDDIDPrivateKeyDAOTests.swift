@@ -32,7 +32,7 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
             alias: nil
         ).flatMap {
             dao.getDIDInfo(did: testDID)
-        }.sink { _ in } receiveValue: {
+        }.first().sink { _ in } receiveValue: {
             XCTAssertEqual(testDID, $0?.did)
             XCTAssertEqual([testPrivateKey], $0?.privateKeys.map { $0 as? MockPrivateKey })
             expectation.fulfill()
@@ -64,7 +64,9 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
         }
         .flatMap {
             dao.getAll()
-        }.sink { _ in } receiveValue: {
+        }
+        .first()
+        .sink { _ in } receiveValue: {
             XCTAssertEqual($0.count, 1)
             expectation.fulfill()
         }
@@ -99,7 +101,9 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
         }
         .flatMap {
             dao.getAll()
-        }.sink { _ in } receiveValue: {
+        }
+        .first()
+        .sink { _ in } receiveValue: {
             XCTAssertEqual($0.count, 2)
             expectation.fulfill()
         }
@@ -134,7 +138,9 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
         }
         .flatMap {
             dao.getDIDInfo(did: testDID2)
-        }.sink { _ in } receiveValue: {
+        }
+        .first()
+        .sink { _ in } receiveValue: {
             XCTAssertEqual(testDID2, $0?.did)
             XCTAssertEqual([testPrivateKey2], $0?.privateKeys.map { $0 as? MockPrivateKey })
             expectation.fulfill()
