@@ -80,6 +80,8 @@ public protocol Pluto {
     func storeCredential(
         credential: StorableCredential
     ) -> AnyPublisher<Void, Error>
+    
+    func storeLinkSecret(secret: String) -> AnyPublisher<Void, Error>
 
     /// Returns all stored PRISM DIDs, along with their associated key pair indices and aliases (if any).
     /// - Returns: A publisher that emits an array of tuples representing the stored PRISM DIDs, along with their associated key pair indices and aliases (if any).
@@ -214,4 +216,6 @@ public protocol Pluto {
     /// Returns all stored verifiable credentials.
     /// - Returns: A publisher that emits an array of stored verifiable credentials.
     func getAllCredentials() -> AnyPublisher<[StorableCredential], Error>
+    
+    func getLinkSecret() -> AnyPublisher<[String], Error>
 }

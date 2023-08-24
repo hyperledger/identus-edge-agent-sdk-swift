@@ -648,6 +648,9 @@ public enum PolluxError: KnownPrismError {
     /// An error case when the offer doesnt present enough information like Domain or Challenge
     case offerDoesntProvideEnoughInformation
     
+    /// An error case when the issued credential message doesnt present enough information or unsupported attachment
+    case unsupportedIssuedMessage
+    
     /// An error case there is missing an `ExportableKey`
     case requiresExportableKeyForOperation(operation: String)
 
@@ -666,6 +669,8 @@ public enum PolluxError: KnownPrismError {
             return 55
         case .requiresExportableKeyForOperation:
             return 56
+        case .unsupportedIssuedMessage:
+            return 57
         }
     }
 
@@ -690,6 +695,8 @@ public enum PolluxError: KnownPrismError {
             return "Offer provided doesnt have challenge or domain in the attachments, or there is no Json Attachment"
         case .requiresExportableKeyForOperation(let operation):
             return "Operation \(operation) requires an ExportableKey"
+        case .unsupportedIssuedMessage:
+            return "Issue message provided doesnt have a valid attachment"
         }
     }
 }

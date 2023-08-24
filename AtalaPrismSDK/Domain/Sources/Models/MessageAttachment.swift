@@ -66,6 +66,13 @@ public struct AttachmentBase64: AttachmentData {
     public init(base64: String) {
         self.base64 = base64
     }
+    
+    public func decoded() throws -> Data {
+        guard let decode = Data(base64Encoded: base64) else {
+            throw CommonError.invalidCoding(message: "Could not decode base64 message attchment")
+        }
+        return decode
+    }
 }
 
 /// The `AttachmentLinkData` struct represents a DIDComm attachment containing a link to external data.

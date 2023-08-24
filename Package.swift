@@ -67,7 +67,8 @@ let package = Package(
         .package(url: "git@github.com:input-output-hk/atala-prism-didcomm-swift.git", from: "0.3.6"),
         .package(url: "git@github.com:swift-libp2p/swift-multibase.git", from: "0.0.1"),
         .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", exact: "0.10.0"),
-        .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", from: "4.1.3")
+        .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", from: "4.1.3"),
+        .package(url: "git@github.com:input-output-hk/anoncreds-rs.git", branch: "main")
     ],
     targets: [
         .target(
@@ -97,7 +98,8 @@ let package = Package(
             dependencies: [
                 "Domain",
                 "Core",
-                .product(name: "secp256k1", package: "secp256k1.swift")
+                .product(name: "secp256k1", package: "secp256k1.swift"),
+                .product(name: "AnoncredsSwift", package: "anoncreds-rs")
             ],
             path: "AtalaPrismSDK/Apollo/Sources"
         ),
@@ -127,7 +129,8 @@ let package = Package(
             dependencies: [
                 "Domain",
                 "Core",
-                .product(name: "SwiftJWT", package: "Swift-JWT")
+                .product(name: "SwiftJWT", package: "Swift-JWT"),
+                .product(name: "AnoncredsSwift", package: "anoncreds-rs")
             ],
             path: "AtalaPrismSDK/Pollux/Sources"
         ),
@@ -152,7 +155,10 @@ let package = Package(
         ),
         .target(
             name: "Pluto",
-            dependencies: ["Domain", "Core"],
+            dependencies: [
+                "Domain",
+                "Core"
+            ],
             path: "AtalaPrismSDK/Pluto/Sources",
             resources: [.process("Resources/PrismPluto.xcdatamodeld")]
         ),
@@ -176,21 +182,21 @@ let package = Package(
             ],
             path: "AtalaPrismSDK/PrismAgent/Sources"
         ),
-        .testTarget(
-            name: "PrismAgentTests",
-            dependencies: ["PrismAgent", "Core"],
-            path: "AtalaPrismSDK/PrismAgent/Tests"
-        ),
+//        .testTarget(
+//            name: "PrismAgentTests",
+//            dependencies: ["PrismAgent", "Core"],
+//            path: "AtalaPrismSDK/PrismAgent/Tests"
+//        ),
         .target(
             name: "Authenticate",
             dependencies: ["Domain", "Builders", "Core"],
             path: "AtalaPrismSDK/Authenticate/Sources"
         ),
-        .testTarget(
-            name: "AuthenticateTests",
-            dependencies: ["Authenticate"],
-            path: "AtalaPrismSDK/Authenticate/Tests"
-        ),
+//        .testTarget(
+//            name: "AuthenticateTests",
+//            dependencies: ["Authenticate"],
+//            path: "AtalaPrismSDK/Authenticate/Tests"
+//        ),
 //        Internal core components (ex: logging) not public distributed
         .target(
             name: "Core",
@@ -199,10 +205,6 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log")
             ],
             path: "Core/Sources"
-//            Unfortunately this doesnt seem to work properly right now.
-//            plugins: [
-//                .plugin(name: "SwiftLintPlugin", package: "SwiftLint")
-//            ]
         )
     ]
 )

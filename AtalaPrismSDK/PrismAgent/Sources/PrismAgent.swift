@@ -99,7 +99,7 @@ public class PrismAgent {
         let apollo = ApolloBuilder().build()
         let castor = CastorBuilder(apollo: apollo).build()
         let pluto = PlutoBuilder(keyRestoration: apollo).build()
-        let pollux = PolluxBuilder(apollo: apollo, castor: castor).build()
+        let pollux = PolluxBuilder().build()
         let mercury = MercuryBuilder(
             apollo: apollo,
             castor: castor,
@@ -161,6 +161,7 @@ public class PrismAgent {
             let hostDID = try await createNewPeerDID(updateMediator: false)
             try await connectionManager.registerMediator(hostDID: hostDID)
         }
+        try await firstLinkSecretSetup()
         state = .running
         logger.info(message: "Mediation Achieved", metadata: [
             .publicMetadata(key: "Routing DID", value: mediatorRoutingDID?.string ?? "")
@@ -185,25 +186,12 @@ public class PrismAgent {
          state = .stoped
          logger.info(message: "Agent not running")
      }
-//
-//    // TODO: This is to be deleted in the future. For now it helps with issue credentials logic
-//    public func issueCredentialProtocol() {
-//        startFetchingMessages()
-//        Task {
-//            do {
-//                for try await offer in handleReceivedMessagesEvents()
-//                    .drop(while: { (try? OfferCredential(fromMessage: $0)) != nil })
-//                    .values
-//                {
-//                    if let issueProtocol = try? IssueCredentialProtocol(offer, connector: connectionManager) {
-//                        try? await issueProtocol.nextStage()
-//                    }
-//                }
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//        }
-//    }
+    
+    private func firstLinkSecretSetup() async throws {
+        if try await pluto.getLinkSecret().first().await().first == nil {
+            try await pluto.storeLinkSecret(secret: apollo.createNewLinkSecret()).first().await()
+        }
+    }
 }
 
 extension DID {

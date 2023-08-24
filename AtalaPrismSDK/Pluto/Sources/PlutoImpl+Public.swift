@@ -166,4 +166,12 @@ extension PlutoImpl: Pluto {
     public func getAllCredentials() -> AnyPublisher<[StorableCredential], Error> {
         credentialsDAO.getAll()
     }
+    
+    public func storeLinkSecret(secret: String) -> AnyPublisher<Void, Error> {
+        linkSecretDao.addLinkSecret(secret)
+    }
+    
+    public func getLinkSecret() -> AnyPublisher<[String], Error> {
+        linkSecretDao.getAll()
+    }
 }

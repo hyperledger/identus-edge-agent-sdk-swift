@@ -39,6 +39,3 @@ public struct MercuryImpl {
         )
     }
 }
-
-extension ExampleDidResolver: DidResolver {}
-extension ExampleSecretsResolver: SecretsResolver {}
