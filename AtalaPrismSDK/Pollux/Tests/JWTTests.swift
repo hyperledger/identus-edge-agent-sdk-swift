@@ -21,7 +21,7 @@ final class JWTTests: XCTestCase {
         XCTAssertEqual(credential.id, validJWTString)
     }
     
-    func testJWTCreateCredentialRequest() throws {
+    func testJWTCreateCredentialRequest() async throws {
         let offerCredentialMessage = OfferCredential(
             id: "test1",
             body: .init(
@@ -43,7 +43,7 @@ final class JWTTests: XCTestCase {
             to: DID.init(method: "test", methodId: "123")
         )
         
-        let pollux = PolluxImpl(apollo: apollo, castor: castor)
+        let pollux = PolluxImpl()
         let privKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue,
@@ -53,7 +53,7 @@ final class JWTTests: XCTestCase {
         let pubKey = privKey.publicKey()
         let subjectPrismDID = try castor.createPrismDID(masterPublicKey: pubKey, services: [])
         
-        let requestString = try pollux.processCredentialRequest(
+        let requestString = try await pollux.processCredentialRequest(
             offerMessage: offerCredentialMessage.makeMessage(),
             options: [
                 .subjectDID(subjectPrismDID),
@@ -66,7 +66,7 @@ final class JWTTests: XCTestCase {
         XCTAssertEqual(validJWTString, requestString)
     }
     
-    func testJWTCreateCredentialRequestErrorMissingDomain() throws {
+    func testJWTCreateCredentialRequestErrorMissingDomain() async throws {
         let offerCredentialMessage = OfferCredential(
             id: "test1",
             body: .init(
@@ -88,7 +88,7 @@ final class JWTTests: XCTestCase {
             to: DID.init(method: "test", methodId: "123")
         )
         
-        let pollux = PolluxImpl(apollo: apollo, castor: castor)
+        let pollux = PolluxImpl()
         let privKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue,
@@ -97,14 +97,18 @@ final class JWTTests: XCTestCase {
 
         let pubKey = privKey.publicKey()
         let subjectPrismDID = try castor.createPrismDID(masterPublicKey: pubKey, services: [])
-        
-        XCTAssertThrowsError(try pollux.processCredentialRequest(
-            offerMessage: offerCredentialMessage.makeMessage(),
-            options: [
-                .subjectDID(subjectPrismDID),
-                .exportableKey(privKey)
-            ]
-        )) 
+        do {
+            try await pollux.processCredentialRequest(
+                offerMessage: offerCredentialMessage.makeMessage(),
+                options: [
+                    .subjectDID(subjectPrismDID),
+                    .exportableKey(privKey)
+                ]
+            )
+            XCTFail("Should throw an error")
+        } catch {
+            
+        }
     }
     
     func testJWTPresentationSignature() async throws {

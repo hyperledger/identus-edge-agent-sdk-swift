@@ -142,4 +142,8 @@ returns random mnemonics nerver returns invalid mnemonics
             throw ApolloError.invalidKeyType(invalid: keyType, valid: ValidCryptographicTypes.allCases.map(\.rawValue))
         }
     }
+    
+    public func createNewLinkSecret() -> String {
+        CreateLinkSecretOperation().create()
+    }
 }
