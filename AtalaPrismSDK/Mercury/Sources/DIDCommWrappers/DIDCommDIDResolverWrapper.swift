@@ -84,7 +84,7 @@ extension DidDoc {
                 id: $0.id.string,
                 type: .jsonWebKey2020,
                 controller: $0.controller.string,
-                verificationMaterial: .jwk(value: jsonKeys)
+                verificationMaterial: .jwk(publicKeyJwk: jsonKeys)
             )
         }
 
@@ -93,9 +93,9 @@ extension DidDoc {
                 return service.serviceEndpoint.first.map {
                     Service(
                         id: service.id,
-                        kind: .didCommMessaging(
+                        serviceEndpoint: .didCommMessaging(
                             value: .init(
-                                serviceEndpoint: $0.uri,
+                                uri: $0.uri,
                                 accept: $0.accept,
                                 routingKeys: $0.routingKeys
                             )
@@ -106,17 +106,17 @@ extension DidDoc {
                 return service.serviceEndpoint.first.map {
                     Service(
                         id: service.id,
-                        kind: .other(value: $0.uri)
+                        serviceEndpoint: .other(value: $0.uri)
                     )
                 }
             }
         }
         self.init(
-            did: did,
-            keyAgreements: keyAgreements,
-            authentications: authentications,
-            verificationMethods: verificationMethods,
-            services: services
+            id: did,
+            keyAgreement: keyAgreements,
+            authentication: authentications,
+            verificationMethod: verificationMethods,
+            service: services
         )
     }
 }

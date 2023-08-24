@@ -36,6 +36,9 @@
         <attribute name="privateKeyKeyAgreement" optional="YES" attributeType="Binary"/>
         <relationship name="pair" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPair" inverseName="holderDID" inverseEntity="CDDIDPair"/>
     </entity>
+    <entity name="CDLinkSecret" representedClassName="CDLinkSecret" syncable="YES">
+        <attribute name="secret" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="CDMediatorDID" representedClassName="CDMediatorDID" syncable="YES">
         <attribute name="mediatorId" optional="YES" attributeType="String"/>
         <relationship name="mediatorDID" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDID"/>

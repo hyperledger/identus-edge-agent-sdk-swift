@@ -21,6 +21,7 @@ public struct PlutoImpl {
     let messageDao: CDMessageDAO
     let mediatorDAO: CDMediatorDIDDAO
     let credentialsDAO: CDCredentialDAO
+    let linkSecretDao: CDLinkSecretDAO
     private let coreDataManager: CoreDataManager
     private let keyRestoration: KeyRestoration
 
@@ -61,6 +62,10 @@ public struct PlutoImpl {
             privateKeyDIDDao: privateKeyDao
         )
         self.credentialsDAO = CDCredentialDAO(
+            readContext: manager.mainContext,
+            writeContext: manager.editContext
+        )
+        self.linkSecretDao = CDLinkSecretDAO(
             readContext: manager.mainContext,
             writeContext: manager.editContext
         )

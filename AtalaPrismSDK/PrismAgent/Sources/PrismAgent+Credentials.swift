@@ -30,17 +30,7 @@ public extension PrismAgent {
     /// - Returns: The parsed verifiable credential.
     /// - Throws: PrismAgentError, if there is a problem parsing the credential.
     func processIssuedCredentialMessage(message: IssueCredential) async throws -> Credential {
-        guard
-            let attachment = message.attachments.first?.data as? AttachmentBase64,
-            let data = Data(fromBase64URL: attachment.base64)
-        else {
-            throw UnknownError.somethingWentWrongError(
-                customMessage: "Cannot find attachment base64 in message",
-                underlyingErrors: nil
-            )
-        }
-
-        let credential = try pollux.parseCredential(data: data)
+        let credential = try pollux.parseCredential(issuedCredential: message.makeMessage())
         
         guard let storableCredential = credential.storable else {
             return credential
@@ -69,14 +59,18 @@ public extension PrismAgent {
         guard let privateKey = didInfo?.privateKeys.first else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
         guard
-            let exporting = privateKey.exporting
+            let exporting = privateKey.exporting,
+            let linkSecret = try await pluto.getLinkSecret().first().await().first
         else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
         
-        let requestString = try pollux.processCredentialRequest(
+        let requestString = try await pollux.processCredentialRequest(
             offerMessage: try offer.makeMessage(),
             options: [
                 .exportableKey(exporting),
-                .subjectDID(did)
+                .subjectDID(did),
+                .linkSecret(id: did.string, secret: linkSecret),
+                .credentialDefinitionsStream(stream: credentialDefinitions),
+                .schemasStream(stream: schemas)
             ]
         )
 
@@ -98,5 +92,15 @@ public extension PrismAgent {
             to: offer.from
         )
         return requestCredential
+    }
+}
+
+// TODO: Just while we dont have API for this
+extension PrismAgent {
+    var credentialDefinitions: AnyPublisher<[(id: String, json: String)], Error> {
+        Just([(id: String, json: String)]()).tryMap { $0 }.eraseToAnyPublisher()
+    }
+    var schemas: AnyPublisher<[(id: String, json: String)], Error> {
+        Just([(id: String, json: String)]()).tryMap { $0 }.eraseToAnyPublisher()
     }
 }
