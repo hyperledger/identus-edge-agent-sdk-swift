@@ -1,19 +1,7 @@
 import Foundation
 
-/// The `SecurityLevel` enumeration represents different levels of security that can be associated with a `StorableKey`.
-public enum SecurityLevel {
-    /// The 'high' case represents a high level of security.
-    case high
-
-    /// The 'low' case represents a low level of security.
-    case low
-}
-
 /// The `StorableKey` protocol defines a cryptographic key that can be stored persistently.
 public protocol StorableKey {
-    /// The security level of the key, represented as a `SecurityLevel` enumeration value.
-    var securityLevel: SecurityLevel { get }
-
     /// An identifier used for restoring the key.
     var restorationIdentifier: String { get }
 

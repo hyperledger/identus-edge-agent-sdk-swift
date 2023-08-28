@@ -37,10 +37,13 @@ extension Secp256k1PrivateKey: SignableKey {
     }
 }
 
-extension Secp256k1PrivateKey: StorableKey {
-    var securityLevel: SecurityLevel { SecurityLevel.high }
+extension Secp256k1PrivateKey: KeychainStorableKey {
     var restorationIdentifier: String { "secp256k1+priv" }
     var storableData: Data { raw }
+    var type: Domain.KeychainStorableKeyProperties.KeyAlgorithm { .rawKey }
+    var keyClass: Domain.KeychainStorableKeyProperties.KeyType { .privateKey }
+    var accessiblity: Domain.KeychainStorableKeyProperties.Accessability? { .firstUnlock(deviceOnly: true) }
+    var synchronizable: Bool { false }
 }
 
 struct Secp256k1PublicKey: PublicKey {
@@ -75,8 +78,11 @@ struct Secp256k1PublicKey: PublicKey {
     }
 }
 
-extension Secp256k1PublicKey: StorableKey {
-    var securityLevel: SecurityLevel { SecurityLevel.low }
+extension Secp256k1PublicKey: KeychainStorableKey {
     var restorationIdentifier: String { "secp256k1+pub" }
     var storableData: Data { raw }
+    var type: Domain.KeychainStorableKeyProperties.KeyAlgorithm { .rawKey }
+    var keyClass: Domain.KeychainStorableKeyProperties.KeyType { .publicKey }
+    var accessiblity: Domain.KeychainStorableKeyProperties.Accessability? { .firstUnlock(deviceOnly: true) }
+    var synchronizable: Bool { false }
 }

@@ -1,24 +1,22 @@
+import Combine
 import Domain
 import Foundation
 import Mercury
 
 public struct MercuryBuilder {
-    let apollo: Apollo
     let castor: Castor
-    let pluto: Pluto
+    let secretsStream: AnyPublisher<[Domain.Secret], Error>
     let session: URLSession
     let timeout: TimeInterval
 
     public init(
-        apollo: Apollo,
         castor: Castor,
-        pluto: Pluto,
+        secretsStream: AnyPublisher<[Domain.Secret], Error>,
         session: URLSession = .shared,
         timeout: TimeInterval = 30
     ) {
-        self.apollo = apollo
         self.castor = castor
-        self.pluto = pluto
+        self.secretsStream = secretsStream
         self.session = session
         self.timeout = timeout
     }
@@ -27,9 +25,8 @@ public struct MercuryBuilder {
         MercuryImpl(
             session: session,
             timeout: timeout,
-            apollo: apollo,
-            castor: castor,
-            pluto: pluto
+            secretsStream: secretsStream,
+            castor: castor
         )
     }
 }

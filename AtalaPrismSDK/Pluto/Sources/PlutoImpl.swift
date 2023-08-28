@@ -3,14 +3,19 @@ import Domain
 public struct PlutoImpl {
     public struct PlutoSetup {
         public let coreDataSetup: CoreDataManager.CoreDataSetup
-
+        public let keychainService: String
+        public let keychainAccessGroup: String?
         public init(
             coreDataSetup: CoreDataManager.CoreDataSetup = .init(
                 modelPath: .storeName("PrismPluto"),
                 storeType: .persistent
-            )
+            ),
+            keychainService: String = "atala.prism.service",
+            keychainAccessGroup: String? = nil
         ) {
             self.coreDataSetup = coreDataSetup
+            self.keychainService = keychainService
+            self.keychainAccessGroup = keychainAccessGroup
         }
     }
 
@@ -23,11 +28,9 @@ public struct PlutoImpl {
     let credentialsDAO: CDCredentialDAO
     let linkSecretDao: CDLinkSecretDAO
     private let coreDataManager: CoreDataManager
-    private let keyRestoration: KeyRestoration
 
-    public init(setup: PlutoSetup = .init(), keyRestoration: KeyRestoration) {
+    public init(setup: PlutoSetup = .init()) {
         let manager = CoreDataManager(setup: setup.coreDataSetup)
-        self.keyRestoration = keyRestoration
         self.setup = setup
         self.coreDataManager = manager
         self.registeredDIDDao = CDRegisteredDIDDAO(
@@ -35,7 +38,8 @@ public struct PlutoImpl {
             writeContext: manager.editContext
         )
         let privateKeyDao = CDDIDPrivateKeyDAO(
-            keyRestoration: keyRestoration,
+            keychain: KeychainDAO(accessGroup: setup.keychainAccessGroup),
+            keychainService: setup.keychainService,
             readContext: manager.mainContext,
             writeContext: manager.editContext
         )

@@ -81,8 +81,8 @@ final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewM
                             let b64 = Data(base64URLEncoded: data.base64)!
                             let apollo = ApolloBuilder().build()
                             let castor = CastorBuilder(apollo: apollo).build()
-                            let pollux = PolluxBuilder(apollo: apollo, castor: castor).build()
-                            let credential = try pollux.parseCredential(data: b64)
+                            let pollux = PolluxBuilder().build()
+//                            let credential = try pollux.parseCredential(data: b64)
                         default:
                             return
                         }

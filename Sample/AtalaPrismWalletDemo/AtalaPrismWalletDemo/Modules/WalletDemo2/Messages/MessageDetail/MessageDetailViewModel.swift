@@ -176,12 +176,12 @@ private func getDomainAndChallenge(msg: Message) throws -> (domain: String, chal
         })
         .compactMap({ $0 })
         .first
-    else { throw PrismAgentError.offerDoesntProvideEnoughInformation }
+    else { throw PolluxError.offerDoesntProvideEnoughInformation }
     let jsonObject = try JSONSerialization.jsonObject(with: offerData)
     guard
         let domain = findValue(forKey: "domain", in: jsonObject),
         let challenge = findValue(forKey: "challenge", in: jsonObject)
-    else { throw PrismAgentError.offerDoesntProvideEnoughInformation }
+    else { throw PolluxError.offerDoesntProvideEnoughInformation }
     return (domain, challenge)
 }
 
