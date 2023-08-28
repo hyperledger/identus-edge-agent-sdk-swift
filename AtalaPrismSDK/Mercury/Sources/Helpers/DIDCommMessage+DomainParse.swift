@@ -6,6 +6,8 @@ import Foundation
 extension DIDCommxSwift.Message {
     init(domain: Domain.Message, mediaType: MediaType) throws {
         let jsonString = String(data: domain.body, encoding: .utf8) ?? "{}"
+        let from = domain.from?.string
+        let to = domain.to?.string
         self.init(
             id: domain.id,
             typ: mediaType.rawValue,

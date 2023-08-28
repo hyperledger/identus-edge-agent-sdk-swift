@@ -56,7 +56,12 @@ public extension PrismAgent {
             .first()
             .await()
 
-        guard let privateKey = didInfo?.privateKeys.first else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+        guard let storedPrivateKey = didInfo?.privateKeys.first else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+
+        let privateKey = try await apollo.restorePrivateKey(
+            identifier: storedPrivateKey.restorationIdentifier,
+            data: storedPrivateKey.storableData
+        )
 
         guard
             let exporting = privateKey.exporting,

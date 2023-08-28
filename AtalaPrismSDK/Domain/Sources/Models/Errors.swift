@@ -579,6 +579,49 @@ public enum PlutoError: KnownPrismError {
     /// An error case representing invalid JSON in a credential.
     case invalidCredentialJsonError
 
+    /// An error case representing an invalid combination of algorithm and key type.
+    ///
+    /// - Parameters:
+    ///   - algorithm: The algorithm used.
+    ///   - keyType: The key type that is associated with the algorithm.
+    case algorithmOrKeyTypeNotValid(algorithm: String, keyType: String)
+
+    /// An error case representing an issue with saving a key to the keychain.
+    ///
+    /// - Parameter status: The status code representing the error encountered while saving the key.
+    case errorSavingKeyOnKeychainWithStatus(OSStatus)
+
+    /// An error case indicating that while a key's item could be retrieved from the keychain, its data could not.
+    case errorRetrievingKeyDataInvalid
+
+    /// An error case indicating that a specific key was not found in the keychain.
+    ///
+    /// - Parameters:
+    ///   - service: Optional identifier for the service associated with the key.
+    ///   - account: Optional identifier for the account associated with the key.
+    ///   - applicationLabel: Optional label for the application associated with the key.
+    case errorRetrivingKeyFromKeychainKeyNotFound(service: String? = nil, account: String? = nil, applicationLabel: String? = nil)
+
+    /// An error case representing an issue with retrieving a key from the keychain.
+    ///
+    /// - Parameter status: The status code representing the error encountered while retrieving the key.
+    case errorRetrivingKeyFromKeychainWithStatus(OSStatus)
+
+    /// An error case indicating a failure to retrieve data from a `SecKey` object.
+    ///
+    /// - Parameters:
+    ///   - service: Optional identifier for the service associated with the key.
+    ///   - account: Optional identifier for the account associated with the key.
+    ///   - applicationLabel: Optional label for the application associated with the key.
+    case errorCouldNotRetrieveDataFromSecKeyObject(service: String? = nil, account: String? = nil, applicationLabel: String? = nil)
+
+    /// An error case indicating an issue with creating a `SecKey` object.
+    ///
+    /// - Parameters:
+    ///   - keyType: The type of the key that was being created.
+    ///   - keyClass: The class of the key being created.
+    case errorCreatingSecKey(keyType: String, keyClass: String)
+
     /// The error code returned by the server.
     public var code: Int {
         switch self {
@@ -592,6 +635,20 @@ public enum PlutoError: KnownPrismError {
             return 44
         case .invalidCredentialJsonError:
             return 45
+        case .algorithmOrKeyTypeNotValid:
+            return 46
+        case .errorSavingKeyOnKeychainWithStatus:
+            return 47
+        case .errorRetrievingKeyDataInvalid:
+            return 48
+        case .errorRetrivingKeyFromKeychainKeyNotFound:
+            return 49
+        case .errorRetrivingKeyFromKeychainWithStatus:
+            return 50
+        case .errorCouldNotRetrieveDataFromSecKeyObject:
+            return 51
+        case .errorCreatingSecKey:
+            return 52
         }
     }
 
@@ -614,6 +671,32 @@ public enum PlutoError: KnownPrismError {
             return "Could not decode the credential JSON"
         case .unknownCredentialTypeError:
             return "The credential type needs to be JWT or W3C"
+        case .algorithmOrKeyTypeNotValid(algorithm: let algorithm, keyType: let keyType):
+            return "This algorithm (\(algorithm)) or key type (\(keyType)) are not valid on the platform"
+        case .errorSavingKeyOnKeychainWithStatus(let status):
+            return "Error saving key on keychain with the following status code: \(status)"
+        case .errorRetrievingKeyDataInvalid:
+            return "Could retrieve item from keychain but could not retrieve Data of key"
+        case .errorRetrivingKeyFromKeychainKeyNotFound(let service, let account, let applicationLabel):
+            var message = "Key not found"
+            if let service, let account {
+                message += " service: \(service) and account: \(account)"
+            } else if let applicationLabel {
+                message += " applicationLabel: \(applicationLabel)"
+            }
+            return message
+        case .errorRetrivingKeyFromKeychainWithStatus(let status):
+            return "Error retrieving key from keychain with the following status code: \(status)"
+        case .errorCouldNotRetrieveDataFromSecKeyObject(let service, let account, let applicationLabel):
+            var message = "Key not found"
+            if let service, let account {
+                message += " service: \(service) and account: \(account)"
+            } else if let applicationLabel {
+                message += " applicationLabel: \(applicationLabel)"
+            }
+            return message
+        case .errorCreatingSecKey(let keyType, let keyClass):
+            return "Error creating sec key of type \(keyType) and class \(keyClass)"
         }
     }
 }

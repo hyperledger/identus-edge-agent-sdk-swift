@@ -30,7 +30,7 @@ public extension PrismAgent {
             .await()
 
         guard
-            let privateKey = info?.privateKeys.first
+            let storedPrivateKey = info?.privateKeys.first
         else {
             logger.error(
                 message: """
@@ -39,6 +39,11 @@ Could not find key in storage please use Castor instead and provide the private 
             )
             throw PrismAgentError.cannotFindDIDKeyPairIndex
         }
+
+        let privateKey = try await apollo.restorePrivateKey(
+            identifier: storedPrivateKey.restorationIdentifier,
+            data: storedPrivateKey.storableData
+        )
 
         logger.debug(message: "Signing message", metadata: [
             .maskedMetadataByLevel(key: "messageB64", value: message.base64Encoded(), level: .debug)

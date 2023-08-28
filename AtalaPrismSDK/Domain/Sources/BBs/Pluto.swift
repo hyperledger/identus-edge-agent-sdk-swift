@@ -23,7 +23,7 @@ public protocol Pluto {
     /// - Returns: A publisher that completes when the operation finishes.
     func storePeerDID(
         did: DID,
-        privateKeys: [PrivateKey & StorableKey],
+        privateKeys: [StorableKey],
         alias: String?
     ) -> AnyPublisher<Void, Error>
 
@@ -35,7 +35,7 @@ public protocol Pluto {
     /// - Returns: A publisher that completes when the operation finishes.
     func storeDID(
         did: DID,
-        privateKeys: [PrivateKey & StorableKey],
+        privateKeys: [StorableKey],
         alias: String?
     ) -> AnyPublisher<Void, Error>
 
@@ -108,41 +108,41 @@ public protocol Pluto {
 
     /// Returns all stored peer DIDs, along with their associated private keys and aliases (if any).
     /// - Returns: A publisher that emits an array of tuples representing the stored peer DIDs, along with their associated private keys and aliases (if any).
-    func getAllPeerDIDs() -> AnyPublisher<[(did: DID, privateKeys: [PrivateKey], alias: String?)], Error>
+    func getAllPeerDIDs() -> AnyPublisher<[(did: DID, privateKeys: [StorableKey], alias: String?)], Error>
 
     /// Returns the stored information for a given peer DID, including the associated private keys and alias (if any).
     /// - Parameter did: The peer DID to retrieve information for.
     /// - Returns: A publisher that emits an optional tuple containing the stored information for the given peer DID.
-    func getPeerDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKeys: [PrivateKey], alias: String?)?, Error>
+    func getPeerDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKeys: [StorableKey], alias: String?)?, Error>
 
     /// Returns the stored information for all peer DIDs that have a given alias, including the associated DIDs and private keys.
     /// - Parameter alias: The alias to search for.
     /// - Returns: A publisher that emits an array of tuples containing the stored information for the peer DIDs that have the given alias.
-    func getPeerDIDInfo(alias: String) -> AnyPublisher<[(did: DID, privateKeys: [PrivateKey], alias: String?)], Error>
+    func getPeerDIDInfo(alias: String) -> AnyPublisher<[(did: DID, privateKeys: [StorableKey], alias: String?)], Error>
 
     /// Returns the private keys associated with a given peer DID.
     /// - Parameter did: The peer DID to retrieve the private keys for.
     /// - Returns: A publisher that emits an optional array of private keys associated with the given peer DID.
-    func getPeerDIDPrivateKeys(did: DID) -> AnyPublisher<[PrivateKey]?, Error>
+    func getPeerDIDPrivateKeys(did: DID) -> AnyPublisher<[StorableKey]?, Error>
 
     /// Returns all stored peer DIDs, along with their associated private keys and aliases (if any).
     /// - Returns: A publisher that emits an array of tuples representing the stored peer DIDs, along with their associated private keys and aliases (if any).
-    func getAllDIDs() -> AnyPublisher<[(did: DID, privateKeys: [PrivateKey], alias: String?)], Error>
+    func getAllDIDs() -> AnyPublisher<[(did: DID, privateKeys: [StorableKey], alias: String?)], Error>
 
     /// Returns the stored information for a given peer DID, including the associated private keys and alias (if any).
     /// - Parameter did: The peer DID to retrieve information for.
     /// - Returns: A publisher that emits an optional tuple containing the stored information for the given peer DID.
-    func getDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKeys: [PrivateKey], alias: String?)?, Error>
+    func getDIDInfo(did: DID) -> AnyPublisher<(did: DID, privateKeys: [StorableKey], alias: String?)?, Error>
 
     /// Returns the stored information for all peer DIDs that have a given alias, including the associated DIDs and private keys.
     /// - Parameter alias: The alias to search for.
     /// - Returns: A publisher that emits an array of tuples containing the stored information for the peer DIDs that have the given alias.
-    func getDIDInfo(alias: String) -> AnyPublisher<[(did: DID, privateKeys: [PrivateKey], alias: String?)], Error>
+    func getDIDInfo(alias: String) -> AnyPublisher<[(did: DID, privateKeys: [StorableKey], alias: String?)], Error>
 
     /// Returns the private keys associated with a given peer DID.
     /// - Parameter did: The peer DID to retrieve the private keys for.
     /// - Returns: A publisher that emits an optional array of private keys associated with the given peer DID.
-    func getDIDPrivateKeys(did: DID) -> AnyPublisher<[PrivateKey]?, Error>
+    func getDIDPrivateKeys(did: DID) -> AnyPublisher<[StorableKey]?, Error>
 
     /// Returns all stored DID pairs.
     /// - Returns: A publisher that emits an array of DID pairs.
