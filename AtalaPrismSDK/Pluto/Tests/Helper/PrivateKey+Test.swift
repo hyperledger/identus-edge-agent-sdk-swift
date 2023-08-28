@@ -7,7 +7,6 @@ struct MockPrivateKey: PrivateKey, StorableKey, Equatable {
     let size = 0
     let raw: Data
 
-    let securityLevel = SecurityLevel.high
     let restorationIdentifier = "MockPrivate"
     var storableData: Data { raw }
 
@@ -35,7 +34,6 @@ struct MockPrivateKey: PrivateKey, StorableKey, Equatable {
 }
 
 struct MockPublicKey: PublicKey, Equatable {
-    let securityLevel = SecurityLevel.low
     let keyType = "testEC"
     let keySpecifications = [String : String]()
     let size = 0

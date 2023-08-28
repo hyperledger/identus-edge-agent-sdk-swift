@@ -4,7 +4,7 @@ protocol MediatorPageViewModel: ObservableObject {
     var mediator: MediatorPageStateView.Mediator? { get }
     var agentRunning: Bool { get }
     var loading: Bool { get }
-    var error: FancyToast? { get }
+    var error: FancyToast? { get set }
 
     func startAgent(mediatorDID: String)
     func stopAgent()
@@ -48,6 +48,7 @@ struct MediatorPageView<ViewModel: MediatorPageViewModel>: View {
                 }
             }
             .padding()
+            .toastView(toast: $viewModel.error)
         }
     }
 }

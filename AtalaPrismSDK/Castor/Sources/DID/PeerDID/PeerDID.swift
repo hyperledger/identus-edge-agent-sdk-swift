@@ -44,8 +44,8 @@ struct PeerDID {
             let type = try container.decode(String.self, forKey: .type)
             self.type = type == "dm" ? "DIDCommMessaging" : type
             self.serviceEndpoint = try container.decode(String.self, forKey: .serviceEndpoint)
-            self.routingKeys = (try? container.decode([String].self, forKey: .routingKeys)) ?? []
-            self.accept = (try? container.decode([String].self, forKey: .accept)) ?? []
+            self.routingKeys = try container.decodeIfPresent([String].self, forKey: .routingKeys) ?? []
+            self.accept = try container.decodeIfPresent([String].self, forKey: .accept) ?? []
         }
     }
 

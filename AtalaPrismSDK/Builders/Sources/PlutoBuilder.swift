@@ -3,14 +3,12 @@ import Pluto
 
 public struct PlutoBuilder {
     let setup: PlutoImpl.PlutoSetup
-    let keyRestoration: KeyRestoration
 
-    public init(setup: PlutoImpl.PlutoSetup = .init(), keyRestoration: KeyRestoration) {
+    public init(setup: PlutoImpl.PlutoSetup = .init()) {
         self.setup = setup
-        self.keyRestoration = keyRestoration
     }
 
     public func build() -> Pluto {
-        PlutoImpl(setup: setup, keyRestoration: keyRestoration)
+        PlutoImpl(setup: setup)
     }
 }

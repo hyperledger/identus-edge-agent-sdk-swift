@@ -17,8 +17,8 @@ class DIDCommDIDResolverWrapper {
 
     fileprivate func resolve(did: String) {
         Task { [weak self] in
-            let document = try await castor.resolveDID(did: DID(string: did))
-            self?.publisher.send(document)
+            let document = try await self?.castor.resolveDID(did: DID(string: did))
+            document.map { self?.publisher.send($0) }
         }
     }
 }

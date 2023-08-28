@@ -6,11 +6,21 @@ extension CDDIDPrivateKey {
         return NSFetchRequest<CDDIDPrivateKey>(entityName: "CDDIDPrivateKey")
     }
 
-    // TODO: For time reasons the solution was to add this fields. In the future change this to be an array.
-    @NSManaged var privateKeyAuthenticate: Data?
-    @NSManaged var privateKeyKeyAgreement: Data?
-    @NSManaged var curveKeyAgreement: String?
-    @NSManaged var curveAuthenticate: String?
     @NSManaged var alias: String?
     @NSManaged var pair: CDDIDPair?
+    @NSManaged var keys: Set<CDKey>
+}
+
+extension CDDIDPrivateKey {
+    @objc(addKeysObject:)
+    @NSManaged func addToKeys(_ value: CDKey)
+
+    @objc(removeKeysObject:)
+    @NSManaged func removeFromKeys(_ value: CDKey)
+
+    @objc(addKeys:)
+    @NSManaged func addToKeys(_ values: Set<CDKey>)
+
+    @objc(removeKeys:)
+    @NSManaged func removeFromKeys(_ values: Set<CDKey>)
 }
