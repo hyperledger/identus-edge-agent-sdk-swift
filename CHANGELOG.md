@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.1.0...3.2.0) (2023-08-28)
+
+
+### Features
+
+* **pollux:** add anoncreds issuance ([0d474a9](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/0d474a9e5910fa8540f0e9915e96433add543364))
+
 # [3.1.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.0.0...3.1.0) (2023-08-07)
 
 
