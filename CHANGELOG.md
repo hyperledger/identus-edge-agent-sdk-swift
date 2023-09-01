@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.2.0...3.2.1) (2023-09-01)
+
+
+### Bug Fixes
+
+* did url string parsing correctly ([93a3eb4](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/93a3eb4a5ddfedc46b2816e38a18f56fa5b551a7))
+
 # [3.2.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.1.0...3.2.0) (2023-08-28)
 
 
