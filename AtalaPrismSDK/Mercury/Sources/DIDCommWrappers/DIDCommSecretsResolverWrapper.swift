@@ -172,7 +172,7 @@ extension DIDCommxSwift.Secret {
 
         switch from.secretMaterial {
         case let .jwk(value):
-            material = .jwk(privateKeyJwk: value)
+            material = .jwk(value: value)
         }
         self.init(
             id: from.id,
