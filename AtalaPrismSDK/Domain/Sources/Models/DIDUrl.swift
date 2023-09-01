@@ -41,7 +41,7 @@ public struct DIDUrl {
 
     /// A string representation of the path component of this `DIDUrl`.
     private var pathString: String {
-        "/" + path.joined(separator: "/")
+        path.isEmpty ? "" : "/" + path.joined(separator: "/")
     }
 
     /// A string representation of the parameters component of this `DIDUrl`.
