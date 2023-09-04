@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>SecurityLevel Enumeration Reference</title>
+    <title>KeychainStorableKeyProperties Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/SecurityLevel" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/KeychainStorableKeyProperties" class="dashAnchor"></a>
 
-    <a title="SecurityLevel Enumeration Reference"></a>
+    <a title="KeychainStorableKeyProperties Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">Castor Reference</a>
       <img class="carat" src="../img/carat.png" alt=""/>
-      SecurityLevel Enumeration Reference
+      KeychainStorableKeyProperties Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -251,9 +251,6 @@
                 <a class="nav-group-task-link" href="../Enums/ProtocolTypes.html">ProtocolTypes</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/SecurityLevel.html">SecurityLevel</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/UnknownError.html">UnknownError</a>
               </li>
               <li class="nav-group-task">
@@ -299,6 +296,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/CDDID.html">CDDID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDKey">CDKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDLinkSecret">CDLinkSecret</a>
@@ -388,6 +388,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/KeyRestoration.html">KeyRestoration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/KeychainStorableKey.html">KeychainStorableKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/KnownPrismError.html">KnownPrismError</a>
@@ -551,6 +554,18 @@
                 <a class="nav-group-task-link" href="../Structs/JWK.html">JWK</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties.html">KeychainStorableKeyProperties</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/KeyType.html">– KeyType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/Accessability.html">– Accessability</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/KeyAlgorithm.html">– KeyAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Structs.html#/s:10PrismAgent8MediatorV">Mediator</a>
               </li>
               <li class="nav-group-task">
@@ -659,15 +674,15 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>SecurityLevel</h1>
+            <h1>KeychainStorableKeyProperties</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SecurityLevel</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">KeychainStorableKeyProperties</span></code></pre>
 
                 </div>
               </div>
-            <p>The <code>SecurityLevel</code> enumeration represents different levels of security that can be associated with a <code><a href="../Protocols/StorableKey.html">StorableKey</a></code>.</p>
+            <p>Represents properties required for storing keys in a keychain.</p>
 
           </div>
         </section>
@@ -679,9 +694,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain13SecurityLevelO4highyA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/high" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain13SecurityLevelO4highyA2CmF">high</a>
+                    <a name="/s:6Domain29KeychainStorableKeyPropertiesV0D4TypeO"></a>
+                    <a name="//apple_ref/swift/Enum/KeyType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain29KeychainStorableKeyPropertiesV0D4TypeO">KeyType</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -689,14 +704,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The &lsquo;high&rsquo; case represents a high level of security.</p>
+                        <p>Represents the type of cryptographic key.</p>
 
+                        <a href="../Structs/KeychainStorableKeyProperties/KeyType.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">high</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">KeyType</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -706,9 +722,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain13SecurityLevelO3lowyA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/low" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain13SecurityLevelO3lowyA2CmF">low</a>
+                    <a name="/s:6Domain29KeychainStorableKeyPropertiesV13AccessabilityO"></a>
+                    <a name="//apple_ref/swift/Enum/Accessability" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain29KeychainStorableKeyPropertiesV13AccessabilityO">Accessability</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -716,14 +732,43 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The &lsquo;low&rsquo; case represents a low level of security.</p>
+                        <p>Represents the accessibility of the key in the keychain.</p>
 
+                        <a href="../Structs/KeychainStorableKeyProperties/Accessability.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">low</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Accessability</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain29KeychainStorableKeyPropertiesV0D9AlgorithmO"></a>
+                    <a name="//apple_ref/swift/Enum/KeyAlgorithm" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain29KeychainStorableKeyPropertiesV0D9AlgorithmO">KeyAlgorithm</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Represents the cryptographic algorithm of the key.</p>
+
+                        <a href="../Structs/KeychainStorableKeyProperties/KeyAlgorithm.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">KeyAlgorithm</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -738,7 +783,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-01)</p>
+      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

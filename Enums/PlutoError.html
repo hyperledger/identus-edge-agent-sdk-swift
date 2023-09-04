@@ -251,9 +251,6 @@
                 <a class="nav-group-task-link" href="../Enums/ProtocolTypes.html">ProtocolTypes</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/SecurityLevel.html">SecurityLevel</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/UnknownError.html">UnknownError</a>
               </li>
               <li class="nav-group-task">
@@ -299,6 +296,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/CDDID.html">CDDID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDKey">CDKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDLinkSecret">CDLinkSecret</a>
@@ -388,6 +388,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/KeyRestoration.html">KeyRestoration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/KeychainStorableKey.html">KeychainStorableKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/KnownPrismError.html">KnownPrismError</a>
@@ -549,6 +552,18 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/JWK.html">JWK</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties.html">KeychainStorableKeyProperties</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/KeyType.html">– KeyType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/Accessability.html">– Accessability</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/KeyAlgorithm.html">– KeyAlgorithm</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Structs.html#/s:10PrismAgent8MediatorV">Mediator</a>
@@ -905,6 +920,381 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:6Domain10PlutoErrorO26algorithmOrKeyTypeNotValidyACSS_SStcACmF"></a>
+                    <a name="//apple_ref/swift/Element/algorithmOrKeyTypeNotValid(algorithm:keyType:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain10PlutoErrorO26algorithmOrKeyTypeNotValidyACSS_SStcACmF">algorithmOrKeyTypeNotValid(algorithm:<wbr>keyType:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An error case representing an invalid combination of algorithm and key type.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">algorithmOrKeyTypeNotValid</span><span class="p">(</span><span class="nv">algorithm</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">keyType</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>algorithm</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The algorithm used.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key type that is associated with the algorithm.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain10PlutoErrorO34errorSavingKeyOnKeychainWithStatusyACs5Int32VcACmF"></a>
+                    <a name="//apple_ref/swift/Element/errorSavingKeyOnKeychainWithStatus(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain10PlutoErrorO34errorSavingKeyOnKeychainWithStatusyACs5Int32VcACmF">errorSavingKeyOnKeychainWithStatus(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An error case representing an issue with saving a key to the keychain.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">errorSavingKeyOnKeychainWithStatus</span><span class="p">(</span><span class="kt">OSStatus</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>status</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The status code representing the error encountered while saving the key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain10PlutoErrorO29errorRetrievingKeyDataInvalidyA2CmF"></a>
+                    <a name="//apple_ref/swift/Element/errorRetrievingKeyDataInvalid" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain10PlutoErrorO29errorRetrievingKeyDataInvalidyA2CmF">errorRetrievingKeyDataInvalid</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An error case indicating that while a key&rsquo;s item could be retrieved from the keychain, its data could not.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">errorRetrievingKeyDataInvalid</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain10PlutoErrorO029errorRetrivingKeyFromKeychainF8NotFoundyACSSSg_A2EtcACmF"></a>
+                    <a name="//apple_ref/swift/Element/errorRetrivingKeyFromKeychainKeyNotFound(service:account:applicationLabel:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain10PlutoErrorO029errorRetrivingKeyFromKeychainF8NotFoundyACSSSg_A2EtcACmF">errorRetrivingKeyFromKeychainKeyNotFound(service:<wbr>account:<wbr>applicationLabel:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An error case indicating that a specific key was not found in the keychain.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">errorRetrivingKeyFromKeychainKeyNotFound</span><span class="p">(</span><span class="nv">service</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">account</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">applicationLabel</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>service</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional identifier for the service associated with the key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>account</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional identifier for the account associated with the key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>applicationLabel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional label for the application associated with the key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain10PlutoErrorO39errorRetrivingKeyFromKeychainWithStatusyACs5Int32VcACmF"></a>
+                    <a name="//apple_ref/swift/Element/errorRetrivingKeyFromKeychainWithStatus(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain10PlutoErrorO39errorRetrivingKeyFromKeychainWithStatusyACs5Int32VcACmF">errorRetrivingKeyFromKeychainWithStatus(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An error case representing an issue with retrieving a key from the keychain.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">errorRetrivingKeyFromKeychainWithStatus</span><span class="p">(</span><span class="kt">OSStatus</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>status</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The status code representing the error encountered while retrieving the key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain10PlutoErrorO41errorCouldNotRetrieveDataFromSecKeyObjectyACSSSg_A2EtcACmF"></a>
+                    <a name="//apple_ref/swift/Element/errorCouldNotRetrieveDataFromSecKeyObject(service:account:applicationLabel:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain10PlutoErrorO41errorCouldNotRetrieveDataFromSecKeyObjectyACSSSg_A2EtcACmF">errorCouldNotRetrieveDataFromSecKeyObject(service:<wbr>account:<wbr>applicationLabel:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An error case indicating a failure to retrieve data from a <code>SecKey</code> object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">errorCouldNotRetrieveDataFromSecKeyObject</span><span class="p">(</span><span class="nv">service</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">account</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">applicationLabel</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>service</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional identifier for the service associated with the key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>account</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional identifier for the account associated with the key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>applicationLabel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional label for the application associated with the key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6Domain10PlutoErrorO19errorCreatingSecKeyyACSS_SStcACmF"></a>
+                    <a name="//apple_ref/swift/Element/errorCreatingSecKey(keyType:keyClass:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6Domain10PlutoErrorO19errorCreatingSecKeyyACSS_SStcACmF">errorCreatingSecKey(keyType:<wbr>keyClass:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An error case indicating an issue with creating a <code>SecKey</code> object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">errorCreatingSecKey</span><span class="p">(</span><span class="nv">keyType</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">keyClass</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The type of the key that was being created.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keyClass</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The class of the key being created.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:6Domain10PlutoErrorO4codeSivp"></a>
                     <a name="//apple_ref/swift/Property/code" class="dashAnchor"></a>
                     <a class="token" href="#/s:6Domain10PlutoErrorO4codeSivp">code</a>
@@ -999,7 +1389,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-01)</p>
+      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

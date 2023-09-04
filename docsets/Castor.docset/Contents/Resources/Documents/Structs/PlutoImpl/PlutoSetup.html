@@ -251,9 +251,6 @@
                 <a class="nav-group-task-link" href="../../Enums/ProtocolTypes.html">ProtocolTypes</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../../Enums/SecurityLevel.html">SecurityLevel</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../../Enums/UnknownError.html">UnknownError</a>
               </li>
               <li class="nav-group-task">
@@ -299,6 +296,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../../Extensions/CDDID.html">CDDID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDKey">CDKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDLinkSecret">CDLinkSecret</a>
@@ -388,6 +388,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../../Protocols/KeyRestoration.html">KeyRestoration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../../Protocols/KeychainStorableKey.html">KeychainStorableKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../../Protocols/KnownPrismError.html">KnownPrismError</a>
@@ -551,6 +554,18 @@
                 <a class="nav-group-task-link" href="../../Structs/JWK.html">JWK</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../../Structs/KeychainStorableKeyProperties.html">KeychainStorableKeyProperties</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../../Structs/KeychainStorableKeyProperties/KeyType.html">– KeyType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../../Structs/KeychainStorableKeyProperties/Accessability.html">– Accessability</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../../Structs/KeychainStorableKeyProperties/KeyAlgorithm.html">– KeyAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../../Other%20Structs.html#/s:10PrismAgent8MediatorV">Mediator</a>
               </li>
               <li class="nav-group-task">
@@ -704,9 +719,61 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:5Pluto0A4ImplV0A5SetupV08coreDataC0AeA04CoreE7ManagerC0feC0V_tcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(coreDataSetup:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:5Pluto0A4ImplV0A5SetupV08coreDataC0AeA04CoreE7ManagerC0feC0V_tcfc">init(coreDataSetup:<wbr>)</a>
+                    <a name="/s:5Pluto0A4ImplV0A5SetupV15keychainServiceSSvp"></a>
+                    <a name="//apple_ref/swift/Property/keychainService" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Pluto0A4ImplV0A5SetupV15keychainServiceSSvp">keychainService</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">keychainService</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Pluto0A4ImplV0A5SetupV19keychainAccessGroupSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/keychainAccessGroup" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Pluto0A4ImplV0A5SetupV19keychainAccessGroupSSSgvp">keychainAccessGroup</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">keychainAccessGroup</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5Pluto0A4ImplV0A5SetupV08coreDataC015keychainService0F11AccessGroupAeA04CoreE7ManagerC0jeC0V_S2SSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(coreDataSetup:keychainService:keychainAccessGroup:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5Pluto0A4ImplV0A5SetupV08coreDataC015keychainService0F11AccessGroupAeA04CoreE7ManagerC0jeC0V_S2SSgtcfc">init(coreDataSetup:<wbr>keychainService:<wbr>keychainAccessGroup:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -724,7 +791,9 @@
     <span class="nv">coreDataSetup</span><span class="p">:</span> <span class="kt"><a href="../../Classes/CoreDataManager.html">CoreDataManager</a></span><span class="o">.</span><span class="kt">CoreDataSetup</span> <span class="o">=</span> <span class="o">.</span><span class="nf">init</span><span class="p">(</span>
         <span class="nv">modelPath</span><span class="p">:</span> <span class="o">.</span><span class="nf">storeName</span><span class="p">(</span><span class="s">"PrismPluto"</span><span class="p">),</span>
         <span class="nv">storeType</span><span class="p">:</span> <span class="o">.</span><span class="n">persistent</span>
-    <span class="p">)</span>
+    <span class="p">),</span>
+    <span class="nv">keychainService</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"atala.prism.service"</span><span class="p">,</span>
+    <span class="nv">keychainAccessGroup</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -740,7 +809,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-01)</p>
+      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

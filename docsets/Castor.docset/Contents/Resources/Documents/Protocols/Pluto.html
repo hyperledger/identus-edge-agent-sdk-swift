@@ -251,9 +251,6 @@
                 <a class="nav-group-task-link" href="../Enums/ProtocolTypes.html">ProtocolTypes</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/SecurityLevel.html">SecurityLevel</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/UnknownError.html">UnknownError</a>
               </li>
               <li class="nav-group-task">
@@ -299,6 +296,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/CDDID.html">CDDID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDKey">CDKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDLinkSecret">CDLinkSecret</a>
@@ -388,6 +388,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/KeyRestoration.html">KeyRestoration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/KeychainStorableKey.html">KeychainStorableKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/KnownPrismError.html">KnownPrismError</a>
@@ -549,6 +552,18 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/JWK.html">JWK</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties.html">KeychainStorableKeyProperties</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/KeyType.html">– KeyType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/Accessability.html">– Accessability</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/KeyAlgorithm.html">– KeyAlgorithm</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Structs.html#/s:10PrismAgent8MediatorV">Mediator</a>
@@ -757,9 +772,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain5PlutoP12storePeerDID3did11privateKeys5alias7Combine12AnyPublisherVyyts5Error_pGAA0E0V_SayAA10PrivateKey_AA08StorableO0pGSSSgtF"></a>
+                    <a name="/s:6Domain5PlutoP12storePeerDID3did11privateKeys5alias7Combine12AnyPublisherVyyts5Error_pGAA0E0V_SayAA11StorableKey_pGSSSgtF"></a>
                     <a name="//apple_ref/swift/Method/storePeerDID(did:privateKeys:alias:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain5PlutoP12storePeerDID3did11privateKeys5alias7Combine12AnyPublisherVyyts5Error_pGAA0E0V_SayAA10PrivateKey_AA08StorableO0pGSSSgtF">storePeerDID(did:<wbr>privateKeys:<wbr>alias:<wbr>)</a>
+                    <a class="token" href="#/s:6Domain5PlutoP12storePeerDID3did11privateKeys5alias7Combine12AnyPublisherVyyts5Error_pGAA0E0V_SayAA11StorableKey_pGSSSgtF">storePeerDID(did:<wbr>privateKeys:<wbr>alias:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -776,7 +791,7 @@
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">storePeerDID</span><span class="p">(</span>
     <span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span>
-    <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/PrivateKey.html">PrivateKey</a></span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">],</span>
+    <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">],</span>
     <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -835,9 +850,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain5PlutoP8storeDID3did11privateKeys5alias7Combine12AnyPublisherVyyts5Error_pGAA0D0V_SayAA10PrivateKey_AA08StorableN0pGSSSgtF"></a>
+                    <a name="/s:6Domain5PlutoP8storeDID3did11privateKeys5alias7Combine12AnyPublisherVyyts5Error_pGAA0D0V_SayAA11StorableKey_pGSSSgtF"></a>
                     <a name="//apple_ref/swift/Method/storeDID(did:privateKeys:alias:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain5PlutoP8storeDID3did11privateKeys5alias7Combine12AnyPublisherVyyts5Error_pGAA0D0V_SayAA10PrivateKey_AA08StorableN0pGSSSgtF">storeDID(did:<wbr>privateKeys:<wbr>alias:<wbr>)</a>
+                    <a class="token" href="#/s:6Domain5PlutoP8storeDID3did11privateKeys5alias7Combine12AnyPublisherVyyts5Error_pGAA0D0V_SayAA11StorableKey_pGSSSgtF">storeDID(did:<wbr>privateKeys:<wbr>alias:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -854,7 +869,7 @@
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">storeDID</span><span class="p">(</span>
     <span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span>
-    <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/PrivateKey.html">PrivateKey</a></span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">],</span>
+    <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">],</span>
     <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
@@ -1448,9 +1463,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain5PlutoP14getAllPeerDIDs7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKey_pG11privateKeysSSSg5aliastGs5Error_pGyF"></a>
+                    <a name="/s:6Domain5PlutoP14getAllPeerDIDs7Combine12AnyPublisherVySayAA3DIDV3did_SayAA11StorableKey_pG11privateKeysSSSg5aliastGs5Error_pGyF"></a>
                     <a name="//apple_ref/swift/Method/getAllPeerDIDs()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain5PlutoP14getAllPeerDIDs7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKey_pG11privateKeysSSSg5aliastGs5Error_pGyF">getAllPeerDIDs()</a>
+                    <a class="token" href="#/s:6Domain5PlutoP14getAllPeerDIDs7Combine12AnyPublisherVySayAA3DIDV3did_SayAA11StorableKey_pG11privateKeysSSSg5aliastGs5Error_pGyF">getAllPeerDIDs()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1465,7 +1480,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllPeerDIDs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/PrivateKey.html">PrivateKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllPeerDIDs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1479,9 +1494,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain5PlutoP14getPeerDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_SayAA10PrivateKey_pG11privateKeysSSSg5aliastSgs5Error_pGAJ_tF"></a>
+                    <a name="/s:6Domain5PlutoP14getPeerDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_SayAA11StorableKey_pG11privateKeysSSSg5aliastSgs5Error_pGAJ_tF"></a>
                     <a name="//apple_ref/swift/Method/getPeerDIDInfo(did:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain5PlutoP14getPeerDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_SayAA10PrivateKey_pG11privateKeysSSSg5aliastSgs5Error_pGAJ_tF">getPeerDIDInfo(did:<wbr>)</a>
+                    <a class="token" href="#/s:6Domain5PlutoP14getPeerDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_SayAA11StorableKey_pG11privateKeysSSSg5aliastSgs5Error_pGAJ_tF">getPeerDIDInfo(did:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1496,7 +1511,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPeerDIDInfo</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/PrivateKey.html">PrivateKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPeerDIDInfo</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1529,9 +1544,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain5PlutoP14getPeerDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKey_pG11privateKeysSSSgAEtGs5Error_pGSS_tF"></a>
+                    <a name="/s:6Domain5PlutoP14getPeerDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_SayAA11StorableKey_pG11privateKeysSSSgAEtGs5Error_pGSS_tF"></a>
                     <a name="//apple_ref/swift/Method/getPeerDIDInfo(alias:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain5PlutoP14getPeerDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKey_pG11privateKeysSSSgAEtGs5Error_pGSS_tF">getPeerDIDInfo(alias:<wbr>)</a>
+                    <a class="token" href="#/s:6Domain5PlutoP14getPeerDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_SayAA11StorableKey_pG11privateKeysSSSgAEtGs5Error_pGSS_tF">getPeerDIDInfo(alias:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1546,7 +1561,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPeerDIDInfo</span><span class="p">(</span><span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/PrivateKey.html">PrivateKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPeerDIDInfo</span><span class="p">(</span><span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1579,9 +1594,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain5PlutoP21getPeerDIDPrivateKeys3did7Combine12AnyPublisherVySayAA10PrivateKey_pGSgs5Error_pGAA3DIDV_tF"></a>
+                    <a name="/s:6Domain5PlutoP21getPeerDIDPrivateKeys3did7Combine12AnyPublisherVySayAA11StorableKey_pGSgs5Error_pGAA3DIDV_tF"></a>
                     <a name="//apple_ref/swift/Method/getPeerDIDPrivateKeys(did:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain5PlutoP21getPeerDIDPrivateKeys3did7Combine12AnyPublisherVySayAA10PrivateKey_pGSgs5Error_pGAA3DIDV_tF">getPeerDIDPrivateKeys(did:<wbr>)</a>
+                    <a class="token" href="#/s:6Domain5PlutoP21getPeerDIDPrivateKeys3did7Combine12AnyPublisherVySayAA11StorableKey_pGSgs5Error_pGAA3DIDV_tF">getPeerDIDPrivateKeys(did:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1596,7 +1611,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPeerDIDPrivateKeys</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Protocols/PrivateKey.html">PrivateKey</a></span><span class="p">]?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getPeerDIDPrivateKeys</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">]?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1629,9 +1644,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain5PlutoP10getAllDIDs7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKey_pG11privateKeysSSSg5aliastGs5Error_pGyF"></a>
+                    <a name="/s:6Domain5PlutoP10getAllDIDs7Combine12AnyPublisherVySayAA3DIDV3did_SayAA11StorableKey_pG11privateKeysSSSg5aliastGs5Error_pGyF"></a>
                     <a name="//apple_ref/swift/Method/getAllDIDs()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain5PlutoP10getAllDIDs7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKey_pG11privateKeysSSSg5aliastGs5Error_pGyF">getAllDIDs()</a>
+                    <a class="token" href="#/s:6Domain5PlutoP10getAllDIDs7Combine12AnyPublisherVySayAA3DIDV3did_SayAA11StorableKey_pG11privateKeysSSSg5aliastGs5Error_pGyF">getAllDIDs()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1646,7 +1661,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllDIDs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/PrivateKey.html">PrivateKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getAllDIDs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1660,9 +1675,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain5PlutoP10getDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_SayAA10PrivateKey_pG11privateKeysSSSg5aliastSgs5Error_pGAJ_tF"></a>
+                    <a name="/s:6Domain5PlutoP10getDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_SayAA11StorableKey_pG11privateKeysSSSg5aliastSgs5Error_pGAJ_tF"></a>
                     <a name="//apple_ref/swift/Method/getDIDInfo(did:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain5PlutoP10getDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_SayAA10PrivateKey_pG11privateKeysSSSg5aliastSgs5Error_pGAJ_tF">getDIDInfo(did:<wbr>)</a>
+                    <a class="token" href="#/s:6Domain5PlutoP10getDIDInfo3did7Combine12AnyPublisherVyAA3DIDVAE_SayAA11StorableKey_pG11privateKeysSSSg5aliastSgs5Error_pGAJ_tF">getDIDInfo(did:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1677,7 +1692,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getDIDInfo</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/PrivateKey.html">PrivateKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getDIDInfo</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1710,9 +1725,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain5PlutoP10getDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKey_pG11privateKeysSSSgAEtGs5Error_pGSS_tF"></a>
+                    <a name="/s:6Domain5PlutoP10getDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_SayAA11StorableKey_pG11privateKeysSSSgAEtGs5Error_pGSS_tF"></a>
                     <a name="//apple_ref/swift/Method/getDIDInfo(alias:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain5PlutoP10getDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_SayAA10PrivateKey_pG11privateKeysSSSgAEtGs5Error_pGSS_tF">getDIDInfo(alias:<wbr>)</a>
+                    <a class="token" href="#/s:6Domain5PlutoP10getDIDInfo5alias7Combine12AnyPublisherVySayAA3DIDV3did_SayAA11StorableKey_pG11privateKeysSSSgAEtGs5Error_pGSS_tF">getDIDInfo(alias:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1727,7 +1742,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getDIDInfo</span><span class="p">(</span><span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/PrivateKey.html">PrivateKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getDIDInfo</span><span class="p">(</span><span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">,</span> <span class="nv">privateKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">],</span> <span class="nv">alias</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)],</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1760,9 +1775,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:6Domain5PlutoP17getDIDPrivateKeys3did7Combine12AnyPublisherVySayAA10PrivateKey_pGSgs5Error_pGAA3DIDV_tF"></a>
+                    <a name="/s:6Domain5PlutoP17getDIDPrivateKeys3did7Combine12AnyPublisherVySayAA11StorableKey_pGSgs5Error_pGAA3DIDV_tF"></a>
                     <a name="//apple_ref/swift/Method/getDIDPrivateKeys(did:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:6Domain5PlutoP17getDIDPrivateKeys3did7Combine12AnyPublisherVySayAA10PrivateKey_pGSgs5Error_pGAA3DIDV_tF">getDIDPrivateKeys(did:<wbr>)</a>
+                    <a class="token" href="#/s:6Domain5PlutoP17getDIDPrivateKeys3did7Combine12AnyPublisherVySayAA11StorableKey_pGSgs5Error_pGAA3DIDV_tF">getDIDPrivateKeys(did:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1777,7 +1792,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getDIDPrivateKeys</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Protocols/PrivateKey.html">PrivateKey</a></span><span class="p">]?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getDIDPrivateKeys</span><span class="p">(</span><span class="nv">did</span><span class="p">:</span> <span class="kt"><a href="../Structs/DID.html">DID</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt"><a href="../Protocols/StorableKey.html">StorableKey</a></span><span class="p">]?,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2501,7 +2516,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-01)</p>
+      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

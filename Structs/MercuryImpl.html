@@ -251,9 +251,6 @@
                 <a class="nav-group-task-link" href="../Enums/ProtocolTypes.html">ProtocolTypes</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/SecurityLevel.html">SecurityLevel</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/UnknownError.html">UnknownError</a>
               </li>
               <li class="nav-group-task">
@@ -299,6 +296,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/CDDID.html">CDDID</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDKey">CDKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Extensions.html#/c:@M@Pluto@objc(cs)CDLinkSecret">CDLinkSecret</a>
@@ -388,6 +388,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/KeyRestoration.html">KeyRestoration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/KeychainStorableKey.html">KeychainStorableKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/KnownPrismError.html">KnownPrismError</a>
@@ -551,6 +554,18 @@
                 <a class="nav-group-task-link" href="../Structs/JWK.html">JWK</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties.html">KeychainStorableKeyProperties</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/KeyType.html">– KeyType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/Accessability.html">– Accessability</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/KeychainStorableKeyProperties/KeyAlgorithm.html">– KeyAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Other%20Structs.html#/s:10PrismAgent8MediatorV">Mediator</a>
               </li>
               <li class="nav-group-task">
@@ -679,9 +694,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7Mercury0A4ImplV7session7timeout6apollo6castor5plutoACSo12NSURLSessionC_Sd6Domain6Apollo_pAK6Castor_pAK5Pluto_ptcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(session:timeout:apollo:castor:pluto:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7Mercury0A4ImplV7session7timeout6apollo6castor5plutoACSo12NSURLSessionC_Sd6Domain6Apollo_pAK6Castor_pAK5Pluto_ptcfc">init(session:<wbr>timeout:<wbr>apollo:<wbr>castor:<wbr>pluto:<wbr>)</a>
+                    <a name="/s:7Mercury0A4ImplV7session7timeout13secretsStream6castorACSo12NSURLSessionC_Sd7Combine12AnyPublisherVySay6Domain6SecretVGs5Error_pGAM6Castor_ptcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(session:timeout:secretsStream:castor:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7Mercury0A4ImplV7session7timeout13secretsStream6castorACSo12NSURLSessionC_Sd7Combine12AnyPublisherVySay6Domain6SecretVGs5Error_pGAM6Castor_ptcfc">init(session:<wbr>timeout:<wbr>secretsStream:<wbr>castor:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -698,9 +713,8 @@
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
     <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span> <span class="o">=</span> <span class="o">.</span><span class="n">shared</span><span class="p">,</span>
     <span class="nv">timeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span>
-    <span class="nv">apollo</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Apollo.html">Apollo</a></span><span class="p">,</span>
-    <span class="nv">castor</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Castor.html">Castor</a></span><span class="p">,</span>
-    <span class="nv">pluto</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Pluto.html">Pluto</a></span>
+    <span class="nv">secretsStream</span><span class="p">:</span> <span class="kt">AnyPublisher</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">Domain</span><span class="o">.</span><span class="kt"><a href="../Structs/Secret.html">Secret</a></span><span class="p">],</span> <span class="kt">Error</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="nv">castor</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Castor.html">Castor</a></span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -948,7 +962,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-01)</p>
+      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
