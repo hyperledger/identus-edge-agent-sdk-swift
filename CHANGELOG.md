@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.2.1...3.3.0) (2023-09-04)
+
+
+### Features
+
+* **pluto:** add keychain capabilities ([f013907](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/f0139077ee6ca0a131a0db3d26906ca390fc13a4))
+
 ## [3.2.1](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.2.0...3.2.1) (2023-09-01)
 
 
