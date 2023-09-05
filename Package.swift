@@ -203,7 +203,10 @@ let package = Package(
         ),
         .testTarget(
             name: "e2e",
-            dependencies: ["PrismAgent"],
+            dependencies: [
+                "PrismAgent",
+//                .product(name: "OpenAPIClient", package: "OpenAPIClient")
+            ],
             path: "AtalaPrismSDK/PrismAgent/e2eTests"
         )
     ]
