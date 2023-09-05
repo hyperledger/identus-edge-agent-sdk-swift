@@ -200,6 +200,11 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log")
             ],
             path: "Core/Sources"
+        ),
+        .testTarget(
+            name: "e2e",
+            dependencies: ["PrismAgent"],
+            path: "AtalaPrismSDK/PrismAgent/e2eTests"
         )
     ]
 )
