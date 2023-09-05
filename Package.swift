@@ -182,11 +182,11 @@ let package = Package(
             ],
             path: "AtalaPrismSDK/PrismAgent/Sources"
         ),
-//        .testTarget(
-//            name: "PrismAgentTests",
-//            dependencies: ["PrismAgent", "Core"],
-//            path: "AtalaPrismSDK/PrismAgent/Tests"
-//        ),
+        .testTarget(
+            name: "PrismAgentTests",
+            dependencies: ["PrismAgent", "Core"],
+            path: "AtalaPrismSDK/PrismAgent/Tests"
+        ),
         .target(
             name: "Authenticate",
             dependencies: ["Domain", "Builders", "Core"],
