@@ -1,0 +1,40 @@
+// swift-tools-version: 5.7
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+    name: "e2e",
+    platforms: [.iOS(.v15), .macOS(.v12)],
+    products: [
+    ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-openapi-generator", .upToNextMinor(from: "0.3.4")),
+        .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "0.3.6")),
+        .package(url: "https://github.com/apple/swift-openapi-urlsession", .upToNextMinor(from: "0.3.0")),
+        .package(url: "https://github.com/nschum/SwiftHamcrest", .upToNextMajor(from: "2.2.1")),
+        .package(path: "../")
+    ],
+    targets: [
+        .testTarget(
+            name: "e2e",
+            dependencies: [
+                .product(name: "PrismAgent", package: "atala-prism-wallet-sdk-swift"),
+                .product(name: "Domain", package: "atala-prism-wallet-sdk-swift"),
+                .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
+                .product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession"),
+                .product(name: "SwiftHamcrest", package: "SwiftHamcrest")
+            ],
+            path: "e2eTests",
+            resources: [
+                .copy("Resources")
+            ],
+            plugins: [
+                .plugin(
+                    name: "OpenAPIGenerator",
+                    package: "swift-openapi-generator"
+                )
+            ]
+        )
+    ]
+)
