@@ -1,7 +1,7 @@
 # Overview
 <!-- What this PR does, and why is needed, a useful description is expected, and relevant tickets should be mentioned -->
 
-Fixes ATL-xxxx
+Fixes #<issue number>
 
 ## Checklist
 
@@ -14,15 +14,15 @@ Fixes ATL-xxxx
 ### My changes...
 * [ ] are breaking changes
 * [ ] are not breaking changes
-* [ ] If yes to above: I have updated the documentation accordingly
+* [ ] If yes to the above: I have updated the documentation accordingly
 
 ### Documentation
 * [ ] My changes do not require a change to the project documentation
 * [ ] My changes require a change to the project documentation
-* [ ] If yes to above: I have updated the documentation accordingly
+* [ ] If yes to the above: I have updated the documentation accordingly
 
 ### Tests
 * [ ] My changes can not or do not need to be tested
 * [ ] My changes can and should be tested by unit and/or integration tests
-* [ ] If yes to above: I have added tests to cover my changes
-* [ ] If yes to above: I have taken care to cover edge cases in my tests
+* [ ] If yes to the above: I have added tests to cover my changes
+* [ ] If yes to the above: I have taken care to cover edge cases in my tests
