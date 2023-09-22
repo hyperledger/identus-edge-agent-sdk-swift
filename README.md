@@ -8,29 +8,30 @@ This SDK provides a library and documentation for developers to build Apple conn
 
 ### Atala PRISM
 
-Atala PRISM is a self-sovereign identity (SSI) platform and service suite for verifiable data and digital identity. Built on Cardano, it offers core infrastructure for issuing DIDs (Decentralized identifiers) and verifiable credentials, alongside tools and frameworks to help expand your ecosystem.
-The complete platform is separated in multiple repositories:
+Atala PRISM is a self-sovereign identity (SSI) platform and service suite for verifiable data and digital identity. Built on Cardano, it offers the core infrastructure for issuing DIDs (Decentralized identifiers) and verifiable credentials alongside tools and frameworks to help expand your ecosystem.
+The complete platform is separated into multiple repositories:
 
 * [atala-prism-wallet-sdk-swift]() - Repo that implements Atala PRISM for Apple platforms in Swift.
 * [atala-prism-wallet-sdk-ts](https://github.com/input-output-hk/atala-prism-wallet-sdk-ts) - Repo that implements Atala PRISM for Browser and NodeJS platforms in Typescript.
-* [atala-prism-building-blocks](https://github.com/input-output-hk/atala-prism-building-blocks) - Repo that contains the platform Building Blocks.
+* [atala-prism-building-blocks](https://github.com/hyperledger-labs/open-enterprise-agent) - Repo that contains the platform Building Blocks.
+* [atala-prism-mediator](https://github.com/input-output-hk/atala-prism-mediator) - Repo for DIDComm V2 Mediator
 
 ### Modules / APIs
 
-Atala PRISM Swift SDK provides the following building blocks to create, manage and resolve decentralized identifiers, issue, manage and verify verifiable credentials, establish and manage trusted, peer-to-peer connections and interactions between DIDs, and store, manage, and recover verifiable data linked to DIDs.
+Atala PRISM Swift SDK provides the following building blocks to create, manage and resolve decentralized identifiers; issue, manage and verify verifiable credentials; establish and manage trusted, peer-to-peer connections and interactions between DIDs; and store, manage, and recover verifiable data linked to DIDs.
 
-* __Apollo__: Building block that provides a suite of criptographic operations.
+* __Apollo__: Building block that provides a suite of cryptographic operations.
 * __Castor__: Building block that provides a suite of DID operations in a user-controlled manner.
 * __Pollux__: Building block that provides a suite of credential operations in a privacy-preserving manner.
 * __Mercury__: Building block that provides a set of secure, standards-based communications protocols in a transport-agnostic and interoperable manner.
 * __Pluto__: Building block that provides an interface for storage operations in a portable, storage-agnostic manner.
-* __PrismAgent__: PrismAgent using all the building blocks provides a agent that can provide a set of high level DID functionalities.
+* __PrismAgent__: PrismAgent, using all the building blocks, provides an agent that can provide a set of high-level DID functionalities.
 
 ## Getting Started
 
 ### Setup
 
-To get started with the Atala PRISM Swift SDK, you can set up the SDK and start a new project, or you can integrate the SDK in an existing project. Before you start, make sure you have the following installed on your development machine:
+To get started with the Atala PRISM Swift SDK, you can set up the SDK and create a new project or integrate the SDK into an existing project. Before you start, make sure you have the following installed on your development machine:
 
 - Xcode 13.4 or later
 - MacOS 12 or later
@@ -38,7 +39,7 @@ To get started with the Atala PRISM Swift SDK, you can set up the SDK and start 
 
 ### Integrating the SDK in an existing project
 
-To integrate the SDK into an existing project, you can use the Swift Package Manager, which is distributed with Xcode.
+To integrate the SDK into an existing project, you can use the Swift Package Manager, distributed with Xcode.
 
 1. Open your project in Xcode and select **File > Swift Packages > Add Package Dependency**.
 2. Enter the URL for the SDK for Swift Package Manager GitHub repo (`https://github.com/input-output-hk/atala-prism-wallet-sdk-swift`) into the search bar and click **Next**.
