@@ -208,7 +208,7 @@ BREAKING CHANGE: <breaking change summary>
 <breaking change description + migration instructions>
 <BLANK LINE>
 <BLANK LINE>
-Fixes ATL-<issue number>
+Fixes #<issue number>
 ```
 
 or
@@ -219,7 +219,7 @@ DEPRECATED: <what is deprecated>
 <deprecation description + recommended update path>
 <BLANK LINE>
 <BLANK LINE>
-Related to ATL-<issue number>
+Related to #<issue number>
 ```
 
 Breaking Change section should start with the phrase "BREAKING CHANGE: " followed by a summary of the breaking change, a blank line, and a detailed description of the breaking change that includes migration instructions.
