@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.3.0...3.4.0) (2023-09-27)
+
+
+### Features
+
+* provide abstraction for keychain component ([bf2e59f](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/bf2e59f9403e3459260200419aefd87ea5355f28))
+
 # [3.3.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.2.1...3.3.0) (2023-09-04)
 
 
