@@ -4,17 +4,9 @@ import Security
 
 struct KeychainDAO {
     let accessGroup: String?
-    
-    func addKey(_ key: KeychainStorableKey, service: String, account: String) throws {
-        let status = SecItemAdd(
-            try key.getSecKeyAddItemDictionary(service: service, account: account),
-            nil
-        )
-        guard status == errSecSuccess else {
-            throw PlutoError.errorSavingKeyOnKeychainWithStatus(status)
-        }
-    }
+}
 
+extension KeychainDAO: KeychainProvider {
     func getKey(
         service: String,
         account: String,
@@ -24,13 +16,14 @@ struct KeychainDAO {
     ) throws -> Data {
         switch algorithm {
         case .genericPassword:
-            let attibutes: [CFString: Any] = [
+            var attributes: [CFString: Any] = [
                 kSecAttrService: service,
                 kSecAttrAccount: account,
                 kSecReturnData: true
             ]
+            accessGroup.map { attributes[kSecAttrAccessGroup] = $0 }
             var item: CFTypeRef?
-            let status = SecItemCopyMatching(attibutes as CFDictionary, &item)
+            let status = SecItemCopyMatching(attributes as CFDictionary, &item)
             switch status {
             case errSecSuccess:
                 guard let data = item as? Data else {
@@ -43,13 +36,14 @@ struct KeychainDAO {
                 throw PlutoError.errorRetrivingKeyFromKeychainWithStatus(status)
             }
         case .rawKey:
-            let attibutes: [CFString: Any] = [
+            var attributes: [CFString: Any] = [
                 kSecClass: kSecClassKey,
                 kSecAttrApplicationLabel: (service + account).data(using: .utf8)!,
                 kSecReturnData: true
             ]
+            accessGroup.map { attributes[kSecAttrAccessGroup] = $0 }
             var item: CFTypeRef?
-            let status = SecItemCopyMatching(attibutes as CFDictionary, &item)
+            let status = SecItemCopyMatching(attributes as CFDictionary, &item)
             switch status {
             case errSecSuccess:
                 guard let data = item as? Data else {
@@ -62,13 +56,14 @@ struct KeychainDAO {
                 throw PlutoError.errorRetrivingKeyFromKeychainWithStatus(status)
             }
         default:
-            let attibutes: [CFString: Any] = [
+            var attributes: [CFString: Any] = [
                 kSecClass: kSecClassKey,
                 kSecAttrApplicationLabel: service + account,
                 kSecReturnRef: true
             ]
+            accessGroup.map { attributes[kSecAttrAccessGroup] = $0 }
             var item: CFTypeRef?
-            let status = SecItemCopyMatching(attibutes as CFDictionary, &item)
+            let status = SecItemCopyMatching(attributes as CFDictionary, &item)
             switch status {
             case errSecSuccess:
                 guard let item else {
@@ -89,8 +84,20 @@ struct KeychainDAO {
     }
 }
 
+extension KeychainDAO: KeychainStore {
+    func addKey(_ key: KeychainStorableKey, service: String, account: String) throws {
+        let status = SecItemAdd(
+            try key.getSecKeyAddItemDictionary(service: service, account: account, accessGroup: accessGroup),
+            nil
+        )
+        guard status == errSecSuccess else {
+            throw PlutoError.errorSavingKeyOnKeychainWithStatus(status)
+        }
+    }
+}
+
 extension KeychainStorableKey {
-    func getSecKeyAddItemDictionary(service: String, account: String) throws -> CFDictionary {
+    func getSecKeyAddItemDictionary(service: String, account: String, accessGroup: String?) throws -> CFDictionary {
         switch type {
         case .genericPassword:
             var attributes: [CFString : Any] = [
@@ -103,7 +110,8 @@ extension KeychainStorableKey {
                 kSecValueData: self.storableData as CFData,
                 kSecReturnData: true
             ]
-
+            
+            accessGroup.map { attributes[kSecAttrAccessGroup] = $0 }
             self.accessiblity.map { attributes[kSecAttrAccessible] = $0.secAccessible }
             return attributes as CFDictionary
         case .rawKey:
@@ -117,6 +125,7 @@ extension KeychainStorableKey {
                 kSecReturnData: true
             ]
 
+            accessGroup.map { attributes[kSecAttrAccessGroup] = $0 }
             self.accessiblity.map { attributes[kSecAttrAccessible] = $0.secAccessible }
             return attributes as CFDictionary
         default:
@@ -128,6 +137,7 @@ extension KeychainStorableKey {
                 kSecValueRef: try getSecKeyDictionary()
             ]
 
+            accessGroup.map { attributes[kSecAttrAccessGroup] = $0 }
             self.accessiblity.map { attributes[kSecAttrAccessible] = $0.secAccessible }
             return attributes as CFDictionary
         }

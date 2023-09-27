@@ -4,7 +4,7 @@ import Domain
 
 struct CDDIDPrivateKeyDAO: CoreDataDAO {
     typealias CoreDataObject = CDDIDPrivateKey
-    let keychain: KeychainDAO
+    let keychain: KeychainStore & KeychainProvider
     let keychainService: String
     let readContext: NSManagedObjectContext
     let writeContext: NSManagedObjectContext

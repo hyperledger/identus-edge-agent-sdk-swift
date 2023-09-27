@@ -4,7 +4,8 @@ public struct PlutoImpl {
     public struct PlutoSetup {
         public let coreDataSetup: CoreDataManager.CoreDataSetup
         public let keychainService: String
-        public let keychainAccessGroup: String?
+        public let keychain: KeychainStore & KeychainProvider
+        
         public init(
             coreDataSetup: CoreDataManager.CoreDataSetup = .init(
                 modelPath: .storeName("PrismPluto"),
@@ -13,9 +14,24 @@ public struct PlutoImpl {
             keychainService: String = "atala.prism.service",
             keychainAccessGroup: String? = nil
         ) {
+            self.init(
+                coreDataSetup: coreDataSetup,
+                keychainService: keychainService,
+                keychain: KeychainDAO(accessGroup: keychainAccessGroup)
+            )
+        }
+        
+        public init(
+            coreDataSetup: CoreDataManager.CoreDataSetup = .init(
+                modelPath: .storeName("PrismPluto"),
+                storeType: .persistent
+            ),
+            keychainService: String = "atala.prism.service",
+            keychain: (KeychainStore & KeychainProvider)
+        ) {
             self.coreDataSetup = coreDataSetup
             self.keychainService = keychainService
-            self.keychainAccessGroup = keychainAccessGroup
+            self.keychain = keychain
         }
     }
 
@@ -38,7 +54,7 @@ public struct PlutoImpl {
             writeContext: manager.editContext
         )
         let privateKeyDao = CDDIDPrivateKeyDAO(
-            keychain: KeychainDAO(accessGroup: setup.keychainAccessGroup),
+            keychain: setup.keychain,
             keychainService: setup.keychainService,
             readContext: manager.mainContext,
             writeContext: manager.editContext
