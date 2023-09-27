@@ -333,10 +333,19 @@
                 <a class="nav-group-task-link" href="Extensions/JWTPayload/JWTVerfiableCredential.html">– JWTVerfiableCredential</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Other%20Extensions.html#/s:5Pluto11KeychainDAOV">KeychainDAO</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/LockPrivateKey.html">LockPrivateKey</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Other%20Extensions.html#/s:6Apollo13LockPublicKeyV">LockPublicKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Mnemonic.html">Mnemonic</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Mnemonic/WordList.html">– WordList</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Other%20Extensions.html#/s:6Apollo19Secp256k1PrivateKeyV">Secp256k1PrivateKey</a>
@@ -389,7 +398,13 @@
                 <a class="nav-group-task-link" href="Protocols/KeyRestoration.html">KeyRestoration</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/KeychainProvider.html">KeychainProvider</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/KeychainStorableKey.html">KeychainStorableKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/KeychainStore.html">KeychainStore</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/KnownPrismError.html">KnownPrismError</a>
@@ -682,30 +697,31 @@
 <h2 id='basic-considerations' class='heading'>Basic considerations</h2>
 <h3 id='atala-prism' class='heading'>Atala PRISM</h3>
 
-<p>Atala PRISM is a self-sovereign identity (SSI) platform and service suite for verifiable data and digital identity. Built on Cardano, it offers core infrastructure for issuing DIDs (Decentralized identifiers) and verifiable credentials, alongside tools and frameworks to help expand your ecosystem.
-The complete platform is separated in multiple repositories:</p>
+<p>Atala PRISM is a self-sovereign identity (SSI) platform and service suite for verifiable data and digital identity. Built on Cardano, it offers the core infrastructure for issuing DIDs (Decentralized identifiers) and verifiable credentials alongside tools and frameworks to help expand your ecosystem.
+The complete platform is separated into multiple repositories:</p>
 
 <ul>
 <li><a href="">atala-prism-wallet-sdk-swift</a> - Repo that implements Atala PRISM for Apple platforms in Swift.</li>
 <li><a href="https://github.com/input-output-hk/atala-prism-wallet-sdk-ts">atala-prism-wallet-sdk-ts</a> - Repo that implements Atala PRISM for Browser and NodeJS platforms in Typescript.</li>
-<li><a href="https://github.com/input-output-hk/atala-prism-building-blocks">atala-prism-building-blocks</a> - Repo that contains the platform Building Blocks.</li>
+<li><a href="https://github.com/hyperledger-labs/open-enterprise-agent">atala-prism-building-blocks</a> - Repo that contains the platform Building Blocks.</li>
+<li><a href="https://github.com/input-output-hk/atala-prism-mediator">atala-prism-mediator</a> - Repo for DIDComm V2 Mediator</li>
 </ul>
 <h3 id='modules-apis' class='heading'>Modules / APIs</h3>
 
-<p>Atala PRISM Swift SDK provides the following building blocks to create, manage and resolve decentralized identifiers, issue, manage and verify verifiable credentials, establish and manage trusted, peer-to-peer connections and interactions between DIDs, and store, manage, and recover verifiable data linked to DIDs.</p>
+<p>Atala PRISM Swift SDK provides the following building blocks to create, manage and resolve decentralized identifiers; issue, manage and verify verifiable credentials; establish and manage trusted, peer-to-peer connections and interactions between DIDs; and store, manage, and recover verifiable data linked to DIDs.</p>
 
 <ul>
-<li><strong>Apollo</strong>: Building block that provides a suite of criptographic operations.</li>
+<li><strong>Apollo</strong>: Building block that provides a suite of cryptographic operations.</li>
 <li><strong>Castor</strong>: Building block that provides a suite of DID operations in a user-controlled manner.</li>
 <li><strong>Pollux</strong>: Building block that provides a suite of credential operations in a privacy-preserving manner.</li>
 <li><strong>Mercury</strong>: Building block that provides a set of secure, standards-based communications protocols in a transport-agnostic and interoperable manner.</li>
 <li><strong>Pluto</strong>: Building block that provides an interface for storage operations in a portable, storage-agnostic manner.</li>
-<li><strong>PrismAgent</strong>: PrismAgent using all the building blocks provides a agent that can provide a set of high level DID functionalities.</li>
+<li><strong>PrismAgent</strong>: PrismAgent, using all the building blocks, provides an agent that can provide a set of high-level DID functionalities.</li>
 </ul>
 <h2 id='getting-started' class='heading'>Getting Started</h2>
 <h3 id='setup' class='heading'>Setup</h3>
 
-<p>To get started with the Atala PRISM Swift SDK, you can set up the SDK and start a new project, or you can integrate the SDK in an existing project. Before you start, make sure you have the following installed on your development machine:</p>
+<p>To get started with the Atala PRISM Swift SDK, you can set up the SDK and create a new project or integrate the SDK into an existing project. Before you start, make sure you have the following installed on your development machine:</p>
 
 <ul>
 <li>Xcode 13.4 or later</li>
@@ -714,7 +730,7 @@ The complete platform is separated in multiple repositories:</p>
 </ul>
 <h3 id='integrating-the-sdk-in-an-existing-project' class='heading'>Integrating the SDK in an existing project</h3>
 
-<p>To integrate the SDK into an existing project, you can use the Swift Package Manager, which is distributed with Xcode.</p>
+<p>To integrate the SDK into an existing project, you can use the Swift Package Manager, distributed with Xcode.</p>
 
 <ol>
 <li>Open your project in Xcode and select <strong>File &gt; Swift Packages &gt; Add Package Dependency</strong>.</li>
@@ -732,8 +748,8 @@ The complete platform is separated in multiple repositories:</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-04)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+      <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">IOG</a>. All rights reserved. (Last updated: 2023-09-27)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
 </html>
