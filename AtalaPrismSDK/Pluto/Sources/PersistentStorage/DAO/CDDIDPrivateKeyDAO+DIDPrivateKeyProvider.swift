@@ -59,7 +59,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
 }
 
 extension CDKey {
-    func parseToStorableKey(keychain: KeychainDAO) throws -> StorableKey {
+    func parseToStorableKey(keychain: KeychainProvider) throws -> StorableKey {
         switch self {
         case let keychainKey as CDKeychainKey:
             guard
