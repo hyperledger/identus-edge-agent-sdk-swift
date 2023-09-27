@@ -55,7 +55,7 @@ private func storeKeychainKey(
     keychainKey: KeychainStorableKey,
     service: String,
     account: String,
-    keychain: KeychainDAO
+    keychain: KeychainStore
 ) throws {
     try keychain.addKey(
         keychainKey,
