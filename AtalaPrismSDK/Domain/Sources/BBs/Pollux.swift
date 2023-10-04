@@ -4,9 +4,9 @@ import Foundation
 /// Options that can be passed into various operations.
 public enum CredentialOperationsOptions {
     case schema(id: String, json: String)  // The JSON schema.
-    case schemasStream(stream: AnyPublisher<[(id: String, json: String)], Error>) // Stream of schemas, only the first batch is considered
+    case schemaDownloader(downloader: Downloader) // Stream of schemas, only the first batch is considered
     case credentialDefinition(id: String, json: String) // The JSON Credential Definition
-    case credentialDefinitionsStream(stream: AnyPublisher<[(id: String, json: String)], Error>) // Stream of credential definitions, only the first batch is considered
+    case credentialDefinitionDownloader(downloader: Downloader) // Download of credential definitions, only the first batch is considered
     case linkSecret(id: String, secret: String)  // A secret link.
     case subjectDID(DID)  // The decentralized identifier of the subject.
     case entropy(String)  // Entropy for any randomization operation.
@@ -21,7 +21,7 @@ public protocol Pollux {
     /// - Parameter data: The encoded item to parse.
     /// - Throws: An error if the item cannot be parsed or decoded.
     /// - Returns: An object representing the parsed item.
-    func parseCredential(issuedCredential: Message) throws -> Credential
+    func parseCredential(issuedCredential: Message, options: [CredentialOperationsOptions]) async throws -> Credential
 
     /// Restores a previously stored item using the provided restoration identifier and data.
     /// - Parameters:

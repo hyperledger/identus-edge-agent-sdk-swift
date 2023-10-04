@@ -10,29 +10,30 @@ extension ApolloImpl: KeyRestoration {
         identifier.hasSuffix("pub")
     }
 
-    public func restorePrivateKey(identifier: String?, data: Data) throws -> PrivateKey {
-        guard let identifier else { throw ApolloError.restoratonFailedNoIdentifierOrInvalid }
-        switch identifier {
+    public func restorePrivateKey(_ key: StorableKey) throws -> PrivateKey {
+        switch  key.restorationIdentifier {
         case "secp256k1+priv":
-            return Secp256k1PrivateKey(lockedPrivateKey: .init(data: data))
+            return Secp256k1PrivateKey(
+                lockedPrivateKey: .init(data: key.storableData),
+                derivationPath: key.index.map { DerivationPath(index: $0) } ?? DerivationPath(index: 0)
+            )
         case "x25519+priv":
-            return X25519PrivateKey(appleCurve: try .init(rawRepresentation: data))
+            return X25519PrivateKey(appleCurve: try .init(rawRepresentation: key.storableData))
         case "ed25519+priv":
-            return Ed25519PrivateKey(appleCurve: try .init(rawRepresentation: data))
+            return Ed25519PrivateKey(appleCurve: try .init(rawRepresentation: key.storableData))
         default:
             throw ApolloError.restoratonFailedNoIdentifierOrInvalid
         }
     }
 
-    public func restorePublicKey(identifier: String?, data: Data) throws -> PublicKey {
-        guard let identifier else { throw ApolloError.restoratonFailedNoIdentifierOrInvalid }
-        switch identifier {
+    public func restorePublicKey(_ key: StorableKey) throws -> PublicKey {
+        switch key.restorationIdentifier {
         case "secp256k1+pub":
-            return Secp256k1PublicKey(lockedPublicKey: .init(bytes: data))
+            return Secp256k1PublicKey(lockedPublicKey: .init(bytes: key.storableData))
         case "x25519+pub":
-            return X25519PublicKey(appleCurve: try .init(rawRepresentation: data))
+            return X25519PublicKey(appleCurve: try .init(rawRepresentation: key.storableData))
         case "ed25519+pub":
-            return Ed25519PublicKey(appleCurve: try .init(rawRepresentation: data))
+            return Ed25519PublicKey(appleCurve: try .init(rawRepresentation: key.storableData))
         default:
             throw ApolloError.restoratonFailedNoIdentifierOrInvalid
         }

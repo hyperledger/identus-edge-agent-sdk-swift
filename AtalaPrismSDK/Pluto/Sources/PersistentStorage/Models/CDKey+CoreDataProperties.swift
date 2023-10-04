@@ -8,6 +8,7 @@ extension CDKey {
 
     @NSManaged var identifier: String
     @NSManaged var restorationIdentifier: String
+    @NSManaged var index: NSNumber?
     @NSManaged var did: CDDIDPrivateKey?
 }
 

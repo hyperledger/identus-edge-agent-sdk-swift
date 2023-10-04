@@ -68,7 +68,7 @@ let package = Package(
         .package(url: "git@github.com:swift-libp2p/swift-multibase.git", from: "0.0.1"),
         .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", exact: "0.10.0"),
         .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", from: "4.1.3"),
-        .package(url: "git@github.com:input-output-hk/anoncreds-rs.git", branch: "main")
+        .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.3.3")
     ],
     targets: [
         .target(

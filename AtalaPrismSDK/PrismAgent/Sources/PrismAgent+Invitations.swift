@@ -116,7 +116,9 @@ public extension PrismAgent {
         do {
             let response = try await URLSession.shared.data(for: request)
             guard let urlResponse = response.1 as? HTTPURLResponse else {
-                throw UnknownError.somethingWentWrongError()
+                throw CommonError.invalidCoding(
+                    message: "This should not happen cannot convert URLResponse to HTTPURLResponse"
+                )
             }
             guard urlResponse.statusCode == 200 else {
                 throw CommonError.httpError(

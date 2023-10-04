@@ -70,6 +70,8 @@ public protocol Credential {
     var claims: [Claim] { get }
     /// Additional properties associated with the credential.
     var properties: [String: Any] { get }
+    /// The type of the credential Ex: JWT, Anoncred, W3C
+    var credentialType: String { get }
 }
 
 public extension Credential {

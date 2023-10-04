@@ -91,6 +91,7 @@ private extension CDDatabaseKey {
     ) {
         self.identifier = identifier
         self.storableData = key.storableData
+        self.index = key.index.map { NSNumber(integerLiteral: $0) }
         self.restorationIdentifier = key.restorationIdentifier
     }
 }
@@ -104,6 +105,7 @@ private extension CDKeychainKey {
     ) {
         self.identifier = identifier
         self.restorationIdentifier = key.restorationIdentifier
+        self.index = key.index.map { NSNumber(integerLiteral: $0) }
         self.type = key.keyClass.rawValue
         self.algorithm = key.type.rawValue
         self.service = service

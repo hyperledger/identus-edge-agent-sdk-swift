@@ -19,7 +19,7 @@ public enum PrismAgentError: KnownPrismError {
     case unknownInvitationTypeError
 
     /// An error case representing an invalid message type.
-    case invalidMessageType(type: String, shouldBe: String)
+    case invalidMessageType(type: String, shouldBe: [String])
 
     /// An error case representing that no mediator is available.
     case noMediatorAvailableError

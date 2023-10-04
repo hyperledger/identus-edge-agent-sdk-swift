@@ -19,12 +19,10 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
             .map {
                 $0.map {
                     CredentialListViewState.Credential(
-                        credentialType: "",
                         id: $0.id,
                         issuer: $0.issuer,
-                        issuanceDate: "",//$0.issuanceDate.formatted(),
-                        context: [""],
-                        type: [""]
+                        issuanceDate: $0.storable?.queryCredentialCreated?.formatted() ?? "",
+                        type: $0.credentialType
                     )
                 }
             }

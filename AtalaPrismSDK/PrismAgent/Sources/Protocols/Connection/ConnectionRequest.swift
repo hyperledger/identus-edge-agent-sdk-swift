@@ -114,8 +114,9 @@ public struct ConnectionRequest {
             let to = fromMessage.to
         else { throw PrismAgentError.invalidMessageType(
             type: fromMessage.piuri,
-            shouldBe: ProtocolTypes.didcommconnectionRequest.rawValue)
-        }
+            shouldBe: [ProtocolTypes.didcommconnectionRequest.rawValue]
+        ) }
+        
         self.init(
             from: from,
             to: to,

@@ -16,6 +16,6 @@ struct CreateSec256k1KeyPairOperation {
     func compute() throws -> PrivateKey {
         let derivedKey = try HDKeychain(seed: seed.value).derivedKey(path: keyPath.keyPathString())
 
-        return Secp256k1PrivateKey(lockedPrivateKey: derivedKey.privateKey())
+        return Secp256k1PrivateKey(lockedPrivateKey: derivedKey.privateKey(), derivationPath: keyPath)
     }
 }

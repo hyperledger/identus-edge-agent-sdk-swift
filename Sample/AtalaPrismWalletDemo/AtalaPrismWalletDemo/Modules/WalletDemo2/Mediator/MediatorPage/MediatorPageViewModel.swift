@@ -55,7 +55,6 @@ final class MediatorViewModelImpl: MediatorPageViewModel {
                 }
             } catch let error as LocalizedError {
                 await MainActor.run { [weak self] in
-                    print(error.localizedDescription)
                     self?.error = FancyToast(
                         type: .error,
                         title: error.localizedDescription,

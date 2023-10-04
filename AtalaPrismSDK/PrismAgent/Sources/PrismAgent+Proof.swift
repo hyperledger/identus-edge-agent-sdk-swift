@@ -23,7 +23,7 @@ public extension PrismAgent {
         guard
             let subjectDIDString = credential.subject
         else {
-            throw UnknownError.somethingWentWrongError()
+            throw PolluxError.invalidPrismDID
         }
         
         let subjectDID = try DID(string: subjectDIDString)
@@ -37,10 +37,7 @@ public extension PrismAgent {
             let storedPrivateKey = didInfo?.privateKeys.first
         else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
-        let privateKey = try await apollo.restorePrivateKey(
-            identifier: storedPrivateKey.restorationIdentifier,
-            data: storedPrivateKey.storableData
-        )
+        let privateKey = try await apollo.restorePrivateKey(storedPrivateKey)
 
         guard
             let exporting = privateKey.exporting
@@ -55,7 +52,7 @@ public extension PrismAgent {
         )
         
         guard let base64String = presentationString.data(using: .utf8)?.base64EncodedString() else {
-            throw UnknownError.somethingWentWrongError()
+            throw CommonError.invalidCoding(message: "Could not encode to base64")
         }
         return Presentation(
             body: .init(

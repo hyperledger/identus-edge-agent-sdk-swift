@@ -102,9 +102,11 @@ returns random mnemonics nerver returns invalid mnemonics
             switch curve {
             case .secp256k1:
                 if
-                    let keyData = parameters[KeyProperties.rawKey.rawValue].flatMap({ Data(base64Encoded: $0) })
+                    let keyData = parameters[KeyProperties.rawKey.rawValue].flatMap({ Data(base64Encoded: $0) }),
+                    let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue]
                 {
-                    return Secp256k1PrivateKey(lockedPrivateKey: .init(data: keyData))
+                    let derivationPath = try DerivationPath(string: derivationPathStr)
+                    return Secp256k1PrivateKey(lockedPrivateKey: .init(data: keyData), derivationPath: derivationPath)
                 } else {
                     guard
                         let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue],
@@ -143,7 +145,7 @@ returns random mnemonics nerver returns invalid mnemonics
         }
     }
     
-    public func createNewLinkSecret() -> String {
-        CreateLinkSecretOperation().create()
+    public func createNewLinkSecret() throws -> String {
+        try CreateLinkSecretOperation().create()
     }
 }

@@ -97,10 +97,7 @@ private func createSecretsStream(
             Future {
                 try await array.asyncMap { did, privateKeys, _ in
                     let privateKeys = try await privateKeys.asyncMap {
-                        try await keyRestoration.restorePrivateKey(
-                            identifier: $0.restorationIdentifier,
-                            data: $0.storableData
-                        )
+                        try await keyRestoration.restorePrivateKey($0)
                     }
                     let secrets = try parsePrivateKeys(
                         did: did,

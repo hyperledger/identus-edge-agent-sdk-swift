@@ -1,5 +1,6 @@
 import AnoncredsSwift
 import Combine
+import Core
 import Domain
 import Foundation
 
@@ -16,30 +17,25 @@ struct CreateAnoncredCredentialRequest {
         linkSecret: String,
         linkSecretId: String,
         offerData: Data,
-        credentialDefinitions: AnyPublisher<[(id: String, json: String)], Error>
+        credentialDefinitionDownloader: Downloader
     ) async throws -> String {
-        let linkSecret = try LinkSecret.newFromJson(jsonString: linkSecret)
+        let linkSecretObj = try LinkSecret.newFromValue(valueString: linkSecret)
         let offer = try CredentialOffer(jsonString: String(data: offerData, encoding: .utf8)!)
         let credDefId = offer.getCredDefId()
         
-        let definition = try await credentialDefinitions
-            .tryMap {
-                try $0
-                    .first { $0.id == credDefId.value }
-                    .map { try CredentialDefinition(jsonString: $0.json) }
-            }
-            .first()
-            .await()
-        
-        guard let definition else { throw UnknownError.somethingWentWrongError() }
-        
-        return try Prover().createCredentialRequest(
-            entropy: nil,
-            proverDid: did,
-            credDef: definition,
-            linkSecret: linkSecret,
+        let credentialDefinitionData = try await credentialDefinitionDownloader.downloadFromEndpoint(urlOrDID: credDefId)
+        let credentialDefinitionJson = try credentialDefinitionData.toString()
+
+        let credentialDefinition = try CredentialDefinition(jsonString: credentialDefinitionJson)
+
+        let def = try Prover().createCredentialRequest(
+            entropy: did,
+            proverDid: nil,
+            credDef: credentialDefinition,
+            linkSecret: linkSecretObj,
             linkSecretId: linkSecretId,
             credentialOffer: offer
         ).request.getJson()
+        return def
     }
 }

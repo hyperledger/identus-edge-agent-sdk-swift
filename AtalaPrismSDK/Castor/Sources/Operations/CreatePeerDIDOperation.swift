@@ -150,8 +150,7 @@ struct CreatePeerDIDOperation {
                 accept: endpoint.accept
             )
         }.compactMap { $0 }
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .withoutEscapingSlashes
+        let encoder = JSONEncoder.didComm()
         if
             peerDidServices.count == 1,
             let peerDidService = peerDidServices.first
