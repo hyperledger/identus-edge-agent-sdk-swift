@@ -2,7 +2,7 @@ import AnoncredsSwift
 import Foundation
 
 struct CreateLinkSecretOperation {
-    func create() -> String {
-        Prover().createLinkSecret().getBigNumber()
+    func create() throws -> String {
+        try Prover().createLinkSecret().getValue()
     }
 }

@@ -33,7 +33,7 @@ struct CreateJWTCredentialRequest {
     }
 }
 
-private struct ClaimsRequestSignatureJWT: Claims {
+struct ClaimsRequestSignatureJWT: Claims {
     struct VerifiablePresentation: Codable {
         enum CodingKeys: String, CodingKey {
             case context = "@context"

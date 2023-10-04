@@ -75,7 +75,7 @@ extension PlutoImpl: Pluto {
     }
 
     public func getPrismLastKeyPairIndex() -> AnyPublisher<Int, Error> {
-        registeredDIDDao.getLastKeyPairIndex()
+        privateKeyDIDDao.getLastKeyIndex()
     }
 
     public func getAllPeerDIDs() -> AnyPublisher<[(did: DID, privateKeys: [StorableKey], alias: String?)], Error> {

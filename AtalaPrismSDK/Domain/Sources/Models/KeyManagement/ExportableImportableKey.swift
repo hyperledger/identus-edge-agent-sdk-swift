@@ -165,7 +165,7 @@ extension PEMKey {
     /// Returns a PEM-encoded string representation of this `PEMKey`.
     /// - Returns: A string representing this key in PEM format.
     public func pemEncoded() -> String {
-        let base64Data = keyData.base64EncodedString(options: [.lineLength64Characters])
+        let base64Data = keyData.base64EncodedString()
         let beginMarker = "-----BEGIN \(keyType)-----"
         let endMarker = "-----END \(keyType)-----"
 

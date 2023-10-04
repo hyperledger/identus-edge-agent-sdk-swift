@@ -19,7 +19,6 @@ final class MessageDetailViewModelImpl: MessageDetailViewModel {
     )
 
     @Published var messagesThread = [MessageDetailViewState.Message]()
-    @Published var credentials = []
     @Published var error: FancyToast?
     @Published var loading = false
     @Published var dismiss = false
@@ -75,7 +74,6 @@ final class MessageDetailViewModelImpl: MessageDetailViewModel {
             let msgType = ProtocolTypes(rawValue: message.piuri)
         else { return }
         let agent = self.agent
-        let pluto = self.pluto
         Task.detached { [weak self] in
             do {
                 switch msgType {
@@ -89,11 +87,11 @@ final class MessageDetailViewModelImpl: MessageDetailViewModel {
                         credential: credential
                     )
                     _ = try await agent.sendMessage(message: try presentation.makeMessage())
-                case .didcommOfferCredential:
+                case .didcommOfferCredential, .didcommOfferCredential3_0:
                     let newPrismDID = try await agent.createNewPrismDID()
                     guard let requestCredential = try await agent.prepareRequestCredentialWithIssuer(
                         did: newPrismDID,
-                        offer: try OfferCredential(fromMessage: message)
+                        offer: try OfferCredential3_0(fromMessage: message)
                     ) else { throw UnknownError.somethingWentWrongError() }
                     _ = try await agent.sendMessage(message: try requestCredential.makeMessage())
                 case .didcommconnectionRequest:
@@ -143,18 +141,20 @@ private func getSpecificByType(msg: Message) -> MessageDetailViewState.SpecificD
         } catch {
             return .finishedThreads
         }
-    case .didcommIssueCredential:
+    case .didcommIssueCredential, .didcommIssueCredential3_0:
         return .finishedThreads
     case .didcommOfferCredential:
         do {
             let (domain, challenge) = try getDomainAndChallenge(msg: msg)
             return .credentialDomainChallenge(domain: domain, challenge: challenge)
         } catch {
-            return .finishedThreads
+            return .acceptRefuse
         }
-    case .didcommProposeCredential:
+    case .didcommOfferCredential3_0:
         return .acceptRefuse
-    case .didcommRequestCredential:
+    case .didcommProposeCredential, .didcommProposeCredential3_0:
+        return .acceptRefuse
+    case .didcommRequestCredential, .didcommRequestCredential3_0:
         return .acceptRefuse
     case .didcommconnectionRequest:
         return .acceptRefuse
@@ -234,12 +234,20 @@ private func getTitle(for protocolType: ProtocolTypes) -> String {
         return "Credential Preview"
     case .didcommIssueCredential:
         return "Issue Credential"
+    case .didcommIssueCredential3_0:
+        return "Issue Credential 3.0"
     case .didcommOfferCredential:
         return "Offer Credential"
+    case .didcommOfferCredential3_0:
+        return "Offer Credential 3.0"
     case .didcommProposeCredential:
         return "Propose Credential"
+    case .didcommProposeCredential3_0:
+        return "Propose Credential 3.0"
     case .didcommRequestCredential:
         return "Request Credential"
+    case .didcommRequestCredential3_0:
+        return "Request Credential 3.0"
     case .didcommconnectionRequest:
         return "Connection Request"
     case .didcommconnectionResponse:
@@ -256,5 +264,7 @@ private func getTitle(for protocolType: ProtocolTypes) -> String {
         return "Pickup Status"
     case .pickupReceived:
         return "Pickup Received"
+    case .didcommCredentialPreview3_0:
+        return "Credential Preview"
     }
 }

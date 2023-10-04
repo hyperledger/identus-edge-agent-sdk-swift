@@ -35,6 +35,7 @@ extension Ed25519PrivateKey: SignableKey {
 extension Ed25519PrivateKey: KeychainStorableKey {
     var restorationIdentifier: String { "ed25519+priv" }
     var storableData: Data { raw }
+    var index: Int? { nil }
     var type: Domain.KeychainStorableKeyProperties.KeyAlgorithm { .rawKey }
     var keyClass: Domain.KeychainStorableKeyProperties.KeyType { .privateKey }
     var accessiblity: Domain.KeychainStorableKeyProperties.Accessability? { .firstUnlock(deviceOnly: true) }
@@ -62,6 +63,7 @@ struct Ed25519PublicKey: PublicKey {
 extension Ed25519PublicKey: KeychainStorableKey {
     var restorationIdentifier: String { "ed25519+pub" }
     var storableData: Data { raw }
+    var index: Int? { nil }
     var type: Domain.KeychainStorableKeyProperties.KeyAlgorithm { .rawKey }
     var keyClass: Domain.KeychainStorableKeyProperties.KeyType { .publicKey }
     var accessiblity: Domain.KeychainStorableKeyProperties.Accessability? { .firstUnlock(deviceOnly: true) }

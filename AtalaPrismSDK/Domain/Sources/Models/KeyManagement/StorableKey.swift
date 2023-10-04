@@ -7,6 +7,9 @@ public protocol StorableKey {
 
     /// The raw data representation of the key, suitable for storage.
     var storableData: Data { get }
+    
+    /// Indexation of the key is useful to keep track of a derivation index
+    var index: Int? { get }
 }
 
 /// Extension of the `Key` protocol to provide additional functionality related to storage.

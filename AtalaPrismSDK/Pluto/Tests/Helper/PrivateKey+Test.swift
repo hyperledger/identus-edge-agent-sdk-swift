@@ -6,6 +6,7 @@ struct MockPrivateKey: PrivateKey, StorableKey, Equatable {
     let keySpecifications: [String : String]
     let size = 0
     let raw: Data
+    var index: Int? = 0
 
     let restorationIdentifier = "MockPrivate"
     var storableData: Data { raw }

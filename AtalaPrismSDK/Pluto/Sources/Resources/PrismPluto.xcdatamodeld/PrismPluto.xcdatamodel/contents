@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CDAvailableClaim" representedClassName="CDAvailableClaim" syncable="YES">
         <attribute name="value" attributeType="String"/>
         <relationship name="credential" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDCredential" inverseName="queryAvailableClaims" inverseEntity="CDCredential"/>
@@ -38,6 +38,7 @@
     </entity>
     <entity name="CDKey" representedClassName="CDKey" isAbstract="YES" syncable="YES">
         <attribute name="identifier" attributeType="String"/>
+        <attribute name="index" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="restorationIdentifier" attributeType="String"/>
         <relationship name="did" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDDIDPrivateKey" inverseName="keys" inverseEntity="CDDIDPrivateKey"/>
     </entity>

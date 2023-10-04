@@ -9,11 +9,14 @@ struct Secp256k1PrivateKey: PrivateKey {
     let keySpecifications: [String : String]
     let size: Int
     let raw: Data
+    let derivationPath: DerivationPath
 
-    init(lockedPrivateKey: LockPrivateKey) {
+    init(lockedPrivateKey: LockPrivateKey, derivationPath: DerivationPath) {
         self.lockedPrivateKey = lockedPrivateKey
+        self.derivationPath = derivationPath
         self.keySpecifications = [
-            KeyProperties.curve.rawValue : "secp256k1"
+            KeyProperties.curve.rawValue : "secp256k1",
+            KeyProperties.derivationPath.rawValue : derivationPath.keyPathString()
         ]
 
         self.raw = lockedPrivateKey.data
@@ -40,6 +43,7 @@ extension Secp256k1PrivateKey: SignableKey {
 extension Secp256k1PrivateKey: KeychainStorableKey {
     var restorationIdentifier: String { "secp256k1+priv" }
     var storableData: Data { raw }
+    var index: Int? { derivationPath.index }
     var type: Domain.KeychainStorableKeyProperties.KeyAlgorithm { .rawKey }
     var keyClass: Domain.KeychainStorableKeyProperties.KeyType { .privateKey }
     var accessiblity: Domain.KeychainStorableKeyProperties.Accessability? { .firstUnlock(deviceOnly: true) }
@@ -81,6 +85,7 @@ struct Secp256k1PublicKey: PublicKey {
 extension Secp256k1PublicKey: KeychainStorableKey {
     var restorationIdentifier: String { "secp256k1+pub" }
     var storableData: Data { raw }
+    var index: Int? { nil }
     var type: Domain.KeychainStorableKeyProperties.KeyAlgorithm { .rawKey }
     var keyClass: Domain.KeychainStorableKeyProperties.KeyType { .publicKey }
     var accessiblity: Domain.KeychainStorableKeyProperties.Accessability? { .firstUnlock(deviceOnly: true) }

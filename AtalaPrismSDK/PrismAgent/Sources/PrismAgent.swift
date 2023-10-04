@@ -196,7 +196,8 @@ public class PrismAgent {
     
     private func firstLinkSecretSetup() async throws {
         if try await pluto.getLinkSecret().first().await().first == nil {
-            try await pluto.storeLinkSecret(secret: apollo.createNewLinkSecret()).first().await()
+            let secret = try apollo.createNewLinkSecret()
+            try await pluto.storeLinkSecret(secret: secret).first().await()
         }
     }
 }
@@ -220,10 +221,7 @@ private func createSecretsStream(
             Future {
                 try await array.asyncMap { did, privateKeys, _ in
                     let privateKeys = try await privateKeys.asyncMap {
-                        try await keyRestoration.restorePrivateKey(
-                            identifier: $0.restorationIdentifier,
-                            data: $0.storableData
-                        )
+                        try await keyRestoration.restorePrivateKey($0)
                     }
                     return try parsePrivateKeys(
                         did: did,

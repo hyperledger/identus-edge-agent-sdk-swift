@@ -90,7 +90,7 @@ extension KeychainDAO: KeychainStore {
             try key.getSecKeyAddItemDictionary(service: service, account: account, accessGroup: accessGroup),
             nil
         )
-        guard status == errSecSuccess else {
+        guard status == errSecSuccess || status == errSecDuplicateItem else {
             throw PlutoError.errorSavingKeyOnKeychainWithStatus(status)
         }
     }

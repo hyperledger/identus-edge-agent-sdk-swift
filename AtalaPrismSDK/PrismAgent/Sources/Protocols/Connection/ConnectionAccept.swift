@@ -77,7 +77,7 @@ public struct ConnectionAccept {
         else {
             throw PrismAgentError.invalidMessageType(
                 type: fromMessage.piuri,
-                shouldBe: ProtocolTypes.didcommconnectionResponse.rawValue
+                shouldBe: [ProtocolTypes.didcommconnectionResponse.rawValue]
             )
         }
 

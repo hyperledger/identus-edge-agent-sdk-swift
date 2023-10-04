@@ -17,18 +17,23 @@ extension PolluxImpl {
             throw PolluxError.offerDoesntProvideEnoughInformation
         }
         
-        switch offerAttachment.mediaType {
-        case "jwt", "", .none:
+        switch offerAttachment.format {
+        case "jwt", "prism/jwt", .none:
             switch offerAttachment.data {
             case let json as AttachmentJsonData:
                 return try processJWTCredentialRequest(offerData: json.data, options: options)
             default:
                 throw PolluxError.offerDoesntProvideEnoughInformation
             }
-        case "anoncreds":
+        case "anoncreds/credential-offer@v1.0":
             switch offerAttachment.data {
-            case let json as AttachmentJsonData:
-                return try await processAnoncredsCredentialRequest(offerData: json.data, options: options)
+            case let attachmentData as AttachmentJsonData:
+                return try await processAnoncredsCredentialRequest(offerData: attachmentData.data, options: options)
+            case let attachmentData as AttachmentBase64:
+                guard let data = Data(fromBase64URL: attachmentData.base64) else {
+                    throw PolluxError.offerDoesntProvideEnoughInformation
+                }
+                return try await processAnoncredsCredentialRequest(offerData: data, options: options)
             default:
                 throw PolluxError.offerDoesntProvideEnoughInformation
             }
@@ -88,11 +93,11 @@ extension PolluxImpl {
         }
         
         guard
-            let credentialDefinitonsStreamOption = options.first(where: {
-                if case .credentialDefinitionsStream = $0 { return true }
+            let credDefinitionDownloaderOption = options.first(where: {
+                if case .credentialDefinitionDownloader = $0 { return true }
                 return false
             }),
-            case let CredentialOperationsOptions.credentialDefinitionsStream(stream) = credentialDefinitonsStreamOption
+            case let CredentialOperationsOptions.credentialDefinitionDownloader(downloader) = credDefinitionDownloaderOption
         else {
             throw PolluxError.invalidPrismDID
         }
@@ -102,7 +107,7 @@ extension PolluxImpl {
             linkSecret: linkSecret,
             linkSecretId: linkSecretId,
             offerData: offerData,
-            credentialDefinitions: stream
+            credentialDefinitionDownloader: downloader
         )
     }
 }

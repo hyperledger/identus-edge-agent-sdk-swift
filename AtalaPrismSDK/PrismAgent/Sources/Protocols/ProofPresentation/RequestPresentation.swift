@@ -52,7 +52,7 @@ public struct RequestPresentation {
             let toDID = fromMessage.to
         else { throw PrismAgentError.invalidMessageType(
             type: fromMessage.piuri,
-            shouldBe: ProtocolTypes.didcommRequestPresentation.rawValue
+            shouldBe: [ProtocolTypes.didcommRequestPresentation.rawValue]
         ) }
 
         let body = try JSONDecoder.didComm().decode(Body.self, from: fromMessage.body)
