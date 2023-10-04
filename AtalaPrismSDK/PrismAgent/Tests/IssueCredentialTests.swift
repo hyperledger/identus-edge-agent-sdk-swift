@@ -6,8 +6,9 @@ final class IssueCredentialTests: XCTestCase {
     func testWhenValidIssueMessageThenInitIssueCredential() throws {
         let fromDID = DID(index: 0)
         let toDID = DID(index: 1)
-        let validIssueCredential = IssueCredential(
-            body: .init(formats: [.init(attachId: "test1", format: "test")]),
+        let validIssueCredential = IssueCredential3_0(
+            body: .init(),
+            type: ProtocolTypes.didcommIssueCredential3_0.rawValue,
             attachments: [],
             thid: "1",
             from: fromDID,
@@ -15,7 +16,7 @@ final class IssueCredentialTests: XCTestCase {
         )
         let issueMessage = try validIssueCredential.makeMessage()
 
-        let testIssueCredential = try IssueCredential(fromMessage: issueMessage)
+        let testIssueCredential = try IssueCredential3_0(fromMessage: issueMessage)
         XCTAssertEqual(validIssueCredential, testIssueCredential)
     }
 
@@ -33,8 +34,9 @@ final class IssueCredentialTests: XCTestCase {
     func testWhenValidRequestMessageThenInitIssueCredential() throws {
         let fromDID = DID(index: 0)
         let toDID = DID(index: 1)
-        let validRequestCredential = RequestCredential(
-            body: .init(formats: [.init(attachId: "test1", format: "test")]),
+        let validRequestCredential = RequestCredential3_0(
+            body: .init(),
+            type: ProtocolTypes.didcommRequestCredential3_0.rawValue,
             attachments: [],
             thid: "1",
             from: fromDID,
@@ -42,13 +44,12 @@ final class IssueCredentialTests: XCTestCase {
         )
         let requestMessage = try validRequestCredential.makeMessage()
 
-        let testIssueCredential = try IssueCredential.makeIssueFromRequestCredential(msg: requestMessage)
+        let testIssueCredential = try IssueCredential3_0.makeIssueFromRequestCredential(msg: requestMessage)
         XCTAssertEqual(validRequestCredential.from, testIssueCredential.to)
         XCTAssertEqual(validRequestCredential.to, testIssueCredential.from)
         XCTAssertEqual(validRequestCredential.attachments, testIssueCredential.attachments)
         XCTAssertEqual(validRequestCredential.id, testIssueCredential.thid)
         XCTAssertEqual(validRequestCredential.body.goalCode, validRequestCredential.body.goalCode)
         XCTAssertEqual(validRequestCredential.body.comment, validRequestCredential.body.comment)
-        XCTAssertEqual(validRequestCredential.body.formats, validRequestCredential.body.formats)
     }
 }

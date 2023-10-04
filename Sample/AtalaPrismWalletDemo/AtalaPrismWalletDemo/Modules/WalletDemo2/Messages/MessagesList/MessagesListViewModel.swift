@@ -69,12 +69,20 @@ final class MessagesListViewModelImpl: MessageListViewModel {
             return "Credential Preview"
         case .didcommIssueCredential:
             return "Issue Credential"
+        case .didcommIssueCredential3_0:
+            return "Issue Credential 3.0"
         case .didcommOfferCredential:
             return "Offer Credential"
+        case .didcommOfferCredential3_0:
+            return "Offer Credential 3.0"
         case .didcommProposeCredential:
             return "Propose Credential"
+        case .didcommProposeCredential3_0:
+            return "Propose Credential 3.0"
         case .didcommRequestCredential:
             return "Request Credential"
+        case .didcommRequestCredential3_0:
+            return "Request Credential 3.0"
         case .didcommconnectionRequest:
             return "Connection Request"
         case .didcommconnectionResponse:
@@ -91,6 +99,8 @@ final class MessagesListViewModelImpl: MessageListViewModel {
             return "Pickup Status"
         case .pickupReceived:
             return "Pickup Received"
+        case .didcommCredentialPreview3_0:
+            return "Credential Preview"
         }
     }
 
@@ -114,8 +124,8 @@ final class MessagesListViewModelImpl: MessageListViewModel {
                         other: to,
                         name: nil
                     ))
-                case .didcommIssueCredential:
-                    let issueCredential = try IssueCredential(fromMessage: message)
+                case .didcommIssueCredential, .didcommIssueCredential3_0:
+                    let issueCredential = try IssueCredential3_0(fromMessage: message)
                     _ = try await agent.processIssuedCredentialMessage(message: issueCredential)
                 default:
                     break

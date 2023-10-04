@@ -6,21 +6,13 @@ final class OfferCredentialTests: XCTestCase {
     func testWhenValidOfferMessageThenInitOfferCredential() throws {
         let fromDID = DID(index: 0)
         let toDID = DID(index: 1)
-        let validOfferCredential = OfferCredential(
-            body: .init(
-                credentialPreview: .init(
-                    attributes: [
-                        .init(
-                            name: "test1",
-                            value: "test",
-                            mimeType: "test.x")
-                    ]),
-                formats: [
-                    .init(
-                        attachId: "test1",
-                        format: "test")
-                ]
-            ),
+        let validOfferCredential = OfferCredential3_0(
+            id: "test2",
+            body: .init(credentialPreview: .init(
+                schemaId: "test1",
+                attributes: [.init(name: "test1", value: "test", mediaType: "test.x")]
+            )),
+            type: ProtocolTypes.didcommOfferCredential3_0.rawValue,
             attachments: [],
             thid: "1",
             from: fromDID,
@@ -28,7 +20,7 @@ final class OfferCredentialTests: XCTestCase {
         )
         let offerMessage = try validOfferCredential.makeMessage()
 
-        let testOfferCredential = try OfferCredential(fromMessage: offerMessage)
+        let testOfferCredential = try OfferCredential3_0(fromMessage: offerMessage)
         XCTAssertEqual(validOfferCredential, testOfferCredential)
     }
 

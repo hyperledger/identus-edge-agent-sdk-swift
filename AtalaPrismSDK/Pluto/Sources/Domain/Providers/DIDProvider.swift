@@ -12,5 +12,4 @@ protocol DIDProvider {
     func getDIDInfo(
         keyPairIndex: Int
     ) -> AnyPublisher<(did: DID, keyPairIndex: Int, alias: String?)?, Error>
-    func getLastKeyPairIndex() -> AnyPublisher<Int, Error>
 }

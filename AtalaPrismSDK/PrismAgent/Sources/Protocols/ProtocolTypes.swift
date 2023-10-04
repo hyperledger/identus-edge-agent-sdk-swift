@@ -1,3 +1,4 @@
+import Domain
 import Foundation
 
 public enum ProtocolTypes: String {
@@ -10,10 +11,15 @@ public enum ProtocolTypes: String {
     case didcommRequestPresentation = "https://didcomm.atalaprism.io/present-proof/3.0/request-presentation"
     case didcommProposePresentation = "https://didcomm.atalaprism.io/present-proof/3.0/propose-presentation"
     case didcommCredentialPreview = "https://didcomm.org/issue-credential/2.0/credential-preview"
+    case didcommCredentialPreview3_0 = "https://didcomm.org/issue-credential/3.0/credential-preview"
     case didcommIssueCredential = "https://didcomm.org/issue-credential/2.0/issue-credential"
+    case didcommIssueCredential3_0 = "https://didcomm.org/issue-credential/3.0/issue-credential"
     case didcommOfferCredential = "https://didcomm.org/issue-credential/2.0/offer-credential"
+    case didcommOfferCredential3_0 = "https://didcomm.org/issue-credential/3.0/offer-credential"
     case didcommProposeCredential = "https://didcomm.org/issue-credential/2.0/propose-credential"
+    case didcommProposeCredential3_0 = "https://didcomm.org/issue-credential/3.0/propose-credential"
     case didcommRequestCredential = "https://didcomm.org/issue-credential/2.0/request-credential"
+    case didcommRequestCredential3_0 = "https://didcomm.org/issue-credential/3.0/request-credential"
     case didcommconnectionRequest = "https://atalaprism.io/mercury/connections/1.0/request"
     case didcommconnectionResponse = "https://atalaprism.io/mercury/connections/1.0/response"
     case didcomminvitation = "https://didcomm.org/out-of-band/2.0/invitation"

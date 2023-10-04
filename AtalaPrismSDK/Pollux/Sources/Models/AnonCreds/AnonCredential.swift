@@ -1,4 +1,5 @@
 import AnoncredsSwift
+import Core
 import Domain
 import Foundation
 
@@ -59,9 +60,7 @@ struct AnonCredential {
     
     func getAnoncred() throws -> AnoncredsSwift.Credential {
         let json = try JSONEncoder.didComm().encode(self)
-        guard let jsonString = String(data: json, encoding: .utf8) else {
-            throw UnknownError.somethingWentWrongError()
-        }
+        let jsonString = try json.toString()
         return try .init(jsonString: jsonString)
     }
 }
@@ -112,47 +111,5 @@ extension AnonCredential: Codable {
         case signatureCorrectnessProof = "signature_correctness_proof"
         case revocationRegistry = "rev_reg"
         case witness
-    }
-}
-
-extension AnonCredential: Domain.Credential {
-    var id: String {
-        guard
-            let jsonData = try? JSONEncoder().encode(self),
-            let identifier = String(data: jsonData.sha256, encoding: .utf8)
-        else {
-            assert(true, "This should never happen")
-            return ""
-        }
-        return identifier
-    }
-    
-    var issuer: String {
-        ""
-    }
-    
-    var subject: String? {
-        nil
-    }
-    
-    var claims: [Domain.Claim] {
-        values.map {
-            .init(key: $0, value: .string($1.raw))
-        }
-    }
-    
-    var properties: [String : Any] {
-        let properties = [
-            "schemaId" : schemaId,
-            "credentialDefinitionId" : credentialDefinitionId,
-//            "signatureJson" : signatureJson,
-//            "signatureCorrectnessProofJson" : signatureCorrectnessProofJson,
-//            "witnessJson" : witnessJson
-        ] as [String : Any]
-        
-//        revocationRegistryId.map { properties["revocationRegistryId"] = $0 }
-//        revocationRegistryJson.map { properties["revocationRegistryJson"] = $0 }
-        
-        return properties
     }
 }

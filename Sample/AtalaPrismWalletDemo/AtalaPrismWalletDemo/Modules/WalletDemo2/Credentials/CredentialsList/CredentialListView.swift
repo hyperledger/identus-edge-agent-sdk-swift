@@ -22,7 +22,7 @@ struct CredentialListView<
             List(viewModel.credentials, id: \.id) { credential in
                 NavigationLink(value: credential) {
                     VStack(alignment: .leading) {
-                        Text(credential.credentialType)
+                        Text(credential.id)
                             .font(.headline)
                         Text(credential.issuer)
                             .lineLimit(1)
@@ -32,19 +32,9 @@ struct CredentialListView<
                         Text(credential.issuanceDate)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
-                        if !credential.type.isEmpty {
-                            Spacer()
-                            HStack {
-                                ForEach(credential.type, id: \.self) { type in
-                                    Text(type)
-                                        .font(.caption)
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 4)
-                                        .background(Color.blue.opacity(0.2))
-                                        .cornerRadius(4)
-                                }
-                            }
-                        }
+                        Text(credential.type)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
                     }
                 }
             }

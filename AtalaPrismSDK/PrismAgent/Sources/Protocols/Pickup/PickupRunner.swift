@@ -19,7 +19,7 @@ class PickupRunner {
         default:
             throw PrismAgentError.invalidMessageType(
                 type: message.piuri,
-                shouldBe: ProtocolTypes.pickupStatus.rawValue + " or " + ProtocolTypes.pickupDelivery.rawValue
+                shouldBe: [ProtocolTypes.pickupStatus.rawValue, ProtocolTypes.pickupDelivery.rawValue]
             )
         }
         self.mercury = mercury

@@ -162,4 +162,6 @@ extension W3CVerifiableCredential: Credential {
         
         return properties
     }
+    
+    var credentialType: String { "W3C" }
 }

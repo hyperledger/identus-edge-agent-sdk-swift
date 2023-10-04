@@ -29,8 +29,20 @@ public extension PrismAgent {
     ///   - message: Issue credential Message.
     /// - Returns: The parsed verifiable credential.
     /// - Throws: PrismAgentError, if there is a problem parsing the credential.
-    func processIssuedCredentialMessage(message: IssueCredential) async throws -> Credential {
-        let credential = try pollux.parseCredential(issuedCredential: message.makeMessage())
+    func processIssuedCredentialMessage(message: IssueCredential3_0) async throws -> Credential {
+        guard
+            let linkSecret = try await pluto.getLinkSecret().first().await().first
+        else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+        
+        let downloader = DownloadDataWithResolver(castor: castor)
+        let credential = try await pollux.parseCredential(
+            issuedCredential: message.makeMessage(),
+            options: [
+                .linkSecret(id: "", secret: linkSecret),
+                .credentialDefinitionDownloader(downloader: downloader),
+                .schemaDownloader(downloader: downloader)
+            ]
+        )
         
         guard let storableCredential = credential.storable else {
             return credential
@@ -49,7 +61,7 @@ public extension PrismAgent {
     ///   - did: Received offer credential.
     /// - Returns: Created request credential
     /// - Throws: PrismAgentError, if there is a problem creating the request credential.
-    func prepareRequestCredentialWithIssuer(did: DID, offer: OfferCredential) async throws -> RequestCredential? {
+    func prepareRequestCredentialWithIssuer(did: DID, offer: OfferCredential3_0) async throws -> RequestCredential3_0? {
         guard did.method == "prism" else { throw PolluxError.invalidPrismDID }
         let didInfo = try await pluto
             .getDIDInfo(did: did)
@@ -58,54 +70,75 @@ public extension PrismAgent {
 
         guard let storedPrivateKey = didInfo?.privateKeys.first else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
-        let privateKey = try await apollo.restorePrivateKey(
-            identifier: storedPrivateKey.restorationIdentifier,
-            data: storedPrivateKey.storableData
-        )
+        let privateKey = try await apollo.restorePrivateKey(storedPrivateKey)
 
         guard
             let exporting = privateKey.exporting,
             let linkSecret = try await pluto.getLinkSecret().first().await().first
         else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
         
+        let downloader = DownloadDataWithResolver(castor: castor)
         let requestString = try await pollux.processCredentialRequest(
-            offerMessage: try offer.makeMessage(),
+            offerMessage: offer.makeMessage(),
             options: [
                 .exportableKey(exporting),
                 .subjectDID(did),
                 .linkSecret(id: did.string, secret: linkSecret),
-                .credentialDefinitionsStream(stream: credentialDefinitions),
-                .schemasStream(stream: schemas)
+                .credentialDefinitionDownloader(downloader: downloader),
+                .schemaDownloader(downloader: downloader)
             ]
         )
 
-        guard let base64String = requestString.data(using: .utf8)?.base64EncodedString() else {
-            throw UnknownError.somethingWentWrongError()
+        guard
+            let offerFormat = offer.attachments.first?.format,
+            let base64String = requestString.data(using: .utf8)?.base64EncodedString()
+        else {
+            throw CommonError.invalidCoding(message: "Could not encode to base64")
         }
-        let requestCredential = RequestCredential(
+        guard
+            let offerPiuri = ProtocolTypes(rawValue: offer.type)
+        else {
+            throw PrismAgentError.invalidMessageType(
+                type: offer.type,
+                shouldBe: [
+                    ProtocolTypes.didcommOfferCredential3_0.rawValue
+                ]
+            )
+        }
+        let format: String
+        switch offerFormat {
+        case "prism/jwt":
+            format = "prism/jwt"
+        case "anoncreds/credential-offer@v1.0":
+            format = "anoncreds/credential-request@v1.0"
+        default:
+            throw PrismAgentError.invalidMessageType(
+                type: offerFormat,
+                shouldBe: [
+                    "prism/jwt",
+                    "anoncreds/credential-offer@v1.0"
+                ]
+            )
+        }
+        
+        let type = offerPiuri == .didcommOfferCredential ?
+            ProtocolTypes.didcommRequestCredential :
+            ProtocolTypes.didcommRequestCredential3_0
+        
+        let requestCredential = RequestCredential3_0(
             body: .init(
                 goalCode: offer.body.goalCode,
-                comment: offer.body.comment,
-                formats: offer.body.formats
+                comment: offer.body.comment
             ),
+            type: type.rawValue,
             attachments: [.init(
-                mediaType: "prism/jwt",
-                data: AttachmentBase64(base64: base64String)
+                data: AttachmentBase64(base64: base64String),
+                format: format
             )],
             thid: offer.thid,
             from: offer.to,
             to: offer.from
         )
         return requestCredential
-    }
-}
-
-// TODO: Just while we dont have API for this
-extension PrismAgent {
-    var credentialDefinitions: AnyPublisher<[(id: String, json: String)], Error> {
-        Just([(id: String, json: String)]()).tryMap { $0 }.eraseToAnyPublisher()
-    }
-    var schemas: AnyPublisher<[(id: String, json: String)], Error> {
-        Just([(id: String, json: String)]()).tryMap { $0 }.eraseToAnyPublisher()
     }
 }

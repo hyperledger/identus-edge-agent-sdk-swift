@@ -6,7 +6,10 @@ import XCTest
 final class ECSigningTests: XCTestCase {
     func testSigning() throws {
         let privKey = Secp256k1PrivateKey(
-            lockedPrivateKey: .init(data: Data(fromBase64URL: "N_JFgvYaReyRXwassz5FHg33A4I6dczzdXrjdHGksmg")!)
+            lockedPrivateKey: .init(
+                data: Data(fromBase64URL: "N_JFgvYaReyRXwassz5FHg33A4I6dczzdXrjdHGksmg")!
+            ),
+            derivationPath: .init(index: 0)
         )
         let testMessage = "Test".data(using: .utf8)!
 

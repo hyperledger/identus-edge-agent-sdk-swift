@@ -56,6 +56,17 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
             }
             .eraseToAnyPublisher()
     }
+    
+    func getLastKeyIndex() -> AnyPublisher<Int, Error> {
+        keyDao.fetchController(
+            sorting: NSSortDescriptor(key: "index", ascending: true),
+            context: readContext
+        )
+        .map {
+            $0.first.map { $0.index?.intValue ?? 0 } ?? 0
+        }
+        .eraseToAnyPublisher()
+    }
 }
 
 extension CDKey {
@@ -79,12 +90,14 @@ extension CDKey {
 
             return StorableKeyModel(
                 restorationIdentifier: keychainKey.restorationIdentifier,
-                storableData: keyData
+                storableData: keyData,
+                index: keychainKey.index?.intValue
             )
         case let databaseKey as CDDatabaseKey:
             return StorableKeyModel(
                 restorationIdentifier: databaseKey.restorationIdentifier,
-                storableData: databaseKey.storableData
+                storableData: databaseKey.storableData,
+                index: databaseKey.index?.intValue
             )
         default:
             throw UnknownError.somethingWentWrongError(

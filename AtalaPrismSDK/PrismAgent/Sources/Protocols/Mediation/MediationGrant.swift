@@ -23,7 +23,7 @@ struct MediationGrant {
             fromMessage.piuri == ProtocolTypes.didcommMediationGrant.rawValue
         else { throw PrismAgentError.invalidMessageType(
             type: fromMessage.piuri,
-            shouldBe: ProtocolTypes.didcommMediationGrant.rawValue
+            shouldBe: [ProtocolTypes.didcommMediationGrant.rawValue]
         ) }
         self.init(
             id: fromMessage.id,

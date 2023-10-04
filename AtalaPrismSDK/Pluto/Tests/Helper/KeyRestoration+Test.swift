@@ -10,11 +10,11 @@ struct MockKeyRestoration: KeyRestoration {
         identifier == "MockPublic"
     }
 
-    func restorePrivateKey(identifier: String?, data: Data) throws -> PrivateKey {
-        MockPrivateKey(raw: data)
+    func restorePrivateKey(_ key: Domain.StorableKey) throws -> PrivateKey {
+        MockPrivateKey(raw: key.storableData)
     }
 
-    func restorePublicKey(identifier: String?, data: Data) throws -> PublicKey {
-        MockPublicKey(raw: data)
+    func restorePublicKey(_ key: Domain.StorableKey) throws -> PublicKey {
+        MockPublicKey(raw: key.storableData)
     }
 }

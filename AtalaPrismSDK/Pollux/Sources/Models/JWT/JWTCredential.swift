@@ -62,5 +62,6 @@ extension JWTCredential: Credential {
         return properties
     }
     
+    var credentialType: String { "JWT" }
 }
 
