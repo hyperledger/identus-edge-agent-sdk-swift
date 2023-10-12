@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.4.0...3.5.0) (2023-10-12)
+
+
+### Features
+
+* **anoncreds:** add support for anoncreds issuance flow ([579c603](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/579c6030eefa2cf4f9690e512bb86e86927ba20a))
+
 # [3.4.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.3.0...3.4.0) (2023-09-27)
 
 
