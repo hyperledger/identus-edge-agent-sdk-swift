@@ -41,10 +41,21 @@ public struct DID: Equatable {
     /// - Warning: This is not the preferable way of initializing a DID from a string. Please use `Castor.parseDID(str:)` for uknown strings.
     /// - Parameter string: DID String
     public init(string: String) throws {
-        var aux = string.components(separatedBy: ":")
-        guard aux.count >= 3 else { throw CastorError.invalidDIDString(string) }
-        self.schema = aux.removeFirst()
-        self.method = aux.removeFirst()
-        self.methodId = aux.joined(separator: ":")
+        let pattern = "^(?!.*::)did:([a-z0-9]+):([\\w\\.\\-\\%\\:]+)$"
+        let regex = try? NSRegularExpression(pattern: pattern)
+        let matches = regex?.matches(in: string, options: [], range: NSRange(string.startIndex..., in: string))
+
+        guard 
+            let match = matches?.first, 
+            match.numberOfRanges == 3,
+            let methodRange = Range(match.range(at: 1), in: string),
+            let methodIdRange = Range(match.range(at: 2), in: string)
+        else {
+            throw CastorError.invalidDIDString(string)
+        }
+
+        self.schema = "did"
+        self.method = String(string[methodRange])
+        self.methodId = String(string[methodIdRange])
     }
 }

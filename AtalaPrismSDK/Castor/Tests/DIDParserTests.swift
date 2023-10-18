@@ -1,4 +1,4 @@
-@testable import Castor
+@testable import Domain
 import XCTest
 
 final class DIDParserTests: XCTestCase {
@@ -7,9 +7,9 @@ final class DIDParserTests: XCTestCase {
         let didExample2 = "did:prism01:b2.-_%11:b4._-%11"
         let didExample3 = "did:prism:b6c0c33d701ac1b9a262a14454d1bbde3d127d697a76950963c5fd930605:Cj8KPRI7CgdtYXN0ZXIwEAFKLgoJc2VmsxEiECSTjyV7sUfCr_ArpN9rvCwR9fRMAhcsr_S7ZRiJk4p5k"
 
-        let parsedDID1 = try DIDParser(didString: didExample1).parse()
-        let parsedDID2 = try DIDParser(didString: didExample2).parse()
-        let parsedDID3 = try DIDParser(didString: didExample3).parse()
+        let parsedDID1 = try DID(string: didExample1)
+        let parsedDID2 = try DID(string: didExample2)
+        let parsedDID3 = try DID(string: didExample3)
 
         XCTAssertEqual(parsedDID1.schema, "did")
         XCTAssertEqual(parsedDID1.method, "aaaaaa")
@@ -31,10 +31,10 @@ final class DIDParserTests: XCTestCase {
         let didExample4 = "did::prism:aaaaaaaaaaa:aaaa"
         let didExample5 = "did:prism::aaaaaaaaaaa:aaaa"
 
-        XCTAssertThrowsError(try DIDParser(didString: didExample1).parse())
-        XCTAssertThrowsError(try DIDParser(didString: didExample2).parse())
-        XCTAssertThrowsError(try DIDParser(didString: didExample3).parse())
-        XCTAssertThrowsError(try DIDParser(didString: didExample4).parse())
-        XCTAssertThrowsError(try DIDParser(didString: didExample5).parse())
+        XCTAssertThrowsError(try DID(string: didExample1))
+        XCTAssertThrowsError(try DID(string: didExample2))
+        XCTAssertThrowsError(try DID(string: didExample3))
+        XCTAssertThrowsError(try DID(string: didExample4))
+        XCTAssertThrowsError(try DID(string: didExample5))
     }
 }
