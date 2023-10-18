@@ -1,3 +1,5 @@
+import Foundation
+
 /// Represents a DIDUrl with "did", "path", "parameters", "fragment"
 /// As specified in [w3 standards](`https://www.w3.org/TR/did-core/#dfn-did-urls`)
 public struct DIDUrl {
@@ -32,6 +34,55 @@ public struct DIDUrl {
         self.path = path
         self.parameters = parameters
         self.fragment = fragment
+    }
+
+    public init(string: String) throws {
+        let regexPattern = #"^did:([^:/?#]+):([^?#]*)(?:\?([^#]*))?(?:#(.*))?$"#
+        let regex = try? NSRegularExpression(pattern: regexPattern)
+        guard let match = regex?.firstMatch(in: string, range: NSRange(string.startIndex..., in: string)) else {
+            throw CastorError.invalidDIDString(string)
+        }
+
+        // Extract DID Method
+        guard let methodRange = Range(match.range(at: 1), in: string) else {
+            throw CastorError.invalidDIDString(string)
+        }
+        let method = String(string[methodRange])
+
+        // Extract methodId and path from the second capturing group
+        guard let fullMethodIdRange = Range(match.range(at: 2), in: string) else {
+            throw CastorError.invalidDIDString(string)
+        }
+        let fullMethodIdComponents = string[fullMethodIdRange].split(separator: "/", maxSplits: 1)
+        let methodId = String(fullMethodIdComponents[0])
+        let path = fullMethodIdComponents.count > 1 ? "/" + String(fullMethodIdComponents[1]) : nil
+
+        // Construct the DID instance
+        did = DID(schema: "did", method: method, methodId: methodId)
+
+        // Extract Queries
+        if let queriesRange = Range(match.range(at: 3), in: string) {
+            let queryString = String(string[queriesRange])
+            let queryPairs = queryString.split(separator: "&").map { $0.split(separator: "=") }
+            var queries: [String: String] = [:]
+            for pair in queryPairs {
+                if pair.count == 2 {
+                    queries[String(pair[0])] = String(pair[1])
+                }
+            }
+            self.parameters = queries
+        } else {
+            self.parameters = [:]
+        }
+
+        self.path = path?.components(separatedBy: "/").filter { !$0.isEmpty } ?? []
+
+        // Extract Fragment
+        if let fragmentRange = Range(match.range(at: 4), in: string) {
+            self.fragment = String(string[fragmentRange])
+        } else {
+            self.fragment = nil
+        }
     }
 
     /// A string representation of this `DIDUrl`.

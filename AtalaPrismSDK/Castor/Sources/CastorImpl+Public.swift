@@ -8,7 +8,7 @@ extension CastorImpl: Castor {
     /// - Returns: The DID object
     /// - Throws: An error if the string is not a valid DID
     public func parseDID(str: String) throws -> DID {
-        try DIDParser(didString: str).parse()
+        try DID(string: str)
     }
 
 //    /// createPrismDID creates a DID for a prism (a device or server that acts as a DID owner and controller) using a given master public key and list of services. This function may throw an error if the master public key or services are invalid.
