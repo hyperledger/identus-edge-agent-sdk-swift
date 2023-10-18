@@ -1,4 +1,4 @@
-@testable import Castor
+import Domain
 import XCTest
 
 final class DIDUrlParserTests: XCTestCase {
@@ -7,9 +7,9 @@ final class DIDUrlParserTests: XCTestCase {
         let didExample2 = "did:example:123456/path?query=something&query2=something#0"
         let didExample3 = "did:example:123456/path/jpg.pp?query=something"
 
-        let parsedDID1 = try DIDUrlParser(didUrlString: didExample1).parse()
-        let parsedDID2 = try DIDUrlParser(didUrlString: didExample2).parse()
-        let parsedDID3 = try DIDUrlParser(didUrlString: didExample3).parse()
+        let parsedDID1 = try DIDUrl(string: didExample1)
+        let parsedDID2 = try DIDUrl(string: didExample2)
+        let parsedDID3 = try DIDUrl(string: didExample3)
 
         XCTAssertEqual(parsedDID1.did.schema, "did")
         XCTAssertEqual(parsedDID1.did.method, "example")

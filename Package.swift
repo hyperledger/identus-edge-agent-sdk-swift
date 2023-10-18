@@ -63,7 +63,6 @@ let package = Package(
             from: "1.4.4"
         ),
         .package(url: "git@github.com:apple/swift-protobuf.git", from: "1.7.0"),
-        .package(url: "git@github.com:antlr/antlr4.git", exact: "4.12.0"),
         .package(url: "git@github.com:input-output-hk/atala-prism-didcomm-swift.git", from: "0.3.6"),
         .package(url: "git@github.com:swift-libp2p/swift-multibase.git", from: "0.0.1"),
         .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", exact: "0.10.0"),
@@ -114,8 +113,7 @@ let package = Package(
                 "Domain",
                 "Core",
                 .product(name: "Multibase", package: "swift-multibase"),
-                .product(name: "SwiftProtobuf", package: "swift-protobuf"),
-                .product(name: "Antlr4", package: "antlr4")
+                .product(name: "SwiftProtobuf", package: "swift-protobuf")
             ],
             path: "AtalaPrismSDK/Castor/Sources"
         ),
