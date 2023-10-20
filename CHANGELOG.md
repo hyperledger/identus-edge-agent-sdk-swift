@@ -1,3 +1,10 @@
+# [3.6.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.5.0...3.6.0) (2023-10-20)
+
+
+### Features
+
+* **castor:** remove antlr library and use regex instead ([d7b429e](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/d7b429eb46657be56bb3cbf92423baa9f9189a1a))
+
 # [3.5.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.4.0...3.5.0) (2023-10-12)
 
 
