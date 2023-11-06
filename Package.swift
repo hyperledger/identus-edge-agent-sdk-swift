@@ -69,6 +69,10 @@ let package = Package(
         .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", from: "4.1.3"),
         .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.4.1"),
         .package(url: "https://github.com/input-output-hk/atala-prism-apollo.git", exact: "1.2.10"),
+        .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.3.3"),
+        .package(url: "https://github.com/apple/swift-openapi-generator", .upToNextMinor(from: "0.2.0")),
+        .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "0.2.0")),
+        .package(url: "https://github.com/apple/swift-openapi-urlsession", .upToNextMinor(from: "0.2.0")),
     ],
     targets: [
         .target(
@@ -205,9 +209,22 @@ let package = Package(
             name: "e2e",
             dependencies: [
                 "PrismAgent",
-//                .product(name: "OpenAPIClient", package: "OpenAPIClient")
+                .product(
+                    name: "OpenAPIRuntime",
+                    package: "swift-openapi-runtime"
+                ),
+                .product(
+                    name: "OpenAPIURLSession",
+                    package: "swift-openapi-urlsession"
+                ),
             ],
-            path: "AtalaPrismSDK/PrismAgent/e2eTests"
+            path: "AtalaPrismSDK/PrismAgent/e2eTests",
+            plugins: [
+                .plugin(
+                    name: "OpenAPIGenerator",
+                    package: "swift-openapi-generator"
+                )
+            ]
         )
     ]
 )
