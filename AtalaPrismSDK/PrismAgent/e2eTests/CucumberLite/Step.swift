@@ -1,95 +1,11 @@
+//
+//  File.swift
+//  
+//
+//  Created by io on 22/11/23.
+//
+
 import Foundation
-import XCTest
-import Logging
-
-class CucumberLite: XCTestCase {
-    private static var actors: [String: Actor] = [:]
-    
-    override func setUp() {
-        CucumberLite.addActor("Cloud Agent")
-        CucumberLite.addActor("Edge Agent")
-    }
-    
-    override class func tearDown() {
-        actors = [:]
-    }
-    
-    private static func addActor(_ name: String) {
-        actors[name] = Actor(name)
-    }
-    
-    static func asInt(_ value: String) -> Int {
-        return Int(value)!
-    }
-    
-    static func asActor(_ name: String) -> Actor {
-        return self.actors[name]!
-    }
-}
-
-class Actor {
-    var name: String
-    private var context: [String: Any] = [:]
-    
-    init(_ name: String) {
-        self.name = name
-    }
-    
-    func remember(key: String, value: Any) {
-        print("        ", "Remembers", value)
-        context[key] = value
-    }
-    
-    func recall<T>(key: String) -> T {
-        print("        ", "Recalls", key)
-        XCTAssert(context[key] != nil, "Unable to recall [\(key)] all I know is \(context.keys)")
-        return context[key] as! T
-    }
-}
-
-class Scenario {
-    var scenario: String
-    private var stepList: [StepInstance] = []
-    
-    init(scenario: String) {
-        self.scenario = scenario
-    }
-    
-    private func step(context: String, step: String) {
-        let stepInstance = StepInstance()
-        stepInstance.context = context
-        stepInstance.step = step
-        stepList.append(stepInstance)
-    }
-    
-    func given(_ step: String) {
-        self.step(context: "Given", step: step)
-    }
-    
-    func when(_ step: String) {
-        self.step(context: "When", step: step)
-    }
-    
-    func then(_ step: String) {
-        self.step(context: "Then", step: step)
-    }
-    
-    func run() async throws {
-        print("--------------------------------")
-        print(scenario)
-
-        var lastContext = ""
-        for step in stepList {
-            print("    ", step.context == lastContext ? "And" : step.context, step.step)
-            lastContext = step.context
-            try await StepRegistry.run(step.step)
-        }
-    }
-    
-    func instrumented<T>(parameters: T, callback: @escaping (T) -> ()) {
-        callback(parameters)
-    }
-}
 
 class StepInstance {
     var context: String = ""
@@ -113,7 +29,6 @@ struct StepRegistry {
     typealias One = (String)
     typealias Two = (String, String)
     typealias Three = (String, String, String)
-    
     
     private static var parameterPattern = "\\{\\}"
     static var runnableSteps: [String : RunnableStep] = [:]

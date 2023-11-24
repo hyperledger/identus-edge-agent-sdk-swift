@@ -1,23 +1,17 @@
-//
-//  CredentialTests.swift
-//  
-//
-//  Created by io on 06/09/23.
-//
 
-import XCTest
-
-final class CredentialTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+final class CredentialTests: Feature {
+    override func featureTitle() -> String {
+        return "Receive verifiable credential"
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // CALL STEPS
+    
+    func testReceiveOneCredential() async throws {
+        let createConnection = Scenario(scenario: "Receive one verifiable credential")
+        createConnection.when("Cloud Agent offers a credential")
+        createConnection.then("Edge Agent should receive the credential")
+        createConnection.when("Agent accepts the credential")
+        createConnection.when("Cloud Agent should see the credential was accepted")
+        createConnection.then("Edge Agent wait to receive 1 issued credentials")
+        createConnection.then("Edge Agent process 1 issued credentials")
+        try await createConnection.run()
     }
 }

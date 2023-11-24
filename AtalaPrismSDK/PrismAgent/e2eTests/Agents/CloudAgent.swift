@@ -1,6 +1,7 @@
 import Foundation
 import OpenAPIRuntime
 import OpenAPIURLSession
+import HTTPTypes
 
 class CloudAgent {
 
@@ -13,7 +14,7 @@ class CloudAgent {
             configuration: .init(dateTranscoder: MyDateTranscoder()),
             transport: transport!,
             middlewares: [
-                APITokenMiddleware(apitoken: "test"),
+                APITokenMiddleware(apikey: "test"),
                 StepReporterMiddleware()
             ] // TODO: read from environment
         )
@@ -24,6 +25,20 @@ class CloudAgent {
 
     static func getConnections() async throws -> Components.Schemas.ConnectionsPage {
         let response = try await client.getConnections(.init())
+        
+        switch(response) {
+        case .ok(let okResponse):
+            switch(okResponse.body) {
+            case .json(let response):
+                return response
+            }
+        default:
+            throw Error.WrongResponse
+        }
+    }
+    
+    static func getConnection(_ connectionId: String) async throws -> Components.Schemas.Connection {
+        let response = try await client.getConnection(path: .init(connectionId: connectionId))
         
         switch(response) {
         case .ok(let okResponse):
@@ -84,36 +99,39 @@ struct MyDateTranscoder: DateTranscoder {
     }
 }
 
+extension HTTPField.Name {
+    static let apikey = Self("apikey")!
+}
 
 struct APITokenMiddleware: ClientMiddleware {
-    let apitoken: String
+    let apikey: String
     
     func intercept(
-        _ request: Request,
+        _ request: HTTPRequest,
+        body: HTTPBody?,
         baseURL: URL,
         operationID: String,
-        next: @Sendable (Request, URL) async throws -> OpenAPIRuntime.Response
-    ) async throws -> OpenAPIRuntime.Response {
+        next: @Sendable (HTTPRequest, HTTPBody?, URL) async throws -> (HTTPResponse, HTTPBody?)
+    ) async throws -> (HTTPResponse, HTTPBody?) {
         var request = request
-        request.headerFields.append(.init(
-            name: "apitoken", value: apitoken
-        ))
-        return try await next(request, baseURL)
+        request.headerFields[.apikey] = apikey
+        return try await next(request, body, baseURL)
     }
     
-    init(apitoken: String) {
-        self.apitoken = apitoken
+    init(apikey: String) {
+        self.apikey = apikey
     }
 }
 
 struct StepReporterMiddleware: ClientMiddleware {
     func intercept(
-        _ request: Request,
+        _ request: HTTPRequest,
+        body: HTTPBody?,
         baseURL: URL,
         operationID: String,
-        next: @Sendable (Request, URL) async throws -> OpenAPIRuntime.Response
-    ) async throws -> OpenAPIRuntime.Response {
-        print("        ", request.method.name.value, "to", request.path)
-        return try await next(request, baseURL)
+        next: @Sendable (HTTPRequest, HTTPBody?, URL) async throws -> (HTTPResponse, HTTPBody?)
+    ) async throws -> (HTTPResponse, HTTPBody?) {
+        print("        ", "Cloud agent", request.method.rawValue, "to", request.path!)
+        return try await next(request, body, baseURL)
     }
 }

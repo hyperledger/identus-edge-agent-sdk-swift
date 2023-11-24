@@ -4,18 +4,21 @@ import Builders
 import Combine
 import Domain
 import Pluto
+import Core
 
-class EdgeAgent {
-//    init() async throws {
-//        let mediatorDID = try DID(string: "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOiJodHRwczovL21lZGlhdG9yLnJvb3RzaWQuY2xvdWQiLCJhIjpbImRpZGNvbW0vdjIiXX0")
-//        let prismAgent = PrismAgent(seedData: nil, mediatorDID: mediatorDID)
-//        try await prismAgent.start()
-//    }
+class Sdk: Ability {
+    private var sdk: PrismAgent? = nil
     
-    init() async throws {
-        let mediatorDID = try DID(string: "did:peer:2.Ez6LShwwgh61j1s7pev4Yxpg2tpx3TVM7m1Na8cdM9b3hV2b1.Vz6MkvTPiJf5E4hof5EaKTpkFmetJ1ALCHty6A71Sm4o5Xby4.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAiLCJhIjpbImRpZGNvbW0vdjIiXX0")
-//
-//        let mediatorDID = try DID(string: "did:peer:2.Ez6LSms555YhFthn1WV8ciDBpZm86hK9tp83WojJUmxPGk1hZ.Vz6MkmdBjMyB4TS5UbbQw54szm8yvMMf1ftGV2sQVYAxaeWhE.SeyJpZCI6Im5ldy1pZCIsInQiOiJkbSIsInMiOiJodHRwczovL21lZGlhdG9yLnJvb3RzaWQuY2xvdWQiLCJhIjpbImRpZGNvbW0vdjIiXX0")
+    static func use() -> Sdk {
+        return Sdk()
+    }
+    
+    func getSdk() -> PrismAgent {
+        return sdk!
+    }
+    
+    func initialize() async throws {
+        let mediatorDID = try await getPrismMediatorDid()
 
         let apollo = ApolloBuilder().build()
         let castor = CastorBuilder(apollo: apollo).build()
@@ -23,7 +26,8 @@ class EdgeAgent {
             coreDataSetup: .init(
                 modelPath: .storeName("PrismPluto"),
                 storeType: .memory
-            )
+            ),
+            keychain: KeychainMock()
         )).build()
         let pollux = PolluxBuilder().build()
         let mercury = MercuryBuilder(
@@ -35,7 +39,11 @@ class EdgeAgent {
             )
         ).build()
         
-        let agent = PrismAgent(
+        PrismAgent.setupLogging(logLevels: [
+            .prismAgent: .warning
+        ])
+        
+        sdk = PrismAgent(
             apollo: apollo,
             castor: castor,
             pluto: pluto,
@@ -48,7 +56,42 @@ class EdgeAgent {
             )
         )
         
-        try await agent.start()
+        try await sdk!.start()
+        sdk!.startFetchingMessages()
+    }
+    
+    func teardown() async throws {
+        sdk!.stopFetchingMessages()
+        try await sdk!.stop()
+    }
+    
+    private func getPrismMediatorDid() async throws -> DID {
+        let url = URL(string: "http://localhost:8080/invitation")!
+        let jsonData: [String: Any] = try await Api.get(from: url)
+        let did = (jsonData["from"] as? String)!
+        return try DID(string: did)
+    }
+    
+    private func getRootsMediatorDid() async throws -> DID {
+        let url = URL(string: "http://localhost:8000/oob_url")!
+        let invitationUrl: String = try await Api.get(from: url)
+        let base64data: String = String(invitationUrl.split(separator: "?_oob=").last!)
+        let decodedData = Sdk.fromBase64(base64data)
+        let json = try (JSONSerialization.jsonObject(with: decodedData, options: []) as? [String: Any])!
+        let from = (json["from"] as? String)!
+        return try DID(string: from)
+    }
+    
+    private static func fromBase64(_ encoded: String) -> Data {
+        var encoded = encoded;
+        let remainder = encoded.count % 4
+        if remainder > 0 {
+            encoded = encoded.padding(
+                toLength: encoded.count + 4 - remainder,
+                withPad: "=", startingAt: 0);
+        }
+        return Data(base64Encoded: encoded)!
+//        return String(data: data, encoding: .utf8)!
     }
     
     private func createSecretsStream(
@@ -62,10 +105,7 @@ class EdgeAgent {
                 Future {
                     try await array.asyncMap { did, privateKeys, _ in
                         let privateKeys = try await privateKeys.asyncMap {
-                            try await keyRestoration.restorePrivateKey(
-                                identifier: $0.restorationIdentifier,
-                                data: $0.storableData
-                            )
+                            try await keyRestoration.restorePrivateKey($0)
                         }
                         let secrets = try self.parsePrivateKeys(
                             did: did,
