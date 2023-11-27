@@ -28,12 +28,26 @@ extension PolluxImpl {
         case "anoncreds/credential-offer@v1.0":
             switch offerAttachment.data {
             case let attachmentData as AttachmentJsonData:
-                return try await processAnoncredsCredentialRequest(offerData: attachmentData.data, options: options)
+                guard let thid = offerMessage.thid else {
+                    throw PolluxError.messageDoesntProvideEnoughInformation
+                }
+                return try await processAnoncredsCredentialRequest(
+                    offerData: attachmentData.data,
+                    thid: thid,
+                    options: options
+                )
             case let attachmentData as AttachmentBase64:
-                guard let data = Data(fromBase64URL: attachmentData.base64) else {
+                guard 
+                    let thid = offerMessage.thid,
+                    let data = Data(fromBase64URL: attachmentData.base64)
+                else {
                     throw PolluxError.offerDoesntProvideEnoughInformation
                 }
-                return try await processAnoncredsCredentialRequest(offerData: data, options: options)
+                return try await processAnoncredsCredentialRequest(
+                    offerData: data,
+                    thid: thid,
+                    options: options
+                )
             default:
                 throw PolluxError.offerDoesntProvideEnoughInformation
             }
@@ -70,6 +84,7 @@ extension PolluxImpl {
     
     private func processAnoncredsCredentialRequest(
         offerData: Data,
+        thid: String,
         options: [CredentialOperationsOptions]
     ) async throws -> String {
         guard
@@ -107,7 +122,9 @@ extension PolluxImpl {
             linkSecret: linkSecret,
             linkSecretId: linkSecretId,
             offerData: offerData,
-            credentialDefinitionDownloader: downloader
+            credentialDefinitionDownloader: downloader,
+            thid: thid,
+            pluto: self.pluto
         )
     }
 }

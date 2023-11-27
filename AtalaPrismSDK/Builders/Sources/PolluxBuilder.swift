@@ -2,10 +2,13 @@ import Domain
 import Pollux
 
 public struct PolluxBuilder {
+    private let pluto: Pluto
 
-    public init() {}
+    public init(pluto: Pluto) {
+        self.pluto = pluto
+    }
 
     public func build() -> Pollux {
-        PolluxImpl()
+        PolluxImpl(pluto: pluto)
     }
 }

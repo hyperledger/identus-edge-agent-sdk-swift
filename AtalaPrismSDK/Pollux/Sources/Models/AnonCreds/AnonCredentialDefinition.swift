@@ -1,3 +1,4 @@
+import AnoncredsSwift
 import Foundation
 
 struct AnonCredentialDefinition: Codable {
@@ -18,4 +19,10 @@ struct AnonCredentialDefinition: Codable {
     let type: String
     let tag: String
     let value: Value
+
+    func getAnoncred() throws -> AnoncredsSwift.CredentialDefinition {
+        let json = try JSONEncoder().encode(self)
+        let jsonString = try json.toString()
+        return try .init(jsonString: jsonString)
+    }
 }

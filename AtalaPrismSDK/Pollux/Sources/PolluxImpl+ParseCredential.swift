@@ -18,6 +18,9 @@ extension PolluxImpl {
                 throw PolluxError.unsupportedIssuedMessage
             }
         case "anoncreds", "prism/anoncreds", "anoncreds/credential@v1.0":
+            guard let thid = issuedCredential.thid else {
+                throw PolluxError.messageDoesntProvideEnoughInformation
+            }
             guard
                 let linkSecretOption = options.first(where: {
                     if case .linkSecret = $0 { return true }
@@ -25,7 +28,7 @@ extension PolluxImpl {
                 }),
                 case let CredentialOperationsOptions.linkSecret(_, secret: linkSecret) = linkSecretOption
             else {
-                throw PolluxError.invalidPrismDID
+                throw PolluxError.missingAndIsRequiredForOperation(type: "linkSecret")
             }
 
             guard
@@ -33,9 +36,19 @@ extension PolluxImpl {
                     if case .credentialDefinitionDownloader = $0 { return true }
                     return false
                 }),
-                case let CredentialOperationsOptions.credentialDefinitionDownloader(downloader) = credDefinitionDownloaderOption
+                case let CredentialOperationsOptions.credentialDefinitionDownloader(definitionDownloader) = credDefinitionDownloaderOption
             else {
-                throw PolluxError.invalidPrismDID
+                throw PolluxError.missingAndIsRequiredForOperation(type: "credentialDefinitionDownloader")
+            }
+
+            guard
+                let schemaDownloaderOption = options.first(where: {
+                    if case .schemaDownloader = $0 { return true }
+                    return false
+                }),
+                case let CredentialOperationsOptions.schemaDownloader(schemaDownloader) = schemaDownloaderOption
+            else {
+                throw PolluxError.missingAndIsRequiredForOperation(type: "schemaDownloader")
             }
 
             switch issuedAttachment.data {
@@ -43,13 +56,19 @@ extension PolluxImpl {
                 return try await ParseAnoncredsCredentialFromMessage.parse(
                     issuerCredentialData: json.data,
                     linkSecret: linkSecret,
-                    credentialDefinitionDownloader: downloader
+                    credentialDefinitionDownloader: definitionDownloader,
+                    schemaDownloader: schemaDownloader,
+                    thid: thid,
+                    pluto: self.pluto
                 )
             case let base64 as AttachmentBase64:
                 return try await ParseAnoncredsCredentialFromMessage.parse(
                     issuerCredentialData: try base64.decoded(),
                     linkSecret: linkSecret,
-                    credentialDefinitionDownloader: downloader
+                    credentialDefinitionDownloader: definitionDownloader, 
+                    schemaDownloader: schemaDownloader,
+                    thid: thid,
+                    pluto: self.pluto
                 )
             default:
                 throw PolluxError.unsupportedIssuedMessage

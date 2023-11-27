@@ -2,5 +2,8 @@ import Combine
 import Domain
 
 public struct PolluxImpl {
-    public init() {}
+    let pluto: Pluto
+    public init(pluto: Pluto) {
+        self.pluto = pluto
+    }
 }
