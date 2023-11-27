@@ -730,12 +730,18 @@ public enum PolluxError: KnownPrismError {
     
     /// An error case when the offer doesnt present enough information like Domain or Challenge
     case offerDoesntProvideEnoughInformation
-    
+
     /// An error case when the issued credential message doesnt present enough information or unsupported attachment
     case unsupportedIssuedMessage
     
     /// An error case there is missing an `ExportableKey`
     case requiresExportableKeyForOperation(operation: String)
+
+    /// An error case when the message doesnt present enough information
+    case messageDoesntProvideEnoughInformation
+
+    /// An requirement is missing for `CredentialOperationsOptions`
+    case missingAndIsRequiredForOperation(type: String)
 
     /// The error code returned by the server.
     public var code: Int {
@@ -754,6 +760,10 @@ public enum PolluxError: KnownPrismError {
             return 56
         case .unsupportedIssuedMessage:
             return 57
+        case .messageDoesntProvideEnoughInformation:
+            return 58
+        case .missingAndIsRequiredForOperation:
+            return 59
         }
     }
 
@@ -780,6 +790,10 @@ public enum PolluxError: KnownPrismError {
             return "Operation \(operation) requires an ExportableKey"
         case .unsupportedIssuedMessage:
             return "Issue message provided doesnt have a valid attachment"
+        case .messageDoesntProvideEnoughInformation:
+            return "Message provided doesnt have enough information (attachment, type)"
+        case .missingAndIsRequiredForOperation(let type):
+            return "Operation requires the following parameter \(type)"
         }
     }
 }
