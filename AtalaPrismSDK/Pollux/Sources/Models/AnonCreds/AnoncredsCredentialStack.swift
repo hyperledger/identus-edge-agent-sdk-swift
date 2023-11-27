@@ -3,6 +3,7 @@ import Domain
 import Foundation
 
 struct AnoncredsCredentialStack: Codable {
+    let schema: AnonCredentialSchema
     let definition: AnonCredentialDefinition
     let credential: AnonCredential
 }
@@ -39,6 +40,8 @@ extension AnoncredsCredentialStack: Domain.Credential {
         ] as [String : Any]
         
         (try? JSONEncoder.didComm().encode(definition)).map { properties["credentialDefinition"] = $0 }
+        (try? JSONEncoder.didComm().encode(schema))
+            .map { properties["schema"] = $0 }
         (try? JSONEncoder.didComm().encode(credential.signature)).map { properties["signature"] = $0 }
         (try? JSONEncoder.didComm().encode(credential.signatureCorrectnessProof)).map { properties["signatureCorrectnessProof"] = $0 }
         (try? JSONEncoder.didComm().encode(credential.witness)).map { properties["witness"] = $0 }

@@ -4,7 +4,7 @@ import Foundation
 
 struct MockIssuer {
 
-    let issuer = "did:web:asadadada"
+    let issuer = "mock:issuer_id/path&q=bar"
     let linkSecret: LinkSecret
     let schema: Schema
     let credDef: CredentialDefinition
@@ -12,20 +12,20 @@ struct MockIssuer {
     let credDefCorrProof: CredentialKeyCorrectnessProof
 
     init() {
-        self.linkSecret = try! LinkSecret.newFromValue(valueString: "36590588636589688587165354116254517405509622321561684934488049104990967858487")
+        self.linkSecret = try! LinkSecret.newFromValue(valueString: "65965334953670062552662719679603258895632947953618378932199361160021795698890")
 
         self.schema = try! Issuer().createSchema(
-            schemaName: "Test",
-            schemaVersion: "1.0.0",
+            schemaName: "mock:uri2",
+            schemaVersion: "0.1.0",
             issuerId: issuer,
-            attrNames: ["Test"]
+            attrNames: ["name", "sex", "age"]
         )
 
         let credDef = try! Issuer().createCredentialDefinition(
-            schemaId: "http://localhost:8000/schemas/test",
+            schemaId: schema.name,
             schema: schema,
             issuerId: issuer,
-            tag: "test",
+            tag: "tag",
             signatureType: .cl,
             config: .init(supportRevocation: false)
         )
@@ -33,17 +33,12 @@ struct MockIssuer {
         self.credDef = credDef.credentialDefinition
         self.credDefPriv = credDef.credentialDefinitionPrivate
         self.credDefCorrProof = credDef.credentialKeyCorrectnessProof
-
-        print("IssuerSecret: \(try! linkSecret.getValue())")
-
-        print("credDef")
-        print(try! credDef.credentialDefinition.getJson())
     }
 
     func createOffer() throws -> CredentialOffer {
         try Issuer().createCredentialOffer(
-            schemaId: "http://localhost:8000/schemas/test",
-            credDefId: "http://localhost:8000/definitions/test",
+            schemaId: "mock:uri2",
+            credDefId: "mock:uri3",
             correctnessProof: credDefCorrProof
         )
     }
@@ -65,7 +60,8 @@ struct MockIssuer {
                     byteCount: nil,
                     description: nil
                 )
-            ]
+            ],
+            thid: "1"
         )
     }
 
@@ -78,7 +74,11 @@ struct MockIssuer {
             credDefPrivate: credDefPriv,
             credOffer: offer,
             credRequest: request,
-            credValues: [.init(raw: "test", encoded: "test")],
+            credValues: [
+                .init(raw: "name", encoded: "Miguel"),
+                .init(raw: "sex", encoded: "M"),
+                .init(raw: "age", encoded: "31")
+            ],
             revRegId: nil,
             revStatusList: nil,
             revocationConfig: nil
@@ -98,7 +98,42 @@ struct MockIssuer {
                     byteCount: nil,
                     description: nil
                 )
+            ],
+            thid: "1"
+        )
+    }
+
+    func createPresentationRequest() throws -> (message: Message, requestStr: String) {
+        let presentation = """
+{"nonce":"1103253414365527824079144","name":"proof_req_1","version":"0.1","requested_attributes":{"sex":{"name":"sex", "restrictions":{"attr::sex::value":"M","cred_def_id":"mock:uri3"}}},"requested_predicates":{"age":{"name":"age", "p_type":">=", "p_value":18}}}
+"""
+        return (Message(
+            piuri: "",
+            body: Data(),
+            attachments: [
+                .init(
+                    data: AttachmentBase64(base64: try presentation.tryData(using: .utf8).base64EncodedString())
+                )
             ]
+        ), presentation)
+    }
+
+    func getSchemaJson() -> String {
+"""
+{"name":"\(schema.name)","issuerId":"\(schema.issuerId)","version":"\(schema.version)","attrNames":["name", "sex", "age"]}
+"""
+    }
+
+    func verifyPresentation(presentation: String, request: String) throws -> Bool {
+        let presentation = try Presentation(jsonString: presentation)
+        let request = try PresentationRequest(jsonString: request)
+        let credDef = self.credDef
+        let schema = self.schema
+        return try Verifier().verifyPresentation(
+            presentation: presentation,
+            presentationRequest: request,
+            schemas: ["mock:uri2": schema],
+            credentialDefinitions: ["mock:uri3": credDef]
         )
     }
 }
