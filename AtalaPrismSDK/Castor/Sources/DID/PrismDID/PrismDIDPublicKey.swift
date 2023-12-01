@@ -77,9 +77,18 @@ struct PrismDIDPublicKey {
         usage = proto.usage.fromProto()
         switch proto.keyData {
         case let .ecKeyData(value):
-            keyData = apollo.publicKeyFrom(x: value.x, y: value.y)
+            keyData = try apollo.createPublicKey(parameters: [
+                KeyProperties.type.rawValue: "EC",
+                KeyProperties.curve.rawValue: "secp256k1",
+                KeyProperties.curvePointX.rawValue: value.x.base64EncodedString(),
+                KeyProperties.curvePointY.rawValue: value.y.base64EncodedString()
+            ])
         case let .compressedEcKeyData(value):
-            keyData = apollo.uncompressedPublicKey(compressedData: value.data)
+            keyData = try apollo.createPublicKey(parameters: [
+                KeyProperties.type.rawValue: "EC",
+                KeyProperties.curve.rawValue: "secp256k1",
+                KeyProperties.rawKey.rawValue: value.data.base64EncodedString()
+            ])
         default:
             throw CastorError.invalidPublicKeyCoding(didMethod: "prism", curve: "secp256k1")
         }
@@ -133,12 +142,3 @@ private extension Io_Iohk_Atala_Prism_Protos_KeyUsage {
         }
     }
 }
-
-//private extension CompressedPublicKey {
-//    func toProto() -> Io_Iohk_Atala_Prism_Protos_CompressedECKeyData {
-//        var proto = Io_Iohk_Atala_Prism_Protos_CompressedECKeyData()
-//        proto.curve = uncompressed.curve
-//        proto.data = value
-//        return proto
-//    }
-//}

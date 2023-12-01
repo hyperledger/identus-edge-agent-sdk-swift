@@ -1,8 +1,8 @@
+import ApolloLibrary
 import Domain
 import Foundation
 
 extension ApolloImpl: Apollo {
-
     /// createRandomMnemonics creates a random set of mnemonic phrases that can be used as a seed for generating a private key.
     ///
     /// - Returns: An array of mnemonic phrases
@@ -26,62 +26,18 @@ extension ApolloImpl: Apollo {
     ///
     /// - Returns: A tuple containing an array of mnemonic phrases and a seed object
     public func createRandomSeed() -> (mnemonic: [String], seed: Seed) {
-        let words = createRandomMnemonics()
-        guard let seed = try? createSeed(mnemonics: words, passphrase: "") else {
-            fatalError("""
-This should never happen since the function that
-returns random mnemonics nerver returns invalid mnemonics
-""")
-        }
-        return (words, seed)
-    }
-
-    /// compressedPublicKey compresses a given public key into a shorter, more efficient form.
-    ///
-    /// - Parameter publicKey: The public key to compress
-    /// - Returns: The compressed public key
-    public func compressedPublicKey(publicKey: PublicKey) throws -> PublicKey {
-        guard
-            publicKey.getProperty(.curve)?.lowercased() == KnownKeyCurves.secp256k1.rawValue
+        let words = ApolloLibrary
+            .Mnemonic
+            .companion
+            .createRandomMnemonics()
+        guard let seed = try? ApolloLibrary
+            .Mnemonic
+            .companion
+            .createSeed(mnemonics: words, passphrase: "AtalaPrism")
         else {
-            throw ApolloError.invalidKeyCurve(
-                invalid: publicKey.getProperty(.curve)?.lowercased() ?? "",
-                valid: [KnownKeyCurves.secp256k1.rawValue]
-            )
+            fatalError("This should never happen")
         }
-        return Secp256k1PublicKey(lockedPublicKey: LockPublicKey(bytes: publicKey.raw).compressedPublicKey())
-    }
-
-//    /// compressedPublicKey decompresses a given compressed public key into its original form.
-//    ///
-//    /// - Parameter compressedData: The compressed public key data
-//    /// - Returns: The decompressed public key
-//    public func uncompressedPublicKey(compressedData: Data) -> PublicKey {
-//        PublicKey(
-//            curve: KeyCurve.secp256k1().name,
-//            value: LockPublicKey(
-//                bytes: compressedData
-//            ).uncompressedPublicKey().data
-//        )
-//    }
-
-    /// compressedPublicKey decompresses a given compressed public key into its original form.
-    ///
-    /// - Parameter compressedData: The compressed public key data
-    /// - Returns: The decompressed public key
-    public func uncompressedPublicKey(compressedData: Data) -> PublicKey {
-        Secp256k1PublicKey(
-            lockedPublicKey: LockPublicKey(bytes: compressedData).uncompressedPublicKey()
-        )
-    }
-
-    public func publicKeyFrom(x: Data, y: Data) -> PublicKey {
-        Secp256k1PublicKey(lockedPublicKey: LockPublicKey(x: x, y: y))
-    }
-
-    public func publicKeyPointCurve(publicKey: PublicKey) throws -> (x: Data, y: Data) {
-        let points = try LockPublicKey(bytes: publicKey.raw).pointCurve()
-        return (points.x.data, points.y.data)
+        return (words, Seed(value: seed.toData()))
     }
 
     public func createPrivateKey(parameters: [String : String]) throws -> PrivateKey {
@@ -106,7 +62,7 @@ returns random mnemonics nerver returns invalid mnemonics
                     let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue]
                 {
                     let derivationPath = try DerivationPath(string: derivationPathStr)
-                    return Secp256k1PrivateKey(lockedPrivateKey: .init(data: keyData), derivationPath: derivationPath)
+                    return Secp256k1PrivateKey(raw: keyData, derivationPath: derivationPath)
                 } else {
                     guard
                         let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue],
@@ -118,10 +74,10 @@ returns random mnemonics nerver returns invalid mnemonics
                         ])
                     }
                     let derivationPath = try DerivationPath(string: derivationPathStr)
-                    return try CreateSec256k1KeyPairOperation(
+                    return try CreateSec256k1KeyPairOperation().compute(
                         seed: Seed(value: seed),
                         keyPath: derivationPath
-                    ).compute()
+                    )
                 }
             case .ed25519:
                 if
@@ -144,7 +100,58 @@ returns random mnemonics nerver returns invalid mnemonics
             throw ApolloError.invalidKeyType(invalid: keyType, valid: ValidCryptographicTypes.allCases.map(\.rawValue))
         }
     }
-    
+
+    public func createPublicKey(parameters: [String : String]) throws -> PublicKey {
+        guard
+            let keyType = parameters[KeyProperties.type.rawValue]
+        else { throw ApolloError.invalidKeyType(invalid: "", valid: ValidCryptographicTypes.allCases.map(\.rawValue)) }
+        switch keyType {
+        case ValidCryptographicTypes.ec.rawValue:
+            guard
+                let curveStr = parameters[KeyProperties.curve.rawValue],
+                let curve = ValidECCurves(rawValue: curveStr)
+            else {
+                throw ApolloError.invalidKeyCurve(
+                    invalid: parameters[KeyProperties.curve.rawValue] ?? "",
+                    valid: ValidECCurves.allCases.map(\.rawValue)
+                )
+            }
+            switch curve {
+            case .secp256k1:
+                if let keyData = parameters[KeyProperties.rawKey.rawValue].flatMap({ Data(base64Encoded: $0) }) {
+                    return Secp256k1PublicKey(raw: keyData)
+                } else if
+                    let x = parameters[KeyProperties.curvePointX.rawValue].flatMap({ Data(base64Encoded: $0) }),
+                    let y = parameters[KeyProperties.curvePointY.rawValue].flatMap({ Data(base64Encoded: $0) })
+                {
+                    return Secp256k1PublicKey(x: x, y: y)
+                } else {
+                    throw ApolloError.missingKeyParameters(missing: [
+                        KeyProperties.rawKey.rawValue,
+                        KeyProperties.curvePointX.rawValue,
+                        KeyProperties.curvePointY.rawValue
+                    ])
+                }
+            case .ed25519:
+                guard
+                    let keyData = parameters[KeyProperties.rawKey.rawValue].flatMap({ Data(base64Encoded: $0) })
+                else {
+                    throw ApolloError.missingKeyParameters(missing: [KeyProperties.rawKey.rawValue])
+                }
+                return Ed25519PublicKey(raw: keyData)
+            case .x25519:
+                guard
+                    let keyData = parameters[KeyProperties.rawKey.rawValue].flatMap({ Data(base64Encoded: $0) })
+                else {
+                    throw ApolloError.missingKeyParameters(missing: [KeyProperties.rawKey.rawValue])
+                }
+                return X25519PublicKey(raw: keyData)
+            }
+        default:
+            throw ApolloError.invalidKeyType(invalid: keyType, valid: ValidCryptographicTypes.allCases.map(\.rawValue))
+        }
+    }
+
     public func createNewLinkSecret() throws -> Key {
         try LinkSecret()
     }
