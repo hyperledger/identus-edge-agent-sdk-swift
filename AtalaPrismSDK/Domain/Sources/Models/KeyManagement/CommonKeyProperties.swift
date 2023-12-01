@@ -26,6 +26,9 @@ public enum KeyProperties: String, CaseIterable {
 
     /// The 'derivationPath' case refers to the path used to derive a key in a hierarchical deterministic (HD) key generation scheme.
     case derivationPath
+    
+    /// The compressed 'rawKey' case refers to the raw binary in compressed form of the key.
+    case compressedRaw
 }
 
 /// Enumeration representing supported key curves for key generation.

@@ -1,22 +1,27 @@
-import CryptoKit
+import ApolloLibrary
 import Domain
 import Foundation
 
 struct X25519PrivateKey: PrivateKey {
-    private let appleCurve: Curve25519.KeyAgreement.PrivateKey
+    private let internalKey: ApolloLibrary.KMMX25519PrivateKey
     let keyType: String = "EC"
     let keySpecifications: [String : String] = [
         "curve" : "x25519"
     ]
     var size: Int { raw.count }
-    var raw: Data { appleCurve.rawRepresentation }
+    var raw: Data { internalKey.raw.toData() }
 
-    init(appleCurve: Curve25519.KeyAgreement.PrivateKey) {
-        self.appleCurve = appleCurve
+    init(internalKey: ApolloLibrary.KMMX25519PrivateKey) {
+        self.internalKey = internalKey
     }
 
     func publicKey() -> PublicKey {
-        X25519PublicKey(appleCurve: appleCurve.publicKey)
+        guard let publicKey = try? internalKey.publicKey() else {
+            // TODO: This should never happen, but now we need to confirm if the Apollo domain needs to handle throwing or the library needs to remove it
+            fatalError("This should never happen. PrivateKeys should always build a public")
+        }
+        return X25519PublicKey(internalKey: publicKey)
+        
     }
 }
 
@@ -31,16 +36,20 @@ extension X25519PrivateKey: KeychainStorableKey {
 }
 
 struct X25519PublicKey: PublicKey {
-    private let appleCurve: Curve25519.KeyAgreement.PublicKey
+    private let internalKey: ApolloLibrary.KMMX25519PublicKey
     let keyType: String = "EC"
     let keySpecifications: [String : String] = [
         "curve" : "x25519"
     ]
     var size: Int { raw.count }
-    var raw: Data { appleCurve.rawRepresentation }
+    var raw: Data { internalKey.raw.toData() }
 
-    init(appleCurve: Curve25519.KeyAgreement.PublicKey) {
-        self.appleCurve = appleCurve
+    init(internalKey: ApolloLibrary.KMMX25519PublicKey) {
+        self.internalKey = internalKey
+    }
+
+    init(raw: Data) {
+        self.init(internalKey: .init(raw: raw.toKotlinByteArray()))
     }
 
     func verify(data: Data, signature: Data) throws -> Bool {

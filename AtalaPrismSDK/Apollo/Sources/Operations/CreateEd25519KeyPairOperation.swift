@@ -1,5 +1,5 @@
+import ApolloLibrary
 import Core
-import CryptoKit
 import Domain
 import Foundation
 
@@ -7,14 +7,12 @@ struct CreateEd25519KeyPairOperation {
     let logger: PrismLogger
 
     func compute() -> PrivateKey {
-        let privateKey = Curve25519.Signing.PrivateKey()
-        return Ed25519PrivateKey(appleCurve: privateKey)
+        let privateKey = KMMEdKeyPair.Companion().generateKeyPair().privateKey
+        return Ed25519PrivateKey(internalKey: privateKey)
+
     }
 
     func compute(fromPrivateKey: Data) throws -> PrivateKey {
-        let privateKey = try Curve25519
-            .Signing
-            .PrivateKey(rawRepresentation: fromPrivateKey)
-        return Ed25519PrivateKey(appleCurve: privateKey)
+        return Ed25519PrivateKey(internalKey: KMMEdPrivateKey(raw: fromPrivateKey.toKotlinByteArray()))
     }
 }

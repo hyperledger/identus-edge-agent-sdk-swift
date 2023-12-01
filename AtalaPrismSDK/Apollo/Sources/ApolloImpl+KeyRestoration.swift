@@ -17,27 +17,28 @@ extension ApolloImpl: KeyRestoration {
     public func restorePrivateKey(_ key: StorableKey) throws -> PrivateKey {
         switch  key.restorationIdentifier {
         case "secp256k1+priv":
-            return Secp256k1PrivateKey(
-                lockedPrivateKey: .init(data: key.storableData),
-                derivationPath: key.index.map { DerivationPath(index: $0) } ?? DerivationPath(index: 0)
-            )
+            guard let index = key.index else {
+                throw ApolloError.restoratonFailedNoIdentifierOrInvalid
+            }
+            return Secp256k1PrivateKey(internalKey: .init(raw: key.storableData.toKotlinByteArray()), derivationPath: DerivationPath(index: index))
         case "x25519+priv":
-            return X25519PrivateKey(appleCurve: try .init(rawRepresentation: key.storableData))
+            return try CreateX25519KeyPairOperation(logger: Self.logger).compute(fromPrivateKey: key.storableData)
         case "ed25519+priv":
-            return Ed25519PrivateKey(appleCurve: try .init(rawRepresentation: key.storableData))
+            return try CreateEd25519KeyPairOperation(logger: Self.logger).compute(fromPrivateKey: key.storableData)
         default:
             throw ApolloError.restoratonFailedNoIdentifierOrInvalid
         }
+
     }
 
     public func restorePublicKey(_ key: StorableKey) throws -> PublicKey {
         switch key.restorationIdentifier {
         case "secp256k1+pub":
-            return Secp256k1PublicKey(lockedPublicKey: .init(bytes: key.storableData))
+            return Secp256k1PublicKey(internalKey: .init(raw: key.storableData.toKotlinByteArray()))
         case "x25519+pub":
-            return X25519PublicKey(appleCurve: try .init(rawRepresentation: key.storableData))
+            return X25519PublicKey(internalKey: .init(raw: key.storableData.toKotlinByteArray()))
         case "ed25519+pub":
-            return Ed25519PublicKey(appleCurve: try .init(rawRepresentation: key.storableData))
+            return Ed25519PublicKey(internalKey: .init(raw: key.storableData.toKotlinByteArray()))
         default:
             throw ApolloError.restoratonFailedNoIdentifierOrInvalid
         }

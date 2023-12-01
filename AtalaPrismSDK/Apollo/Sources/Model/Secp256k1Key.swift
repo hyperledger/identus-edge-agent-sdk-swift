@@ -1,30 +1,38 @@
-import Domain
+import ApolloLibrary
 import CryptoKit
+import Domain
 import Foundation
 
 struct Secp256k1PrivateKey: PrivateKey {
-    private let lockedPrivateKey: LockPrivateKey
+    private let internalKey: KMMECSecp256k1PrivateKey
 
     let keyType: String = "EC"
     let keySpecifications: [String : String]
     let size: Int
     let raw: Data
-    let derivationPath: DerivationPath
+    let derivationPath: Domain.DerivationPath
 
-    init(lockedPrivateKey: LockPrivateKey, derivationPath: DerivationPath) {
-        self.lockedPrivateKey = lockedPrivateKey
+    init(internalKey: KMMECSecp256k1PrivateKey, derivationPath: Domain.DerivationPath) {
+        self.internalKey = internalKey
         self.derivationPath = derivationPath
         self.keySpecifications = [
             KeyProperties.curve.rawValue : "secp256k1",
             KeyProperties.derivationPath.rawValue : derivationPath.keyPathString()
         ]
 
-        self.raw = lockedPrivateKey.data
-        self.size = lockedPrivateKey.data.count
+        self.raw = internalKey.raw.toData()
+        self.size = internalKey.raw.toData().count
+    }
+
+    init(raw: Data, derivationPath: Domain.DerivationPath) {
+        self.init(
+            internalKey: KMMECSecp256k1PrivateKey(raw: raw.toKotlinByteArray()),
+            derivationPath: derivationPath
+        )
     }
 
     func publicKey() -> PublicKey {
-        Secp256k1PublicKey(lockedPublicKey: lockedPrivateKey.publicKey())
+        return Secp256k1PublicKey(internalKey: internalKey.getPublicKey())
     }
 }
 
@@ -35,7 +43,7 @@ extension Secp256k1PrivateKey: SignableKey {
         Signature(
             algorithm: algorithm,
             signatureSpecifications: ["algorithm" : algorithm],
-            raw: try ECSigning(data: Data(SHA256.hash(data: data)), privateKey: raw).signMessage()
+            raw: internalKey.sign(data: data.toKotlinByteArray()).toData()
         )
     }
 }
@@ -51,34 +59,44 @@ extension Secp256k1PrivateKey: KeychainStorableKey {
 }
 
 struct Secp256k1PublicKey: PublicKey {
-    private let lockedPublicKey: LockPublicKey
+    private let internalKey: ApolloLibrary.KMMECSecp256k1PublicKey
 
     let keyType: String = "EC"
     let keySpecifications: [String : String]
     let size: Int
     let raw: Data
 
-    init(lockedPublicKey: LockPublicKey) {
-        self.lockedPublicKey = lockedPublicKey
+    init(internalKey: ApolloLibrary.KMMECSecp256k1PublicKey) {
+        self.internalKey = internalKey
         var specs: [String: String] = [
             KeyProperties.curve.rawValue: "secp256k1",
-            "compressed": lockedPublicKey.isCompressed ? "true" : "false"
+            KeyProperties.compressedRaw.rawValue: internalKey.getCompressed().toData().base64EncodedString()
         ]
-        if let points = try? lockedPublicKey.pointCurve() {
-            specs[KeyProperties.curvePointX.rawValue] = points.x.data.base64EncodedString()
-            specs[KeyProperties.curvePointY.rawValue] = points.y.data.base64EncodedString()
-        }
+        let points = internalKey.getCurvePoint()
+        specs[KeyProperties.curvePointX.rawValue] = points.x.toData().base64EncodedString()
+        specs[KeyProperties.curvePointY.rawValue] = points.y.toData().base64EncodedString()
+
         self.keySpecifications = specs
-        self.size = lockedPublicKey.data.count
-        self.raw = lockedPublicKey.data
+        self.size = internalKey.raw.toData().count
+        self.raw = internalKey.raw.toData()
+
+    }
+
+    init(x: Data, y: Data) {
+        self.init(
+            internalKey: .Companion().secp256k1FromByteCoordinates(
+                x: x.toKotlinByteArray(),
+                y: y.toKotlinByteArray()
+            )
+        )
+    }
+
+    init(raw: Data) {
+        self.init(internalKey: .Companion().secp256k1FromBytes(encoded: raw.toKotlinByteArray()))
     }
 
     func verify(data: Data, signature: Data) throws -> Bool {
-        try ECVerify(
-            signature: signature,
-            message: data,
-            publicKey: raw
-        ).verifySignature()
+        internalKey.verify(signature: signature.toKotlinByteArray(), data: data.toKotlinByteArray())
     }
 }
 
