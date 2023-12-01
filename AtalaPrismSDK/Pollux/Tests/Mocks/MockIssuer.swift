@@ -34,7 +34,18 @@ struct MockIssuer {
         self.credDefPriv = credDef.credentialDefinitionPrivate
         self.credDefCorrProof = credDef.credentialKeyCorrectnessProof
     }
-
+    
+    func createCredDefinition() throws {
+        let credDef = try! Issuer().createCredentialDefinition(
+            schemaId: "http://localhost:8000/schemas/test",
+            schema: schema,
+            issuerId: issuer,
+            tag: "test",
+            signatureType: .cl,
+            config: .init(supportRevocation: false)
+        )
+    }
+    
     func createOffer() throws -> CredentialOffer {
         try Issuer().createCredentialOffer(
             schemaId: "mock:uri2",

@@ -1,3 +1,4 @@
+import ApolloLibrary
 import Core
 import Domain
 import Foundation
@@ -15,25 +16,25 @@ struct CreateSeedOperation {
         self.logger = logger
         self.words = words
         self.passphrase = passphrase
-        let validWords = Mnemonic.wordList(for: .english)
-        let invalidWords = Set(words).subtracting(Set(validWords))
-        guard invalidWords.isEmpty else {
+        guard ApolloLibrary.Mnemonic.companion.isValidMnemonicCode(code: words) else {
             logger.error(
                 message: "Invalid mnemonic word",
-                metadata: invalidWords
+                metadata: words
                     .enumerated()
                     .map {
                         .publicMetadata(key: "word\($0)", value: $1)
                     }
             )
-            throw ApolloError.invalidMnemonicWord(invalidWords: Array(invalidWords))
+            throw ApolloError.invalidMnemonicWord(invalidWords: Array(words))
         }
     }
 
     func compute() throws -> Seed {
-        Seed(value: try Mnemonic.seed(
-            mnemonic: words,
-            passphrase: passphrase
-        ))
+        Seed(
+            value: try ApolloLibrary
+                .Mnemonic
+                .companion
+                .createSeed(mnemonics: words, passphrase: passphrase).toData()
+        )
     }
 }

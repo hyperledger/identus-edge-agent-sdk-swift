@@ -67,7 +67,8 @@ let package = Package(
         .package(url: "git@github.com:swift-libp2p/swift-multibase.git", from: "0.0.1"),
         .package(url: "git@github.com:GigaBitcoin/secp256k1.swift.git", exact: "0.10.0"),
         .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", from: "4.1.3"),
-        .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.4.1")
+        .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.4.1"),
+        .package(url: "https://github.com/input-output-hk/atala-prism-apollo.git", exact: "1.2.10"),
     ],
     targets: [
         .target(
@@ -98,14 +99,10 @@ let package = Package(
                 "Domain",
                 "Core",
                 .product(name: "secp256k1", package: "secp256k1.swift"),
-                .product(name: "AnoncredsSwift", package: "anoncreds-rs")
+                .product(name: "AnoncredsSwift", package: "anoncreds-rs"),
+                .product(name: "ApolloLibrary", package: "atala-prism-apollo")
             ],
             path: "AtalaPrismSDK/Apollo/Sources"
-        ),
-        .testTarget(
-            name: "ApolloTests",
-            dependencies: ["Apollo"],
-            path: "AtalaPrismSDK/Apollo/Tests"
         ),
         .target(
             name: "Castor",
