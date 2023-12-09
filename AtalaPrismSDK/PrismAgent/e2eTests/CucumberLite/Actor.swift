@@ -4,7 +4,7 @@ import XCTest
 class Actor {
     var name: String
     private var context: [String: Any] = [:]
-    private var abilities: [String : Ability] = [:]
+    private var abilities: [String : any Ability] = [:]
     
     init(_ name: String) {
         self.name = name
@@ -12,35 +12,35 @@ class Actor {
     
     func initialize() async throws {
         for ability in abilities.values {
-            try await ability.initialize()
+            try await ability.initialize(self)
         }
     }
     
-    func teardown() async throws {
+    func tearDown() async throws {
         for ability in abilities.values {
             try await ability.teardown()
         }
     }
     
-    func whoCan<T : Ability>(_ ability: T) -> Actor {
+    func whoCanUse<T : Ability>(_ ability: T) -> Actor {
         abilities[String(describing: T.self)] = ability
         return self
     }
     
-    func with<T : Ability>(ability: T.Type) throws -> T {
+    func using<T : Ability>(_ ability: T.Type) throws -> T.T {
         if !abilities.contains(where: { $0.key == String(describing: ability.self) }) {
             throw ActorError.cantUseAbility(message: "Actor [\(name)] don't have the ability to use [\(ability.self)]")
         }
-        return self.abilities[String(describing: ability.self)] as! T
+        return self.abilities[String(describing: ability.self)]!.ability() as! T.T
     }
     
     func remember(key: String, value: Any) {
-        print("        ", "\(name) remembers [\(key)]")
+        CucumberLogger.info("        ", "\(name) remembers [\(key)]")
         context[key] = value
     }
     
     func recall<T>(key: String) -> T {
-        print("        ", "\(name) recalls [\(key)]")
+        CucumberLogger.info("        ", "\(name) recalls [\(key)]")
         XCTAssert(context[key] != nil, "Unable to recall [\(key)] all I know is \(context.keys)")
         return context[key] as! T
     }

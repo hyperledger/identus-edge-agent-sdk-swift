@@ -7,17 +7,14 @@ import Pluto
 import Core
 
 class Sdk: Ability {
+    typealias T = PrismAgent
     private var sdk: PrismAgent? = nil
     
-    static func use() -> Sdk {
-        return Sdk()
-    }
-    
-    func getSdk() -> PrismAgent {
+    func ability() -> T {
         return sdk!
     }
     
-    func initialize() async throws {
+    func initialize(_ actor: Actor) async throws {
         let mediatorDID = try await getPrismMediatorDid()
 
         let apollo = ApolloBuilder().build()

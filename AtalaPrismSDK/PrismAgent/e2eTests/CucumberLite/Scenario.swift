@@ -2,44 +2,76 @@ import Foundation
 
 class Scenario {
     var scenario: String
+    private var lastContext: String = ""
     private var stepList: [StepInstance] = []
     
-    init(scenario: String) {
+    init(_ scenario: String) {
         self.scenario = scenario
     }
     
-    private func step(context: String, step: String) {
+    private func addStep(_ step: String) {
         let stepInstance = StepInstance()
-        stepInstance.context = context
+        stepInstance.context = lastContext
         stepInstance.step = step
         stepList.append(stepInstance)
     }
 
-    func given(_ step: String) {
-        self.step(context: "Given", step: step)
+    func given(_ step: String) -> Scenario {
+        lastContext = "Given"
+        addStep(step)
+        return self
     }
     
-    func when(_ step: String) {
-        self.step(context: "When", step: step)
+    func when(_ step: String) -> Scenario {
+        lastContext = "When"
+        addStep(step)
+        return self
     }
     
-    func then(_ step: String) {
-        self.step(context: "Then", step: step)
+    func then(_ step: String) -> Scenario {
+        lastContext = "Then"
+        addStep(step)
+        return self
+    }
+    
+    func but(_ step: String) -> Scenario {
+        lastContext = "But"
+        addStep(step)
+        return self
+    }
+    
+    func and(_ step: String) -> Scenario {
+        if (lastContext.isEmpty) {
+            fatalError("Trying to add an [and] step without previous context.")
+        }
+        addStep(step)
+        return self
     }
     
     func run() async throws {
-        print("--------------------------------")
-        print(scenario)
-
+        printScenario()
+        try await executeSteps()
+        printResult()
+    }
+    
+    private func printScenario() {
+        CucumberLogger.logLine()
+        CucumberLogger.info("Scenario:", scenario)
+        CucumberLogger.logLine()
+    }
+    
+    private func executeSteps() async throws {
         var lastContext = ""
         for step in stepList {
-            print("    ", step.context == lastContext ? "And" : step.context, step.step)
-            lastContext = step.context
+            CucumberLogger.info("    ", step.context == lastContext ? "And" : step.context, step.step)
             try await StepRegistry.run(step.step)
+            lastContext = step.context
         }
     }
     
-    func instrumented<T>(parameters: T, callback: @escaping (T) -> ()) {
-        callback(parameters)
+    private func printResult() {
+        CucumberLogger.logLine()
+        CucumberLogger.info("Result:", "TO BE DONE")
+        CucumberLogger.logLine()
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>MEDIATOR_OOB_URL</key>
+	<string></string>
+	<key>PRISM_AGENT_URL</key>
+	<string></string>
+	<key>APIKEY</key>
+	<string></string>
+	<key>PUBLISHED_DID</key>
+	<string></string>
+	<key>JWT_SCHEMA_GUID</key>
+	<string></string>
+	<key>ANONCRED_DEFINITION_GUID</key>
+	<string></string>
+</dict>
+</plist>

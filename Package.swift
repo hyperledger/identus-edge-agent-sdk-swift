@@ -219,6 +219,9 @@ let package = Package(
                 ),
             ],
             path: "AtalaPrismSDK/PrismAgent/e2eTests",
+            resources: [
+                .copy("Resources")
+            ],
             plugins: [
                 .plugin(
                     name: "OpenAPIGenerator",

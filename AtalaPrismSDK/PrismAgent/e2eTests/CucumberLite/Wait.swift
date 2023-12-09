@@ -1,7 +1,7 @@
 import Foundation
 
 class Wait {
-    static func until(callback: () async throws -> Bool, timeout: Int = 30) async throws {
+    static func until(timeout: Int = 30, callback: () async throws -> Bool) async throws {
         let startTime = Date()
         while try await !callback() {
             if Date().timeIntervalSince(startTime) >= Double(timeout) {

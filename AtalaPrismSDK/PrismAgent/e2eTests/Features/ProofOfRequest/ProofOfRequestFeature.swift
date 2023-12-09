@@ -7,18 +7,24 @@
 
 import XCTest
 
-final class ProofOfRequestTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+final class ProofOfRequestFeature: Feature {
+    override func featureTitle() -> String {
+        "Provide proof of request"
+    }
+    
+    override func featureDescription() -> String {
+        "TThe Edge Agent should provide proof to Cloud Agent"
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // CALL STEPS
-
+    func testTest() async throws {
+        try await Scenario("STUFFFFFFFFFF")
+            .given("Cloud Agent is connected to Edge Agent")
+            .when("Cloud Agent offers a credential")
+            .then("Edge Agent should receive the credential")
+            .when("Edge Agent accepts the credential")
+            .when("Cloud Agent should see the credential was accepted")
+            .then("Edge Agent wait to receive 1 issued credentials")
+            .then("Edge Agent process 1 issued credentials")
+            .run()
     }
 }

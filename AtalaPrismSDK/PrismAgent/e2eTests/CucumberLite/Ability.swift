@@ -8,6 +8,15 @@
 import Foundation
 
 protocol Ability {
-    func initialize() async throws
+    /// return interface for the ability
+    associatedtype T
+
+    /// object instance returned by the ability
+    func ability() -> T
+    
+    /// initialization hook, used to create the object instance for ability
+    func initialize(_ actor: Actor) async throws
+    
+    /// teardown hook
     func teardown() async throws
 }
