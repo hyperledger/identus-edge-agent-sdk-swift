@@ -36,12 +36,14 @@ class Config: CucumberConfig {
         try await checkJwtSchema()
         try await checkAnoncredDefinition()
         
+        CucumberLogger.logLine()
         CucumberLogger.info("Mediator", Config.mediatorOobUrl)
         CucumberLogger.info("Agent", Config.agentUrl)
         CucumberLogger.info("DID", Config.publishedDid)
         CucumberLogger.info("JWT Schema", Config.jwtSchemaGuid)
         CucumberLogger.info("Anoncred Definition", Config.anoncredDefinitionGuid)
         // TODO: Get SDK version
+        CucumberLogger.logLine()
         
     }
     

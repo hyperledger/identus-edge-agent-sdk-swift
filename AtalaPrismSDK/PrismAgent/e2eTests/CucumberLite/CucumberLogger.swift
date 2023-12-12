@@ -34,8 +34,7 @@ class CucumberLogger {
         info("--------------------------------------------------")
     }
     
-    static func writeToGithubSummary(_ message: String) {
-        let command = "touch a"
+    static func writeToGithubSummary(_ command: String) {
 //        if (ProcessInfo.processInfo.environment.keys.contains("CI")) {
             let process = Process()
             process.launchPath = "/bin/bash"

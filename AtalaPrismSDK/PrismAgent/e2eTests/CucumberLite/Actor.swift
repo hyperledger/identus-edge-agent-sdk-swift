@@ -12,13 +12,13 @@ class Actor {
     
     func initialize() async throws {
         for ability in abilities.values {
-            try await ability.initialize(self)
+            try await ability.setUp(self)
         }
     }
     
     func tearDown() async throws {
         for ability in abilities.values {
-            try await ability.teardown()
+            try await ability.tearDown()
         }
     }
     

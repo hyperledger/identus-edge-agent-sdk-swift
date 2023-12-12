@@ -6,16 +6,18 @@ import HTTPTypes
 class OpenEnterpriseAPI: Ability {
     typealias T = API
     private var api: T? = nil
+    var actor: Actor? = nil
     
     func ability() -> T {
         return api!
     }
     
-    func initialize(_ actor: Actor) async throws {
+    func setUp(_ actor: Actor) async throws {
+        self.actor = actor
         api = API(StepReporterMiddleware(actor.name))
     }
     
-    func teardown() async throws {
+    func tearDown() async throws {
     }
     
     class API {
@@ -295,35 +297,114 @@ class OpenEnterpriseAPI: Ability {
             }
         }
         
-        func offerCredential() async throws {
+        func offerCredential(_ connectionId: String) async throws -> Components.Schemas.IssueCredentialRecord {
             var claims: OpenAPIValueContainer = try OpenAPIValueContainer()
-            claims.value = ["":""]
+            claims.value = [
+                "automation-required" : UUID().uuidString
+            ]
             
             let body = Components.Schemas.CreateIssueCredentialRecordRequest(
-                schemaId: "",
+                schemaId: "\(Config.agentUrl)/schema-registry/schemas/\(Config.jwtSchemaGuid)",
                 claims: claims,
-                issuingDID: "",
-                connectionId: ""
+                issuingDID: Config.publishedDid,
+                connectionId: connectionId
             )
-            //        const credential = new CreateIssueCredentialRecordRequest()
-            //        credential.claims = {
-            //          "automation-required": "required value",
-            //        }
-            //        credential.schemaId = `${CloudAgentConfiguration.agentUrl}/schema-registry/schemas/${CloudAgentConfiguration.jwtSchemaGuid}`
-            //        credential.automaticIssuance = true
-            //        credential.issuingDID = CloudAgentConfiguration.publishedDid
-            //        credential.connectionId = await cloudAgent.answer<string>(
-            //          Notepad.notes().get("connectionId")
-            //        )
-            //
-            //        await cloudAgent.attemptsTo(
-            //          Send.a(
-            //            PostRequest.to("issue-credentials/credential-offers").with(credential)
-            //          )
-            //        )
-            //        await cloudAgent.attemptsTo(
-            //          Notepad.notes().set("recordId", LastResponse.body().recordId)
-            //        )
+            
+            let response = try await client!.createCredentialOffer(body: .json(body))
+            switch(response) {
+            case .created(let createdResponse):
+                switch(createdResponse.body){
+                case .json(let body):
+                    return body
+                }
+            default:
+                throw Error.WrongResponse
+            }
+        }
+        
+        func offerAnonymousCredential(_ connectionId: String) async throws -> Components.Schemas.IssueCredentialRecord {
+            var claims: OpenAPIValueContainer = try OpenAPIValueContainer()
+            claims.value = [
+                "name" : "automation",
+                "age" : "99"
+            ]
+            
+            let body = Components.Schemas.CreateIssueCredentialRecordRequest(
+                credentialDefinitionId: Config.anoncredDefinitionGuid,
+                credentialFormat: "AnonCreds",
+                claims: claims,
+                automaticIssuance: true,
+                issuingDID: Config.publishedDid,
+                connectionId: connectionId
+            )
+            
+            let response = try await client!.createCredentialOffer(body: .json(body))
+            switch(response) {
+            case .created(let createdResponse):
+                switch(createdResponse.body){
+                case .json(let body):
+                    return body
+                }
+            default:
+                throw Error.WrongResponse
+            }
+        }
+        
+        func getCredentialRecord(_ recordId: String) async throws -> Components.Schemas.IssueCredentialRecord {
+            let response = try await client!.getCredentialRecord(path: .init(recordId: recordId))
+            switch(response){
+            case .ok(let okResponse):
+                switch(okResponse.body){
+                case .json(let body):
+                    return body
+                }
+            default:
+                throw Error.WrongResponse
+            }
+        }
+        
+        func requestPresentProof(_ connectionId: String) async throws -> Components.Schemas.PresentationStatus {
+            let options = Components.Schemas.Options(
+                challenge: UUID().uuidString,
+                domain: Config.agentUrl
+            )
+            
+            let proof = Components.Schemas.ProofRequestAux(
+                schemaId: Config.jwtSchemaGuid,
+                trustIssuers: []
+            )
+            
+            let body = Components.Schemas.RequestPresentationInput(
+                connectionId: connectionId,
+                options: options,
+                proofs: [proof],
+                credentialFormat: "JWT"
+            )
+            
+            let response = try await client!.requestPresentation(body: .json(body))
+            
+            switch(response){
+            case .created(let createdResponse):
+                switch(createdResponse.body){
+                case .json(let body):
+                    return body
+                }
+            default:
+                throw Error.WrongResponse
+            }
+        }
+        
+        func getPresentation(_ presentationId: String) async throws -> Components.Schemas.PresentationStatus {
+            let response = try await client!.getPresentation(path: .init(presentationId: presentationId))
+            switch(response){
+            case .ok(let okResponse):
+                switch(okResponse.body){
+                case .json(let body):
+                    return body
+                }
+            default:
+                throw Error.WrongResponse
+            }
         }
         
         enum Error: Swift.Error, Equatable {

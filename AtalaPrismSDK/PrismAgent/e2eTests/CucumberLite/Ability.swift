@@ -15,8 +15,8 @@ protocol Ability {
     func ability() -> T
     
     /// initialization hook, used to create the object instance for ability
-    func initialize(_ actor: Actor) async throws
+    func setUp(_ actor: Actor) async throws
     
     /// teardown hook
-    func teardown() async throws
+    func tearDown() async throws
 }

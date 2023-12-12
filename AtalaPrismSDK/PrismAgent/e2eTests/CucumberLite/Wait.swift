@@ -7,7 +7,7 @@ class Wait {
             if Date().timeIntervalSince(startTime) >= Double(timeout) {
                 throw TimeoutError.timeoutReached
             }
-            try await Task.sleep(nanoseconds: UInt64(1000000))
+            try await Task.sleep(nanoseconds: UInt64(500000000))
         }
     }
 }

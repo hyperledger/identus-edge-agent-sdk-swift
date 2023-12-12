@@ -63,8 +63,13 @@ class Scenario {
     private func executeSteps() async throws {
         var lastContext = ""
         for step in stepList {
-            CucumberLogger.info("    ", step.context == lastContext ? "And" : step.context, step.step)
-            try await StepRegistry.run(step.step)
+            // TODO: handle scenario logging
+//            do {
+                CucumberLogger.info("    ", step.context == lastContext ? "And" : step.context, step.step)
+                try await StepRegistry.run(step.step)
+//            } catch {
+//                print("Error:", error)
+//            }
             lastContext = step.context
         }
     }

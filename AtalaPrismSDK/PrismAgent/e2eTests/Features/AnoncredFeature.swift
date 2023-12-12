@@ -1,25 +1,18 @@
-//
-//  ProofOfRequestTests.swift
-//  
-//
-//  Created by io on 06/09/23.
-//
+import Foundation
 
-import XCTest
-
-final class ProofOfRequestFeature: Feature {
+class AnoncredFeature: Feature {
     override func featureTitle() -> String {
-        "Provide proof of request"
+        "Receive anonymous credential"
     }
     
     override func featureDescription() -> String {
-        "TThe Edge Agent should provide proof to Cloud Agent"
+        "The Edge Agent should be able to receive an anonymous credential from Cloud Agent"
     }
-
-    func testTest() async throws {
-        try await Scenario("STUFFFFFFFFFF")
+    
+    func testReceiveOneAnoncred() async throws {
+        try await Scenario("Receive one anonymous credential")
             .given("Cloud Agent is connected to Edge Agent")
-            .when("Cloud Agent offers a credential")
+            .when("Cloud Agent offers an anonymous credential")
             .then("Edge Agent should receive the credential")
             .when("Edge Agent accepts the credential")
             .when("Cloud Agent should see the credential was accepted")
