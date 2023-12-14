@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>MEDIATOR_OOB_URL</key>
+	<string>http://localhost:8080/invitation</string>
+	<key>PRISM_AGENT_URL</key>
+	<string>http://localhost:8090/</string>
+	<key>APIKEY</key>
+	<string></string>
+	<key>PUBLISHED_DID</key>
+	<string>did:prism:88a0f3c8c25f78ec2d70bccc16d97ee75e747ba8193cefd7ca445768db2f7732</string>
+	<key>JWT_SCHEMA_GUID</key>
+	<string>fffacb0d-d39f-332c-9a3a-1843e5022f9d</string>
+	<key>ANONCRED_DEFINITION_GUID</key>
+	<string>3717a1a6-db96-3cb5-8dfe-909f7f65a791</string>
+</dict>
+</plist>
