@@ -4,7 +4,7 @@ import Foundation
 extension Ed25519PrivateKey: ExportableKey {
     var pem: String {
         PEMKey(
-            keyType: "EC PRIVATE KEY",
+            keyType: "PRIVATE KEY",
             keyData: raw
         ).pemEncoded()
     }
@@ -32,7 +32,7 @@ extension Ed25519PrivateKey: ExportableKey {
 extension Ed25519PublicKey: ExportableKey {
     var pem: String {
         PEMKey(
-            keyType: "EC PRIVATE KEY",
+            keyType: "PRIVATE KEY",
             keyData: raw
         ).pemEncoded()
     }
