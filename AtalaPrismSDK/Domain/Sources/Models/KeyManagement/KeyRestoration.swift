@@ -18,6 +18,14 @@ public protocol KeyRestoration {
     /// - Returns: A boolean value indicating whether the data represents a public key (true) or not (false).
     func isPublicKeyData(identifier: String, data: Data) throws -> Bool
 
+    /// Determines if the given data corresponds to a key.
+    /// - Parameters:
+    ///   - identifier: An optional string used to identify the key.
+    ///   - data: The raw data potentially representing the key.
+    /// - Throws: If the verification process fails, this method throws an error.
+    /// - Returns: A boolean value indicating whether the data represents a key (true) or not (false).
+    func isKeyData(identifier: String, data: Data) throws -> Bool
+
     /// Restores a private key from the given data.
     /// - Parameters:
     ///   - identifier: An optional string used to identify the key.
@@ -33,4 +41,12 @@ public protocol KeyRestoration {
     /// - Throws: If the restoration process fails, this method throws an error.
     /// - Returns: The restored `PublicKey` instance.
     func restorePublicKey(_ key: StorableKey) async throws -> PublicKey
+
+    /// Restores a key from the given data.
+    /// - Parameters:
+    ///   - identifier: An optional string used to identify the key.
+    ///   - data: The raw data representing the key.
+    /// - Throws: If the restoration process fails, this method throws an error.
+    /// - Returns: The restored `Key` instance.
+    func restoreKey(_ key: StorableKey) async throws -> Key
 }

@@ -55,5 +55,8 @@ public protocol Apollo {
     /// - Returns: The decompressed public key
     func uncompressedPublicKey(compressedData: Data) -> PublicKey
     
-    func createNewLinkSecret() throws -> String
+    /// createNewLinkSecret creates a link secret.
+    ///
+    /// - Returns: A key that represents the link secret
+    func createNewLinkSecret() throws -> Key
 }

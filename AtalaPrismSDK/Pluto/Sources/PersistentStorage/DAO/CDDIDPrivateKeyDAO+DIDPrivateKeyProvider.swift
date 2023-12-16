@@ -10,7 +10,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
                 try $0.map {
                     (
                         DID(from: $0),
-                        try $0.keys.map { try $0.parseToStorableKey(keychain: self.keychain) },
+                        try $0.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychain) },
                         $0.alias
                     )
                 }
@@ -24,7 +24,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
                 try $0.map {
                     (
                         DID(from: $0),
-                        try $0.keys.map { try $0.parseToStorableKey(keychain: self.keychain) },
+                        try $0.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychain) },
                         $0.alias
                     )
                 }
@@ -41,7 +41,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
             try $0.map {
                 (
                     DID(from: $0),
-                    try $0.keys.map { try $0.parseToStorableKey(keychain: self.keychain) },
+                    try $0.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychain) },
                     $0.alias
                 )
             }
@@ -52,7 +52,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
     func getPrivateKeys(did: DID) -> AnyPublisher<[StorableKey]?, Error> {
         fetchByIDsPublisher(did.string, context: readContext)
             .tryMap {
-                try $0?.keys.map { try $0.parseToStorableKey(keychain: self.keychain) }
+                try $0?.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychain) }
             }
             .eraseToAnyPublisher()
     }
@@ -66,44 +66,5 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
             $0.first.map { $0.index?.intValue ?? 0 } ?? 0
         }
         .eraseToAnyPublisher()
-    }
-}
-
-extension CDKey {
-    func parseToStorableKey(keychain: KeychainProvider) throws -> StorableKey {
-        switch self {
-        case let keychainKey as CDKeychainKey:
-            guard
-                let algortihm = KeychainStorableKeyProperties.KeyAlgorithm(rawValue: keychainKey.algorithm),
-                let keyType = KeychainStorableKeyProperties.KeyType(rawValue: keychainKey.type)
-            else {
-                // TODO: Update this error
-                throw PlutoError.algorithmOrKeyTypeNotValid(algorithm: keychainKey.algorithm, keyType: keychainKey.type)
-            }
-            let keyData = try keychain.getKey(
-                service: keychainKey.service,
-                account: keychainKey.identifier,
-                tag: keychainKey.tag,
-                algorithm: algortihm,
-                type: keyType
-            )
-
-            return StorableKeyModel(
-                restorationIdentifier: keychainKey.restorationIdentifier,
-                storableData: keyData,
-                index: keychainKey.index?.intValue
-            )
-        case let databaseKey as CDDatabaseKey:
-            return StorableKeyModel(
-                restorationIdentifier: databaseKey.restorationIdentifier,
-                storableData: databaseKey.storableData,
-                index: databaseKey.index?.intValue
-            )
-        default:
-            throw UnknownError.somethingWentWrongError(
-                customMessage: "This should never happen it a key always have a type of CDKeychainKey or CDDatabaseKey",
-                underlyingErrors: nil
-            )
-        }
     }
 }
