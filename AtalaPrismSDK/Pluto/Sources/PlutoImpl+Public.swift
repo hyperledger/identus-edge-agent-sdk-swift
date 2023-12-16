@@ -167,11 +167,11 @@ extension PlutoImpl: Pluto {
         credentialsDAO.getAll()
     }
     
-    public func storeLinkSecret(secret: String) -> AnyPublisher<Void, Error> {
-        linkSecretDao.addLinkSecret(secret)
+    public func storeLinkSecret(secret: StorableKey) -> AnyPublisher<Void, Error> {
+        keyDao.addLinkSecret(secret)
     }
     
-    public func getLinkSecret() -> AnyPublisher<[String], Error> {
-        linkSecretDao.getAll()
+    public func getLinkSecret() -> AnyPublisher<[StorableKey], Error> {
+        keyDao.getAll()
     }
 }

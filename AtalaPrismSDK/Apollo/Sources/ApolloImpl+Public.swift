@@ -145,7 +145,7 @@ returns random mnemonics nerver returns invalid mnemonics
         }
     }
     
-    public func createNewLinkSecret() throws -> String {
-        try CreateLinkSecretOperation().create()
+    public func createNewLinkSecret() throws -> Key {
+        try LinkSecret()
     }
 }

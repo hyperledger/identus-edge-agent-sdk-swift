@@ -15,9 +15,9 @@ final class CDDIDPairDAOTests: XCTestCase {
         ))
         keychainMock = KeychainMock()
         privateKeyDao = CDDIDPrivateKeyDAO(
-            keychain: keychainMock,
-            keychainService: "test",
             keyDao: CDKeyDAO(
+                keychain: keychainMock,
+                keychainService: "test",
                 readContext: coreDataManager.mainContext,
                 writeContext: coreDataManager.editContext
             ),
