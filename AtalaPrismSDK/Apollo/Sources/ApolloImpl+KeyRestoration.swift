@@ -10,6 +10,10 @@ extension ApolloImpl: KeyRestoration {
         identifier.hasSuffix("pub")
     }
 
+    public func isKeyData(identifier: String, data: Data) throws -> Bool {
+        identifier.hasSuffix("key")
+    }
+
     public func restorePrivateKey(_ key: StorableKey) throws -> PrivateKey {
         switch  key.restorationIdentifier {
         case "secp256k1+priv":
@@ -34,6 +38,15 @@ extension ApolloImpl: KeyRestoration {
             return X25519PublicKey(appleCurve: try .init(rawRepresentation: key.storableData))
         case "ed25519+pub":
             return Ed25519PublicKey(appleCurve: try .init(rawRepresentation: key.storableData))
+        default:
+            throw ApolloError.restoratonFailedNoIdentifierOrInvalid
+        }
+    }
+
+    public func restoreKey(_ key: StorableKey) async throws -> Key {
+        switch key.restorationIdentifier {
+        case "linkSecret+key":
+            return try LinkSecret(data: key.storableData)
         default:
             throw ApolloError.restoratonFailedNoIdentifierOrInvalid
         }

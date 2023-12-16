@@ -36,6 +36,7 @@ public struct PlutoImpl {
     }
 
     let setup: PlutoSetup
+    let keyDao: CDKeyDAO
     let registeredDIDDao: CDRegisteredDIDDAO
     let privateKeyDIDDao: CDDIDPrivateKeyDAO
     let pairDIDDao: CDDIDPairDAO
@@ -53,13 +54,16 @@ public struct PlutoImpl {
             readContext: manager.mainContext,
             writeContext: manager.editContext
         )
-        let privateKeyDao = CDDIDPrivateKeyDAO(
+        let keyDao = CDKeyDAO(
             keychain: setup.keychain,
             keychainService: setup.keychainService,
-            keyDao: CDKeyDAO(
-                readContext: manager.mainContext,
-                writeContext: manager.editContext
-            ),
+            readContext: manager.mainContext,
+            writeContext: manager.editContext
+        )
+        self.keyDao = keyDao
+        
+        let privateKeyDao = CDDIDPrivateKeyDAO(
+            keyDao: keyDao,
             readContext: manager.mainContext,
             writeContext: manager.editContext
         )

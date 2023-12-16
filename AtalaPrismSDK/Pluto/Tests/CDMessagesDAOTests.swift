@@ -16,9 +16,9 @@ final class CDMessagesDAOTests: XCTestCase {
             storeType: .memory
         ))
         privateDAO = CDDIDPrivateKeyDAO(
-            keychain: keychainMock,
-            keychainService: "test",
             keyDao: CDKeyDAO(
+                keychain: keychainMock,
+                keychainService: "test",
                 readContext: coreDataManager.mainContext,
                 writeContext: coreDataManager.editContext
             ),

@@ -18,9 +18,9 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
 
     func testStoreSingleDID() throws {
         let dao = CDDIDPrivateKeyDAO(
-            keychain: keychainMock,
-            keychainService: "test",
             keyDao: CDKeyDAO(
+                keychain: keychainMock,
+                keychainService: "test",
                 readContext: coreDataManager.mainContext,
                 writeContext: coreDataManager.editContext
             ),
@@ -48,9 +48,9 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
 
     func testStoreNoDuplicatedDID() throws {
         let dao = CDDIDPrivateKeyDAO(
-            keychain: keychainMock,
-            keychainService: "test",
             keyDao: CDKeyDAO(
+                keychain: keychainMock,
+                keychainService: "test",
                 readContext: coreDataManager.mainContext,
                 writeContext: coreDataManager.editContext
             ),
@@ -86,9 +86,9 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
 
     func testGetAllDIDs() throws {
         let dao = CDDIDPrivateKeyDAO(
-            keychain: keychainMock,
-            keychainService: "test",
             keyDao: CDKeyDAO(
+                keychain: keychainMock,
+                keychainService: "test",
                 readContext: coreDataManager.mainContext,
                 writeContext: coreDataManager.editContext
             ),
@@ -128,9 +128,9 @@ final class CDDIDPrivateKeyDAOTestsTests: XCTestCase {
 
     func testGetDIDInfoByDID() throws {
         let dao = CDDIDPrivateKeyDAO(
-            keychain: keychainMock,
-            keychainService: "test",
             keyDao: CDKeyDAO(
+                keychain: keychainMock,
+                keychainService: "test",
                 readContext: coreDataManager.mainContext,
                 writeContext: coreDataManager.editContext
             ),

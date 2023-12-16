@@ -33,12 +33,17 @@ public extension PrismAgent {
         guard
             let linkSecret = try await pluto.getLinkSecret().first().await().first
         else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
-        
+
+        let restored = try await self.apollo.restoreKey(linkSecret)
+        guard
+            let linkSecretString = String(data: restored.raw, encoding: .utf8)
+        else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+
         let downloader = DownloadDataWithResolver(castor: castor)
         let credential = try await pollux.parseCredential(
             issuedCredential: message.makeMessage(),
             options: [
-                .linkSecret(id: "", secret: linkSecret),
+                .linkSecret(id: "", secret: linkSecretString),
                 .credentialDefinitionDownloader(downloader: downloader),
                 .schemaDownloader(downloader: downloader)
             ]
@@ -76,14 +81,19 @@ public extension PrismAgent {
             let exporting = privateKey.exporting,
             let linkSecret = try await pluto.getLinkSecret().first().await().first
         else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
-        
+
+        let restored = try await self.apollo.restoreKey(linkSecret)
+        guard
+            let linkSecretString = String(data: restored.raw, encoding: .utf8)
+        else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+
         let downloader = DownloadDataWithResolver(castor: castor)
         let requestString = try await pollux.processCredentialRequest(
             offerMessage: offer.makeMessage(),
             options: [
                 .exportableKey(exporting),
                 .subjectDID(did),
-                .linkSecret(id: did.string, secret: linkSecret),
+                .linkSecret(id: did.string, secret: linkSecretString),
                 .credentialDefinitionDownloader(downloader: downloader),
                 .schemaDownloader(downloader: downloader)
             ]
