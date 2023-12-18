@@ -1,3 +1,15 @@
+# [4.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.6.0...4.0.0) (2023-12-18)
+
+
+### Features
+
+* **pluto:** pluto will save link secret as a storable key. ([dbd724b](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/dbd724bca43b09394fbf282716bcd3e73459377b))
+
+
+### BREAKING CHANGES
+
+* **pluto:** This makes changes on pluto interface.
+
 # [3.6.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.5.0...3.6.0) (2023-10-20)
 
 
