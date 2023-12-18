@@ -1,3 +1,16 @@
+# [5.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/4.0.0...5.0.0) (2023-12-18)
+
+
+### Bug Fixes
+
+* bug with header and footer of ed25519 and x25519 pem keys ([f9009b1](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/f9009b1288feac645d8708cbe4a393fd7c726112))
+* this was causing confusion since it was public, not used and did not work as expected ([3a6e894](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/3a6e8943f45448e1bf505c0972ebdfc715ba313e))
+
+
+### BREAKING CHANGES
+
+* This will not affect our API or was it working, but since it was public its considered a breaking change
+
 # [4.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.6.0...4.0.0) (2023-12-18)
 
 
