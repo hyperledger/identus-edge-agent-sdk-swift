@@ -61,4 +61,12 @@ public extension PrismAgent {
             .flatMap { $0.publisher }
             .eraseToAnyPublisher()
     }
+
+    func messagesReceivedForDIDPair(didPair: DIDPair) -> AnyPublisher<[Message], Error> {
+        pluto.getAllMessagesReceivedFrom(did: didPair.other)
+    }
+
+    func messagesSentForDIDPair(didPair: DIDPair) -> AnyPublisher<[Message], Error> {
+        pluto.getAllMessagesSentTo(did: didPair.other)
+    }
 }

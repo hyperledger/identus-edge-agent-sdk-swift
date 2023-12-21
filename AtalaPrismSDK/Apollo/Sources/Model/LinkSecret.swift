@@ -36,7 +36,7 @@ struct LinkSecret: Key {
     }
 }
 
-extension LinkSecret: KeychainStorableKey {
+extension LinkSecret: StorableKey {
     var restorationIdentifier: String { "linkSecret+key" }
     var storableData: Data { raw }
     var index: Int? { nil }

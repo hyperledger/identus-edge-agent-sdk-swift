@@ -10,6 +10,7 @@ final class ChatViewModelImpl: ChatViewModel {
     @Published var messages = [ChatViewState.Message]()
     @Published var error: FancyToast?
     @Published var selectedImage: Data?
+    @Published var isContactVerified = false
 
     private let agent: PrismAgent
     private let pair: DIDPair
@@ -29,21 +30,42 @@ final class ChatViewModelImpl: ChatViewModel {
                 ($0.from == pair.other && $0.to == pair.holder) ||
                 ($0.from == pair.holder && $0.to == pair.other)
             }
-            .map { [try? BasicMessage(fromMessage: $0)].compactMap { $0 } }
-            .replaceError(with: [])
             .map { [weak self] in
-                $0.map {
-                    ChatViewState.Message(
-                        message: $0,
+                let message: ChatViewState.Message?
+                if let basicMess = try? BasicMessage(fromMessage: $0) {
+                    message = ChatViewState.Message(
+                        message: basicMess,
                         sent: $0.from == pair.other ? false : true
                     )
-                }.forEach {
-                    self?.messageList.insert($0)
+                } else if let offer = try? OfferCredential3_0(fromMessage: $0) {
+                    message = ChatViewState.Message(message: offer)
+                } else if let issued = try? IssueCredential3_0(fromMessage: $0) {
+                    message = ChatViewState.Message(message: issued)
+                } else if let requestPresentation = try? RequestPresentation(fromMessage: $0) {
+                    message = ChatViewState.Message(message: requestPresentation, sent: $0.from == pair.other ? false : true)
+                } else if let presentation = try? Presentation(fromMessage: $0) {
+                    message = ChatViewState.Message(message: presentation, sent: $0.from == pair.other ? false : true)
+                } else {
+                    message = nil
+                }
+                if let message {
+                    self?.messageList.insert(message)
                 }
                 return self?.messageList.sorted { $0.date < $1.date } ?? []
             }
+            .replaceError(with: [])
             .receive(on: DispatchQueue.main)
             .assign(to: &$messages)
+
+        agent
+            .messagesReceivedForDIDPair(didPair: pair)
+            .map {
+                $0.contains { $0.piuri == "https://didcomm.atalaprism.io/present-proof/3.0/presentation"}
+            }
+            .replaceError(with: false)
+            .replaceEmpty(with: false)
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$isContactVerified)
     }
 
     func sendMessage(text: String) {
@@ -87,7 +109,7 @@ final class ChatViewModelImpl: ChatViewModel {
         Task.detached { [weak self] in
             guard let self else { return }
             do {
-                let message = try await self.agent.handleReceivedMessagesEvents()
+                let message = try await self.agent.handleMessagesEvents()
                     .first { $0.id == id }
                     .await()
                 guard 
@@ -155,6 +177,17 @@ private extension ChatViewState.Message {
         self.agentResponse = nil
     }
 
+    init(message: RequestCredential3_0) {
+        self.date = message.date
+        self.text = ""
+        self.sent = true
+        self.attachedImage = nil
+        self.agentResponse = .init(
+            title: "Requested Credential"
+        )
+        self.agentReceived = nil
+    }
+
     init(message: IssueCredential3_0) {
         self.date = message.date
         self.text = ""
@@ -168,16 +201,39 @@ private extension ChatViewState.Message {
         self.agentResponse = nil
     }
 
-    init(message: RequestPresentation) {
+    init(message: RequestPresentation, sent: Bool) {
         self.date = message.date
         self.text = ""
-        self.sent = false
+        self.sent = sent
         self.attachedImage = nil
-        self.agentReceived = .init(
-            title: "Issued Credential",
-            messageId: message.id,
-            needsResponse: false
-        )
-        self.agentResponse = nil
+        if !sent {
+            self.agentReceived = .init(
+                title: "Requested Identity Proof",
+                messageId: message.id,
+                needsResponse: true
+            )
+            self.agentResponse = nil
+        } else {
+            self.agentReceived = nil
+            self.agentResponse = .init(title: "Requested Identity Proof Sent")
+        }
+    }
+
+    init(message: Presentation, sent: Bool) {
+        self.date = message.date
+        self.text = ""
+        self.sent = true
+        self.attachedImage = nil
+        if !sent {
+            self.agentReceived = .init(
+                title: "Identity Proof Presentation",
+                messageId: message.id,
+                needsResponse: true
+            )
+            self.agentResponse = nil
+        } else {
+            self.agentReceived = nil
+            self.agentResponse = .init(title: "Identity Proof Presentation Sent")
+        }
     }
 }

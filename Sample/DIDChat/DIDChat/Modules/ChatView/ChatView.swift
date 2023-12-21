@@ -13,6 +13,7 @@ protocol ChatViewModel: ObservableObject {
     var selectedImage: Data? { get set }
     var sendingText: String { get set }
     var messages: [ChatViewState.Message] { get set }
+    var isContactVerified: Bool { get set }
     var error: FancyToast? { get set }
     func sendMessage(text: String)
     func accept(id: String)
@@ -57,7 +58,7 @@ struct ChatView<ViewModel: ChatViewModel>: View {
             }
             .padding()
         }
-        .navigationTitle(viewModel.name)
+        .navigationTitle(viewModel.isContactVerified ? viewModel.name + " ✅" : viewModel.name + " ❌")
         .toastView(toast: $viewModel.error)
         .onChange(of: pickerItem, perform: { value in
             Task {
@@ -138,7 +139,7 @@ struct MessageView<ViewModel: ChatViewModel>: View {
                     }
                     if needResponse, let id {
                         Button(action: {
-
+                            viewModel.accept(id: id)
                         }) {
                             Text("Accept")
                         }
@@ -161,6 +162,7 @@ private class MockedModel: ChatViewModel {
     var messages = [ChatViewState.Message]()
     var selectedImage: Data? = nil
     var photoPicker: PhotosPickerItem? = nil
+    var isContactVerified = false
     var error: FancyToast?
 
     func sendMessage(text: String) {}

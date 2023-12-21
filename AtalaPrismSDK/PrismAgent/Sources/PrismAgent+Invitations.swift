@@ -89,7 +89,7 @@ public extension PrismAgent {
             let connectionManager
         else { throw PrismAgentError.noMediatorAvailableError }
         logger.info(message: "Start accept DIDComm invitation")
-        let ownDID = try await createNewPeerDID(updateMediator: true)
+        let ownDID = try await createNewPeerDID(alias: alias, updateMediator: true)
 
         logger.info(message: "Sending DIDComm Connection message")
 

@@ -195,14 +195,14 @@ public class PrismAgent {
      }
     
     private func firstLinkSecretSetup() async throws {
-        if try await pluto.getLinkSecret().first().await().first == nil {
-            let secret = try apollo.createNewLinkSecret()
-            guard let storableSecret = secret.storable else {
-                throw UnknownError
-                    .somethingWentWrongError(customMessage: "Secret does not conform with StorableKey")
-            }
-            try await pluto.storeLinkSecret(secret: storableSecret).first().await()
-        }
+//        if try await pluto.getLinkSecret().first().await().first == nil {
+//            let secret = try apollo.createNewLinkSecret()
+//            guard let storableSecret = secret.storable else {
+//                throw UnknownError
+//                    .somethingWentWrongError(customMessage: "Secret does not conform with StorableKey")
+//            }
+//            try await pluto.storeLinkSecret(secret: storableSecret).first().await()
+//        }
     }
 }
 

@@ -10,20 +10,20 @@ extension CDKeyDAO: LinkSecretStore {
                 try storeKeychainKey(
                     keychainKey: keychainKey,
                     service: self.keychainService,
-                    account: "linkSecret",
+                    account: linkSecret.restorationIdentifier,
                     keychain: self.keychain
                 )
                 let cdkey = CDKeychainKey(entity: CDKeychainKey.entity(), insertInto: context)
                 cdkey.parseFromStorableKey(
                     keychainKey,
-                    identifier: "linkSecret",
+                    identifier: linkSecret.restorationIdentifier,
                     service: self.keychainService
                 )
             default:
                 let cdkey = CDDatabaseKey(entity: CDDatabaseKey.entity(), insertInto: context)
                 cdkey.parseFromStorableKey(
                     linkSecret,
-                    identifier: "linkSecret"
+                    identifier: linkSecret.restorationIdentifier
                 )
             }
         }

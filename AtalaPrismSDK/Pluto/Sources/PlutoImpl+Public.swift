@@ -172,6 +172,8 @@ extension PlutoImpl: Pluto {
     }
     
     public func getLinkSecret() -> AnyPublisher<[StorableKey], Error> {
-        keyDao.getAll()
+        keyDao.getAll().map { $0.filter {
+            $0.restorationIdentifier == "linkSecret+key" }
+        }.eraseToAnyPublisher()
     }
 }

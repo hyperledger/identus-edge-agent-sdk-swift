@@ -6,6 +6,7 @@ struct ContactsViewState {
         let id: String
         let name: String
         let pair: DIDPair
+        let verified: Bool
 
         func hash(into hasher: inout Hasher) {
             hasher.combine(id)

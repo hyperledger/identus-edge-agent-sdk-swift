@@ -33,7 +33,7 @@ struct ContactList<ViewModel: ContactsViewModel, Router: ContactsListRouter>: Vi
 //                    Text(contact.id)
 //                    Text(contact.name)
 //                }
-                NavigationLink(contact.name) {
+                NavigationLink(contact.verified ? contact.name + " ✅" : contact.name + " ❌") {
                     router.routeToContact(pair: contact.pair)
                 }
             }
@@ -42,7 +42,7 @@ struct ContactList<ViewModel: ContactsViewModel, Router: ContactsListRouter>: Vi
         .navigationBarTitle("Contacts")
         .navigationBarItems(trailing: HStack {
             Button(action: {
-                showAddContact = true
+                showAddCerification = true
             }) {
                 Image(systemName: "person.crop.square.filled.and.at.rectangle")
             }
