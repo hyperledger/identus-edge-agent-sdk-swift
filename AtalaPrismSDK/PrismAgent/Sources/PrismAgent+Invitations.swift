@@ -84,7 +84,7 @@ public extension PrismAgent {
     /// Accepts an Out-of-Band (DIDComm) invitation and establishes a new connection
     /// - Parameter invitation: The Out-of-Band invitation to accept
     /// - Throws: `PrismAgentError` if there is no mediator available or other errors occur during the acceptance process
-    func acceptDIDCommInvitation(invitation: OutOfBandInvitation) async throws {
+    func acceptDIDCommInvitation(invitation: OutOfBandInvitation, alias: String? = nil) async throws {
         guard
             let connectionManager
         else { throw PrismAgentError.noMediatorAvailableError }
@@ -97,7 +97,8 @@ public extension PrismAgent {
             invitationMessage: invitation,
             pluto: pluto,
             ownDID: ownDID,
-            connection: connectionManager
+            connection: connectionManager,
+            name: alias
         ).run()
         try await connectionManager.addConnection(pair)
     }

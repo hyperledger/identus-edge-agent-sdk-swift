@@ -8,17 +8,20 @@ class DIDCommConnectionRunner {
     private let ownDID: DID
     private let connection: DIDCommConnection
     private var request: ConnectionRequest?
+    private let name: String?
 
     init(
         invitationMessage: OutOfBandInvitation,
         pluto: Pluto,
         ownDID: DID,
-        connection: DIDCommConnection
+        connection: DIDCommConnection,
+        name: String? = nil
     ) {
         self.invitationMessage = invitationMessage
         self.pluto = pluto
         self.ownDID = ownDID
         self.connection = connection
+        self.name = name
     }
 
     func run() async throws -> DIDPair {
@@ -34,6 +37,6 @@ class DIDCommConnectionRunner {
         else {
             throw PrismAgentError.invitationIsInvalidError
         }
-        return DIDPair(holder: ownDID, other: request.to, name: nil)
+        return DIDPair(holder: ownDID, other: request.to, name: name)
     }
 }

@@ -170,6 +170,7 @@ public struct IssueCredential3_0 {
     public let id: String
     public let type: String
     public let body: Body
+    public let date: Date
     public let attachments: [AttachmentDescriptor]
     public let thid: String?
     public let from: DID
@@ -178,6 +179,7 @@ public struct IssueCredential3_0 {
     init(
         id: String = UUID().uuidString,
         body: Body,
+        date: Date = Date(),
         type: String,
         attachments: [AttachmentDescriptor],
         thid: String?,
@@ -187,6 +189,7 @@ public struct IssueCredential3_0 {
         self.id = id
         self.body = body
         self.type = type
+        self.date = date
         self.attachments = attachments
         self.thid = thid
         self.from = from
@@ -208,6 +211,7 @@ public struct IssueCredential3_0 {
         self.init(
             id: fromMessage.id,
             body: body,
+            date: fromMessage.createdTime,
             type: piuri.rawValue,
             attachments: fromMessage.attachments,
             thid: fromMessage.thid,

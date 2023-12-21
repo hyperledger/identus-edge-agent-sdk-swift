@@ -30,6 +30,7 @@ public struct Presentation {
     public let id: String
     public let type = ProtocolTypes.didcommPresentation.rawValue
     public let body: Body
+    public let date: Date
     public let attachments: [AttachmentDescriptor]
     public let thid: String?
     public let from: DID
@@ -38,6 +39,7 @@ public struct Presentation {
     public init(
         id: String = UUID().uuidString,
         body: Body,
+        date: Date = Date(),
         attachments: [AttachmentDescriptor],
         thid: String?,
         from: DID,
@@ -45,6 +47,7 @@ public struct Presentation {
     ) {
         self.id = id
         self.body = body
+        self.date = date
         self.attachments = attachments
         self.thid = thid
         self.from = from
@@ -65,6 +68,7 @@ public struct Presentation {
         self.init(
             id: fromMessage.id,
             body: body,
+            date: fromMessage.createdTime,
             attachments: fromMessage.attachments,
             thid: fromMessage.thid,
             from: fromDID,

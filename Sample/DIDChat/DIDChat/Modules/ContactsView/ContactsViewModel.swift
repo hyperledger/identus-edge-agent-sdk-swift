@@ -76,4 +76,18 @@ class ContactsViewModelImpl: ContactsViewModel {
             }
         }
     }
+
+    func connectWithAgent(agentName: String, agentOOB: String) {
+        Task.detached { [weak self] in
+            guard let self else { return }
+            do {
+                let inv = try self.agent.parseOOBInvitation(url: agentOOB)
+                try await self.agent.acceptDIDCommInvitation(invitation: inv, alias: agentName)
+            } catch {
+                await MainActor.run {
+                    self.error = error
+                }
+            }
+        }
+    }
 }

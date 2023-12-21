@@ -8,6 +8,7 @@ protocol ContactsViewModel: ObservableObject {
 
     func addContact(name: String, didString: String)
     func createNewPeerDIDForConnection(alias: String)
+    func connectWithAgent(agentName: String, agentOOB: String)
 }
 
 protocol ContactsListRouter {
@@ -22,6 +23,7 @@ struct ContactList<ViewModel: ContactsViewModel, Router: ContactsListRouter>: Vi
     @StateObject var viewModel: ViewModel
     @State var router: Router
     @State var showAddContact = false
+    @State var showAddCerification = false
     @State var showDIDs = false
 
     var body: some View {
@@ -42,6 +44,11 @@ struct ContactList<ViewModel: ContactsViewModel, Router: ContactsListRouter>: Vi
             Button(action: {
                 showAddContact = true
             }) {
+                Image(systemName: "person.crop.square.filled.and.at.rectangle")
+            }
+            Button(action: {
+                showAddContact = true
+            }) {
                 Image(systemName: "plus")
             }
             Button(action: {
@@ -53,6 +60,9 @@ struct ContactList<ViewModel: ContactsViewModel, Router: ContactsListRouter>: Vi
         #endif
         .sheet(isPresented: $showAddContact) {
             AddContactView<ViewModel>().environmentObject(viewModel)
+        }
+        .sheet(isPresented: $showAddCerification) {
+            AddCertificationView<ViewModel>().environmentObject(viewModel)
         }
         .sheet(isPresented: $showDIDs) {
             router.routeToDIDs()
@@ -111,6 +121,44 @@ struct AddContactView<ViewModel: ContactsViewModel>: View {
                         viewModel.createNewPeerDIDForConnection(alias: newPeerDIDAlias)
                     }) {
                         Text("Create Peer DID")
+                    }
+                    .padding()
+                }
+            }
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }) {
+                Text("Cancel")
+            }
+            .padding()
+        }
+    }
+}
+
+struct AddCertificationView<ViewModel: ContactsViewModel>: View {
+    @EnvironmentObject var viewModel: ViewModel
+    @Environment(\.presentationMode) var presentationMode
+    @State var newAgentName: String = "Prism"
+    @State var newAgentOob: String = ""
+
+    var body: some View {
+        VStack {
+            VStack {
+                Text("Connect with agent")
+                TextField("Name", text: $newAgentName)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+
+                TextField("OOB", text: $newAgentOob)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+
+                HStack {
+                    Button(action: {
+                        viewModel.connectWithAgent(agentName: newAgentName, agentOOB: newAgentOob)
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Text("Connect")
                     }
                     .padding()
                 }

@@ -18,19 +18,22 @@ public struct BasicMessage {
     public let to: DID
     public let date: Date
     public let body: Body
+    public let attachments: [AttachmentDescriptor]
 
     public init(
         id: String = UUID().uuidString,
         from: DID,
         to: DID,
         body: Body,
-        date: Date = Date()
+        date: Date = Date(),
+        attachments: [AttachmentDescriptor] = []
     ) {
         self.id = id
         self.from = from
         self.to = to
         self.body = body
         self.date = date
+        self.attachments = attachments
     }
 
     public init?(fromMessage: Message) throws {
@@ -46,6 +49,7 @@ public struct BasicMessage {
         self.to = to
         self.body = try JSONDecoder.didComm().decode(Body.self, from: fromMessage.body)
         self.date = fromMessage.createdTime
+        self.attachments = fromMessage.attachments
     }
 
     public func makeMessage() throws -> Message {
@@ -55,7 +59,8 @@ public struct BasicMessage {
             from: from,
             to: to,
             body: try JSONEncoder.didComm().encode(body),
-            createdTime: date,
+            createdTime: date, 
+            attachments: attachments,
             direction: .sent
         )
     }
