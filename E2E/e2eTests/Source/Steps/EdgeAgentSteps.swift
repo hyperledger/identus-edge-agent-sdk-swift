@@ -1,5 +1,8 @@
 import Foundation
 
+enum Riri: Error {
+    case Riri(message: String)
+}
 class EdgeAgentSteps: Steps {
     @Step("{actor} sends the present-proof")
     var edgeAgentSendsThePresentProof = { (edgeAgent: Actor) in
@@ -14,17 +17,17 @@ class EdgeAgentSteps: Steps {
     
     @Step("{actor} accepts {int} credential offer sequentially from {actor}")
     var edgeAgentAcceptsCredentialsOfferSequentiallyFromCloudAgent = { (edgeAgent: Actor, numberOfCredentials: Int, cloudAgent: Actor) in
-        throw TestFramework.Failure.parameterTypeNotFound
+//        throw TestFramework.Failure.parameterTypeNotFound
         var recordIdList: [String] = []
         for _ in 0..<numberOfCredentials {
             try await CloudAgentWorkflow.offersACredential(cloudAgent: cloudAgent)
             try await EdgeAgentWorkflow.waitToReceiveCredentialsOffer(edgeAgent: edgeAgent, numberOfCredentials: 1)
             try await EdgeAgentWorkflow.acceptsTheCredentialOffer(edgeAgent: edgeAgent)
-            let recordId: String = cloudAgent.recall(key: "recordId")
-            try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, state: .CredentialSent)
+            let recordId: String = try cloudAgent.recall(key: "recordId")
+            try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, expectedState: .CredentialSent)
             recordIdList.append(recordId)
         }
-        cloudAgent.remember(key: "recordIdList", value: recordIdList)
+        try cloudAgent.remember(key: "recordIdList", value: recordIdList)
     }
     
     @Step("{actor} accepts {int} credentials offer at once from {actor}")
@@ -32,9 +35,9 @@ class EdgeAgentSteps: Steps {
         var recordIdList: [String] = []
         for _ in 0..<numberOfCredentials {
             try await CloudAgentWorkflow.offersACredential(cloudAgent: cloudAgent)
-            recordIdList.append(cloudAgent.recall(key: "recordId"))
+            recordIdList.append(try cloudAgent.recall(key: "recordId"))
         }
-        cloudAgent.remember(key: "recordIdList", value: recordIdList)
+        try cloudAgent.remember(key: "recordIdList", value: recordIdList)
         
         try await EdgeAgentWorkflow.waitToReceiveCredentialsOffer(edgeAgent: edgeAgent, numberOfCredentials: 3)
         

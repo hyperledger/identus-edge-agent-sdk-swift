@@ -1,7 +1,7 @@
 import Foundation
 
 /// Initializes CucumberLite configuration
-class Config: TestFramework {
+class Config: TestConfiguration {
     static var mediatorOobUrl: String = ""
     static var agentUrl: String = ""
     static var publishedDid: String = ""
@@ -9,55 +9,46 @@ class Config: TestFramework {
     static var anoncredDefinitionGuid: String = ""
     static var apiKey: String = ""
     
-    static var shared: Config?
-    
-    override class func createInstance() -> TestFrameworkProtocol {
-        let instance = Config()
-        self.instance = instance
-        return instance
+    override class func createInstance() -> ITestConfiguration {
+        return Config()
     }
     
-    override class func createActors() async throws -> [String : Actor]  {
-        var actors: [String: Actor] = [:]
-        actors["Cloud Agent"] = Actor("Cloud Agent").whoCanUse(OpenEnterpriseAPI())
-        actors["Edge Agent"] = Actor("Edge Agent").whoCanUse(Sdk())
-        return actors
+    override func createActors() async throws -> [Actor]  {
+        let cloudAgent = Actor("Cloud Agent").whoCanUse(OpenEnterpriseAPI.self)
+        let edgeAgent = Actor("Edge Agent").whoCanUse(Sdk.self )
+        return [cloudAgent, edgeAgent]
     }
     
-    override class func setUp() async throws {
-        mediatorOobUrl = environment["MEDIATOR_OOB_URL"]!
-        agentUrl = environment["PRISM_AGENT_URL"]!
-        publishedDid = environment["PUBLISHED_DID"] ?? ""
-        jwtSchemaGuid = environment["JWT_SCHEMA_GUID"] ?? ""
-        anoncredDefinitionGuid = environment["ANONCRED_DEFINITION_GUID"] ?? ""
-        apiKey = environment["APIKEY"] ?? ""
+    override func setUp() async throws {
+        Config.mediatorOobUrl = environment["MEDIATOR_OOB_URL"]!
+        Config.agentUrl = environment["PRISM_AGENT_URL"]!
+        Config.publishedDid = environment["PUBLISHED_DID"] ?? ""
+        Config.jwtSchemaGuid = environment["JWT_SCHEMA_GUID"] ?? ""
+        Config.anoncredDefinitionGuid = environment["ANONCRED_DEFINITION_GUID"] ?? ""
+        Config.apiKey = environment["APIKEY"] ?? ""
         
         try await checkPublishedDid()
         try await checkJwtSchema()
         try await checkAnoncredDefinition()
-
-        TestFramework.logger.logLine()
-        TestFramework.logger.info("Mediator", Config.mediatorOobUrl)
-        TestFramework.logger.info("Agent", Config.agentUrl)
-        TestFramework.logger.info("DID", Config.publishedDid)
-        TestFramework.logger.info("JWT Schema", Config.jwtSchemaGuid)
-        TestFramework.logger.info("Anoncred Definition", Config.anoncredDefinitionGuid)
         
+        print("Mediator", Config.mediatorOobUrl)
+        print("Agent", Config.agentUrl)
+        print("DID", Config.publishedDid)
+        print("JWT Schema", Config.jwtSchemaGuid)
+        print("Anoncred Definition", Config.anoncredDefinitionGuid)
         // TODO: Get SDK version
-        TestFramework.logger.logLine()
-        
     }
     
-    override class func tearDown() async throws {
+    override func tearDown() async throws {
     }
     
-    private static func checkPublishedDid() async throws {
+    private func checkPublishedDid() async throws {
         let api = OpenEnterpriseAPI.API()
-        let isPresent = try await api.isDidPresent(publishedDid)
+        let isPresent = try await api.isDidPresent(Config.publishedDid)
         if (isPresent) {
             return
         }
-        TestFramework.logger.info("DID [\(publishedDid)] not found. Creating a new one.")
+        print("DID [\(Config.publishedDid)] not found. Creating a new one.")
         
         let unpublishedDid = try await api.createUnpublishedDid()
         let publishedDid = try await api.publishDid(unpublishedDid.longFormDid)
@@ -68,32 +59,32 @@ class Config: TestFramework {
             return did.status == "PUBLISHED"
         }
         
-        self.publishedDid = shortFormDid
+        Config.publishedDid = shortFormDid
     }
     
-    private static func checkJwtSchema() async throws {
+    private func checkJwtSchema() async throws {
         let api = OpenEnterpriseAPI.API()
-        let isPresent = try await api.isJwtSchemaGuidPresent(jwtSchemaGuid)
+        let isPresent = try await api.isJwtSchemaGuidPresent(Config.jwtSchemaGuid)
         if (isPresent) {
             return
         }
-        TestFramework.logger.info("JWT schema [\(jwtSchemaGuid)] not found. Creating a new one.")
+        print("JWT schema [\(Config.jwtSchemaGuid)] not found. Creating a new one.")
         
-        let jwtSchema = try await api.createJwtSchema(author: publishedDid)
-        self.jwtSchemaGuid = jwtSchema.guid
+        let jwtSchema = try await api.createJwtSchema(author: Config.publishedDid)
+        Config.jwtSchemaGuid = jwtSchema.guid
     }
     
-    private static func checkAnoncredDefinition() async throws {
+    private func checkAnoncredDefinition() async throws {
         let api = OpenEnterpriseAPI.API()
-        let isPresent = try await api.isAnoncredDefinitionPresent(anoncredDefinitionGuid)
+        let isPresent = try await api.isAnoncredDefinitionPresent(Config.anoncredDefinitionGuid)
         if (isPresent) {
             return
         }
-        TestFramework.logger.info("Anoncred Definition not found for [\(anoncredDefinitionGuid)]. Creating a new one.")
+        print("Anoncred Definition not found for [\(Config.anoncredDefinitionGuid)]. Creating a new one.")
         
-        let anoncredSchema = try await api.createAnoncredSchema(publishedDid)
-        let anoncredDefinition = try await api.createAnoncredDefinition(publishedDid, anoncredSchema.guid)
-        self.anoncredDefinitionGuid = anoncredDefinition.guid
+        let anoncredSchema = try await api.createAnoncredSchema(Config.publishedDid)
+        let anoncredDefinition = try await api.createAnoncredDefinition(Config.publishedDid, anoncredSchema.guid)
+        Config.anoncredDefinitionGuid = anoncredDefinition.guid
     }
 }
 

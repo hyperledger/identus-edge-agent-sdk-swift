@@ -9,10 +9,10 @@
 	<key>APIKEY</key>
 	<string></string>
 	<key>PUBLISHED_DID</key>
-	<string>did:prism:88a0f3c8c25f78ec2d70bccc16d97ee75e747ba8193cefd7ca445768db2f7732</string>
+	<string>did:prism:8aba70be28d5dd9e47380dc625abf58bc1cd2149696423fe3aa775bdb9c2209a</string>
 	<key>JWT_SCHEMA_GUID</key>
-	<string>fffacb0d-d39f-332c-9a3a-1843e5022f9d</string>
+	<string>202ba36a-097a-3a24-9449-d874955fcfc5</string>
 	<key>ANONCRED_DEFINITION_GUID</key>
-	<string>3717a1a6-db96-3cb5-8dfe-909f7f65a791</string>
+	<string>b0adc961-57df-37eb-8b8e-40acc87ed213</string>
 </dict>
 </plist>

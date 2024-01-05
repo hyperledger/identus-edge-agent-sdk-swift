@@ -6,14 +6,19 @@ import HTTPTypes
 class OpenEnterpriseAPI: Ability {
     typealias T = API
     private var api: T? = nil
-    var actor: Actor? = nil
     
-    func ability() -> T {
+    let actor: Actor
+    let abilityName: String = "OEA API"
+    
+    required init(_ actor: Actor) {
+        self.actor = actor
+    }
+    
+    func instance() -> T {
         return api!
     }
     
     func setUp(_ actor: Actor) async throws {
-        self.actor = actor
         api = API(StepReporterMiddleware(actor.name))
     }
     
@@ -477,7 +482,6 @@ struct StepReporterMiddleware: ClientMiddleware {
         operationID: String,
         next: @Sendable (HTTPRequest, HTTPBody?, URL) async throws -> (HTTPResponse, HTTPBody?)
     ) async throws -> (HTTPResponse, HTTPBody?) {
-        TestFramework.logger.info(actor, request.method.rawValue, "to", request.path!)
         return try await next(request, body, baseURL)
     }
 }

@@ -8,9 +8,15 @@ import Core
 
 class Sdk: Ability {
     typealias T = Client
+    let actor: Actor
+    let abilityName: String = "Swift SDK"
     private var client: Client? = nil
 
-    func ability() -> T {
+    required init(_ actor: Actor) {
+        self.actor = actor
+    }
+    
+    func instance() -> T {
         return client!
     }
     
@@ -99,7 +105,7 @@ class Sdk: Ability {
                         case ProtocolTypes.didcommRequestPresentation.rawValue:
                             self.proofOfRequestStack.append(message)
                         default:
-                            TestFramework.logger.trace("Message received", message.piuri)
+                            break
                         }
                     }
                 )

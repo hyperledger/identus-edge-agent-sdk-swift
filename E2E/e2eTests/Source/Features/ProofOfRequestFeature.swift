@@ -1,16 +1,16 @@
 import XCTest
 
 final class ProofOfRequestFeature: Feature {
-    override func featureTitle() -> String {
+    override func title() -> String {
         "Provide proof of request"
     }
     
-    override func featureDescription() -> String {
+    override func description() -> String {
         "The Edge Agent should provide proof to Cloud Agent"
     }
     
     func testRespondToProofOfRequest() async throws {
-        scenario = Scenario("Respond to request proof")
+        currentScenario = Scenario("Respond to request proof")
             .given("Cloud Agent is connected to Edge Agent")
             .and("Edge Agent has 1 credentials issued by Cloud Agent")
             .when("Cloud Agent asks for present-proof")

@@ -13,7 +13,7 @@ class CloudAgentSteps: Steps {
     
     @Step("{actor} should see the present-proof is verified")
     var cloudAgentShouldSeeThePresentProofIsVerified = { (cloudAgent: Actor) in
-        try await CloudAgentWorkflow.verifyPresentProof(cloudAgent: cloudAgent, state: .PresentationVerified)
+        try await CloudAgentWorkflow.verifyPresentProof(cloudAgent: cloudAgent, expectedState: .PresentationVerified)
     }
     
     @Step("{actor} offers a credential")
@@ -23,15 +23,15 @@ class CloudAgentSteps: Steps {
     
     @Step("{actor} should see the credential was accepted")
     var cloudAgentShouldSeeTheCredentialWasAccepted = { (cloudAgent: Actor) in
-        let recordId: String = cloudAgent.recall(key: "recordId")
-        try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, state: .CredentialSent)
+        let recordId: String = try cloudAgent.recall(key: "recordId")
+        try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, expectedState: .CredentialSent)
     }
     
     @Step("{actor} should see all credentials were accepted")
     var cloudAgentSeeAllCredentialsWereAccepted = { (cloudAgent: Actor) in
-        let recordIdList: [String] = cloudAgent.recall(key: "recordIdList")
+        let recordIdList: [String] = try cloudAgent.recall(key: "recordIdList")
         for recordId in recordIdList {
-            try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, state: .CredentialSent)
+            try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, expectedState: .CredentialSent)
         }
     }
     
@@ -52,6 +52,6 @@ class CloudAgentSteps: Steps {
     
     @Step("{actor} should have the connection status updated to '{}'")
     var cloudAgentShouldHaveTheConnectionStatusUpdatedToConnectionResponseSent = { (cloudAgent: Actor, state: String) in
-        try await CloudAgentWorkflow.shouldHaveTheConnectionStatusUpdated(cloudAgent: cloudAgent, state: .ConnectionResponseSent)
+        try await CloudAgentWorkflow.shouldHaveTheConnectionStatusUpdated(cloudAgent: cloudAgent, expectedState: .ConnectionResponseSent)
     }
 }

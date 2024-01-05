@@ -25,7 +25,7 @@ struct StepRegistry {
         }
         
         if (matchedStep == nil) {
-            throw TestFramework.Failure.stepNotFound(step: step)
+            throw TestConfiguration.Failure.StepNotFound(step: step)
         }
         
         let runnable = runnableSteps[matchedStep!]!
@@ -50,8 +50,25 @@ struct StepRegistry {
                 try await parsers[2](parameters[2])
             )
             try await runnableSteps[matchedStep!]!.invoke(parameters: parameter)
+        case 4:
+            let parameter = (
+                try await parsers[0](parameters[0]),
+                try await parsers[1](parameters[1]),
+                try await parsers[2](parameters[2]),
+                try await parsers[3](parameters[3])
+            )
+            try await runnableSteps[matchedStep!]!.invoke(parameters: parameter)
+        case 5:
+            let parameter = (
+                try await parsers[0](parameters[0]),
+                try await parsers[1](parameters[1]),
+                try await parsers[2](parameters[2]),
+                try await parsers[3](parameters[3]),
+                try await parsers[4](parameters[4])
+            )
+            try await runnableSteps[matchedStep!]!.invoke(parameters: parameter)
         default:
-            fatalError("Seems you want to have more than 3 arguments, implement that case in Step class")
+            fatalError("Maximum number of parameters for a step is 5.")
         }
     }
 

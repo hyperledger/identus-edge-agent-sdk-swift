@@ -1,15 +1,16 @@
+import XCTest
 
 final class CredentialTests: Feature {
-    override func featureTitle() -> String {
+    override func title() -> String {
         "Receive verifiable credential"
     }
     
-    override func featureDescription() -> String {
+    override func description() -> String {
         "The Edge Agent should be able to receive a verifiable credential from Cloud Agent"
     }
     
     func testReceiveOneCredential() async throws {
-        scenario = Scenario("Receive one verifiable credential")
+        currentScenario = Scenario("Receive one verifiable credential")
             .given("Cloud Agent is connected to Edge Agent")
             .when("Cloud Agent offers a credential")
             .then("Edge Agent should receive the credential")
@@ -20,7 +21,7 @@ final class CredentialTests: Feature {
     }
     
     func testReceiveMultipleCredentialsSequentially() async throws {
-        scenario = Scenario("Receive multiple verifiable credentials sequentially")
+        currentScenario = Scenario("Receive multiple verifiable credentials sequentially")
             .given("Cloud Agent is connected to Edge Agent")
             .when("Edge Agent accepts 3 credential offer sequentially from Cloud Agent")
             .then("Cloud Agent should see all credentials were accepted")
@@ -29,7 +30,7 @@ final class CredentialTests: Feature {
     }
     
     func testReceiveMultipleCredentialsAtOnce() async throws {
-        scenario = Scenario("Receive multiple verifiable credentials at once")
+        currentScenario = Scenario("Receive multiple verifiable credentials at once")
             .given("Cloud Agent is connected to Edge Agent")
             .when("Edge Agent accepts 3 credentials offer at once from Cloud Agent")
             .then("Cloud Agent should see all credentials were accepted")
