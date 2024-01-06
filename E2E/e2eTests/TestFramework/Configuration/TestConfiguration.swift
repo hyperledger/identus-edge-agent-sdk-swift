@@ -3,28 +3,7 @@ import XCTest
 
 class TestConfiguration: ITestConfiguration {
     static var shared = { instance! }
-    static var targetDirectory: URL = {
-        let targetDirectory = URL(fileURLWithPath: #file)
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .appendingPathComponent("Target")
-        
-        let fileManager = FileManager.default
-        /// delete target folder
-        do {
-            try fileManager.removeItem(at: targetDirectory)
-        } catch {
-        }
-        /// recreate it
-        do {
-            try fileManager.createDirectory(at: targetDirectory, withIntermediateDirectories: true, attributes: nil)
-        } catch {
-        }
-        
-        return targetDirectory
-    }()
-    
+
     let environment: [String: String] = { readEnvironmentVariables() }()
     
     private static var instance: ITestConfiguration? = nil
@@ -41,6 +20,10 @@ class TestConfiguration: ITestConfiguration {
     
     class func createInstance() -> ITestConfiguration {
         fatalError("Configuration must implement configureInstance method")
+    }
+    
+    func targetDirectory() -> URL {
+        fatalError("Configuration must implement targetDirectory method")
     }
     
     func createActors() async throws -> [Actor]  {
@@ -61,21 +44,7 @@ class TestConfiguration: ITestConfiguration {
             XCTestObservationCenter.shared.addTestObserver(TestObserver())
         }
         try await setUpConfigurationInstance()
-    }
-    
-    static func getTargetPath() -> URL {
-        let targetPath = URL(fileURLWithPath: #file)
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .appendingPathComponent("Target")
         
-        let fileManager = FileManager.default
-        do {
-            try fileManager.createDirectory(at: targetPath, withIntermediateDirectories: true, attributes: nil)
-        } catch {
-        }
-        return targetPath
     }
     
     /// Refresh for each feature
@@ -86,7 +55,7 @@ class TestConfiguration: ITestConfiguration {
     }
     
     func createReporters() async throws -> [Reporter] {
-        return [HtmlReporter()]
+        return [JunitReporter(), HtmlReporter()]
     }
     
     /// Main function that runs feature, scenario and steps
@@ -132,6 +101,7 @@ class TestConfiguration: ITestConfiguration {
                 stepOutcome = StepOutcome(step)
             } catch {
                 stepOutcome = StepOutcome(step, error)
+                currentScenario!.fail()
             }
             
             scenarioOutcome.steps.append(stepOutcome)
@@ -183,6 +153,7 @@ class TestConfiguration: ITestConfiguration {
     func end() {
         unsafeSync {
             try! await self.afterFeatures(self.result.featuresOutcome)
+            try! await self.tearDownInstance()
         }
         // TODO: add junit xml report
         // TODO: throw exception if it fails
@@ -266,6 +237,18 @@ class TestConfiguration: ITestConfiguration {
         try await instance.setUpActors()
         
         self.instance = instance
+        
+        let fileManager = FileManager.default
+        /// delete target folder
+        do {
+            try fileManager.removeItem(at: instance.targetDirectory())
+        } catch {
+        }
+        /// recreate it
+        do {
+            try fileManager.createDirectory(at: instance.targetDirectory(), withIntermediateDirectories: true, attributes: nil)
+        } catch {
+        }
     }
     
     private func setUpReporters() async throws {

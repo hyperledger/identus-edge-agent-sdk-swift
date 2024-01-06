@@ -13,6 +13,13 @@ class Config: TestConfiguration {
         return Config()
     }
     
+    override func targetDirectory() -> URL {
+        return URL(fileURLWithPath: #file)
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Target")
+    }
+    
     override func createActors() async throws -> [Actor]  {
         let cloudAgent = Actor("Cloud Agent").whoCanUse(OpenEnterpriseAPI.self)
         let edgeAgent = Actor("Edge Agent").whoCanUse(Sdk.self )

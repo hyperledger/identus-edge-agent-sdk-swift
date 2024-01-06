@@ -80,7 +80,7 @@ class HtmlReporter: Reporter {
             }
         }
         
-        let outputPath = TestConfiguration.getTargetPath().appendingPathComponent("Test.txt")
+        let outputPath = TestConfiguration.shared().targetDirectory().appendingPathComponent("Result.txt")
         try summary.write(to: outputPath, atomically: true, encoding: .utf8)
     }
 }

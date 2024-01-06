@@ -11,7 +11,6 @@ final class ConnectionFeature: Feature {
     func testConnection() async throws {
         currentScenario = Scenario("Create connection between Cloud and Edge agents")
             .given("Cloud Agent has a connection invitation")
-            .given("fail")
             .given("Cloud Agent shares invitation to Edge Agent")
             .when("Edge Agent connects through the invite")
             .then("Cloud Agent should have the connection status updated to 'ConnectionResponseSent'")

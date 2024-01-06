@@ -2,9 +2,8 @@ import Foundation
 
 protocol ITestConfiguration {
     static var shared: () -> ITestConfiguration {get}
-    
     static func createInstance() -> ITestConfiguration
-    static func getTargetPath() -> URL
+
     func run(_ feature: Feature, _ currentScenario: Scenario) async throws
     
     /// setup
@@ -29,4 +28,6 @@ protocol ITestConfiguration {
     func createActors() async throws -> [Actor]
     func createReporters() async throws -> [Reporter]
     func report(_ phase: Phase, _ object: Any)
+    func targetDirectory() -> URL
+
 }

@@ -1,4 +1,5 @@
 import Foundation
+import XCTest
 
 class Scenario {
     let id = UUID().uuidString
@@ -11,6 +12,10 @@ class Scenario {
     
     init(_ title: String) {
         self.title = title
+    }
+    
+    func fail() {
+        XCTFail()
     }
 
     private func addStep(_ step: String) {
