@@ -135,18 +135,13 @@ private func getSpecificByType(msg: Message) -> MessageDetailViewState.SpecificD
     }
     switch msgType {
     case .didcommRequestPresentation:
-        do {
-            let (domain, challenge) = try getDomainAndChallenge(msg: msg)
-            return .credentialDomainChallenge(domain: domain, challenge: challenge)
-        } catch {
-            return .finishedThreads
-        }
+        return .acceptRefuse
     case .didcommIssueCredential, .didcommIssueCredential3_0:
         return .finishedThreads
     case .didcommOfferCredential:
         do {
             let (domain, challenge) = try getDomainAndChallenge(msg: msg)
-            return .credentialDomainChallenge(domain: domain, challenge: challenge)
+            return .credentialDomainChallenge(domain: domain ?? "", challenge: challenge ?? "")
         } catch {
             return .acceptRefuse
         }
@@ -163,7 +158,7 @@ private func getSpecificByType(msg: Message) -> MessageDetailViewState.SpecificD
     }
 }
 
-private func getDomainAndChallenge(msg: Message) throws -> (domain: String, challenge: String) {
+private func getDomainAndChallenge(msg: Message) throws -> (domain: String?, challenge: String?) {
     guard let offerData = msg
         .attachments
         .map({
@@ -178,11 +173,7 @@ private func getDomainAndChallenge(msg: Message) throws -> (domain: String, chal
         .first
     else { throw PolluxError.offerDoesntProvideEnoughInformation }
     let jsonObject = try JSONSerialization.jsonObject(with: offerData)
-    guard
-        let domain = findValue(forKey: "domain", in: jsonObject),
-        let challenge = findValue(forKey: "challenge", in: jsonObject)
-    else { throw PolluxError.offerDoesntProvideEnoughInformation }
-    return (domain, challenge)
+    return (findValue(forKey: "domain", in: jsonObject), findValue(forKey: "challenge", in: jsonObject))
 }
 
 private func findValue(forKey key: String, in json: Any) -> String? {

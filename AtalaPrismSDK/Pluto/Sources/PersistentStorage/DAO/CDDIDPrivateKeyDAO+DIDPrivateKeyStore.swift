@@ -14,16 +14,16 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyStore {
                     try storeKeychainKey(
                         did: did,
                         keychainKey: keychainKey,
-                        service: self.keyDao.keychainService,
+                        service: self.keyDao.keychainDao.keychainService,
                         account: identifier,
-                        keychain: self.keyDao.keychain
+                        keychain: self.keyDao.keychainDao.keychain
                     )
                     let cdkey = CDKeychainKey(entity: CDKeychainKey.entity(), insertInto: context)
                     cdkey.parseFromStorableKey(
                         keychainKey,
                         did: cdobj,
                         identifier: identifier,
-                        service: self.keyDao.keychainService
+                        service: self.keyDao.keychainDao.keychainService
                     )
                     return cdkey as CDKey
                 default:

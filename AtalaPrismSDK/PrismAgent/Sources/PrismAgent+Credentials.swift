@@ -13,8 +13,8 @@ public extension PrismAgent {
     func verifiableCredentials() -> AnyPublisher<[Credential], Error> {
         let pollux = self.pollux
         return pluto.getAllCredentials().tryMap {
-            try $0.map {
-                try pollux.restoreCredential(
+            $0.compactMap {
+                try? pollux.restoreCredential(
                     restorationIdentifier: $0.recoveryId,
                     credentialData: $0.credentialData
                 )
@@ -31,7 +31,7 @@ public extension PrismAgent {
     /// - Throws: PrismAgentError, if there is a problem parsing the credential.
     func processIssuedCredentialMessage(message: IssueCredential3_0) async throws -> Credential {
         guard
-            let linkSecret = try await pluto.getLinkSecret().first().await().first
+            let linkSecret = try await pluto.getLinkSecret().first().await()
         else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
         let restored = try await self.apollo.restoreKey(linkSecret)
@@ -79,7 +79,7 @@ public extension PrismAgent {
 
         guard
             let exporting = privateKey.exporting,
-            let linkSecret = try await pluto.getLinkSecret().first().await().first
+            let linkSecret = try await pluto.getLinkSecret().first().await()
         else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
         let restored = try await self.apollo.restoreKey(linkSecret)

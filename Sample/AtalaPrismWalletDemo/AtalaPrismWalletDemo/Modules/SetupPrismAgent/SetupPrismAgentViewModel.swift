@@ -78,11 +78,7 @@ final class SetupPrismAgentViewModelImpl: ObservableObject, SetupPrismAgentViewM
                     _ = try issued.attachments.compactMap {
                         switch $0.data {
                         case let data as AttachmentBase64:
-                            let b64 = Data(base64URLEncoded: data.base64)!
-                            let apollo = ApolloBuilder().build()
-                            let castor = CastorBuilder(apollo: apollo).build()
-                            let pollux = PolluxBuilder().build()
-//                            let credential = try pollux.parseCredential(data: b64)
+                            break
                         default:
                             return
                         }

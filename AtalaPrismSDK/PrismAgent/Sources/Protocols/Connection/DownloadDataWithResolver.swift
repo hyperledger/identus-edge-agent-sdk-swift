@@ -10,7 +10,7 @@ public struct DownloadDataWithResolver: Downloader {
     
     public func downloadFromEndpoint(urlOrDID: String) async throws -> Data {
         let url: URL
-        
+
         if let did = try? castor.parseDID(str: urlOrDID) {
             let document = try await castor.resolveDID(did: did)
             guard 
@@ -20,7 +20,7 @@ public struct DownloadDataWithResolver: Downloader {
                 throw CommonError.invalidURLError(url: "Could not find any URL on DID")
             }
             url = validUrl
-        } else if let validUrl = URL(string: urlOrDID) {
+        } else if let validUrl = URL(string: urlOrDID.replacingOccurrences(of: "host.docker.internal", with: "localhost")) {
             url = validUrl
         } else {
             throw CommonError.invalidURLError(url: urlOrDID)

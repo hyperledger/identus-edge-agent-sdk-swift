@@ -11,7 +11,7 @@ final class Main2RouterImpl: Main2ViewRouter {
         let apollo = ApolloBuilder().build()
         let castor = CastorBuilder(apollo: apollo).build()
         let pluto = PlutoBuilder().build()
-        let pollux = PolluxBuilder().build()
+        let pollux = PolluxBuilder(pluto: pluto).build()
         let mercury = MercuryBuilder(
             castor: castor,
             secretsStream: createSecretsStream(

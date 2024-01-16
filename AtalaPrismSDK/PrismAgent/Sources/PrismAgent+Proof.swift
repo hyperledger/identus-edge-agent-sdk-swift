@@ -20,40 +20,65 @@ public extension PrismAgent {
     ) async throws -> Presentation {
         guard let proofableCredential = credential.proof else { throw UnknownError.somethingWentWrongError() }
 
-        guard
-            let subjectDIDString = credential.subject
-        else {
-            throw PolluxError.invalidPrismDID
+        guard let requestType = request.attachments.first?.format else {
+            throw UnknownError.somethingWentWrongError(customMessage: nil, underlyingErrors: nil)
         }
-        
-        let subjectDID = try DID(string: subjectDIDString)
+        let presentationString: String
+        switch requestType {
+        case "anoncreds/proof-request@v1.0":
+            guard
+                let linkSecret = try await pluto.getLinkSecret().first().await()
+            else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
 
-        let didInfo = try await pluto
-            .getDIDInfo(did: subjectDID)
-            .first()
-            .await()
+            let restored = try await self.apollo.restoreKey(linkSecret)
+            guard
+                let linkSecretString = String(data: restored.raw, encoding: .utf8)
+            else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+            presentationString = try proofableCredential.presentation(
+                request: request.makeMessage(),
+                options: [
+                    .linkSecret(id: "", secret: linkSecretString)
+                ]
+            )
+        case "prism/jwt":
+            guard
+                let subjectDIDString = credential.subject
+            else {
+                throw PolluxError.invalidPrismDID
+            }
 
-        guard
-            let storedPrivateKey = didInfo?.privateKeys.first
-        else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+            let subjectDID = try DID(string: subjectDIDString)
 
-        let privateKey = try await apollo.restorePrivateKey(storedPrivateKey)
+            let didInfo = try await pluto
+                .getDIDInfo(did: subjectDID)
+                .first()
+                .await()
 
-        guard
-            let exporting = privateKey.exporting
-        else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
-        
-        let presentationString = try proofableCredential.presentation(
-            request: request.makeMessage(),
-            options: [
-                .exportableKey(exporting),
-                .subjectDID(subjectDID)
-            ]
-        )
-        
+            guard
+                let storedPrivateKey = didInfo?.privateKeys.first
+            else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+
+            let privateKey = try await apollo.restorePrivateKey(storedPrivateKey)
+
+            guard
+                let exporting = privateKey.exporting
+            else { throw PrismAgentError.cannotFindDIDKeyPairIndex }
+
+            presentationString = try proofableCredential.presentation(
+                request: request.makeMessage(),
+                options: [
+                    .exportableKey(exporting),
+                    .subjectDID(subjectDID)
+                ]
+            )
+        default:
+            throw UnknownError.somethingWentWrongError(customMessage: nil, underlyingErrors: nil)
+        }
+
         guard let base64String = presentationString.data(using: .utf8)?.base64EncodedString() else {
             throw CommonError.invalidCoding(message: "Could not encode to base64")
         }
+
         return Presentation(
             body: .init(
                 goalCode: request.body.goalCode,

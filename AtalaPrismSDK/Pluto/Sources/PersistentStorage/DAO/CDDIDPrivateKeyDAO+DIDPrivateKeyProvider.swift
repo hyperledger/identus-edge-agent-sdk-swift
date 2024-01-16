@@ -10,7 +10,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
                 try $0.map {
                     (
                         DID(from: $0),
-                        try $0.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychain) },
+                        try $0.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychainDao.keychain) },
                         $0.alias
                     )
                 }
@@ -24,7 +24,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
                 try $0.map {
                     (
                         DID(from: $0),
-                        try $0.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychain) },
+                        try $0.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychainDao.keychain) },
                         $0.alias
                     )
                 }
@@ -41,7 +41,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
             try $0.map {
                 (
                     DID(from: $0),
-                    try $0.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychain) },
+                    try $0.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychainDao.keychain) },
                     $0.alias
                 )
             }
@@ -52,7 +52,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyProvider {
     func getPrivateKeys(did: DID) -> AnyPublisher<[StorableKey]?, Error> {
         fetchByIDsPublisher(did.string, context: readContext)
             .tryMap {
-                try $0?.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychain) }
+                try $0?.keys.map { try $0.parseToStorableKey(keychain: self.keyDao.keychainDao.keychain) }
             }
             .eraseToAnyPublisher()
     }

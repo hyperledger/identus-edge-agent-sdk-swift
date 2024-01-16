@@ -81,6 +81,9 @@ public protocol Pluto {
         credential: StorableCredential
     ) -> AnyPublisher<Void, Error>
     
+    /// Stores a link secret in the data store.
+    /// - Parameter secret: The storable key link secret.
+    /// - Returns: A publisher that completes when the operation finishes.
     func storeLinkSecret(secret: StorableKey) -> AnyPublisher<Void, Error>
 
     /// Returns all stored PRISM DIDs, along with their associated key pair indices and aliases (if any).
@@ -217,5 +220,7 @@ public protocol Pluto {
     /// - Returns: A publisher that emits an array of stored verifiable credentials.
     func getAllCredentials() -> AnyPublisher<[StorableCredential], Error>
     
-    func getLinkSecret() -> AnyPublisher<[StorableKey], Error>
+    /// Returns the stored link secret.
+    /// - Returns: A publisher that emits an optonal `StorableKey` that represents the link secret.
+    func getLinkSecret() -> AnyPublisher<StorableKey?, Error>
 }

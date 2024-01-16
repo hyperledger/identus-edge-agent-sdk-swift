@@ -4,11 +4,31 @@ import Domain
 
 struct CDKeyDAO: CoreDataDAO {
     typealias CoreDataObject = CDKey
-    let keychain: KeychainStore & KeychainProvider
-    let keychainService: String
+    let keychainDao: CDKeychainKeyDAO
+    let databaseDAO: CDDatabaseKeyDAO
     let readContext: NSManagedObjectContext
     let writeContext: NSManagedObjectContext
     let identifierKey: String? = "identifier"
+
+    init(
+        keychain: KeychainStore & KeychainProvider,
+        keychainService: String,
+        readContext: NSManagedObjectContext,
+        writeContext: NSManagedObjectContext
+    ) {
+        self.keychainDao = CDKeychainKeyDAO(
+            keychain: keychain,
+            keychainService: keychainService,
+            readContext: readContext,
+            writeContext: writeContext
+        )
+        self.databaseDAO = CDDatabaseKeyDAO(
+            readContext: readContext,
+            writeContext: writeContext
+        )
+        self.readContext = readContext
+        self.writeContext = writeContext
+    }
 }
 
 extension CDKey {
