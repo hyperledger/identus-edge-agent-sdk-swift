@@ -4,31 +4,33 @@ import Domain
 
 extension CDKeyDAO: LinkSecretStore {
     func addLinkSecret(_ linkSecret: StorableKey) -> AnyPublisher<Void, Error> {
-        updateOrCreate("linkSecret", context: writeContext) { cdobj, context in
-            switch linkSecret {
-            case let keychainKey as KeychainStorableKey:
+        switch linkSecret {
+        case let keychainKey as KeychainStorableKey:
+            return keychainDao.updateOrCreate("linkSecret", context: writeContext) { cdobj, context in
                 try storeKeychainKey(
                     keychainKey: keychainKey,
-                    service: self.keychainService,
+                    service: self.keychainDao.keychainService,
                     account: "linkSecret",
-                    keychain: self.keychain
+                    keychain: self.keychainDao.keychain
                 )
-                let cdkey = CDKeychainKey(entity: CDKeychainKey.entity(), insertInto: context)
-                cdkey.parseFromStorableKey(
+                cdobj.parseFromStorableKey(
                     keychainKey,
                     identifier: "linkSecret",
-                    service: self.keychainService
+                    service: self.keychainDao.keychainService
                 )
-            default:
-                let cdkey = CDDatabaseKey(entity: CDDatabaseKey.entity(), insertInto: context)
-                cdkey.parseFromStorableKey(
+            }
+            .map { _ in }
+            .eraseToAnyPublisher()
+        default:
+            return databaseDAO.updateOrCreate("linkSecret", context: writeContext) { cdobj, context in
+                cdobj.parseFromStorableKey(
                     linkSecret,
                     identifier: "linkSecret"
                 )
             }
+            .map { _ in }
+            .eraseToAnyPublisher()
         }
-        .map { _ in }
-        .eraseToAnyPublisher()
     }
 }
 

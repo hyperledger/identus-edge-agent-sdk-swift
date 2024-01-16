@@ -154,7 +154,7 @@ class MockPluto: Pluto {
         self.credentials.publisher.collect().tryMap { $0 }.eraseToAnyPublisher()
     }
     
-    func getLinkSecret() -> AnyPublisher<[StorableKey], Error> {
-        return Just([]).tryMap { $0 }.eraseToAnyPublisher()
+    func getLinkSecret() -> AnyPublisher<StorableKey?, Error> {
+        return Just(nil).tryMap { $0 }.eraseToAnyPublisher()
     }
 }
