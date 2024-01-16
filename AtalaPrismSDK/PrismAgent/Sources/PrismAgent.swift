@@ -195,7 +195,7 @@ public class PrismAgent {
      }
     
     private func firstLinkSecretSetup() async throws {
-        if try await pluto.getLinkSecret().first().await().first == nil {
+        if try await pluto.getLinkSecret().first().await() == nil {
             let secret = try apollo.createNewLinkSecret()
             guard let storableSecret = secret.storable else {
                 throw UnknownError

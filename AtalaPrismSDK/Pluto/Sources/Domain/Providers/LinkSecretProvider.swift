@@ -3,5 +3,5 @@ import Domain
 import Foundation
 
 protocol LinkSecretProvider {
-    func getAll() -> AnyPublisher<[StorableKey], Error>
+    func getLinkSecret() -> AnyPublisher<StorableKey?, Error>
 }

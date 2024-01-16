@@ -171,7 +171,7 @@ extension PlutoImpl: Pluto {
         keyDao.addLinkSecret(secret)
     }
     
-    public func getLinkSecret() -> AnyPublisher<[StorableKey], Error> {
-        keyDao.getAll()
+    public func getLinkSecret() -> AnyPublisher<StorableKey?, Error> {
+        keyDao.getLinkSecret()
     }
 }

@@ -6,3 +6,7 @@ struct AnonCredentialSchema: Codable {
     let attrNames: [String]
     let issuerId: String
 }
+
+struct SchemaAnonCredentialSchema: Codable {
+    let schema: AnonCredentialSchema
+}
