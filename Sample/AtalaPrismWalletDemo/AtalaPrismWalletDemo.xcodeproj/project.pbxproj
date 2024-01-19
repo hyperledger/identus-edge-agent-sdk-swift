@@ -77,7 +77,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C91A5C622AB0E1E500B9B0C0 /* AtalaPrismWalletDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AtalaPrismWalletDemo.entitlements; sourceTree = "<group>"; };
 		EE0E1FAC29473B10003CD7D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE0E1FAE29473B10003CD7D5 /* SteradianBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SteradianBold.otf; sourceTree = "<group>"; };
 		EE0E1FAF29473B10003CD7D5 /* SteradianMedium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SteradianMedium.otf; sourceTree = "<group>"; };
@@ -318,7 +317,6 @@
 		EEE61FB82937CA280053AE52 /* AtalaPrismWalletDemo */ = {
 			isa = PBXGroup;
 			children = (
-				C91A5C622AB0E1E500B9B0C0 /* AtalaPrismWalletDemo.entitlements */,
 				EE6C38DD2946276F006CD2D3 /* Resources */,
 				EEE620312937FF2C0053AE52 /* Info.plist */,
 				EEE620112937F1C30053AE52 /* Helper */,
@@ -725,7 +723,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = AtalaPrismWalletDemo/AtalaPrismWalletDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AtalaPrismWalletDemo/Preview Content\"";
@@ -757,7 +754,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = AtalaPrismWalletDemo/AtalaPrismWalletDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"AtalaPrismWalletDemo/Preview Content\"";

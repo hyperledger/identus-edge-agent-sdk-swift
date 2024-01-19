@@ -69,7 +69,6 @@ let package = Package(
         .package(url: "git@github.com:goncalo-frade-iohk/Swift-JWT.git", from: "4.1.3"),
         .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.4.1"),
         .package(url: "https://github.com/input-output-hk/atala-prism-apollo.git", exact: "1.2.10"),
-        .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.3.3"),
     ],
     targets: [
         .target(
@@ -201,6 +200,6 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log")
             ],
             path: "Core/Sources"
-        ),
+        )
     ]
 )
