@@ -24,7 +24,6 @@ class DIDCommConnectionRunner {
     func run() async throws -> DIDPair {
         let request = try ConnectionRequest(inviteMessage: invitationMessage, from: ownDID)
         try await connection.sendMessage(request.makeMessage())
-
         let message = try await pluto.getAllMessagesReceived()
             .flatMap { $0.publisher }
             .first { $0.thid == request.id }
