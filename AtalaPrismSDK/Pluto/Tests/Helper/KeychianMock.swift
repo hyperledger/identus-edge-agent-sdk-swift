@@ -23,7 +23,6 @@ class KeychainMock: KeychainStore, KeychainProvider {
         service: String,
         account: String
     ) throws {
-        print("Add KEY", key, service, account)
         keys[service+account] = key
     }
 }

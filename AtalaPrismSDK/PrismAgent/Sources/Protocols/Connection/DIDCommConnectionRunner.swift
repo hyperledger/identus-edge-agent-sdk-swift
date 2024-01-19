@@ -27,7 +27,7 @@ class DIDCommConnectionRunner {
 
         let message = try await pluto.getAllMessagesReceived()
             .flatMap { $0.publisher }
-            .first { $0.thid == request.thid }
+            .first { $0.thid == request.id }
             .await()
 
         guard

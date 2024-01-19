@@ -22,7 +22,7 @@ class Sdk: Ability {
     
     func setUp(_ actor: Actor) async throws {
         client = try await Client()
-        try await client!.initialize(actor)
+        try await client!.initialize()
     }
     
     func tearDown() async throws {
@@ -79,7 +79,7 @@ class Sdk: Ability {
             )
         }
         
-        func initialize(_ actor: Actor) async throws {
+        func initialize() async throws {
             try await prismAgent.start()
             
             prismAgent.handleReceivedMessagesEvents()
@@ -130,7 +130,7 @@ class Sdk: Ability {
             let url = URL(string: Config.mediatorOobUrl)!
             let invitationUrl: String = try await Api.get(from: url)
             let base64data: String = String(invitationUrl.split(separator: "?_oob=").last!)
-            let decodedData = Client.fromBase64(base64data)
+            let decodedData = Data(base64Encoded: base64data)!
             let json = try (JSONSerialization.jsonObject(with: decodedData, options: []) as? [String: Any])!
             let from = (json["from"] as? String)!
             return try DID(string: from)
