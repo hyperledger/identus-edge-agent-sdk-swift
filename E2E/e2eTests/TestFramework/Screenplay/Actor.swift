@@ -34,7 +34,7 @@ class Actor {
     
     func using<T : Ability>(ability: T.Type,
                             action: String // = "executes an action"
-    ) throws -> T.T {
+    ) throws -> T.AbilityInstanceType {
         if !abilities.contains(where: { $0.key == String(describing: ability.self) }) {
             throw ActorError.CantUseAbility("Actor [\(name)] don't have the ability to use [\(ability.self)]")
         }
@@ -45,7 +45,7 @@ class Actor {
     
     func waitUsingAbility<T: Ability>(ability: T.Type,
                                       action: String, // = "an expectation is met",
-                                      callback: (_ ability: T.T) async throws -> Bool
+                                      callback: (_ ability: T.AbilityInstanceType) async throws -> Bool
     ) async throws {
         let ability = getAbility(ability)
         TestConfiguration.shared().report(.ACTION, "\(name) waits until \(action) using \(ability.abilityName)")

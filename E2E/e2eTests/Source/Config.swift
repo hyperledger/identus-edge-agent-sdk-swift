@@ -20,6 +20,10 @@ class Config: TestConfiguration {
             .appendingPathComponent("Target")
     }
     
+    override func createReporters() async throws -> [Reporter] {
+        return [JunitReporter(), HtmlReporter()]
+    }
+    
     override func createActors() async throws -> [Actor]  {
         let cloudAgent = Actor("Cloud Agent").whoCanUse(OpenEnterpriseAPI.self)
         let edgeAgent = Actor("Edge Agent").whoCanUse(Sdk.self )

@@ -4,8 +4,8 @@ import OpenAPIURLSession
 import HTTPTypes
 
 class OpenEnterpriseAPI: Ability {
-    typealias T = API
-    private var api: T? = nil
+    typealias AbilityInstanceType = API
+    private var api: AbilityInstanceType? = nil
     
     let actor: Actor
     let abilityName: String = "OEA API"
@@ -14,7 +14,7 @@ class OpenEnterpriseAPI: Ability {
         self.actor = actor
     }
     
-    func instance() -> T {
+    func instance() -> AbilityInstanceType {
         return api!
     }
     

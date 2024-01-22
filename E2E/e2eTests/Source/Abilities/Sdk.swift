@@ -7,7 +7,7 @@ import Pluto
 import Core
 
 class Sdk: Ability {
-    typealias T = Client
+    typealias AbilityInstanceType = Client
     let actor: Actor
     let abilityName: String = "Swift SDK"
     private var client: Client? = nil
@@ -16,7 +16,7 @@ class Sdk: Ability {
         self.actor = actor
     }
     
-    func instance() -> T {
+    func instance() -> AbilityInstanceType {
         return client!
     }
     
@@ -51,7 +51,7 @@ class Sdk: Ability {
                 ),
                 keychain: KeychainMock()
             )).build()
-            let pollux = PolluxBuilder().build()
+            let pollux = PolluxBuilder(pluto: pluto).build()
             let mercury = MercuryBuilder(
                 castor: castor,
                 secretsStream: Client.createSecretsStream(
