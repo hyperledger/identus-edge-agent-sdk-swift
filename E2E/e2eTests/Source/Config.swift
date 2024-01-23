@@ -21,7 +21,7 @@ class Config: TestConfiguration {
     }
     
     override func createReporters() async throws -> [Reporter] {
-        return [JunitReporter(), HtmlReporter()]
+        return [ConsoleReporter(), JunitReporter(), HtmlReporter()]
     }
     
     override func createActors() async throws -> [Actor]  {
@@ -96,6 +96,22 @@ class Config: TestConfiguration {
         let anoncredSchema = try await api.createAnoncredSchema(Config.publishedDid)
         let anoncredDefinition = try await api.createAnoncredDefinition(Config.publishedDid, anoncredSchema.guid)
         Config.anoncredDefinitionGuid = anoncredDefinition.guid
+    }
+    
+    private func writeToGithubSummary(_ command: String) {
+        //        if (ProcessInfo.processInfo.environment.keys.contains("CI")) {
+        let process = Process()
+        process.launchPath = "/bin/bash"
+        process.arguments = ["-c", command]
+        
+        let pipe = Pipe()
+        process.standardOutput = pipe
+        process.launch()
+        
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        if let output = String(data: data, encoding: .utf8) {
+            print("Command output:\n\(output)")
+        }
     }
 }
 

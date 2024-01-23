@@ -3,7 +3,9 @@ import Foundation
 
 @propertyWrapper
 class Step<T> {
-    var step: String
+    let file: StaticString
+    let line: UInt
+    var definition: String
     var callback: (T) async throws -> ()
     var wrappedValue: () async throws -> () {
         get {
@@ -11,9 +13,11 @@ class Step<T> {
         }
     }
 
-    init(wrappedValue: @escaping (T) async throws -> (), _ step: String) {
+    init(wrappedValue: @escaping (T) async throws -> (), _ definition: String, file: StaticString = #file, line: UInt = #line) {
+        self.file = file
+        self.line = line
         self.callback = wrappedValue
-        self.step = step
-        StepRegistry.addStep(step, callback: callback)
+        self.definition = definition
+        StepRegistry.addStep(self)
     }
 }

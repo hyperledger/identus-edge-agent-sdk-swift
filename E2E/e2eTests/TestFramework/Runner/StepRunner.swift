@@ -5,11 +5,16 @@ class StepRunner {
     let stepDefinition: String
     var stepMatcher: String
     var parsers: [(String) async throws -> Any]
-    
+    var stepLine: UInt
+    var stepFile: StaticString
     private static var parameterPattern = "\\{([^}]*)\\}"
-
-    init<T>(_ stepDefinition: String, _ callback: @escaping (T) async throws -> ()) {
-        self.stepDefinition = stepDefinition
+    private static var specialCharacters = [".", "*", "+", "?", "^", "$", "[", "]", "|", "(", ")", "\\"]
+    
+    init<T>(_ step: Step<T>) {
+        self.stepLine = step.line
+        self.stepFile = step.file
+        self.stepDefinition = step.definition
+        
         self.callback = { input in
             guard let typedInput = input as? T else {
                 let mirror = Mirror(reflecting: input)
@@ -21,19 +26,30 @@ class StepRunner {
                 }
                 
                 throw TestConfiguration.Failure.StepParameterDoesNotMatch(
-                    step: stepDefinition,
+                    step: step.definition,
                     expected: String(describing: T.self),
                     actual: String(describing: actualType)
                 )
             }
-            return try await callback(typedInput)
+            return try await step.callback(typedInput)
         }
         self.stepMatcher = StepRunner.createMatcher(stepDefinition)
         self.parsers = StepRunner.createParsers(stepDefinition)
     }
     
     private static func createMatcher(_ stepDefinition: String) -> String {
-        return stepDefinition.replacingOccurrences(of: StepRunner.parameterPattern, with: "(.*)", options: .regularExpression)
+        let sanitizedString = sanitizeString(stepDefinition)
+        return sanitizedString.replacingOccurrences(of: StepRunner.parameterPattern, with: "(.*)", options: .regularExpression)
+    }
+    
+    private static func sanitizeString(_ stepDefinition: String) -> String {
+        return stepDefinition.map { char -> String in
+            if specialCharacters.contains(String(char)) {
+                return "\\" + String(char)
+            } else {
+                return String(char)
+            }
+        }.joined()
     }
     
     private static func createParsers(_ stepDefinition: String) -> [(String) async throws -> Any] {

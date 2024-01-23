@@ -3,7 +3,7 @@ import Foundation
 class FeatureOutcome {
     let feature: Feature
     var scenarios: [ScenarioOutcome] = []
-    var pass = true
+    var failedScenarios: [ScenarioOutcome] = []
     
     init(_ feature: Feature) {
         self.feature = feature

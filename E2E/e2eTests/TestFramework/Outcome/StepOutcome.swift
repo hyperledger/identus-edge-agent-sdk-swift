@@ -1,10 +1,10 @@
 import Foundation
 
 class StepOutcome {
-    let step: StepInstance
+    let step: ConcreteStep
     var error: Error?
     
-    init(_ step: StepInstance, _ error: Error? = nil) {
+    init(_ step: ConcreteStep, _ error: Error? = nil) {
         self.step = step
         self.error = error
     }

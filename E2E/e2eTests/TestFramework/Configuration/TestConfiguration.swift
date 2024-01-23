@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import SwiftHamcrest
 
 class TestConfiguration: ITestConfiguration {
     static var shared = { instance! }
@@ -9,6 +10,7 @@ class TestConfiguration: ITestConfiguration {
     private static var instance: ITestConfiguration? = nil
     private static var actors: [String: Actor] = [:]
     
+    private var assertionFailure: (String, StaticString, UInt)? = nil
     private var reporters: [Reporter] = []
     
     private var result: ResultOutcome = ResultOutcome()
@@ -19,7 +21,7 @@ class TestConfiguration: ITestConfiguration {
     private var currentScenario: Scenario? = nil
     
     class func createInstance() -> ITestConfiguration {
-        fatalError("Configuration must implement configureInstance method")
+        fatalError("Configuration must implement createInstance method")
     }
     
     func targetDirectory() -> URL {
@@ -55,7 +57,7 @@ class TestConfiguration: ITestConfiguration {
     }
     
     func createReporters() async throws -> [Reporter] {
-        return [JunitReporter(), HtmlReporter()]
+        return [JunitReporter(), HtmlReporter(), DotReporter()]
     }
     
     /// Main function that runs feature, scenario and steps
@@ -85,8 +87,8 @@ class TestConfiguration: ITestConfiguration {
         report(.BEFORE_SCENARIO, scenario)
     }
     
-    func beforeStep(_ step: StepInstance) {
-        report(.BEFORE_STEP, step.step)
+    func beforeStep(_ step: ConcreteStep) {
+        report(.BEFORE_STEP, step.action)
     }
     
     func runSteps(_ scenario: Scenario) async throws -> ScenarioOutcome {
@@ -97,18 +99,30 @@ class TestConfiguration: ITestConfiguration {
             report(.BEFORE_STEP, step)
             
             do {
-                try await StepRegistry.run(step.step)
+                try await StepRegistry.run(step)
+                if (assertionFailure != nil) {
+                    let message = assertionFailure!.0
+                    let file = assertionFailure!.1
+                    let line = assertionFailure!.2
+                    XCTFail(message, file: file, line: line)
+                    throw Assertion.AssertionError(
+                        message: message,
+                        file: file,
+                        line: line
+                    )
+                }
                 stepOutcome = StepOutcome(step)
             } catch {
                 stepOutcome = StepOutcome(step, error)
-                currentScenario!.fail()
+                currentScenario!.fail(file: step.file, line: step.line, message: String(describing: error))
             }
             
             scenarioOutcome.steps.append(stepOutcome)
             report(.AFTER_STEP, stepOutcome)
-            
+            assertionFailure = nil
+
             if (stepOutcome.error != nil) {
-                scenarioOutcome.error = stepOutcome.error
+                scenarioOutcome.failedStep = stepOutcome
                 break
             }
         }
@@ -116,13 +130,13 @@ class TestConfiguration: ITestConfiguration {
     }
     
     func afterStep(_ stepOutcome: StepOutcome) {
-        report(.AFTER_STEP, stepOutcome.step.step)
+        report(.AFTER_STEP, stepOutcome.step.action)
     }
     
     func afterScenario(_ scenarioOutcome: ScenarioOutcome) async throws {
         currentFeatureOutcome!.scenarios.append(scenarioOutcome)
-        if (scenarioOutcome.error != nil) {
-            currentFeatureOutcome!.pass = false
+        if (scenarioOutcome.failedStep != nil) {
+            currentFeatureOutcome!.failedScenarios.append(scenarioOutcome)
         }
         report(.AFTER_SCENARIO, scenarioOutcome)
     }
@@ -155,7 +169,6 @@ class TestConfiguration: ITestConfiguration {
             try! await self.afterFeatures(self.result.featuresOutcome)
             try! await self.tearDownInstance()
         }
-        // TODO: add junit xml report
         // TODO: throw exception if it fails
     }
     
@@ -172,7 +185,7 @@ class TestConfiguration: ITestConfiguration {
                 case .AFTER_SCENARIO:
                     try! await reporter.afterScenario(object as! ScenarioOutcome)
                 case .BEFORE_STEP:
-                    try! await reporter.beforeStep(object as! StepInstance)
+                    try! await reporter.beforeStep(object as! ConcreteStep)
                 case .AFTER_STEP:
                     try! await reporter.afterStep(object as! StepOutcome)
                 case .ACTION:
@@ -235,6 +248,11 @@ class TestConfiguration: ITestConfiguration {
         try await instance.setUpReporters()
         try await instance.setUpSteps()
         try await instance.setUpActors()
+        
+        /// setup hamcrest to update variable if failed
+        HamcrestReportFunction = { message, file, line in
+            instance.assertionFailure = (message, file, line)
+        }
         
         self.instance = instance
         

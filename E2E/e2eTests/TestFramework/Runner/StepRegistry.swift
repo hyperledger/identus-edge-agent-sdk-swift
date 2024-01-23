@@ -4,19 +4,20 @@ struct StepRegistry {
 
     static var runnableSteps: [String : StepRunner] = [:]
     
-    static func run(_ step: String) async throws {
+    static func run(_ concreteStep: ConcreteStep) async throws {
+        let action = concreteStep.action
         var parameters: [String] = []
         var matchedStep: String?
         
         for stepMatcher in runnableSteps.keys {
             if let regex = try? NSRegularExpression(pattern: stepMatcher, options: []) {
-                let range = NSRange(step.startIndex..., in: step)
-                regex.enumerateMatches(in: step, options: [], range: range) { (match, _, _) in
+                let range = NSRange(action.startIndex..., in: action)
+                regex.enumerateMatches(in: action, options: [], range: range) { (match, _, _) in
                     if let match = match {
                         matchedStep = stepMatcher
                         for i in 1..<match.numberOfRanges {
-                            let range = Range(match.range(at: i), in: step)!
-                            let value = String(step[range])
+                            let range = Range(match.range(at: i), in: action)!
+                            let value = String(action[range])
                             parameters.append(value)
                         }
                     }
@@ -25,10 +26,12 @@ struct StepRegistry {
         }
         
         if (matchedStep == nil) {
-            throw TestConfiguration.Failure.StepNotFound(step: step)
+            throw TestConfiguration.Failure.StepNotFound(step: action)
         }
         
         let runnable = runnableSteps[matchedStep!]!
+        concreteStep.line = runnable.stepLine
+        concreteStep.file = runnable.stepFile
         let parsers = runnable.parsers
 
         switch(parameters.count) {
@@ -72,8 +75,8 @@ struct StepRegistry {
         }
     }
 
-    static func addStep<T>(_ stepDefinition: String, callback: @escaping (T) async throws -> ()) {
-        let runnableStep = StepRunner(stepDefinition, callback)
+    static func addStep<T>(_ step: Step<T>) {
+        let runnableStep = StepRunner(step)
         runnableSteps[runnableStep.stepMatcher] = runnableStep
     }
 }

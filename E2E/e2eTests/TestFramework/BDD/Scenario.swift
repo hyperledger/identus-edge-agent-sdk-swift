@@ -4,7 +4,7 @@ import XCTest
 class Scenario {
     let id = UUID().uuidString
     var title: String
-    var steps: [StepInstance] = []
+    var steps: [ConcreteStep] = []
     var pass: Bool = false
     var error: Error? = nil
     
@@ -14,14 +14,18 @@ class Scenario {
         self.title = title
     }
     
-    func fail() {
-        XCTFail()
+    func fail(file: StaticString?, line: UInt?, message: String) {
+        if (file != nil) {
+            XCTFail(message, file: file!, line: line!)
+        } else {
+            XCTFail(message)
+        }
     }
 
     private func addStep(_ step: String) {
-        let stepInstance = StepInstance()
+        let stepInstance = ConcreteStep()
         stepInstance.context = lastContext
-        stepInstance.step = step
+        stepInstance.action = step
         steps.append(stepInstance)
     }
     

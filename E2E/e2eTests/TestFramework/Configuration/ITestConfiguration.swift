@@ -15,7 +15,7 @@ protocol ITestConfiguration {
     /// phases
     func beforeFeature(_ feature: Feature) async throws
     func beforeScenario(_ scenario: Scenario) async throws
-    func beforeStep(_ step: StepInstance)
+    func beforeStep(_ step: ConcreteStep)
     func afterStep(_ stepOutcome: StepOutcome)
     func afterScenario(_ scenarioOutcome: ScenarioOutcome) async throws
     func afterFeature(_ featureOutcome: FeatureOutcome) async throws

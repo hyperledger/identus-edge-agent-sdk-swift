@@ -12,7 +12,7 @@ class DotReporter: Reporter {
         printDot()
     }
     
-    func beforeStep(_ step: StepInstance) async throws {
+    func beforeStep(_ step: ConcreteStep) async throws {
         printDot()
     }
     
@@ -38,12 +38,13 @@ class DotReporter: Reporter {
             for scenarioOutcome in featureOutcome.scenarios {
                 print(
                     "    ",
-                    scenarioOutcome.error != nil ? "(fail)" : "(pass)",
+                    scenarioOutcome.failedStep != nil ? "(fail)" : "(pass)",
                     scenarioOutcome.scenario.title
                 )
-                if (scenarioOutcome.error != nil) {
-                    let error = scenarioOutcome.error!
-                    print("      ", "caused by:", error)
+                if (scenarioOutcome.failedStep != nil) {
+                    let failedStep = scenarioOutcome.failedStep!
+                    print("          ", failedStep.error!)
+                    print("           at step: \"\(failedStep.step.action)\"")
                 }
             }
         }

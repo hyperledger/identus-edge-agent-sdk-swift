@@ -11,10 +11,10 @@ class JunitReporter: Reporter {
     var featureStart = Date()
     var scenarioStart = Date()
     
-    var totalTests = 0
-    var totalFailures = 0
-    var featureTests = 0
-    var featureFailures = 0
+    var totalTests: Int = 0
+    var totalFailures: Int = 0
+    var featureTests: Int = 0
+    var featureFailures: Int = 0
 
     init() {
         xml = XMLDocument(rootElement: root)
@@ -62,7 +62,7 @@ class JunitReporter: Reporter {
         currentFeature.addChild(currentScenario)
     }
     
-    func beforeStep(_ step: StepInstance) async throws {
+    func beforeStep(_ step: ConcreteStep) async throws {
     }
     
     func action(_ action: String) async throws {
@@ -77,10 +77,10 @@ class JunitReporter: Reporter {
         let time = XMLNode.attribute(withName: "time", stringValue: delta) as! XMLNode
         currentScenario.addAttribute(time)
         
-        if (scenarioOutcome.error != nil) {
+        if (scenarioOutcome.failedStep != nil) {
             let failure = XMLElement(name: "failure")
             featureFailures += 1
-            let message = XMLNode.attribute(withName: "message", stringValue: String(describing: scenarioOutcome.error!)) as! XMLNode
+            let message = XMLNode.attribute(withName: "message", stringValue: String(describing: scenarioOutcome.failedStep!.error!)) as! XMLNode
             let type = XMLNode.attribute(withName: "type", stringValue: "ERROR") as! XMLNode
             failure.addAttribute(message)
             failure.addAttribute(type)
@@ -92,8 +92,8 @@ class JunitReporter: Reporter {
     func afterFeature(_ featureOutcome: FeatureOutcome) async throws {
         let delta = String(format: "%.4f seconds", Date().timeIntervalSince(featureStart))
         let time = XMLNode.attribute(withName: "time", stringValue: delta) as! XMLNode
-        let tests = XMLNode.attribute(withName: "tests", stringValue: featureTests.value) as! XMLNode
-        let failures = XMLNode.attribute(withName: "failures", stringValue: featureFailures.value) as! XMLNode
+        let tests = XMLNode.attribute(withName: "tests", stringValue: String(featureTests)) as! XMLNode
+        let failures = XMLNode.attribute(withName: "failures", stringValue: String(featureFailures)) as! XMLNode
         currentFeature.addAttribute(time)
         currentFeature.addAttribute(tests)
         currentFeature.addAttribute(failures)
@@ -105,8 +105,8 @@ class JunitReporter: Reporter {
     func afterFeatures(_ featuresOutcome: [FeatureOutcome]) async throws {
         let delta = String(format: "%.4f seconds", Date().timeIntervalSince(testSuitesStart))
         let time = XMLNode.attribute(withName: "time", stringValue: delta) as! XMLNode
-        let tests = XMLNode.attribute(withName: "tests", stringValue: totalTests.value) as! XMLNode
-        let failures = XMLNode.attribute(withName: "failures", stringValue: totalFailures.value) as! XMLNode
+        let tests = XMLNode.attribute(withName: "tests", stringValue: String(totalTests)) as! XMLNode
+        let failures = XMLNode.attribute(withName: "failures", stringValue: String(totalFailures)) as! XMLNode
         
         root.addAttribute(time)
         root.addAttribute(tests)

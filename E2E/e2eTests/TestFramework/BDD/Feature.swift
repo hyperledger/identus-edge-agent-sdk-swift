@@ -1,8 +1,9 @@
 
 import Foundation
 import XCTest
+import SwiftHamcrest
 
-class Feature: XCTestCase {   
+class Feature: XCTestCase {
     let id: String = UUID().uuidString
     var currentScenario: Scenario? = nil
     

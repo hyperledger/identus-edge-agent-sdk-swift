@@ -6,7 +6,7 @@ class HtmlReporter: Reporter {
     
     private var currentFeature: Feature? = nil
     private var currentScenario: Scenario? = nil
-    private var currentStep: StepInstance? = nil
+    private var currentStep: ConcreteStep? = nil
     private var currentId: String? = nil
     
     private var actions: [String: [String]] = [:]
@@ -19,7 +19,7 @@ class HtmlReporter: Reporter {
         currentScenario = scenario
     }
     
-    func beforeStep(_ step: StepInstance) async throws {
+    func beforeStep(_ step: ConcreteStep) async throws {
         currentStep = step
         currentId = currentFeature!.id + currentScenario!.id + step.id
     }
@@ -56,10 +56,9 @@ class HtmlReporter: Reporter {
                 
                 for stepOutcome in scenarioOutcome.steps {
                     if (stepOutcome.error != nil) {
-                        summary.append("      \(fail) \(stepOutcome.step.step)\n")
-                        summary.append("           caused by: \(String(describing: scenarioOutcome.error!))\n")
+                        summary.append("      \(fail) \(stepOutcome.step.action)\n")
                     } else {
-                        summary.append("      \(pass) \(stepOutcome.step.step)\n")
+                        summary.append("      \(pass) \(stepOutcome.step.action)\n")
                     }
                     let stepId = featureOutcome.feature.id + scenarioOutcome.scenario.id + stepOutcome.step.id
                     if let stepActions = actions[stepId] {
@@ -67,9 +66,12 @@ class HtmlReporter: Reporter {
                             summary.append("            \(action)\n")
                         }
                     }
+                    if (stepOutcome.error != nil) {
+                        summary.append("           caused by: \(String(describing: scenarioOutcome.failedStep!.error!))\n")
+                    }
                 }
                 
-                if (scenarioOutcome.error != nil) {
+                if (scenarioOutcome.failedStep != nil) {
                     summary.append("    Status: FAILED\n")
                 } else {
                     summary.append("    Status: SUCCESS\n")
@@ -80,7 +82,7 @@ class HtmlReporter: Reporter {
             }
         }
         
-        let outputPath = TestConfiguration.shared().targetDirectory().appendingPathComponent("Result.txt")
+        let outputPath = TestConfiguration.shared().targetDirectory().appendingPathComponent("result.txt")
         try summary.write(to: outputPath, atomically: true, encoding: .utf8)
     }
 }
