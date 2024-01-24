@@ -1,21 +1,5 @@
 import Foundation
 
-//enum AssertionError: Error {
-//    case assertionFailed(message: String, file: StaticString, _ line: UInt)
-//    case timeoutReached(timeout: Int, message: String = "", file: StaticString, line: UInt)
-//}
-//
-//extension AssertionError: CustomStringConvertible {
-//    var description: String {
-//        switch self {
-//        case .assertionFailed(let message, let file, let line):
-//            return "Assertion Failed: \(message) at \(file):\(line)"
-//        case .timeoutReached(let timeout, let message, let file, let line):
-//            return "Timeout Reached (\(timeout)s): \(message) at \(file):\(line)"
-//        }
-//    }
-//}
-
 class BaseError: Error, CustomStringConvertible {
     var description: String
     
