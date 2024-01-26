@@ -309,5 +309,5 @@ The framework is still under development.
 
 ## References
 
-Cucumber - https://cucumber.io/docs/cucumber/
-Serenity screenplay - https://serenity-bdd.github.io/docs/screenplay/screenplay_fundamentals
+- Cucumber - https://cucumber.io/docs/cucumber/
+- Serenity screenplay - https://serenity-bdd.github.io/docs/screenplay/screenplay_fundamentals
