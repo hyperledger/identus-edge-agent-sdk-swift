@@ -45,7 +45,7 @@ struct ParseAnoncredsCredentialFromMessage {
         let processedCredentialJson = try processedCredential.getJson().tryData(using: .utf8)
         let finalCredential = try JSONDecoder().decode(AnonCredential.self, from: processedCredentialJson)
         return AnoncredsCredentialStack(
-            schema: try JSONDecoder.didComm().decode(AnonCredentialSchema.self, from: schemaData),
+            schema: try? JSONDecoder.didComm().decode(AnonCredentialSchema.self, from: schemaData),
             definition: try JSONDecoder.didComm().decode(AnonCredentialDefinition.self, from: credentialDefinitionData),
             credential: finalCredential
         )
