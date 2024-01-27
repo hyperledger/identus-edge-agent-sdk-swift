@@ -21,11 +21,15 @@ struct AnoncredsPresentation {
         )
 
         let credential = stack.credential
+
+        guard let stackSchema = stack.schema else {
+            throw PolluxError.invalidCredentialError
+        }
         let schema = Schema.init(
-            name: stack.schema.name,
-            version: stack.schema.version,
-            attrNames: AttributeNames(stack.schema.attrNames),
-            issuerId: stack.schema.issuerId
+            name: stackSchema.name,
+            version: stackSchema.version,
+            attrNames: AttributeNames(stackSchema.attrNames ?? []),
+            issuerId: stackSchema.issuerId
         )
 
         let credentialDefinition = try stack.definition.getAnoncred()
