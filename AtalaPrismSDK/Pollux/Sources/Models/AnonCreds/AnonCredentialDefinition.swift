@@ -14,7 +14,7 @@ struct AnonCredentialDefinition: Codable {
         let z: String
     }
     
-    let issuerId: String
+    let issuerId: String?
     let schemaId: String
     let type: String
     let tag: String
