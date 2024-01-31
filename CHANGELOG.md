@@ -1,3 +1,28 @@
+# [4.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.6.0...4.0.0) (2024-01-31)
+
+
+### Bug Fixes
+
+* bug with header and footer of ed25519 and x25519 pem keys ([8ec220f](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/8ec220f3ed7e6c3f8c00671fea3cafff486b42ab))
+* didcomm connection runner message filtering ([e57d62b](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/e57d62bbdb008fde720cdb7755cf1c6a06ca631a))
+* schema download optional ([#116](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/issues/116)) ([44241ab](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/44241ab93d56d5e3d899e3e834e127f1ad4a643f))
+* this was causing confusion since it was public, not used and did not work as expected ([b82a9d6](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/b82a9d61f27064b427a40b3cfa8f336e58937416))
+
+
+### Features
+
+* **apollo:** integrate with apollo kmm ([32bdfbd](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/32bdfbd6cc8790391254c7ec1dca8dfe01fc62ee))
+* **pluto:** pluto will save link secret as a storable key. ([dbd724b](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/dbd724bca43b09394fbf282716bcd3e73459377b))
+* **pollux:** add anoncreds prooving implementation ([80377b1](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/80377b1b9f6d5255e5e6f0dd896253930cf0c4ee))
+* **pollux:** zkp verification ([395976a](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/395976ae984f9a7d49ef944f0ed1641ae15e4f1d))
+
+
+### BREAKING CHANGES
+
+* **apollo:** Updated Apollo public interface to be more in line with Cryptographic abstraction
+* This will not affect our API or was it working, but since it was public its considered a breaking change
+* **pluto:** This makes changes on pluto interface.
+
 # [3.6.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.5.0...3.6.0) (2023-10-20)
 
 
