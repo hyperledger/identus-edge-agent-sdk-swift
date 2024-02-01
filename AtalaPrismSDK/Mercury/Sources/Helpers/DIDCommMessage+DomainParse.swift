@@ -27,7 +27,7 @@ extension DIDCommxSwift.Message {
         )
     }
 
-    func toDomain(castor: Castor) throws -> Domain.Message {
+    func toDomain(castor: CastorPlugin) throws -> Domain.Message {
         guard let data = self.body.data(using: .utf8) else {
             throw MercuryError.messageInvalidBodyDataError
         }

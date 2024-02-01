@@ -8,7 +8,7 @@ public struct PolluxBuilder {
         self.pluto = pluto
     }
 
-    public func build() -> Pollux {
-        PolluxImpl(pluto: pluto)
+    public func build() -> [PolluxPlugin] {
+        [AnoncredsPlugin(), JWTPlugin()]
     }
 }

@@ -4,13 +4,13 @@ import Foundation
 import Mercury
 
 public struct MercuryBuilder {
-    let castor: Castor
+    let castor: CastorPlugin
     let secretsStream: AnyPublisher<[Domain.Secret], Error>
     let session: URLSession
     let timeout: TimeInterval
 
     public init(
-        castor: Castor,
+        castor: CastorPlugin,
         secretsStream: AnyPublisher<[Domain.Secret], Error>,
         session: URLSession = .shared,
         timeout: TimeInterval = 30

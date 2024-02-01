@@ -7,13 +7,13 @@ import Foundation
 // TODO: Find a way to take out the apollo, pluto and castor dependencies
 
 class DIDCommSecretsResolverWrapper {
-    let castor: Castor
+    let castor: CastorPlugin
     let logger: PrismLogger
     let secretsStream: AnyPublisher<[Domain.Secret], Error>
 
     init(
         secretsStream: AnyPublisher<[Domain.Secret], Error>,
-        castor: Castor,
+        castor: CastorPlugin,
         logger: PrismLogger
     ) {
         self.secretsStream = secretsStream
@@ -44,8 +44,9 @@ class DIDCommSecretsResolverWrapper {
             .map { $0 as? (PrivateKey & ExportableKey) }
             .compactMap { $0 }
             .map { privateKey in
-            let ecnumbasis = try castor.getEcnumbasis(did: did, publicKey: privateKey.publicKey())
-            return (did, privateKey, ecnumbasis)
+                // TODO: Add to remove this for the POC
+//            let ecnumbasis = try castor.getEcnumbasis(did: did, publicKey: privateKey.publicKey())
+            return (did, privateKey, "")
         }
         .map { did, privateKey, ecnumbasis in
             try parseToSecret(did: did, privateKey: privateKey, ecnumbasis: ecnumbasis)

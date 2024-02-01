@@ -5,14 +5,14 @@ import Foundation
 
 class ConnectionsManagerImpl: ConnectionsManager {
     let mediationHandler: MediatorHandler
-    private let castor: Castor
+    private let castor: CastorPlugin
     private let mercury: Mercury
     private let pluto: Pluto
     private var pairings = [DIDPair]()
     private var cancellables = [AnyCancellable]()
 
     init(
-        castor: Castor,
+        castor: CastorPlugin,
         mercury: Mercury,
         pluto: Pluto,
         mediationHandler: MediatorHandler,

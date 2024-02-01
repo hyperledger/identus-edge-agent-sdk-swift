@@ -6,12 +6,12 @@ import Foundation
 
 final class UnpackOperation: OnUnpackResult {
     private let didcomm: DIDCommProtocol
-    private let castor: Castor
+    private let castor: CastorPlugin
     private let logger: PrismLogger
     private var published = CurrentValueSubject<Domain.Message?, Error>(nil)
     private var cancellable: AnyCancellable?
 
-    init(didcomm: DIDCommProtocol, castor: Castor, logger: PrismLogger) {
+    init(didcomm: DIDCommProtocol, castor: CastorPlugin, logger: PrismLogger) {
         self.didcomm = didcomm
         self.castor = castor
         self.logger = logger

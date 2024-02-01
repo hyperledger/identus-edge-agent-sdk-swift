@@ -33,11 +33,12 @@ public class PrismAgent {
 
     let logger = PrismLogger(category: .prismAgent)
     let apollo: Apollo & KeyRestoration
-    let castor: Castor
     let pluto: Pluto
-    let pollux: Pollux
     let mercury: Mercury
     var mediationHandler: MediatorHandler?
+    let castorPlugins: [CastorPlugin]
+    let polluxPlugin: [PolluxPlugin]
+    let connectionCastorPlugin: CastorPlugin
 
     var connectionManager: ConnectionsManagerImpl?
     var cancellables = [AnyCancellable]()
@@ -60,23 +61,25 @@ public class PrismAgent {
     ///   - mediatorServiceEnpoint: The endpoint of the Mediator service to use.
     public init(
         apollo: Apollo & KeyRestoration,
-        castor: Castor,
+        castor: [CastorPlugin],
         pluto: Pluto,
-        pollux: Pollux,
+        pollux: [PolluxPlugin],
         mercury: Mercury,
+        connectionCastorPlugin: CastorPlugin,
         mediationHandler: MediatorHandler? = nil,
         seed: Seed? = nil
     ) {
         self.apollo = apollo
-        self.castor = castor
+        self.castorPlugins = castor
         self.pluto = pluto
-        self.pollux = pollux
+        self.polluxPlugin = pollux
         self.mercury = mercury
+        self.connectionCastorPlugin = connectionCastorPlugin
         self.seed = seed ?? apollo.createRandomSeed().seed
         self.mediationHandler = mediationHandler
         mediationHandler.map {
             self.connectionManager = ConnectionsManagerImpl(
-                castor: castor,
+                castor: connectionCastorPlugin,
                 mercury: mercury,
                 pluto: pluto,
                 mediationHandler: $0,
@@ -97,28 +100,31 @@ public class PrismAgent {
         mediatorDID: DID
     ) {
         let apollo = ApolloBuilder().build()
-        let castor = CastorBuilder(apollo: apollo).build()
+        let castorPlugins = CastorBuilder(apollo: apollo).build()
         let pluto = PlutoBuilder().build()
         let pollux = PolluxBuilder(pluto: pluto).build()
+
+        let defaultConnectionPlugin = castorPlugins.first { $0.method == "peer" }!
 
         let secretsStream = createSecretsStream(
             keyRestoration: apollo,
             pluto: pluto,
-            castor: castor
+            castor: defaultConnectionPlugin
         )
 
         let mercury = MercuryBuilder(
-            castor: castor,
+            castor: defaultConnectionPlugin,
             secretsStream: secretsStream
         ).build()
         
         let seed = seedData.map { Seed(value: $0) } ?? apollo.createRandomSeed().seed
         self.init(
             apollo: apollo,
-            castor: castor,
+            castor: castorPlugins,
             pluto: pluto,
             pollux: pollux,
             mercury: mercury,
+            connectionCastorPlugin: defaultConnectionPlugin,
             mediationHandler: BasicMediatorHandler(
                 mediatorDID: mediatorDID,
                 mercury: mercury,
@@ -132,7 +138,7 @@ public class PrismAgent {
         try await stop()
         self.mediationHandler = mediationHandler
         self.connectionManager = ConnectionsManagerImpl(
-            castor: castor,
+            castor: connectionCastorPlugin,
             mercury: mercury,
             pluto: pluto,
             mediationHandler: mediationHandler,
@@ -217,7 +223,7 @@ extension DID {
 private func createSecretsStream(
     keyRestoration: KeyRestoration,
     pluto: Pluto,
-    castor: Castor
+    castor: CastorPlugin
 ) -> AnyPublisher<[Secret], Error> {
     pluto.getAllPeerDIDs()
         .first()
@@ -242,14 +248,15 @@ private func createSecretsStream(
 private func parsePrivateKeys(
     did: DID,
     privateKeys: [PrivateKey],
-    castor: Castor
+    castor: CastorPlugin
 ) throws -> [Domain.Secret] {
     return try privateKeys
         .map { $0 as? (PrivateKey & ExportableKey) }
         .compactMap { $0 }
         .map { privateKey in
-        let ecnumbasis = try castor.getEcnumbasis(did: did, publicKey: privateKey.publicKey())
-        return (did, privateKey, ecnumbasis)
+        // TODO: Had to remove this for the poc
+        // let ecnumbasis = try castor.getEcnumbasis(did: did, publicKey: privateKey.publicKey())
+        return (did, privateKey, "")
     }
     .map { did, privateKey, ecnumbasis in
         try parseToSecret(

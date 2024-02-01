@@ -8,7 +8,7 @@ public struct CastorBuilder {
         self.apollo = apollo
     }
 
-    public func build() -> Castor {
-        CastorImpl(apollo: apollo)
+    public func build() -> [CastorPlugin] {
+        [PeerDIDPlugin(apollo: apollo), PrismDIDPlugin(apollo: apollo)]
     }
 }

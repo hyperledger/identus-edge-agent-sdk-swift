@@ -66,7 +66,9 @@ Could not find key in storage please use Castor instead and provide the private 
     ) async throws -> DID {
         let seed = self.seed
         let apollo = self.apollo
-        let castor = self.castor
+        guard let castor = self.castorPlugins.first(where: { $0.method == "prism" }) else {
+            throw UnknownError.somethingWentWrongError(customMessage: "No Prism DID plugin cannot create prism DID", underlyingErrors: nil)
+        }
 
         let lastKeyPairIndex = try await pluto
             .getPrismLastKeyPairIndex()
@@ -83,7 +85,23 @@ Could not find key in storage please use Castor instead and provide the private 
             KeyProperties.derivationPath.rawValue: DerivationPath(index: index).keyPathString()
         ])
 
-        let newDID = try castor.createPrismDID(masterPublicKey: privateKey.publicKey(), services: services)
+        guard let exportable = privateKey.publicKey().exporting else {
+            throw UnknownError.somethingWentWrongError(
+                customMessage: "Should always allow exporting",
+                underlyingErrors: nil
+            )
+        }
+
+        let newDID = try castor.createDID(
+            verificationMaterials: [
+                VerificationMaterialBuilder(
+                    relationship: .keyAgreement,
+                    key: exportable
+                )
+            ],
+            services: services
+        )
+
         logger.debug(message: "Created new Prism DID", metadata: [
             .maskedMetadataByLevel(key: "DID", value: newDID.string, level: .debug),
             .maskedMetadataByLevel(key: "keyPathIndex", value: "\(index)", level: .debug)
@@ -133,15 +151,27 @@ Could not find key in storage please use Castor instead and provide the private 
         alias: String? = "",
         updateMediator: Bool
     ) async throws -> DID {
+        guard let castor = self.castorPlugins.first(where: { $0.method == "peer" }) else {
+            throw UnknownError.somethingWentWrongError(customMessage: "No Peer DID plugin cannot create peer DID", underlyingErrors: nil)
+        }
+
         let keyAgreementPrivateKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.curve.rawValue: KnownKeyCurves.x25519.rawValue
         ])
 
+        guard let keyAgreementPublicExporting = keyAgreementPrivateKey.publicKey().exporting else {
+            throw UnknownError.somethingWentWrongError(customMessage: "", underlyingErrors: nil)
+        }
+
         let authenticationPrivateKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.curve.rawValue: KnownKeyCurves.ed25519.rawValue
         ])
+
+        guard let authenticationPublicExporting = authenticationPrivateKey.publicKey().exporting else {
+            throw UnknownError.somethingWentWrongError(customMessage: "", underlyingErrors: nil)
+        }
 
         let withServices: [DIDDocument.Service]
         if updateMediator, let routingDID = mediatorRoutingDID?.string {
@@ -155,9 +185,17 @@ Could not find key in storage please use Castor instead and provide the private 
             withServices = services
         }
 
-        let newDID = try castor.createPeerDID(
-            keyAgreementPublicKey: keyAgreementPrivateKey.publicKey(),
-            authenticationPublicKey: authenticationPrivateKey.publicKey(),
+        let newDID = try castor.createDID(
+            verificationMaterials: [
+                VerificationMaterialBuilder(
+                    relationship: .keyAgreement,
+                    key: keyAgreementPublicExporting
+                ),
+                VerificationMaterialBuilder(
+                    relationship: .authentication,
+                    key: authenticationPublicExporting
+                )
+            ],
             services: withServices
         )
 

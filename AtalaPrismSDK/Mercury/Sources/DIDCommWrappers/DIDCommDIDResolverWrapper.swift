@@ -6,11 +6,11 @@ import Foundation
 
 class DIDCommDIDResolverWrapper {
     let logger: PrismLogger
-    let castor: Castor
+    let castor: CastorPlugin
     var publisher = PassthroughSubject<DIDDocument, Error>()
     var cancellables = [AnyCancellable]()
 
-    init(castor: Castor, logger: PrismLogger) {
+    init(castor: CastorPlugin, logger: PrismLogger) {
         self.castor = castor
         self.logger = logger
     }

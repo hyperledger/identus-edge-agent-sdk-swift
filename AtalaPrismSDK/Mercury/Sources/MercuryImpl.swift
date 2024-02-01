@@ -7,14 +7,14 @@ import Foundation
 public struct MercuryImpl {
     let session: SessionManager
     let secretsStream: AnyPublisher<[Domain.Secret], Error>
-    let castor: Castor
+    let castor: CastorPlugin
     let logger: PrismLogger
 
     public init(
         session: URLSession = .shared,
         timeout: TimeInterval = 999,
         secretsStream: AnyPublisher<[Domain.Secret], Error>,
-        castor: Castor
+        castor: CastorPlugin
     ) {
         let logger = PrismLogger(category: .mercury)
         self.logger = logger
