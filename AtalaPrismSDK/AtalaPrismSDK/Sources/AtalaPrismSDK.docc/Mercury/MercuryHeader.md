@@ -1,4 +1,4 @@
-# ``Mercury``
+# Mercury
 
 Mercury is a powerful and flexible library for working with decentralized identifiers and secure communications protocols. Whether you are a developer looking to build a secure and private messaging app, or you are building a more complex decentralized system that requires trusted peer-to-peer connections, Mercury provides the tools and features you need to establish, manage, and secure your communications with ease.
 
@@ -14,6 +14,6 @@ Mercury also provides a range of advanced features, including support for messag
 
 ## Topics
 
-### <!--@START_MENU_TOKEN@-->Group<!--@END_MENU_TOKEN@-->
+### Tutorials
 
-- <!--@START_MENU_TOKEN@-->``Symbol``<!--@END_MENU_TOKEN@-->
+- <doc:MercuryTutorials>

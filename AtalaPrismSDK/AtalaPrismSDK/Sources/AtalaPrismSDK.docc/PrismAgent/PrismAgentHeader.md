@@ -1,4 +1,4 @@
-# ``PrismAgent``
+# PrismAgent
 
 Prism Agent is a powerful and flexible library for working with decentralized identifiers on the Prism platform. Whether you are building a decentralized application that requires secure and private identity management, or you are working with a more traditional system that requires reliable and resilient communication between DIDs, Prism Agent provides the tools and features you need to get the job done with ease.
 
@@ -14,6 +14,6 @@ Prism Agent also provides support for receiving messages through the mediator, a
 
 ## Topics
 
-### <!--@START_MENU_TOKEN@-->Group<!--@END_MENU_TOKEN@-->
+### Tutorials
 
-- <!--@START_MENU_TOKEN@-->``Symbol``<!--@END_MENU_TOKEN@-->
+- <doc:PrismAgentTutorials>

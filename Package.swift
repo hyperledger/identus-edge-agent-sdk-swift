@@ -8,19 +8,6 @@ let package = Package(
     platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(
-            name: "AtalaPrismSDK",
-            targets: [
-                "AtalaPrismSDK",
-                "Domain",
-                "Castor",
-                "Apollo",
-                "Mercury",
-                "Pluto",
-                "Pollux",
-                "PrismAgent"
-            ]
-        ),
-        .library(
             name: "Domain",
             targets: ["Domain"]
         ),
@@ -55,6 +42,12 @@ let package = Package(
         .library(
             name: "Authenticate",
             targets: ["Authenticate"]
+        ),
+        .library(
+            name: "AtalaPrismSDK",
+            targets: [
+                "AtalaPrismSDK",
+            ]
         )
     ],
     dependencies: [
