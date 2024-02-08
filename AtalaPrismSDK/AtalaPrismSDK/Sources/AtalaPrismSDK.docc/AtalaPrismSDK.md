@@ -12,20 +12,19 @@ Atala PRISM is a self-sovereign identity (SSI) platform and service suite for ve
 
 Atala PRISM Swift SDK provides the following building blocks to create, manage and resolve decentralized identifiers, issue, manage and verify verifiable credentials, establish and manage trusted, peer-to-peer connections and interactions between DIDs, and store, manage, and recover verifiable data linked to DIDs.
 
-- __Apollo__: Building block that provides a suite of cryptographic operations.
-- __Castor__: Building block that provides a suite of DID operations in a user-controlled manner.
+- __<doc:ApolloHeader>__: Building block that provides a suite of cryptographic operations.
+- __<doc:CastorHeader>__: Building block that provides a suite of DID operations in a user-controlled manner.
 - __Pollux__: Building block that provides a suite of credential operations in a privacy-preserving manner.
-- __Mercury__: Building block that provides a set of secure, standards-based communications protocols in a transport-agnostic and interoperable manner.
-- __Pluto__: Building block that provides an interface for storage operations in a portable, storage-agnostic manner.
-- __PrismAgent__: PrismAgent using all the building blocks provides an agent that can offer a set of high level DID functionalities.
+- __<doc:MercuryHeader>__: Building block that provides a set of secure, standards-based communications protocols in a transport-agnostic and interoperable manner.
+- __<doc:PlutoHeader>__: Building block that provides an interface for storage operations in a portable, storage-agnostic manner.
+- __<doc:PrismAgentHeader>__: PrismAgent using all the building blocks provides an agent that can offer a set of high level DID functionalities.
 
 ## Documentation
 
 ### General information and articles
 
 - [Getting Started](https://docs.atalaprism.io/docs/getting-started)
-- [What is identity?](https://docs.atalaprism.io/docs/concepts/what-is-identity)
-- [Digital wallets](https://docs.atalaprism.io/docs/concepts/digital-wallets)
+- [What is identity?](https://docs.atalaprism.io/docs/concepts/identity)
 - [Atala PRISM Overview](https://docs.atalaprism.io/docs/atala-prism/overview)
 
 ### Architecture decision articles
