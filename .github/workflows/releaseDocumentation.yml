@@ -5,15 +5,21 @@ on:
   push:
     tags:
       - "*"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-  docs:
+  build-docs:
     name: build documentation and release
-    runs-on: macos-latest
+    runs-on: macos-13
     env:
       GITHUB_ACTOR: ${{ github.actor }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,27 +37,26 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.0
-          bundler-cache: true
-
-      - name: Install Jazzy
-        run: sudo gem install jazzy
-
-      - name: ABC Install
-        uses: lyricwulf/abc@v1
-        with:
-          macos: sourcekitten
-
       - name: Build Docs
-        run: ./.scripts/buildDocs.sh
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 6
+          retry_on: error
+          timeout_minutes: 50
+          command: xcodebuild docbuild -scheme AtalaPrismSDK -destination "platform=macOS" -derivedDataPath ./doccBuild OTHER_DOCC_FLAGS="--transform-for-static-hosting --output-path ./docc --hosting-base-path '/atala-prism-wallet-sdk-swift'"
 
-      - name: Push
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: self
-          BRANCH: gh-pages # The branch name where you want to push the assets
-          FOLDER: docs # The directory where your assets are generated
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
-          MESSAGE: "feat(docs): ({sha}) {msg}" # The commit message
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./docc
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build-docs
+
+    steps:
+    - name: Deploy Docs
+      uses: actions/deploy-pages@v1

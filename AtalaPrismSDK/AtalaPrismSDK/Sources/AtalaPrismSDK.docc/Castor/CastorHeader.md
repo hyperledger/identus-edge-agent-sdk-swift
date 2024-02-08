@@ -1,4 +1,4 @@
-# ``Castor``
+# Castor
 
 Castor is a powerful and flexible library for working with DIDs. Whether you are building a decentralized application or a more traditional system that requires secure and private identity management, Castor provides the tools and features you need to create, manage, and resolve DIDs with ease.
 
@@ -11,3 +11,9 @@ Decentralized Identifiers (DIDs) are a new type of identifier that allows indivi
 Castor supports the creation and resolution of two types of DIDs out of the box: prism and peer.
 
 With Castor, developers can create and manage DIDs, generate and manage their associated public and private keys, and resolve DIDs to retrieve associated data. Castor also provides a range of advanced features, such as support for multiple key types and encryption methods, and a flexible API for customizing and extending its functionality.
+
+## Topics
+
+### Tutorials
+
+- <doc:CastorTutorials>

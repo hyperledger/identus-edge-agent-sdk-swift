@@ -1,4 +1,4 @@
-# ``Pluto``
+# Pluto
 
 Pluto is a powerful and flexible data storage interface library for working with decentralized identifiers. Whether you are building a decentralized application that requires secure and private data storage, or you are working with a more traditional system that requires reliable and redundant storage for your DID-related data, Pluto provides the tools and features you need to get the job done with ease.
 

@@ -1,4 +1,4 @@
-# Mercury SDK API Tutorial
+# Mercury API Tutorial
 
 The Mercury protocol defines a set of functions for packing and sending messages. Here's a brief explanation of each function:
 
