@@ -5,14 +5,19 @@ import Foundation
 
 struct Secp256k1PrivateKey: PrivateKey {
     private let internalKey: KMMECSecp256k1PrivateKey
-
     let keyType: String = "EC"
     let keySpecifications: [String : String]
     let size: Int
     let raw: Data
     let derivationPath: Domain.DerivationPath
+    var identifier: String
 
-    init(internalKey: KMMECSecp256k1PrivateKey, derivationPath: Domain.DerivationPath) {
+    init(
+        identifier: String = UUID().uuidString,
+        internalKey: KMMECSecp256k1PrivateKey,
+        derivationPath: Domain.DerivationPath
+    ) {
+        self.identifier = identifier
         self.internalKey = internalKey
         self.derivationPath = derivationPath
         self.keySpecifications = [
@@ -60,13 +65,17 @@ extension Secp256k1PrivateKey: KeychainStorableKey {
 
 struct Secp256k1PublicKey: PublicKey {
     private let internalKey: ApolloLibrary.KMMECSecp256k1PublicKey
-
     let keyType: String = "EC"
     let keySpecifications: [String : String]
     let size: Int
     let raw: Data
+    var identifier = UUID().uuidString
 
-    init(internalKey: ApolloLibrary.KMMECSecp256k1PublicKey) {
+    init(
+        identifier: String = UUID().uuidString,
+        internalKey: ApolloLibrary.KMMECSecp256k1PublicKey
+    ) {
+        self.identifier = identifier
         self.internalKey = internalKey
         var specs: [String: String] = [
             KeyProperties.curve.rawValue: "secp256k1",

@@ -6,7 +6,6 @@ import PrismAgent
 @testable import Pollux
 import XCTest
 import secp256k1
-import SwiftJWT
 
 final class JWTTests: XCTestCase {
 

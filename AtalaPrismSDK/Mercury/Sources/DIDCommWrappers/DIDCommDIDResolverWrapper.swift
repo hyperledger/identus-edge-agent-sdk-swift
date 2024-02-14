@@ -1,13 +1,14 @@
 import Combine
 import Core
-import DIDCommxSwift
+import DIDCommSwift
+import DIDCore
 import Domain
 import Foundation
 
 class DIDCommDIDResolverWrapper {
     let logger: PrismLogger
     let castor: Castor
-    var publisher = PassthroughSubject<DIDDocument, Error>()
+    var publisher = PassthroughSubject<Domain.DIDDocument, Error>()
     var cancellables = [AnyCancellable]()
 
     init(castor: Castor, logger: PrismLogger) {
@@ -23,99 +24,67 @@ class DIDCommDIDResolverWrapper {
     }
 }
 
-extension DIDCommDIDResolverWrapper: DidResolver {
-    func resolve(did: String, cb: OnDidResolverResult) -> ErrorCode {
-        publisher
-            .first()
-            .sink { [weak self] in
-                switch $0 {
-                case .finished:
-                    break
-                case let .failure(error):
-                    self?.logger.error(message: "Error trying to resolve DID", metadata: [
-                        .publicMetadata(key: "Error", value: error.localizedDescription)
-                    ])
-                    try? cb.error(
-                        err: ErrorKind.DidNotResolved(message: error.localizedDescription),
-                        msg: error.localizedDescription
-                    )
-                }
-            } receiveValue: { [weak self] in
-                do {
-                    self?.logger.debug(message: "Success resolving DID", metadata: [
-                        .maskedMetadataByLevel(key: "DID", value: did, level: .debug)
-                    ])
-                    try cb.success(result: try DidDoc(from: $0))
-                } catch {
-                    self?.logger.error(message: "Error trying to resolve DID", metadata: [
-                        .publicMetadata(key: "Error", value: error.localizedDescription)
-                    ])
-                    try? cb.error(
-                        err: ErrorKind.DidNotResolved(message: error.localizedDescription),
-                        msg: error.localizedDescription
-                    )
-                }
-            }
-            .store(in: &cancellables)
-        resolve(did: did)
-        return .success
+extension DIDCommDIDResolverWrapper: DIDResolver {
+    func resolve(did: DIDCore.DID) async throws -> DIDCore.DIDDocument {
+        let document = try await castor.resolveDID(did: DID(string: did.description))
+        return try .init(from: document)
     }
 }
 
-extension DidDoc {
-    init(from: DIDDocument) throws {
-        let did = from.id.string
+extension DIDCore.DIDDocument {
+    init(from: Domain.DIDDocument) throws {
         var authentications = [String]()
         var keyAgreements = [String]()
         let verificationMethods: [VerificationMethod] = try from.verificationMethods.compactMap {
-            guard
-                let jsonKeys = try $0.publicKeyJwk?.convertToJsonString(),
-                let crv = $0.publicKeyJwk?["crv"]
-            else { return nil }
-            switch crv {
-            case "X25519":
+            switch KnownVerificationMaterialType(rawValue: $0.type) {
+            case .agreement:
                 keyAgreements.append($0.id.string)
-            case "Ed25519":
+            case .authentication:
                 authentications.append($0.id.string)
             default:
-                break
+                return nil
             }
-            return VerificationMethod(
-                id: $0.id.string,
-                type: .jsonWebKey2020,
-                controller: $0.controller.string,
-                verificationMaterial: .jwk(value: jsonKeys)
-            )
+
+            if
+                let jsonKeys = try $0.publicKeyJwk?.convertToJsonString()
+            {
+                return .init(
+                    id: $0.id.string,
+                    controller: $0.controller.string,
+                    type: $0.type,
+                    material: try .fromJWK(jwk: JSONDecoder().decode(JWK.self, from: jsonKeys.tryToData()))
+                )
+            } else if let multibase = $0.publicKeyMultibase {
+                return .init(
+                    id: $0.id.string,
+                    controller: $0.controller.string,
+                    type: $0.type,
+                    material: .init(format: .multibase, value: try multibase.tryToData())
+                )
+            } else {
+                return nil
+            }
         }
 
-        let services = from.services.compactMap { service in
-            if service.type.contains("DIDCommMessaging") {
-                return service.serviceEndpoint.first.map {
-                    Service(
-                        id: service.id,
-                        kind: .didCommMessaging(
-                            value: .init(
-                                serviceEndpoint: $0.uri,
-                                accept: $0.accept,
-                                routingKeys: $0.routingKeys
-                            )
-                        )
+        let services = from.services.flatMap { service in
+            service.serviceEndpoint.map {
+                return Service(
+                    id: service.id,
+                    type: service.type.first ?? "",
+                    serviceEndpoint: AnyCodable(
+                        dictionaryLiteral: 
+                            ("uri", $0.uri),
+                            ("accept", $0.accept),
+                            ("routing_keys", $0.routingKeys)
                     )
-                }
-            } else {
-                return service.serviceEndpoint.first.map {
-                    Service(
-                        id: service.id,
-                        kind: .other(value: $0.uri)
-                    )
-                }
+                )
             }
         }
         self.init(
-            did: did,
-            keyAgreements: keyAgreements,
-            authentications: authentications,
+            id: from.id.string,
             verificationMethods: verificationMethods,
+            authentication: authentications.map { .stringValue($0) },
+            keyAgreement: keyAgreements.map { .stringValue($0) },
             services: services
         )
     }

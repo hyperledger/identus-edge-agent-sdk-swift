@@ -64,7 +64,6 @@ class ContactsViewModelImpl: ContactsViewModel {
             guard let self else { return }
             do {
                 let holderDID = try await self.agent.createNewPeerDID(alias: alias, updateMediator: true)
-                print(holderDID.string)
                 await MainActor.run {
                     self.createdPeerDID = holderDID.string
                     self.createdPeerDIDAlias = alias

@@ -6,6 +6,7 @@ struct LinkSecret: Key {
     let keyType = "LinkSecret"
     let keySpecifications = [String : String]()
     let raw: Data
+    var identifier = "linkSecret"
     var size: Int { raw.count }
 
     let anoncred: AnoncredsSwift.LinkSecret

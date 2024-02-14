@@ -2,6 +2,9 @@ import Foundation
 
 /// The `StorableKey` protocol defines a cryptographic key that can be stored persistently.
 public protocol StorableKey {
+    /// The key identifier
+    var identifier: String { get set }
+    
     /// An identifier used for restoring the key.
     var restorationIdentifier: String { get }
 

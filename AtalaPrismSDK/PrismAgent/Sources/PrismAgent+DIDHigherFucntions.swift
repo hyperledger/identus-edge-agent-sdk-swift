@@ -133,12 +133,12 @@ Could not find key in storage please use Castor instead and provide the private 
         alias: String? = "",
         updateMediator: Bool
     ) async throws -> DID {
-        let keyAgreementPrivateKey = try apollo.createPrivateKey(parameters: [
+        var keyAgreementPrivateKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.curve.rawValue: KnownKeyCurves.x25519.rawValue
         ])
 
-        let authenticationPrivateKey = try apollo.createPrivateKey(parameters: [
+        var authenticationPrivateKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.curve.rawValue: KnownKeyCurves.ed25519.rawValue
         ])
@@ -160,6 +160,10 @@ Could not find key in storage please use Castor instead and provide the private 
             authenticationPublicKey: authenticationPrivateKey.publicKey(),
             services: withServices
         )
+
+        let didDocument = try await castor.resolveDID(did: newDID)
+        didDocument.authenticate.first.map { authenticationPrivateKey.identifier = $0.id.string }
+        didDocument.keyAgreement.first.map { keyAgreementPrivateKey.identifier = $0.id.string }
 
         logger.debug(message: "Created new Peer DID", metadata: [
             .maskedMetadataByLevel(key: "DID", value: newDID.string, level: .debug)

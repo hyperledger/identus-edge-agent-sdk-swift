@@ -84,6 +84,6 @@ extension CDMessageDAO: MessageProvider {
 
 private extension CDMessage {
     func toDomain() throws -> Message {
-        return try JSONDecoder().decode(CodableMessage.self, from: dataJson).message
+        try JSONDecoder().decode(CodableMessage.self, from: dataJson).message
     }
 }

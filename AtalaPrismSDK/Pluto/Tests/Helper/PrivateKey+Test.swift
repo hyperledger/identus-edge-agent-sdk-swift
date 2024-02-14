@@ -6,6 +6,7 @@ struct MockPrivateKey: PrivateKey, StorableKey, Equatable {
     let keySpecifications: [String : String]
     let size = 0
     let raw: Data
+    var identifier = "TestMockPrivKey"
     var index: Int? = 0
 
     let restorationIdentifier = "MockPrivate"
@@ -39,6 +40,7 @@ struct MockPublicKey: PublicKey, Equatable {
     let keySpecifications = [String : String]()
     let size = 0
     let raw: Data
+    var identifier = "TestMockPubKey"
 
     init(str: String = "TestPublic") {
         self.raw = str.data(using: .utf8)!

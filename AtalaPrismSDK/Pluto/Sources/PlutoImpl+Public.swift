@@ -112,6 +112,14 @@ extension PlutoImpl: Pluto {
         pairDIDDao.getAll()
     }
 
+    public func getAllKeys() -> AnyPublisher<[StorableKey], Error> {
+        keyDao.getAll()
+    }
+
+    public func getKeyById(id: String) -> AnyPublisher<StorableKey?, Error> {
+        keyDao.getKeyById(id: id)
+    }
+
     public func getPair(otherDID: DID) -> AnyPublisher<DIDPair?, Error> {
         pairDIDDao.getPair(otherDID: otherDID)
     }

@@ -39,7 +39,8 @@ struct MediationKeysUpdateList {
             piuri: type,
             from: from,
             to: to,
-            body: try JSONEncoder.didComm().encode(body)
+            body: try JSONEncoder.didComm().encode(body),
+            extraHeaders: ["return_route":"all"]
         )
     }
 }

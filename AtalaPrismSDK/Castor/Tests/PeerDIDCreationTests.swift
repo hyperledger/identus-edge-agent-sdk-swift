@@ -5,7 +5,7 @@ import XCTest
 
 final class PeerDIDCreationTests: XCTestCase {
     func testPeerDIDCreation() throws {
-        let validPeerDID = "did:peer:2.Ez6LSoHkfN1Y4nK9RCjx7vopWsLrMGNFNgTNZgoCNQrTzmb1n.Vz6MknRZmapV7uYZQuZez9n9N3tQotjRN18UGS68Vcfo6gR4h.SeyJhIjpbXSwiciI6WyJkaWQ6ZXhhbXBsZTpzb21lbWVkaWF0b3Ijc29tZWtleSJdLCJzIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9lbmRwb2ludCIsInQiOiJkbSJ9"
+        let validPeerDID = "did:peer:2.Ez6LSoHkfN1Y4nK9RCjx7vopWsLrMGNFNgTNZgoCNQrTzmb1n.Vz6MknRZmapV7uYZQuZez9n9N3tQotjRN18UGS68Vcfo6gR4h.SeyJzIjp7ImEiOltdLCJyIjpbImRpZDpleGFtcGxlOnNvbWVtZWRpYXRvciNzb21la2V5Il0sInVyaSI6Imh0dHBzOi8vZXhhbXBsZS5jb20vZW5kcG9pbnQifSwidCI6ImRtIn0"
         let apollo = ApolloImpl()
         let castor = CastorImpl(apollo: apollo)
         let keyAgreementPrivateKey = try apollo.createPrivateKey(parameters: [
@@ -35,7 +35,6 @@ final class PeerDIDCreationTests: XCTestCase {
             services: [service]
         )
 
-        print(did.string)
         XCTAssertEqual(did.string, validPeerDID)
     }
 
@@ -59,6 +58,5 @@ final class PeerDIDCreationTests: XCTestCase {
         let apollo = ApolloImpl()
         let castor = CastorImpl(apollo: apollo)
         let document = try await castor.resolveDID(did: mypeerDID)
-        print(document)
     }
 }
