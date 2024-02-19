@@ -39,7 +39,7 @@ struct CreateAnoncredCredentialRequest {
         let linkSecretObj = try LinkSecret.newFromValue(valueString: linkSecret)
         let offer = try CredentialOffer(jsonString: String(data: offerData, encoding: .utf8)!)
         let credDefId = offer.getCredDefId()
-        
+
         let credentialDefinitionData = try await credentialDefinitionDownloader.downloadFromEndpoint(urlOrDID: credDefId)
         let credentialDefinitionJson = try credentialDefinitionData.toString()
         let credentialDefinition = try CredentialDefinition(jsonString: credentialDefinitionJson)
@@ -53,7 +53,7 @@ struct CreateAnoncredCredentialRequest {
             credentialOffer: offer
         )
 
-        guard 
+        guard
             let metadata = try requestData.metadata.getJson().data(using: .utf8)
         else {
             throw CommonError.invalidCoding(message: "Could not decode to data")
