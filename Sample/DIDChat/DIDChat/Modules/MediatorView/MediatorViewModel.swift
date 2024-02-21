@@ -36,7 +36,9 @@ class MediatorViewModelImpl: MediatorViewModel {
                 await MainActor.run { [weak self] in
                     self?.routeToContactsList = true
                 }
-            } catch {}
+            } catch {
+                print(error)
+            }
         }
     }
 

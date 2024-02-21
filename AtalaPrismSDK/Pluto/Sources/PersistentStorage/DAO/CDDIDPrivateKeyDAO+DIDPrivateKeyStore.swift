@@ -10,19 +10,18 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyStore {
             let keys = try privateKeys.map {
                 switch $0 {
                 case let keychainKey as KeychainStorableKey:
-                    let identifier = computeStorableKeyIdentifier(keychainKey, did: did.string)
                     try storeKeychainKey(
                         did: did,
                         keychainKey: keychainKey,
                         service: self.keyDao.keychainDao.keychainService,
-                        account: identifier,
+                        account: keychainKey.identifier,
                         keychain: self.keyDao.keychainDao.keychain
                     )
                     let cdkey = CDKeychainKey(entity: CDKeychainKey.entity(), insertInto: context)
                     cdkey.parseFromStorableKey(
                         keychainKey,
                         did: cdobj,
-                        identifier: identifier,
+                        identifier: keychainKey.identifier,
                         service: self.keyDao.keychainDao.keychainService
                     )
                     return cdkey as CDKey
@@ -31,7 +30,7 @@ extension CDDIDPrivateKeyDAO: DIDPrivateKeyStore {
                     cdkey.parseFromStorableKey(
                         $0,
                         did: cdobj,
-                        identifier: computeStorableKeyIdentifier($0, did: did.string)
+                        identifier: $0.identifier
                     )
                     return cdkey as CDKey
                 }
@@ -62,14 +61,6 @@ private func storeKeychainKey(
         service: service,
         account: account
     )
-}
-
-private func computeStorableKeyIdentifier(_ key: StorableKey, did: String) -> String {
-    var returnData = Data()
-    returnData += did.data(using: .utf8) ?? Data()
-    returnData += key.restorationIdentifier.data(using: .utf8) ?? Data()
-    returnData += key.storableData.base64EncodedData()
-    return SHA256.hash(data: returnData).string
 }
 
 private extension CDDIDPrivateKey {

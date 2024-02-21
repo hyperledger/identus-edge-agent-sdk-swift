@@ -6,26 +6,26 @@ extension CDKeyDAO: LinkSecretStore {
     func addLinkSecret(_ linkSecret: StorableKey) -> AnyPublisher<Void, Error> {
         switch linkSecret {
         case let keychainKey as KeychainStorableKey:
-            return keychainDao.updateOrCreate("linkSecret", context: writeContext) { cdobj, context in
+            return keychainDao.updateOrCreate(linkSecret.identifier, context: writeContext) { cdobj, context in
                 try storeKeychainKey(
                     keychainKey: keychainKey,
                     service: self.keychainDao.keychainService,
-                    account: "linkSecret",
+                    account: linkSecret.identifier,
                     keychain: self.keychainDao.keychain
                 )
                 cdobj.parseFromStorableKey(
                     keychainKey,
-                    identifier: "linkSecret",
+                    identifier: linkSecret.identifier,
                     service: self.keychainDao.keychainService
                 )
             }
             .map { _ in }
             .eraseToAnyPublisher()
         default:
-            return databaseDAO.updateOrCreate("linkSecret", context: writeContext) { cdobj, context in
+            return databaseDAO.updateOrCreate(linkSecret.identifier, context: writeContext) { cdobj, context in
                 cdobj.parseFromStorableKey(
                     linkSecret,
-                    identifier: "linkSecret"
+                    identifier: linkSecret.identifier
                 )
             }
             .map { _ in }

@@ -31,8 +31,8 @@ extension W3CVerifiableCredential: Codable {
             try container.encode(value, forKey: .type)
         }
         try container.encode(self.id, forKey: .id)
-        try container.encode(self.issuer.string, forKey: .issuer)
-        if let subject = self.subject?.string {
+        try container.encode(self.issuer, forKey: .issuer)
+        if let subject = self.subject {
             try container.encode(subject, forKey: .subject)
         }
         try container.encode(self.issuanceDate, forKey: .issuanceDate)

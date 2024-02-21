@@ -248,6 +248,22 @@ public struct DIDDocument {
         return authenticateProperty.verificationMethods
     }
 
+    public var keyAgreement: [VerificationMethod] {
+        guard
+            let property = coreProperties
+                .first(where: { $0 as? KeyAgreement != nil })
+                .map({ $0 as? KeyAgreement }),
+            let keyAgreementProperty = property
+        else { return [] }
+
+        guard keyAgreementProperty.urls.isEmpty else {
+            return keyAgreementProperty.urls.compactMap { uri in
+                verificationMethods.first { $0.id.string == uri }
+            } + keyAgreementProperty.verificationMethods
+        }
+        return keyAgreementProperty.verificationMethods
+    }
+
     public var verificationMethods: [VerificationMethod] {
         guard
             let property = coreProperties

@@ -1,204 +1,186 @@
-import Core
+import DIDCore
 import Domain
 import Foundation
-import Multibase
+import PeerDID
 
 struct PeerDIDResolver: DIDResolverDomain {
     var method = "peer"
 
-    func resolve(did: DID) async throws -> DIDDocument {
-        guard
-            did.method == "peer",
-            did.methodId.prefix(1) == "2"
-        else { throw CastorError.notPossibleToResolveDID(
-            did: did.string,
-            reason: "Method or method id are invalid"
-        )}
-
-        return try buildDIDDocumentAlgo2(did: did, format: .jwk)
+    func resolve(did: Domain.DID) async throws -> Domain.DIDDocument {
+        try PeerDIDHelper.resolve(peerDIDStr: did.string).toDomain()
     }
+}
 
-    private func buildDIDDocumentAlgo2(
-        did: DID,
-        format: VerificationMaterialFormatPeerDID
-    ) throws -> DIDDocument {
-        let composition = did.methodId.components(separatedBy: ".").dropFirst()
-        var authenticationMethods = [DIDDocument.VerificationMethod]()
-        var keyAgreementMethods = [DIDDocument.VerificationMethod]()
-        var services = [DIDDocument.Service]()
-        try composition.forEach {
-            switch $0.prefix(1) {
-            case CreatePeerDIDOperation.Numalgo2Prefix.authentication.rawValue:
-                let decoded = try decodeMultibaseEncnumbasisAuth(
-                    did: did,
-                    multibase: String($0.dropFirst()),
-                    format: .jwk
+extension DIDCore.DIDDocument {
+
+    init(from: Domain.DIDDocument) throws {
+        let verificationMethods = try from.verificationMethods.map {
+            try DIDCore.DIDDocument.VerificationMethod(from: $0)
+        }
+        let verificationMethodsIds = verificationMethods.map(\.id)
+
+        let authenticationMethods = try from.authenticate
+            .filter {
+                verificationMethodsIds.contains($0.id.string)
+            }
+            .map {
+                try DIDCore.DIDDocument.VerificationMethod(from: $0)
+            }
+        let authenticationIds = from.authenticate.map(\.id.string)
+
+        let keyAgreementMethods = try from.keyAgreement
+            .filter {
+                verificationMethodsIds.contains($0.id.string)
+            }
+            .map {
+                try DIDCore.DIDDocument.VerificationMethod(from: $0)
+            }
+
+        let keyAgreementIds = from.keyAgreement.map(\.id.string)
+
+        let services = from.services.flatMap { service in
+            service.serviceEndpoint.map {
+                DIDCore.DIDDocument.Service(
+                    id: service.id,
+                    type: service.type.first ?? "",
+                    serviceEndpoint: AnyCodable(
+                        dictionaryLiteral:
+                            ("uri", $0.uri),
+                            ("accept", $0.accept),
+                            ("routing_keys", $0.routingKeys)
+                    )
                 )
-                authenticationMethods.append(try getVerificationMethod(did: did, decodedEncumbasis: decoded))
-            case CreatePeerDIDOperation.Numalgo2Prefix.keyAgreement.rawValue:
-                let decoded = try decodeMultibaseEncnumbasisAgreement(
-                    did: did,
-                    multibase: String($0.dropFirst()),
-                    format: .jwk
-                )
-                keyAgreementMethods.append(try getVerificationMethod(did: did, decodedEncumbasis: decoded))
-            case CreatePeerDIDOperation.Numalgo2Prefix.service.rawValue:
-                services.append(contentsOf: try decodeService(
-                    did: did,
-                    encodedString: String($0.dropFirst())
-                ))
-            default:
-                break
             }
         }
 
-        return DIDDocument(
-            id: did,
+        self.init(
+            id: from.id.string,
+            verificationMethods: verificationMethods + authenticationMethods + keyAgreementMethods,
+            authentication: authenticationIds.map { .stringValue($0) },
+            assertionMethod: nil,
+            capabilityDelegation: nil,
+            keyAgreement: keyAgreementIds.map { .stringValue($0) },
+            services: services
+        )
+    }
+
+    func toDomain() throws -> Domain.DIDDocument {
+        let authenticationUrls = self.verificationMethods
+            .filter {
+                guard let type = KnownVerificationMaterialType(rawValue: $0.type) else {
+                    return false
+                }
+                switch type {
+                case .authentication:
+                    return true
+                default:
+                    return false
+                }
+            }
+            .map { $0.id }
+
+        let keyAgreementUrls = self.verificationMethods
+            .filter {
+                guard let type = KnownVerificationMaterialType(rawValue: $0.type) else {
+                    return false
+                }
+                switch type {
+                case .agreement:
+                    return true
+                default:
+                    return false
+                }
+            }
+            .map { $0.id }
+
+        let verificationMethods = try self.verificationMethods.map {
+            try $0.toDomain()
+        }
+
+        let services = try self.services?.map {
+            guard 
+                let endpoint = $0.serviceEndpoint.value as? [String: Any],
+                let uri = endpoint["uri"] as? String
+            else {
+                throw CastorError.notPossibleToResolveDID(did: $0.id, reason: "Invalid service")
+            }
+            return Domain.DIDDocument.Service(
+                id: $0.id,
+                type: [$0.type],
+                serviceEndpoint: [
+                    .init(
+                        uri: uri,
+                        accept: endpoint["accept"] as? [String] ?? [],
+                        routingKeys: endpoint["routing_keys"] as? [String] ?? []
+                    )
+                ]
+            )
+        } ?? [Domain.DIDDocument.Service]()
+
+        return Domain.DIDDocument(
+            id: try DID(string: self.id),
             coreProperties: [
-                DIDDocument.VerificationMethods(
-                    values: authenticationMethods + keyAgreementMethods
-                ),
-                DIDDocument.Authentication(
-                    urls: authenticationMethods.map { $0.id.string },
+                Domain.DIDDocument.Authentication(
+                    urls: authenticationUrls,
                     verificationMethods: []
                 ),
-                DIDDocument.KeyAgreement(
-                    urls: keyAgreementMethods.map { $0.id.string },
+                Domain.DIDDocument.KeyAgreement(
+                    urls: keyAgreementUrls,
                     verificationMethods: []
                 ),
-                DIDDocument.Services(values: services)
+                Domain.DIDDocument.VerificationMethods(values: verificationMethods),
+                Domain.DIDDocument.Services(values: services)
             ]
         )
     }
+}
 
-    func decodeMultibaseEncnumbasisAuth(
-        did: DID,
-        multibase: String,
-        format: VerificationMaterialFormatPeerDID
-    ) throws -> (String, VerificationMaterialAuthentication) {
-        let (decoded, verMaterial) = try decodeMultibaseEncnumbasis(
-            multibase: multibase,
-            format: format, defaultCodec: .ed25519
-        )
-        guard let material = verMaterial.authentication else {
-            throw CastorError.notPossibleToResolveDID(
-                did: did.string,
-                reason: "Could not decode authentication multibase"
+extension DIDCore.DIDDocument.VerificationMethod {
+
+    init(from: Domain.DIDDocument.VerificationMethod) throws {
+        if let publicKeyMultibase = from.publicKeyMultibase {
+            self.init(
+                id: from.id.string,
+                controller: from.controller.string,
+                type: from.type,
+                material: .init(
+                    format: .multibase,
+                    value: try publicKeyMultibase.tryData(using: .utf8)
+                )
             )
+        } else if let publicKeyJwk = from.publicKeyJwk {
+            self.init(
+                id: from.id.string,
+                controller: from.controller.string,
+                type: from.type,
+                material: .init(
+                    format: .jwk,
+                    value: try JSONSerialization.data(withJSONObject: publicKeyJwk)
+                )
+            )
+        } else {
+            throw PeerDIDError.invalidMaterialType("")
         }
-        return (decoded, material)
     }
 
-    private func decodeMultibaseEncnumbasisAgreement(
-        did: DID,
-        multibase: String,
-        format: VerificationMaterialFormatPeerDID
-    ) throws -> (String, VerificationMaterialAgreement) {
-        let (decoded, verMaterial) = try decodeMultibaseEncnumbasis(
-            multibase: multibase,
-            format: format, defaultCodec: .x25519
-        )
-        guard let material = verMaterial.agreement else {
-            throw CastorError.notPossibleToResolveDID(
-                did: did.string,
-                reason: "Could not decode key agreement multibase"
-        )}
-
-        return (decoded, material)
-    }
-
-    private func decodeMultibaseEncnumbasis(
-        multibase: String,
-        format: VerificationMaterialFormatPeerDID,
-        defaultCodec: Multicodec.Codec
-    ) throws -> (String, VerificationMaterialPeerDID) {
-        let (encnum, encnumData) = try fromBase58Multibase(multibase: multibase)
-        let (codec, decodedEncnum) = try Multicodec(value: encnumData).decode()
-        try validateRawKeyLength(key: decodedEncnum)
-        switch format {
+    func toDomain() throws -> Domain.DIDDocument.VerificationMethod {
+        switch material.format {
         case .jwk:
-            switch codec {
-            case .x25519:
-                guard let jwkJsonString = try JWKHelper().toJWK(
-                    publicKey: decodedEncnum,
-                    material: VerificationMethodTypeAgreement.jsonWebKey2020
-                ) else { throw CastorError.invalidJWKError }
-
-                return (encnum, VerificationMaterialAgreement(
-                    format: format,
-                    value: jwkJsonString,
-                    type: .jsonWebKey2020
-                ))
-            case .ed25519:
-                guard let jwkJsonString = try JWKHelper().toJWK(
-                    publicKey: decodedEncnum,
-                    material: VerificationMethodTypeAuthentication.jsonWebKey2020
-                ) else { throw CastorError.invalidJWKError }
-
-                return  (encnum, VerificationMaterialAuthentication(
-                    format: format,
-                    value: jwkJsonString,
-                    type: .jsonWebKey2020
-                ))
-            }
-        }
-    }
-
-    private func fromBase58Multibase(multibase: String) throws -> (String, Data) {
-        let multibaseDecoding = try BaseEncoding.decode(multibase)
-        return (String(multibase.dropFirst()), multibaseDecoding.data)
-    }
-
-    private func getVerificationMethod(
-        did: DID,
-        decodedEncumbasis: (String, VerificationMaterialPeerDID)
-    ) throws -> DIDDocument.VerificationMethod {
-        var jsonDic = try convertToDictionary(string: decodedEncumbasis.1.value)
-        jsonDic?["kid"] = did.string + "#" + decodedEncumbasis.0
-        return .init(
-            id: .init(did: did, fragment: decodedEncumbasis.0),
-            controller: did,
-            type: decodedEncumbasis.1.keyType.value,
-            publicKeyJwk: jsonDic
-        )
-    }
-
-    private func decodeService(did: DID, encodedString: String) throws -> [DIDDocument.Service] {
-        guard let jsonData = Data(fromBase64URL: encodedString) else {
-            throw CastorError.notPossibleToResolveDID(
-                did: did.string,
-                reason: "Could not parse Service JSON"
+            return Domain.DIDDocument.VerificationMethod(
+                id: try DIDUrl(string: id),
+                controller: try DID(string: controller),
+                type: type,
+                publicKeyJwk: try JSONSerialization.jsonObject(with: material.value) as? [String: String]
             )
-        }
-        let services = try jsonDecoderForServicePeerDIDService(jsonData: jsonData)
-        return services.enumerated().map {
-            DIDDocument.Service(
-                id: did.string + $0.element.type.lowercased() + "-\($0.offset)",
-                type: [$0.element.type],
-                serviceEndpoint: [.init(
-                    uri: $0.element.serviceEndpoint,
-                    accept: $0.element.accept,
-                    routingKeys: $0.element.routingKeys
-                )]
+        case .multibase:
+            return Domain.DIDDocument.VerificationMethod(
+                id: try DIDUrl(string: id),
+                controller: try DID(string: controller),
+                type: type,
+                publicKeyMultibase: String(data: material.value, encoding: .utf8)
             )
-        }
-    }
-
-    private func jsonDecoderForServicePeerDIDService(jsonData: Data) throws -> [PeerDID.Service] {
-        do {
-            return try JSONDecoder().decode([PeerDID.Service].self, from: jsonData)
-        } catch {
-            let decoded = try JSONDecoder().decode(PeerDID.Service.self, from: jsonData)
-            return [decoded]
-        }
-    }
-
-    private func validateRawKeyLength(key: Data) throws {
-        guard key.count == 32 else {
-            throw UnknownError.somethingWentWrongError(
-                customMessage: "Invalid secp256k1 key size of 32 bytes",
-                underlyingErrors: nil
-            )
+        default:
+            throw CastorError.notPossibleToResolveDID(did: id, reason: "Invalid did peer")
         }
     }
 }

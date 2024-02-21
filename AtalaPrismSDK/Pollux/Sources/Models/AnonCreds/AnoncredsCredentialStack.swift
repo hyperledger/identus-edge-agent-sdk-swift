@@ -16,7 +16,7 @@ extension AnoncredsCredentialStack: Domain.Credential {
             assert(false, "This should never happen")
             return ""
         }
-        return jsonData.sha256.hex
+        return jsonData.sha256().hex
     }
     
     var issuer: String {

@@ -33,7 +33,7 @@ public struct Message: Identifiable, Hashable {
     public let createdTime: Date
 
     /// The time at which the message will expire.
-    public let expiresTimePlus: Date
+    public let expiresTimePlus: Date?
 
     /// Descriptors for any attachments included in the message.
     public let attachments: [AttachmentDescriptor]
@@ -75,7 +75,7 @@ public struct Message: Identifiable, Hashable {
         body: Data,
         extraHeaders: [String : String] = [:],
         createdTime: Date = Date(),
-        expiresTimePlus: Date = Date(),
+        expiresTimePlus: Date? = nil,
         attachments: [AttachmentDescriptor] = [],
         thid: String? = nil,
         pthid: String? = nil,

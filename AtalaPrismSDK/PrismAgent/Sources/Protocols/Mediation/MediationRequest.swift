@@ -23,7 +23,8 @@ struct MediationRequest {
             piuri: type,
             from: from,
             to: to,
-            body: Data()
+            body: Data(),
+            extraHeaders: ["return_route":"all"]
         )
     }
 }
