@@ -26,7 +26,8 @@ struct PickUpRequest {
             piuri: ProtocolTypes.pickupRequest.rawValue,
             from: from,
             to: to,
-            body: body
+            body: body,
+            extraHeaders: ["return_route":"all"]
         )
     }
 }

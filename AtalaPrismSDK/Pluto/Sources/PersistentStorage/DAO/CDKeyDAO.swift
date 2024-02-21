@@ -51,12 +51,14 @@ extension CDKey {
             )
 
             return StorableKeyModel(
+                identifier: keychainKey.identifier,
                 restorationIdentifier: keychainKey.restorationIdentifier,
                 storableData: keyData,
                 index: keychainKey.index?.intValue
             )
         case let databaseKey as CDDatabaseKey:
             return StorableKeyModel(
+                identifier: databaseKey.identifier,
                 restorationIdentifier: databaseKey.restorationIdentifier,
                 storableData: databaseKey.storableData,
                 index: databaseKey.index?.intValue

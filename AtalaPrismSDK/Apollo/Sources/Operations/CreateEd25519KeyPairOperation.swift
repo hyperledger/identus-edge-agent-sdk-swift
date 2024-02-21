@@ -12,7 +12,10 @@ struct CreateEd25519KeyPairOperation {
 
     }
 
-    func compute(fromPrivateKey: Data) throws -> PrivateKey {
-        return Ed25519PrivateKey(internalKey: KMMEdPrivateKey(raw: fromPrivateKey.toKotlinByteArray()))
+    func compute(identifier: String = UUID().uuidString, fromPrivateKey: Data) throws -> PrivateKey {
+        return Ed25519PrivateKey(
+            identifier: identifier,
+            internalKey: KMMEdPrivateKey(raw: fromPrivateKey.toKotlinByteArray())
+        )
     }
 }

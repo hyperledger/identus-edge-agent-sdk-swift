@@ -1,112 +1,129 @@
 import Core
-import DIDCommxSwift
+import DIDCommSwift
 import Domain
 import Foundation
 
-extension DIDCommxSwift.Message {
+extension DIDCommSwift.Message {
     init(domain: Domain.Message, mediaType: MediaType) throws {
-        let jsonString = String(data: domain.body, encoding: .utf8) ?? "{}"
         let from = domain.from?.string
-        let to = domain.to?.string
         self.init(
             id: domain.id,
-            typ: mediaType.rawValue,
+            body: try domain.body.isEmpty ? "{}".tryToData() : domain.body,
             type: domain.piuri,
-            body: jsonString.isEmpty ? "{}" : jsonString,
-            from: domain.from?.string,
+            typ: .plainText,
+            from: from,
             to: domain.to.map { [$0.string] },
+            createdTime: domain.createdTime,
+            expiresTime: domain.expiresTimePlus,
+            fromPrior: domain.fromPrior.flatMap {
+                try? JSONDecoder().decode(FromPrior.self, from: $0.tryToData())
+            },
+            fromPriorJwt: nil,
+            attachments: try domain.attachments.map { try .init(domain: $0) },
+            pleaseAck: nil,
+            ack: domain.ack.first,
             thid: domain.thid,
             pthid: domain.pthid,
-            extraHeaders: domain.extraHeaders,
-            createdTime: domain.createdTime.millisecondsSince1970,
-            expiresTime: domain.expiresTimePlus.millisecondsSince1970,
-            fromPrior: domain.fromPrior,
-            attachments: try domain.attachments.map {
-                try Attachment(domain: $0)
-            }
+            customHeaders: domain.extraHeaders
         )
     }
 
     func toDomain(castor: Castor) throws -> Domain.Message {
-        guard let data = self.body.data(using: .utf8) else {
-            throw MercuryError.messageInvalidBodyDataError
-        }
-        let message = Domain.Message(
+        Domain.Message(
             id: self.id,
             piuri: self.type,
-            from: try self.from.map { try DID(string: $0) },
-            to: try self.to?.first.map { try DID(string: $0) },
-            fromPrior: self.fromPrior,
-            body: data,
-            extraHeaders: self.extraHeaders,
-            createdTime: self.createdTime
-                .map { Date(milliseconds: $0) } ?? Date(),
-            expiresTimePlus: self.expiresTime
-                .map { Date(milliseconds: $0) } ?? Date(),
+            from: try self.from.map { try Domain.DID(string: $0) },
+            to: try self.to?.first.map { try Domain.DID(string: $0) },
+            fromPrior: try self.fromPrior.map { try JSONEncoder.didComm().encode($0) }?.tryToString(),
+            body: self.body ?? Data(),
+            extraHeaders: self.customHeaders ?? [:],
+            createdTime: self.createdTime ?? Date(),
+            expiresTimePlus: self.expiresTime ?? Date(),
             attachments: try self.attachments?.map { try $0.toDomain() } ?? [],
             thid: self.thid,
             pthid: self.pthid,
-            ack: []
+            ack: self.ack.map { [$0] } ?? []
         )
-        return message
     }
 }
 
-extension DIDCommxSwift.Attachment {
+extension DIDCommSwift.Attachment {
     init(domain: Domain.AttachmentDescriptor) throws {
         self.init(
-            data: try .init(domain: domain.data),
             id: domain.id,
+            data: try domain.data.toDIDComm(),
             description: domain.description,
-            filename: domain.filename?.joined(separator: "/"),
+            filename: domain.filename?.first,
             mediaType: domain.mediaType,
             format: domain.format,
-            lastmodTime: domain.lastmodTime.map { UInt64($0.timeIntervalSince1970) },
-            byteCount: domain.byteCount.map { UInt64($0) }
+            lastModTime: domain.lastmodTime,
+            byteCount: domain.byteCount
         )
     }
 
     func toDomain() throws -> Domain.AttachmentDescriptor {
-        guard let id = self.id else { throw MercuryError.messageAttachmentWithoutIDError }
         return .init(
             id: id,
             mediaType: self.mediaType,
             data: try self.data.toDomain(),
             filename: self.filename?.components(separatedBy: "/"),
             format: self.format,
-            lastmodTime: self.lastmodTime.map { Date(timeIntervalSince1970: TimeInterval($0)) },
+            lastmodTime: self.lastModTime,
             byteCount: self.byteCount.map { Int($0) },
             description: self.description
         )
     }
 }
 
-extension DIDCommxSwift.AttachmentData {
-    init(domain: Domain.AttachmentData) throws {
-        if let base64Data = domain as? AttachmentBase64 {
-            self = .base64(value: .init(base64: base64Data.base64, jws: nil))
-        } else if let linkData = domain as? AttachmentLinkData {
-            self = .links(value: .init(links: linkData.links, hash: linkData.hash, jws: nil))
-        } else if let jsonData = domain as? AttachmentJsonData {
-            self = .json(value: .init(json: String(data: jsonData.data, encoding: .utf8)!, jws: nil))
-        } else if let jwsData = domain as? AttachmentJwsData {
-            self = .base64(value: .init(base64: jwsData.base64, jws: jwsData.jws.signature))
+extension Domain.AttachmentData {
+    func toDIDComm() throws -> DIDCommSwift.AttachmentData {
+        if let base64Data = self as? AttachmentBase64 {
+            return Base64AttachmentData(
+                hash: nil,
+                jws: nil,
+                base64: base64Data.base64
+            )
+        } else if let linkData = self as? AttachmentLinkData {
+            return LinksAttachmentData(
+                hash: linkData.hash,
+                jws: nil,
+                links: linkData.links
+            )
+        } else if let jsonData = self as? AttachmentJsonData {
+            return try JsonAttachmentData(
+                hash: nil,
+                jws: nil,
+                json: jsonData.data.tryToString()
+            )
+        } else if let jwsData = self as? AttachmentJwsData {
+            return Base64AttachmentData(
+                hash: nil,
+                jws: jwsData.base64,
+                base64: jwsData.jws.signature
+            )
         } else {
             throw MercuryError.unknownAttachmentDataTypeError
         }
     }
+}
 
+extension DIDCommSwift.AttachmentData {
     func toDomain() throws -> Domain.AttachmentData {
         switch self {
-        case let .base64(value):
+        case let value as Base64AttachmentData:
             return AttachmentBase64(base64: value.base64)
-        case let .links(value):
-            return AttachmentLinkData(links: value.links, hash: value.hash)
-        case let .json(value):
+        case let value as LinksAttachmentData:
+            guard let hash = value.hash else {
+                throw MercuryError.unknownAttachmentDataTypeError
+            }
+            return AttachmentLinkData(links: value.links, hash: hash)
+        case let value as JsonAttachmentData:
             guard let jsonData = value.json.data(using: .utf8) else {
                 throw MercuryError.unknownAttachmentDataTypeError
             }
             return AttachmentJsonData(data: jsonData)
+        default:
+            throw MercuryError.unknownAttachmentDataTypeError
         }
     }
 }

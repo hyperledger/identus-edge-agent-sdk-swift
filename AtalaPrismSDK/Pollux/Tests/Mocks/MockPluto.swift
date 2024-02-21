@@ -93,7 +93,15 @@ class MockPluto: Pluto {
     func getDIDPrivateKeys(did: Domain.DID) -> AnyPublisher<[Domain.StorableKey]?, Error> {
         Just(nil).tryMap { $0 }.eraseToAnyPublisher()
     }
-    
+
+    func getAllKeys() -> AnyPublisher<[StorableKey], Error> {
+        Just([]).tryMap { $0 }.eraseToAnyPublisher()
+    }
+
+    func getKeyById(id: String) -> AnyPublisher<StorableKey?, Error> {
+        Just(nil).tryMap { $0 }.eraseToAnyPublisher()
+    }
+
     func getAllDidPairs() -> AnyPublisher<[Domain.DIDPair], Error> {
         Just([]).tryMap { $0 }.eraseToAnyPublisher()
     }

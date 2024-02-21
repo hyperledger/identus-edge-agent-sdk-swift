@@ -190,12 +190,12 @@ extension AttachmentDescriptor: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let id = try container.decode(String.self, forKey: .id)
-        let mediaType = try? container.decode(String.self, forKey: .mediaType)
-        let filename = try? container.decode([String].self, forKey: .filename)
-        let format = try? container.decode(String.self, forKey: .format)
-        let lastmodTime = try? container.decode(Date.self, forKey: .lastmodTime)
-        let byteCount = try? container.decode(Int.self, forKey: .byteCount)
-        let description = try? container.decode(String.self, forKey: .description)
+        let mediaType = try? container.decodeIfPresent(String.self, forKey: .mediaType)
+        let filename = try? container.decodeIfPresent([String].self, forKey: .filename)
+        let format = try? container.decodeIfPresent(String.self, forKey: .format)
+        let lastmodTime = try? container.decodeIfPresent(Date.self, forKey: .lastmodTime)
+        let byteCount = try? container.decodeIfPresent(Int.self, forKey: .byteCount)
+        let description = try? container.decodeIfPresent(String.self, forKey: .description)
         let data: AttachmentData?
         if let attchData = try? container.decode(AttachmentBase64.self, forKey: .data) {
             data = attchData

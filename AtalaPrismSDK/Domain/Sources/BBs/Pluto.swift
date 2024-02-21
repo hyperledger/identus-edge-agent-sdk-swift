@@ -151,6 +151,15 @@ public protocol Pluto {
     /// - Returns: A publisher that emits an array of DID pairs.
     func getAllDidPairs() -> AnyPublisher<[DIDPair], Error>
 
+    /// Returns all stored Keys.
+    /// - Returns: A publisher that emits an array of StorableKey.
+    func getAllKeys() -> AnyPublisher<[StorableKey], Error>
+
+    /// Returns the key with the given id.
+    /// - Parameter id: The key id.
+    /// - Returns: A publisher that emits an key if it exists.
+    func getKeyById(id: String) -> AnyPublisher<StorableKey?, Error>
+
     /// Returns the stored DID pair that includes a given DID.
     /// - Parameter otherDID: The DID to search for.
     /// - Returns: A publisher that emits an optional DID pair that includes the given DID.

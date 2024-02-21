@@ -129,22 +129,4 @@ extension CastorImpl: Castor {
         }
         return try await resolver.resolve(did: did)
     }
-
-    /// getEcnumbasis generates a unique ECNUM basis string for a given DID and key pair. This function may throw an error if the DID or key pair are invalid.
-    ///
-    /// - Parameters:
-    ///   - did: The DID associated with the key pair
-    ///   - keyPair: The key pair to use for generating the ECNUM basis
-    /// - Returns: The ECNUM basis string
-    /// - Throws: An error if the DID or key pair are invalid
-    public func getEcnumbasis(did: DID, publicKey: PublicKey) throws -> String {
-        logger.debug(message: "Getting ecnumbasis", metadata: [
-            .maskedMetadataByLevel(key: "DID", value: did.string, level: .debug)
-        ])
-        return try CreatePeerDIDOperation(
-            autenticationPublicKey: publicKey,
-            agreementPublicKey: publicKey,
-            services: []
-        ).computeEcnumbasis(did: did, publicKey: publicKey)
-    }
 }

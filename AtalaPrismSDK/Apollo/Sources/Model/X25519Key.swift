@@ -8,10 +8,15 @@ struct X25519PrivateKey: PrivateKey {
     let keySpecifications: [String : String] = [
         "curve" : "x25519"
     ]
+    var identifier:String
     var size: Int { raw.count }
     var raw: Data { internalKey.raw.toData() }
 
-    init(internalKey: ApolloLibrary.KMMX25519PrivateKey) {
+    init(
+        identifier: String = UUID().uuidString,
+        internalKey: ApolloLibrary.KMMX25519PrivateKey
+    ) {
+        self.identifier = identifier
         self.internalKey = internalKey
     }
 
@@ -41,10 +46,15 @@ struct X25519PublicKey: PublicKey {
     let keySpecifications: [String : String] = [
         "curve" : "x25519"
     ]
+    var identifier: String
     var size: Int { raw.count }
     var raw: Data { internalKey.raw.toData() }
 
-    init(internalKey: ApolloLibrary.KMMX25519PublicKey) {
+    init(
+        identifier: String = UUID().uuidString,
+        internalKey: ApolloLibrary.KMMX25519PublicKey
+    ) {
+        self.identifier = identifier
         self.internalKey = internalKey
     }
 

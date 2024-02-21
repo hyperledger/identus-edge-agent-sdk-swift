@@ -1,6 +1,6 @@
 import Domain
 import Foundation
-import SwiftJWT
+import JSONWebToken
 
 extension PolluxImpl {
     
@@ -79,7 +79,7 @@ extension PolluxImpl {
             throw PolluxError.requiresExportableKeyForOperation(operation: "Create Credential Request")
         }
         
-        return try CreateJWTCredentialRequest.create(didStr: did.string, pem: pemData, offerData: offerData)
+        return try CreateJWTCredentialRequest.create(didStr: did.string, key: exportableKey, offerData: offerData)
     }
     
     private func processAnoncredsCredentialRequest(

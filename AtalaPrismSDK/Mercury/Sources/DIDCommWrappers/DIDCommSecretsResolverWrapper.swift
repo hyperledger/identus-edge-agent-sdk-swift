@@ -1,6 +1,7 @@
 import Combine
 import Core
-import DIDCommxSwift
+import DIDCommSwift
+import DIDCore
 import Domain
 import Foundation
 
@@ -22,135 +23,78 @@ class DIDCommSecretsResolverWrapper {
     }
 
     fileprivate func getListOfAllSecrets() async throws -> [Domain.Secret] {
-//        try await pluto
-//            .getAllPeerDIDs()
-//            .first()
-//            .tryMap {
-//                try $0.map { did, privateKeys, _ in
-//                    try self.parsePrivateKeys(did: did, privateKeys: privateKeys)
-//                }
-//            }
-//            .map { $0.compactMap { $0 }.flatMap { $0 } }
         try await secretsStream
             .first()
             .await()
     }
+}
 
-    private func parsePrivateKeys(
-        did: DID,
-        privateKeys: [PrivateKey]
-    ) throws -> [Domain.Secret] {
-        return try privateKeys
-            .map { $0 as? (PrivateKey & ExportableKey) }
-            .compactMap { $0 }
-            .map { privateKey in
-            let ecnumbasis = try castor.getEcnumbasis(did: did, publicKey: privateKey.publicKey())
-            return (did, privateKey, ecnumbasis)
-        }
-        .map { did, privateKey, ecnumbasis in
-            try parseToSecret(did: did, privateKey: privateKey, ecnumbasis: ecnumbasis)
-        }
-    }
-
-    private func parseToSecret(did: DID, privateKey: PrivateKey & ExportableKey, ecnumbasis: String) throws -> Domain.Secret {
-        let id = did.string + "#" + ecnumbasis
-        let jwk = privateKey.jwk
-        guard
-            let dataJson = try? JSONEncoder().encode(jwk),
-            let stringJson = String(data: dataJson, encoding: .utf8)
+extension DIDCommSecretsResolverWrapper: DIDCommSwift.SecretResolver {
+    func findKey(kid: String) async throws -> DIDCommSwift.Secret? {
+        guard 
+            let secret = try? await getListOfAllSecrets()
+                .first(where: {
+                    $0.id == kid
+                }) 
         else {
-            throw CommonError.invalidCoding(message: "Could not encode privateKey.jwk")
+            let error = MercuryError.didcommError(
+                msg: "Could not find secret \(kid)",
+                underlyingErrors: nil
+            )
+            logger.error(error: error)
+            throw error
         }
-        return .init(
-            id: id,
-            type: .jsonWebKey2020,
-            secretMaterial: .jwk(value: stringJson)
-        )
+        return try .init(from: secret)
+        
+    }
+    func findKeys(kids: Set<String>) async throws -> Set<String> {
+        let secretidsaux = kids.map { $0.replacingOccurrences(of: "/#", with: "#") }
+        let secrets = try await getListOfAllSecrets()
+            .filter { secretidsaux.contains($0.id) }
+            .map { $0.id }
+        let secretsSet = Set(secretidsaux)
+        let resultsSet = Set(secrets)
+        let missingSecrets = secretsSet.subtracting(resultsSet)
+        if !missingSecrets.isEmpty {
+            let mercuryError = MercuryError.didcommError(
+                msg: "Could not find secrets \(missingSecrets.joined(separator: "\n"))",
+                underlyingErrors: nil
+            )
+            logger.error(error: mercuryError)
+        }
+        return kids
     }
 }
 
-extension DIDCommSecretsResolverWrapper: SecretsResolver {
-    func getSecret(
-        secretid: String,
-        cb: OnGetSecretResult
-    ) -> ErrorCode {
-        Task {
-            do {
-                // Fix: Fixes a bug currently happening on didcomm library that is adding a / before the fragment sign
-                let secretidsaux = secretid.replacingOccurrences(of: "/#", with: "#")
-                let secret = try await getListOfAllSecrets()
-                    .first { $0.id == secretidsaux }
-                // Fix: Fixes a bug currently happening on didcomm library that is adding a / before the fragment sign
-//                    .map {
-//                        Domain.Secret(
-//                            id: secretid,
-//                            type: $0.type,
-//                            secretMaterial: $0.secretMaterial
-//                        )
-//                    }
-                try cb.success(result: secret.map { DIDCommxSwift.Secret(from: $0) })
-            } catch let error {
-                let mercuryError = MercuryError.didcommError(
-                    msg: "Could not find secret \(secretid)",
-                    underlyingErrors: [error]
-                )
-                logger.error(error: mercuryError)
-            }
+extension DIDCommSwift.Secret {
+    init(from: Domain.Secret) throws {
+        let type: KnownVerificationMaterialType
+        let material: VerificationMaterial
+        let jwkData: Data
+        switch from.secretMaterial {
+        case .jwk(let value):
+            jwkData = try value.tryToData()
         }
-        return .success
-    }
-
-    func findSecrets(
-        secretids: [String],
-        cb: OnFindSecretsResult
-    ) -> ErrorCode {
-        Task {
-            do {
-                // Fixes a bug currently happening on didcomm library that is adding a / before the fragment sign
-                let secretidsaux = secretids.map { $0.replacingOccurrences(of: "/#", with: "#") }
-                let secrets = try await getListOfAllSecrets()
-                    .filter { secretidsaux.contains($0.id) }
-                    .map { $0.id }
-                let secretsSet = Set(secretidsaux)
-                let resultsSet = Set(secrets)
-                let missingSecrets = secretsSet.subtracting(resultsSet)
-                if !missingSecrets.isEmpty {
-                    logger.error(message:
-"""
-Could not find secrets the following secrets: \(missingSecrets.joined(separator: ", "))
-"""
-                    )
-                }
-                try cb.success(result: secretids)
-            } catch {
-                let mercuryError = MercuryError.didcommError(
-                    msg: "Could not find secrets \(secretids.joined(separator: "\n"))",
-                    underlyingErrors: [error]
-                )
-                logger.error(error: mercuryError)
-            }
-        }
-        return .success
-    }
-}
-
-extension DIDCommxSwift.Secret {
-    init(from: Domain.Secret) {
-        let type: SecretType
-        let material: SecretMaterial
-        switch from.type {
-        case .jsonWebKey2020:
-            type = .jsonWebKey2020
+        
+        let jwk = try JSONDecoder().decode(DIDCore.JWK.self, from: jwkData)
+        
+        switch (from.type, jwk.crv?.lowercased()) {
+        case (.jsonWebKey2020, "x25519"):
+            type = .agreement(.jsonWebKey2020)
+        case (.jsonWebKey2020, "ed25519"):
+            type = .authentication(.jsonWebKey2020)
+        default:
+            type = .authentication(.jsonWebKey2020)
         }
 
         switch from.secretMaterial {
         case let .jwk(value):
-            material = .jwk(value: value)
+            material = try .fromJWK(jwk: jwk)
         }
         self.init(
-            id: from.id,
+            kid: from.id,
             type: type,
-            secretMaterial: material
+            verificationMaterial: material
         )
     }
 }

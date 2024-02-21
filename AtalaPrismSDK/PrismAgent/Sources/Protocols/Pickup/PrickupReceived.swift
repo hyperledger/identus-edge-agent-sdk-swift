@@ -21,7 +21,8 @@ struct PickUpReceived {
             piuri: ProtocolTypes.pickupReceived.rawValue,
             from: from,
             to: to,
-            body: body
+            body: body,
+            extraHeaders: ["return_route":"all"]
         )
     }
 }
