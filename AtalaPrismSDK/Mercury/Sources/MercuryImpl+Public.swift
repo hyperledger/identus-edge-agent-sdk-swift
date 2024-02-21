@@ -1,5 +1,5 @@
 import Core
-import DIDCommxSwift
+import DIDCommSwift
 import Domain
 import Foundation
 

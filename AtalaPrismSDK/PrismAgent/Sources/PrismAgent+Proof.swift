@@ -2,7 +2,7 @@ import Core
 import Combine
 import Domain
 import Foundation
-import SwiftJWT
+import JSONWebToken
 
 // MARK: Credentials proof functionalities
 public extension PrismAgent {
@@ -85,7 +85,6 @@ public extension PrismAgent {
                 comment: request.body.comment
             ),
             attachments: [.init(
-                mediaType: "prism/jwt",
                 data: AttachmentBase64(base64: base64String)
             )],
             thid: request.thid,

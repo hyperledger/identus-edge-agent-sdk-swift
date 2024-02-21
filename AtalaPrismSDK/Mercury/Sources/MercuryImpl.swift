@@ -1,6 +1,6 @@
 import Combine
 import Core
-import DIDCommxSwift
+import DIDCommSwift
 import Domain
 import Foundation
 
@@ -23,14 +23,14 @@ public struct MercuryImpl {
         self.castor = castor
     }
 
-    func getDidcomm() -> DidComm {
+    func getDidcomm() -> DIDComm {
         let didResolver = DIDCommDIDResolverWrapper(castor: castor, logger: logger)
         let secretsResolver = DIDCommSecretsResolverWrapper(
             secretsStream: secretsStream,
             castor: castor,
             logger: logger
         )
-        return DidComm(
+        return DIDComm(
             didResolver: didResolver,
             secretResolver: secretsResolver
         )

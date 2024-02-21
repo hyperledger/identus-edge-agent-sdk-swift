@@ -3,6 +3,8 @@ import Foundation
 /// The Key protocol defines a cryptographic key with essential properties.
 /// Each key has a type (e.g., "RSA", "ECC"), a set of specifications, a size, and a raw data representation.
 public protocol Key {
+    /// The key identifier
+    var identifier: String { get set }
 
     /// The type of the key (e.g., "RSA", "ECC")
     var keyType: String { get }

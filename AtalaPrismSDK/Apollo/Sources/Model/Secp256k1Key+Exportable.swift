@@ -11,9 +11,9 @@ extension Secp256k1PrivateKey: ExportableKey {
 
     var jwk: JWK {
         JWK(
-            kty: "OKP",
+            kty: "EC",
             d: raw.base64UrlEncodedString(),
-            crv: getProperty(.curve)?.capitalized,
+            crv: getProperty(.curve)?.lowercased(),
             x: publicKey().getProperty(.curvePointX).flatMap { Data(fromBase64URL: $0)?.base64UrlEncodedString() },
             y: publicKey().getProperty(.curvePointY).flatMap { Data(fromBase64URL: $0)?.base64UrlEncodedString() }
         )
@@ -21,10 +21,10 @@ extension Secp256k1PrivateKey: ExportableKey {
 
     func jwkWithKid(kid: String) -> JWK {
         JWK(
-            kty: "OKP",
+            kty: "EC",
             kid: kid,
             d: raw.base64UrlEncodedString(),
-            crv: getProperty(.curve)?.capitalized,
+            crv: getProperty(.curve)?.lowercased(),
             x: publicKey().getProperty(.curvePointX).flatMap { Data(fromBase64URL: $0)?.base64UrlEncodedString() },
             y: publicKey().getProperty(.curvePointY).flatMap { Data(fromBase64URL: $0)?.base64UrlEncodedString() }
         )
@@ -41,8 +41,8 @@ extension Secp256k1PublicKey: ExportableKey {
 
     var jwk: JWK {
         JWK(
-            kty: "OKP",
-            crv: getProperty(.curve)?.capitalized,
+            kty: "EC",
+            crv: getProperty(.curve)?.lowercased(),
             x: getProperty(.curvePointX)
                 .flatMap { Data(fromBase64URL: $0)?.base64UrlEncodedString() } ?? raw.base64UrlEncodedString(),
             y: getProperty(.curvePointY).flatMap { Data(fromBase64URL: $0)?.base64UrlEncodedString() }
@@ -51,9 +51,9 @@ extension Secp256k1PublicKey: ExportableKey {
 
     func jwkWithKid(kid: String) -> JWK {
         JWK(
-            kty: "OKP",
+            kty: "EC",
             kid: kid,
-            crv: getProperty(.curve)?.capitalized,
+            crv: getProperty(.curve)?.lowercased(),
             x: getProperty(.curvePointX)
                 .flatMap { Data(fromBase64URL: $0)?.base64UrlEncodedString() } ?? raw.base64UrlEncodedString(),
             y: getProperty(.curvePointY).flatMap { Data(fromBase64URL: $0)?.base64UrlEncodedString() }

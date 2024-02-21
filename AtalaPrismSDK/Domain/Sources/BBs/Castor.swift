@@ -21,20 +21,6 @@ public protocol Castor {
         services: [DIDDocument.Service]
     ) throws -> DID
 
-//    /// createPeerDID creates a DID for a peer (a device or server that acts as a DID subject) using given key agreement and authentication key pairs and a list of services. This function may throw an error if the key pairs or services are invalid.
-//    ///
-//    /// - Parameters:
-//    ///   - keyAgreementKeyPair: The key pair used for key agreement (establishing secure communication between peers)
-//    ///   - authenticationKeyPair: The key pair used for authentication (verifying the identity of a peer)
-//    ///   - services: The list of services offered by the peer
-//    /// - Returns: The DID of the peer
-//    /// - Throws: An error if the key pairs or services are invalid
-//    func createPeerDID(
-//        keyAgreementKeyPair: KeyPair,
-//        authenticationKeyPair: KeyPair,
-//        services: [DIDDocument.Service]
-//    ) throws -> DID
-
     /// createPeerDID creates a DID for a peer (a device or server that acts as a DID subject) using given key agreement and authentication key pairs and a list of services. This function may throw an error if the key pairs or services are invalid.
     ///
     /// - Parameters:
@@ -83,15 +69,6 @@ public protocol Castor {
         challenge: Data,
         signature: Data
     ) async throws -> Bool
-
-    /// getEcnumbasis generates a unique ECNUM basis string for a given DID and key pair. This function may throw an error if the DID or key pair are invalid.
-    ///
-    /// - Parameters:
-    ///   - did: The DID associated with the key pair
-    ///   - keyPair: The key pair to use for generating the ECNUM basis
-    /// - Returns: The ECNUM basis string
-    /// - Throws: An error if the DID or key pair are invalid
-    func getEcnumbasis(did: DID, publicKey: PublicKey) throws -> String
 }
 
 extension Castor {

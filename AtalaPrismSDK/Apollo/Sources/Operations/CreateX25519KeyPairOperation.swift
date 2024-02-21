@@ -13,8 +13,11 @@ struct CreateX25519KeyPairOperation {
 
     }
 
-    func compute(fromPrivateKey: Data) throws -> PrivateKey {
+    func compute(identifier: String = UUID().uuidString, fromPrivateKey: Data) throws -> PrivateKey {
         let privateKey = KMMX25519PrivateKey(raw: fromPrivateKey.toKotlinByteArray())
-        return X25519PrivateKey(internalKey: privateKey)
+        return X25519PrivateKey(
+            identifier: identifier,
+            internalKey: privateKey
+        )
     }
 }

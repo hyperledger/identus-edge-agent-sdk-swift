@@ -2,7 +2,7 @@ import Core
 import Combine
 import Domain
 import Foundation
-import SwiftJWT
+import JSONWebToken
 
 // MARK: Verifiable credentials functionalities
 public extension PrismAgent {
