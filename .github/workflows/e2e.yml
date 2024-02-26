@@ -1,0 +1,58 @@
+---
+name: End-to-end
+
+on:
+  push:
+    branches:
+      - main
+      - 'release/**'
+  schedule:
+      - cron: "0 3 * * *"
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    cancel-in-progress: true
+
+jobs:
+  end-to-end:
+    name: build
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+            xcode-version: '15.0.1'
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2.3.0
+        with:
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            known_hosts: github.com
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+      - name: Run tests
+        working-directory: E2E
+        env:
+            GITHUB_ACTOR: ${{ github.actor }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: xcodebuild build test -scheme "e2e-Package" -destination "platform=iOS Simulator,name=IPhone 14" -resultBundlePath e2eTests/Target/TestResults.xcresult -quiet
+      
+      - name: Publish tests results
+        uses: kishikawakatsumi/xcresulttool@v1.7.1
+        with:
+            path: E2E/e2eTests/Target/TestResults.xcresult
+            token: ${{ secrets.GITHUB_TOKEN }}
+            show-code-coverage: true
+        if: success() || failure()
+
+      - name: Publish report
+        uses: actions/upload-artifact@v4
+        with:
+          name: swift-report
+          path: E2E/e2eTests/Target/report.html
+          if-no-files-found: error

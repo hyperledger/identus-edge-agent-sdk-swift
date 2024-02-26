@@ -9,9 +9,9 @@ let package = Package(
     products: [
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-openapi-generator", .upToNextMinor(from: "0.3.4")),
-        .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "0.3.6")),
-        .package(url: "https://github.com/apple/swift-openapi-urlsession", .upToNextMinor(from: "0.3.0")),
+        .package(url: "https://github.com/apple/swift-openapi-generator", .upToNextMinor(from: "1.2.1")),
+        .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "1.3.2")),
+        .package(url: "https://github.com/apple/swift-openapi-urlsession", .upToNextMinor(from: "1.0.1")),
         .package(url: "https://github.com/nschum/SwiftHamcrest", .upToNextMajor(from: "2.2.1")),
         .package(path: "../")
     ],

@@ -189,7 +189,7 @@ class TestConfiguration: ITestConfiguration {
                 case .AFTER_STEP:
                     try! await reporter.afterStep(object as! StepOutcome)
                 case .ACTION:
-                    try! await reporter.action(object as! String)
+                    try! await reporter.action(object as! ActionOutcome)
                 case .AFTER_FEATURES:
                     try! await reporter.afterFeatures(object as! [FeatureOutcome])
                 }

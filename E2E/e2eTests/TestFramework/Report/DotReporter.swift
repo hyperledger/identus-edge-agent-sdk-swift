@@ -16,7 +16,7 @@ class DotReporter: Reporter {
         printDot()
     }
     
-    func action(_ action: String) async throws {
+    func action(_ action: ActionOutcome) async throws {
         printDot()
     }
     
