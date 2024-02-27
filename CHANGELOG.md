@@ -1,3 +1,10 @@
+## [4.0.2](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/4.0.1...4.0.2) (2024-02-27)
+
+
+### Bug Fixes
+
+* schema download optional ([#116](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/issues/116)) ([37655c1](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/37655c1fbc200df88247aeab0ab4209c6d496b32))
+
 # [4.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.6.0...4.0.0) (2024-01-25)
 
 
