@@ -1,5 +1,5 @@
 ---
-name: Build
+name: Build and test
 
 on:
   push:
@@ -11,6 +11,10 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
+
+env:
+  HOMEBREW_NO_AUTO_UPDATE: 1
+  HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
 
 jobs:
   lint:
@@ -34,16 +38,18 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-      - name: Build
+      - name: Install lcov
+        run: brew install lcov
+
+      - name: Build and test
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: xcodebuild build test -scheme "AtalaPRISMSDK-Package" -destination "platform=iOS Simulator,name=IPhone 14" -resultBundlePath TestResults
+        run: build_test.sh
 
-      - name: Publish tests results
-        uses: kishikawakatsumi/xcresulttool@v1.7.1
+      - name: Publish to coveralls
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: coverallsapp/github-action@v2
         with:
-          path: TestResults.xcresult
-          token: ${{ secrets.GITHUB_TOKEN }}
-          show-code-coverage: true
-        if: success() || failure()
+          file: "lcov.info"
