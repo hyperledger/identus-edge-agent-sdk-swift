@@ -2,47 +2,47 @@ import Domain
 import Foundation
 
 extension JWTCredential: StorableCredential {
-    var storingId: String {
+    public var storingId: String {
         jwtString
     }
     
-    var recoveryId: String {
+    public var recoveryId: String {
         "jwt+credential"
     }
     
-    var credentialData: Data {
+    public var credentialData: Data {
         (try? JSONEncoder().encode(self)) ?? Data()
     }
     
-    var queryIssuer: String? {
+    public var queryIssuer: String? {
         issuer
     }
     
-    var querySubject: String? {
+    public var querySubject: String? {
         subject
     }
     
-    var queryCredentialCreated: Date? {
+    public var queryCredentialCreated: Date? {
         nil
     }
     
-    var queryCredentialUpdated: Date? {
+    public var queryCredentialUpdated: Date? {
         nil
     }
     
-    var queryCredentialSchema: String? {
+    public var queryCredentialSchema: String? {
         jwtVerifiableCredential.verifiableCredential.credentialSchema?.id
     }
     
-    var queryValidUntil: Date? {
+    public var queryValidUntil: Date? {
         jwtVerifiableCredential.exp
     }
     
-    var queryRevoked: Bool? {
+    public var queryRevoked: Bool? {
         nil
     }
     
-    var queryAvailableClaims: [String] {
+    public var queryAvailableClaims: [String] {
         claims.map(\.key)
     }
 }

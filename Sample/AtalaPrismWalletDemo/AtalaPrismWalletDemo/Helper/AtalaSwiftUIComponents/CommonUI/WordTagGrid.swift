@@ -78,7 +78,7 @@ struct WordTagsGrid: View {
                     .padding(.trailing)
             }
         }
-        .frame(width: width > 0 ? width : 0, height: 30)
+        .frame(height: 30)
         .background(Color(.red).opacity(0.1))
         .clipShape(Capsule())
     }

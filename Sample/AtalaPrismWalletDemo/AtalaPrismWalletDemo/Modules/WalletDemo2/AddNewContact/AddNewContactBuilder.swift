@@ -1,3 +1,4 @@
+import Domain
 import PrismAgent
 import SwiftUI
 
@@ -11,7 +12,8 @@ struct AddNewContactBuilder: Builder {
         let viewModel = getViewModel(component: component) {
             AddNewContactViewModelImpl(
                 token: component.token ?? "",
-                agent: component.container.resolve(type: PrismAgent.self)!
+                agent: component.container.resolve(type: PrismAgent.self)!,
+                pluto: component.container.resolve(type: Pluto.self)!
             )
         }
         return AddNewContactView<AddNewContactViewModelImpl>(viewModel: viewModel)

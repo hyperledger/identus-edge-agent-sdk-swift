@@ -3,6 +3,42 @@ import Domain
 import Foundation
 
 struct LongFormPrismDIDResolver: DIDResolverDomain {
+    enum KeyType {
+        case master
+        case issuing
+        case authentication
+        case agreement
+        case capabilityDelegation
+        case capabilityInvocation
+        case revocation
+        case unknown
+
+        init(usage: PrismDIDPublicKey.Usage) {
+            switch usage {
+            case .masterKey:
+                self = .master
+            case .issuingKey:
+                self = .issuing
+            case .keyAgreementKey:
+                self = .agreement
+            case .capabilityDelegationKey:
+                self = .capabilityDelegation
+            case .capabilityInvocationKey:
+                self = .capabilityInvocation
+            case .authenticationKey:
+                self = .authentication
+            case .revocationKey:
+                self = .revocation
+            case .unknownKey:
+                self = .unknown
+            }
+        }
+    }
+    struct PublicKeyDecoded {
+        let id: String
+        let keyType: KeyType
+        let method: DIDDocument.VerificationMethod
+    }
     let apollo: Apollo
     let logger: PrismLogger
 
@@ -25,16 +61,21 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
             encodedData: data
         )
 
-        let authenticate = verificationMethods.first.map {
-            DIDDocument.Authentication(urls: [$0.key], verificationMethods: [])
+        let authenticates = verificationMethods.filter { $0.keyType == .authentication }.map {
+            DIDDocument.Authentication(urls: [$0.id], verificationMethods: [])
+        }
+
+        let agreements = verificationMethods.filter { $0.keyType == .authentication }.map {
+            DIDDocument.KeyAgreement(urls: [$0.id], verificationMethods: [])
         }
 
         let servicesProperty = DIDDocument.Services(values: services)
 
-        let verificationMethodsProperty = DIDDocument.VerificationMethods(values: Array(verificationMethods.values))
+        let verificationMethodsProperty = DIDDocument.VerificationMethods(values: verificationMethods.map(\.method))
 
         let properties = [
-            authenticate,
+            authenticates,
+            agreements,
             servicesProperty,
             verificationMethodsProperty
         ].compactMap { $0 as? DIDDocumentCoreProperty }
@@ -49,7 +90,7 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
         did: DID,
         stateHash: String,
         encodedData: Data
-    ) throws -> ([String: DIDDocument.VerificationMethod], [DIDDocument.Service]) {
+    ) throws -> ([PublicKeyDecoded], [DIDDocument.Service]) {
         let verifyEncodedState = encodedData.sha256()
         guard stateHash == verifyEncodedState else { throw CastorError.initialStateOfDIDChanged }
         let operation = try Io_Iohk_Atala_Prism_Protos_AtalaOperation(serializedData: encodedData)
@@ -63,6 +104,7 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
                 throw error
             }
         }
+
         let services = operation.createDid.didData.services.map {
             DIDDocument.Service(
                 id: $0.id,
@@ -70,23 +112,27 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
                 serviceEndpoint: $0.serviceEndpoint.map { .init(uri: $0) }
             )
         }
-        return (publicKeys.reduce(
-            [String: DIDDocument.VerificationMethod]())
-        { partialResult, publicKey in
+
+        let decodedPublicKeys = publicKeys.map {
             let didUrl = DIDUrl(
                 did: did,
-                fragment: publicKey.id
+                fragment: $0.id
             )
 
             let method = DIDDocument.VerificationMethod(
                 id: didUrl,
                 controller: did,
-                type: publicKey.keyData.getProperty(.curve) ?? "",
-                publicKeyMultibase: publicKey.keyData.raw.base64EncodedString()
+                type: $0.keyData.getProperty(.curve) ?? "",
+                publicKeyMultibase: $0.keyData.raw.base64EncodedString()
             )
-            var result = partialResult
-            result[didUrl.string] = method
-            return result
-        }, services)
+
+            return PublicKeyDecoded(
+                id: didUrl.string,
+                keyType: .init(usage: $0.usage),
+                method: method
+            )
+        }
+
+        return (decodedPublicKeys, services)
     }
 }

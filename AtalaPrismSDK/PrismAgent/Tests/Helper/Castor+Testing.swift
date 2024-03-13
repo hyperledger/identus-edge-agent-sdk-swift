@@ -48,4 +48,8 @@ struct CastorStub: Castor {
     func getEcnumbasis(did: Domain.DID, publicKey: PublicKey) throws -> String {
         ""
     }
+
+    func getDIDPublicKeys(did: Domain.DID) async throws -> [Domain.PublicKey] {
+        []
+    }
 }

@@ -73,8 +73,7 @@ extension PolluxImpl {
                 if case .exportableKey = $0 { return true }
                 return false
             }),
-            case let CredentialOperationsOptions.exportableKey(exportableKey) = exportableKeyOption,
-            let pemData = exportableKey.pem.data(using: .utf8)
+            case let CredentialOperationsOptions.exportableKey(exportableKey) = exportableKeyOption
         else {
             throw PolluxError.requiresExportableKeyForOperation(operation: "Create Credential Request")
         }

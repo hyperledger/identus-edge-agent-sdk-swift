@@ -15,6 +15,7 @@ struct CredentialDetailView<ViewModel: CredentialDetailViewModel>: View {
                     Text("Issuer: ")
                         .font(.title2)
                     Text(viewModel.credential.issuer)
+                        .textSelection(.enabled)
                         .lineLimit(3)
                         .truncationMode(.middle)
                 }

@@ -26,18 +26,14 @@ class MediatorViewModelImpl: MediatorViewModel {
 
     private func startAgentWithMediatorDID(did: DID) {
         Task { [weak self] in
-            do {
-                let agent = PrismAgent(mediatorDID: did)
-                try await agent.start()
-                agent.startFetchingMessages()
-                self?.agent = agent
-                startWaitingForConnections()
-                UserDefaults.standard.set(did.string, forKey: "mediatorDID")
-                await MainActor.run { [weak self] in
-                    self?.routeToContactsList = true
-                }
-            } catch {
-                print(error)
+            let agent = PrismAgent(mediatorDID: did)
+            try await agent.start()
+            agent.startFetchingMessages()
+            self?.agent = agent
+            startWaitingForConnections()
+            UserDefaults.standard.set(did.string, forKey: "mediatorDID")
+            await MainActor.run { [weak self] in
+                self?.routeToContactsList = true
             }
         }
     }
