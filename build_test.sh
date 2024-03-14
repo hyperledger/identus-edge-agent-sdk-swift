@@ -26,7 +26,7 @@ xcodebuild -scheme "AtalaPRISMSDK-Package" \
     -destination "$DESTINATION" \
     -derivedDataPath "$DERIVED_DATA_DIR" \
     -enableCodeCoverage YES \
-    -quiet clean build test
+    clean build test | xcpretty
 echo "Execution completed"
 
 # Find profdata
