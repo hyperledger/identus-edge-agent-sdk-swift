@@ -71,7 +71,6 @@ class EdgeAgentWorkflow {
             ability: Sdk.self,
             action: "send a message"
         ).prismAgent.sendMessage(message: requestCredential)
-        
     }
     
     static func waitToReceiveIssuedCredentials(edgeAgent: Actor, numberOfCredentials: Int) async throws {
@@ -129,9 +128,13 @@ class EdgeAgentWorkflow {
             ability: Sdk.self,
             action: "make message"
         ).prismAgent.createPresentationForRequestProof(request: requestPresentationMessage, credential: credential!).makeMessage()
-        _ = try await edgeAgent.using(
-            ability: Sdk.self,
-            action: "send message"
-        ).prismAgent.sendMessage(message: sendProofMessage)
+        do {
+            _ = try await edgeAgent.using(
+                ability: Sdk.self,
+                action: "send message"
+            ).prismAgent.sendMessage(message: sendProofMessage)
+        } catch {
+            print("error", error)
+        }
     }
 }

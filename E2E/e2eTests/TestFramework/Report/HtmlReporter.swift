@@ -9,7 +9,7 @@ class HtmlReporter: Reporter {
     private var currentStep: ConcreteStep? = nil
     private var currentId: String? = nil
     
-    private var actions: [String: [String]] = [:]
+    private var actions: [String: [ActionOutcome]] = [:]
     
     func beforeFeature(_ feature: Feature) async throws {
         currentFeature = feature
@@ -24,7 +24,7 @@ class HtmlReporter: Reporter {
         currentId = currentFeature!.id + currentScenario!.id + step.id
     }
     
-    func action(_ action: String) async throws {
+    func action(_ action: ActionOutcome) async throws {
         if (actions[currentId!] == nil) {
             actions[currentId!] = []
         }
@@ -44,45 +44,87 @@ class HtmlReporter: Reporter {
     }
     
     func afterFeatures(_ featuresOutcome: [FeatureOutcome]) async throws {
-
-        var summary = ""
-        summary.append("Executed \(featuresOutcome.count) features\n")
-        
+        let htmlReport: HtmlReport = HtmlReport()
         for featureOutcome in featuresOutcome {
-            summary.append("  Feature: \(featureOutcome.feature.title())\n")
+            let featureReport = FeatureReport()
+            featureReport.name = featureOutcome.feature.title()
+            htmlReport.data.append(featureReport)
             
             for scenarioOutcome in featureOutcome.scenarios {
-                summary.append("    Scenario: \(scenarioOutcome.scenario.title)\n")
+                let scenarioReport = ScenarioReport()
+                scenarioReport.name = scenarioOutcome.scenario.title
+                featureReport.scenarios.append(scenarioReport)
                 
                 for stepOutcome in scenarioOutcome.steps {
-                    if (stepOutcome.error != nil) {
-                        summary.append("      \(fail) \(stepOutcome.step.action)\n")
-                    } else {
-                        summary.append("      \(pass) \(stepOutcome.step.action)\n")
-                    }
+                    let stepReport = StepReport()
+                    stepReport.name = stepOutcome.step.action
+                    scenarioReport.steps.append(stepReport)
+                    
                     let stepId = featureOutcome.feature.id + scenarioOutcome.scenario.id + stepOutcome.step.id
                     if let stepActions = actions[stepId] {
-                        for action in stepActions {
-                            summary.append("            \(action)\n")
+                        for actionOutcome in stepActions {
+                            let actionReport = ActionReport()
+                            actionReport.action = actionOutcome.action
+                            actionReport.passed = actionOutcome.error == nil
+                            actionReport.executed = actionOutcome.executed
+                            stepReport.actions.append(actionReport)
+                            if(actionOutcome.error != nil) {
+                                break
+                            }
                         }
                     }
                     if (stepOutcome.error != nil) {
-                        summary.append("           caused by: \(String(describing: scenarioOutcome.failedStep!.error!))\n")
+                        scenarioReport.passed = false
+                        stepReport.passed = false
+                        stepReport.error = String(describing: scenarioOutcome.failedStep!.error!)
+                        break
                     }
                 }
                 
                 if (scenarioOutcome.failedStep != nil) {
-                    summary.append("    Status: FAILED\n")
-                } else {
-                    summary.append("    Status: SUCCESS\n")
+                    featureReport.passed = false
                 }
-                
-                summary.append("\n")
-                
             }
         }
         
-        let outputPath = TestConfiguration.shared().targetDirectory().appendingPathComponent("result.txt")
-        try summary.write(to: outputPath, atomically: true, encoding: .utf8)
+        let data = try JSONEncoder().encode(htmlReport.data)
+        
+        if let path = Bundle.module.path(forResource: "html_report", ofType: "html", inDirectory: "Resources") {
+            if let htmlTemplateData = try? Data(contentsOf: URL(fileURLWithPath: path)) {
+                let htmlTemplate = try htmlTemplateData.toString()
+                let report = htmlTemplate.replacingOccurrences(of: "{{data}}", with: try data.toString())
+                let outputPath = TestConfiguration.shared().targetDirectory().appendingPathComponent("report.html")
+                try report.write(to: outputPath, atomically: true, encoding: .utf8)
+            }
+        }
     }
+}
+
+private class HtmlReport: Codable {
+    var data: [FeatureReport] = []
+}
+
+private class FeatureReport: Codable {
+    var name: String = ""
+    var passed: Bool = true
+    var scenarios: [ScenarioReport] = []
+}
+
+private class ScenarioReport: Codable {
+    var name: String = ""
+    var passed: Bool = true
+    var steps: [StepReport] = []
+}
+
+private class StepReport: Codable {
+    var name: String = ""
+    var passed: Bool = true
+    var error: String? = nil
+    var actions: [ActionReport] = []
+}
+
+private class ActionReport: Codable {
+    var action: String = ""
+    var passed: Bool = true
+    var executed: Bool = false
 }

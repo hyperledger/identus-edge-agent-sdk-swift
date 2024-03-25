@@ -18,8 +18,8 @@ class ConsoleReporter: Reporter {
     func beforeStep(_ step: ConcreteStep) async throws {
     }
     
-    func action(_ action: String) async throws {
-        actions.append(action)
+    func action(_ action: ActionOutcome) async throws {
+        actions.append(action.action)
     }
     
     func afterStep(_ stepOutcome: StepOutcome) async throws {

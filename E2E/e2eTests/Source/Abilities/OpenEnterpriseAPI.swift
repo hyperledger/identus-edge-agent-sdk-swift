@@ -242,7 +242,7 @@ class OpenEnterpriseAPI: Ability {
                 version: "1.0.0",
                 tag: "automation-test",
                 author: issuerId,
-                schemaId: "\(Config.agentUrl)/schema-registry/schemas/\(anoncredSchemaGuid)",
+                schemaId: "\(Config.agentUrl)/schema-registry/schemas/\(anoncredSchemaGuid)/schema",
                 signatureType: "CL",
                 supportRevocation: true
             )
