@@ -60,7 +60,7 @@ let package = Package(
         .package(url: "https://github.com/beatt83/jose-swift.git", from: "1.2.1"),
         .package(url: "https://github.com/beatt83/peerdid-swift.git", from: "2.0.2"),
         .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.4.1"),
-        .package(url: "https://github.com/input-output-hk/atala-prism-apollo.git", exact: "1.2.10"),
+        .package(url: "https://github.com/input-output-hk/atala-prism-apollo.git", exact: "1.2.13"),
     ],
     targets: [
         .target(
