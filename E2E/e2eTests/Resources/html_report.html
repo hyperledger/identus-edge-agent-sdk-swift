@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swift E2E Report</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            margin: 0px;
+            padding: 5px;
+        }
+
+        h4 {
+            margin: 0px;
+            padding: 5px;
+        }
+
+        .feature-passed {
+            background-color: #d9fcd9;
+            border: 1px solid #4CAF50;
+        }
+
+        .feature-passed h3 {
+            color: #4CAF50;
+        }
+
+        .feature-failed {
+            background-color: #fcd9d9;
+            border: 1px solid #f44336;
+        }
+
+        .feature-failed h3 {
+            color: #f44336;
+        }
+
+        .scenario-passed {
+            border: 1px solid #4CAF50;
+        }
+
+        .scenario-passed h4 {
+            color: #4CAF50
+        }
+
+        .scenario-failed {
+            border: 1px solid #f44336;
+        }
+
+        .scenario-failed h4 {
+            color: #f44336
+        }
+
+        .steps-block {
+            padding-right: 20px;
+            padding-left: 20px;
+            padding-bottom: 20px;
+        }
+
+        .step-passed {
+            color: green;
+        }
+
+        .step-failed {
+            color: #f44336;
+        }
+
+        .action {
+            padding-left: 35px;
+        }
+
+        .action-passed {
+            color: green;
+        }
+
+        .action-failed {
+            color: #f44336;
+        }
+
+        .action-pending {
+            color: grey
+        }
+
+        .test-container {
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            transition: box-shadow 0.3s, background-color 0.3s;
+        }
+
+        .test-container:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        canvas {
+            max-width: 300px;
+            height: 200px;
+            /* Set the desired height here */
+            margin: 20px auto;
+            display: block;
+        }
+
+        .expandable {
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .expandable .scenario {
+            border-left: 0px;
+            border-top: 0px;
+            border-right: 0px;
+        }
+
+        .expandable:hover {
+            background-color: #f0f0f0;
+        }
+
+        .charts {
+            display: flex
+        }
+
+        .charts span {
+            display: inherit;
+            flex-direction: column;
+            width: 50%;
+        }
+
+        .fas {
+            padding-right: 5px;
+        }
+
+        .stacktrace {
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Canvas for the pie chart -->
+    <div class="charts">
+        <span>
+            <h3>Features</h3>
+            <canvas id="featuresChart"></canvas>
+        </span>
+        <span>
+            <h3>Scenarios</h3>
+            <canvas id="scenariosChart"></canvas>
+        </span>
+    </div>
+
+
+    <!-- Container to display the test report -->
+    <div id="testReport"></div>
+
+    <script>
+        // Your data structure with pass/fail information
+        var testData = {{data}}
+
+        // Function to generate the HTML report and pie chart
+        function generateReport(data) {
+            var reportHTML = '<h2>Test Report</h2>';
+
+            // Count of passed and failed features
+            var passedFeatures = 0;
+            var failedFeatures = 0;
+
+            var passedScenarios = 0;
+            var failedScenarios = 0;
+
+            Object.keys(data).forEach((key) => {
+                let feature = data[key]
+                var featureClass = feature.passed ? 'feature-passed' : 'feature-failed';
+
+                reportHTML += `<div onclick="toggleFeature(this, event)" class="test-container ${featureClass} expandable">`;
+                    reportHTML += `<h3>${feature.name} (${Object.keys(feature.scenarios).length})</h3>`;
+                    reportHTML += '<div style="display: none;">';
+                        if (feature.passed) {
+                            passedFeatures++;
+                        } else {
+                            failedFeatures++;
+                        }
+
+                        Object.keys(feature.scenarios).forEach((key) => {
+                            let scenario = feature.scenarios[key]
+                            scenario.passed ? passedScenarios++ : failedScenarios++
+                            var scenarioClass = scenario.passed ? 'scenario-passed' : 'scenario-failed';
+
+                            reportHTML += `<div onclick="toggleScenario(this, event)" class="${scenarioClass} scenario expandable">`
+                                reportHTML += `<h4>${scenario.name}</h4>`;
+
+                                reportHTML += '<div class="steps-block" style="display: none;">';
+                                Object.keys(scenario.steps).forEach((key) => {
+                                    let step = scenario.steps[key]
+                                    var stepClass = step.passed ? 'step-passed' : 'step-failed';
+                                    var icon = step.passed ? 'fa-check' : 'fa-times';
+                                    var error = step.error
+
+                                    reportHTML += `<div class="${stepClass}"><i class="fas ${icon}"></i>${step.name}`;
+                                        step.actions.forEach(function (action, index, arr) {
+                                            let actionClass = action.executed ? (action.passed ? "action-passed": "action-failed") : "action-pending";
+                                            reportHTML += `<div class="action ${actionClass}">${action.action}</div>`;
+                                        });
+                                        if (error) {
+                                            reportHTML += `<div class="stacktrace">${error}</div>`
+                                        }
+                                    reportHTML += '</div>'
+                                })
+                            reportHTML += '</div></div>';
+                        })
+                    reportHTML += '</div>';
+                reportHTML += '</div></div>';
+            })
+
+            // Display the generated report in the container
+            document.getElementById('testReport').innerHTML = reportHTML;
+
+            // Generate the pie chart
+            generateFeaturesChart(passedFeatures, failedFeatures);
+            generateScenariosChart(passedScenarios, failedScenarios);
+        }
+
+        // Toggle visibility of feature scenarios
+        function toggleFeature(element, event) {
+            event.stopPropagation()
+            var featureContainer = element;
+            var featureScenarios = featureContainer.querySelector('div');
+            featureScenarios.style.display = (featureScenarios.style.display === 'none' || featureScenarios.style.display === '') ? 'block' : 'none';
+            featureScenarios.style.height = (featureScenarios.style.height === '0px' || featureScenarios.style.height === '') ? 'auto' : '0px';
+        }
+
+        // Toggle visibility of scenario steps
+        function toggleScenario(element, event) {
+            event.stopPropagation()
+            var scenarioContainer = element;
+            var scenarioSteps = scenarioContainer.querySelector('div');
+            scenarioSteps.style.display = (scenarioSteps.style.display === 'none' || scenarioSteps.style.display === '') ? 'block' : 'none';
+            scenarioSteps.style.height = (scenarioSteps.style.height === '0px' || scenarioSteps.style.height === '') ? 'auto' : '0px';
+            
+        }
+
+        // Function to generate the pie chart
+        function generateFeaturesChart(passedFeatures, failedFeatures) {
+            var ctx = document.getElementById('featuresChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Passed', 'Failed'],
+                    datasets: [{
+                        data: [passedFeatures, failedFeatures],
+                        backgroundColor: ['#4CAF50', '#f44336'], // Green for passed, red for failed
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+
+        function generateScenariosChart(passedScenarios, failedScenarios) {
+            var ctx = document.getElementById('scenariosChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Passed', 'Failed'],
+                    datasets: [{
+                        data: [passedScenarios, failedScenarios],
+                        backgroundColor: ['#4CAF50', '#f44336'], // Green for passed, red for failed
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+
+        // Call the function with your test data
+        generateReport(testData);
+    </script>
+
+</body>
+
+</html>

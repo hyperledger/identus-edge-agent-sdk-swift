@@ -62,7 +62,7 @@ class Sdk: Ability {
             ).build()
             
             PrismAgent.setupLogging(logLevels: [
-                .prismAgent: .warning
+                .prismAgent: .info
             ])
             
             prismAgent = PrismAgent(
@@ -153,56 +153,44 @@ class Sdk: Ability {
             pluto: Pluto,
             castor: Castor
         ) -> AnyPublisher<[Secret], Error> {
-            pluto.getAllPeerDIDs()
+            pluto.getAllKeys()
                 .first()
-                .flatMap { array in
+                .flatMap { keys in
                     Future {
-                        try await array.asyncMap { did, privateKeys, _ in
-                            let privateKeys = try await privateKeys.asyncMap {
-                                try await keyRestoration.restorePrivateKey($0)
-                            }
-                            let secrets = try parsePrivateKeys(
-                                did: did,
-                                privateKeys: privateKeys,
-                                castor: castor
-                            )
-
-                            return secrets
-                        }
+                        let privateKeys = await keys.asyncMap {
+                            try? await keyRestoration.restorePrivateKey($0)
+                        }.compactMap { $0 }
+                        return try parsePrivateKeys(
+                            privateKeys: privateKeys,
+                            castor: castor
+                        )
                     }
                 }
-                .map {
-                    $0.compactMap {
-                        $0
-                    }.flatMap {
-                        $0
-                    } }
                 .eraseToAnyPublisher()
         }
         
         static private func parsePrivateKeys(
-            did: DID,
             privateKeys: [PrivateKey],
             castor: Castor
         ) throws -> [Domain.Secret] {
             return try privateKeys
-                .map { $0 as? (PrivateKey & ExportableKey) }
+                .map { $0 as? (PrivateKey & ExportableKey & StorableKey) }
                 .compactMap { $0 }
                 .map { privateKey in
-                let ecnumbasis = try castor.getEcnumbasis(did: did, publicKey: privateKey.publicKey())
-                return (did, privateKey, ecnumbasis)
+                    return privateKey
             }
-            .map { did, privateKey, ecnumbasis in
+            .map { privateKey in
                 try parseToSecret(
-                    did: did,
                     privateKey: privateKey,
-                    ecnumbasis: ecnumbasis
+                    identifier: privateKey.identifier
                 )
             }
         }
         
-        static private func parseToSecret(did: DID, privateKey: PrivateKey & ExportableKey, ecnumbasis: String) throws -> Domain.Secret {
-            let id = did.string + "#" + ecnumbasis
+        static private func parseToSecret(
+            privateKey: PrivateKey & ExportableKey,
+            identifier: String
+        ) throws -> Domain.Secret {
             let jwk = privateKey.jwk
             guard
                 let dataJson = try? JSONEncoder().encode(jwk),
@@ -211,7 +199,7 @@ class Sdk: Ability {
                 throw CommonError.invalidCoding(message: "Could not encode privateKey.jwk")
             }
             return .init(
-                id: id,
+                id: identifier,
                 type: .jsonWebKey2020,
                 secretMaterial: .jwk(value: stringJson)
             )

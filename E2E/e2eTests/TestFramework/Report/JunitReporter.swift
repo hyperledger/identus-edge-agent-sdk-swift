@@ -65,7 +65,7 @@ class JunitReporter: Reporter {
     func beforeStep(_ step: ConcreteStep) async throws {
     }
     
-    func action(_ action: String) async throws {
+    func action(_ action: ActionOutcome) async throws {
     }
     
     func afterStep(_ stepOutcome: StepOutcome) async throws {

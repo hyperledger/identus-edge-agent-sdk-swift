@@ -35,37 +35,73 @@ class Actor {
     func using<T : Ability>(ability: T.Type,
                             action: String // = "executes an action"
     ) throws -> T.AbilityInstanceType {
-        if !abilities.contains(where: { $0.key == String(describing: ability.self) }) {
-            throw ActorError.CantUseAbility("Actor [\(name)] don't have the ability to use [\(ability.self)]")
+        let dummy = ability.init(self)
+        return try execute("\(name) \(action) using \(dummy.abilityName)") {
+            if !abilities.contains(where: { $0.key == String(describing: ability.self) }) {
+                throw ActorError.CantUseAbility("Actor [\(name)] don't have the ability to use [\(ability.self)]")
+            }
+            let ability = getAbility(ability)
+            return ability.instance()
         }
-        let ability = getAbility(ability)
-        TestConfiguration.shared().report(.ACTION, "\(name) \(action) using \(ability.abilityName)")
-        return ability.instance()
     }
     
     func waitUsingAbility<T: Ability>(ability: T.Type,
                                       action: String, // = "an expectation is met",
                                       callback: (_ ability: T.AbilityInstanceType) async throws -> Bool
     ) async throws {
-        let ability = getAbility(ability)
-        TestConfiguration.shared().report(.ACTION, "\(name) waits until \(action) using \(ability.abilityName)")
-        return try await Wait.until {
-            try await callback(ability.instance())
+        let dummy = ability.init(self)
+        return try await execute("\(name) waits until \(action) using \(dummy.abilityName)") {
+            let ability = getAbility(ability)
+            return try await Wait.until {
+                try await callback(ability.instance())
+            }
         }
+
     }
 
     func remember(key: String, value: Any) throws {
-        TestConfiguration.shared().report(.ACTION, "\(name) remembers [\(key)]")
-        context[key] = value
+        return execute("\(name) remembers [\(key)]") {
+            context[key] = value
+        }
     }
     
     func recall<T>(key: String) throws -> T {
-        TestConfiguration.shared().report(.ACTION, "\(name) recalls [\(key)]")
-        XCTAssert(context[key] != nil, "Unable to recall [\(key)] all I know is \(context.keys)")
-        if (context[key] == nil) {
-            throw ActorError.CantFindNote("\(name) don't have any note named [\(key)]")
+        return try execute("\(name) recalls [\(key)]") {
+            if (context[key] == nil) {
+                throw ActorError.CantFindNote("\(name) don't have any note named [\(key)]")
+            }
+            return context[key] as! T
         }
-        return context[key] as! T
+    }
+    
+    private func execute<T>(_ message: String, _ closure: () async throws -> T) async rethrows -> T {
+        let actionOutcome = ActionOutcome()
+        actionOutcome.action = message
+        do {
+            let result = try await closure()
+            actionOutcome.executed = true
+            TestConfiguration.shared().report(.ACTION, actionOutcome)
+            return result
+        } catch {
+            actionOutcome.error = error
+            TestConfiguration.shared().report(.ACTION, actionOutcome)
+            throw error
+        }
+    }
+    
+    private func execute<T>(_ message: String, _ closure: () throws -> T) rethrows -> T {
+        let actionOutcome = ActionOutcome()
+        actionOutcome.action = message
+        do {
+            let result = try closure()
+            actionOutcome.executed = true
+            TestConfiguration.shared().report(.ACTION, actionOutcome)
+            return result
+        } catch {
+            actionOutcome.error = error
+            TestConfiguration.shared().report(.ACTION, actionOutcome)
+            throw error
+        }
     }
     
     /// Here we could add attempsTo where actor can run actions, wait, etc

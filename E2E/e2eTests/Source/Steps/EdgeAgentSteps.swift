@@ -1,8 +1,5 @@
 import Foundation
 
-enum Riri: Error {
-    case Riri(message: String)
-}
 class EdgeAgentSteps: Steps {
     @Step("{actor} sends the present-proof")
     var edgeAgentSendsThePresentProof = { (edgeAgent: Actor) in
@@ -17,7 +14,6 @@ class EdgeAgentSteps: Steps {
     
     @Step("{actor} accepts {int} credential offer sequentially from {actor}")
     var edgeAgentAcceptsCredentialsOfferSequentiallyFromCloudAgent = { (edgeAgent: Actor, numberOfCredentials: Int, cloudAgent: Actor) in
-//        throw TestFramework.Failure.parameterTypeNotFound
         var recordIdList: [String] = []
         for _ in 0..<numberOfCredentials {
             try await CloudAgentWorkflow.offersACredential(cloudAgent: cloudAgent)
