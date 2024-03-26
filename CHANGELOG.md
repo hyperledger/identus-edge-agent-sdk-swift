@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/5.0.1...5.0.2) (2024-03-26)
+
+
+### Bug Fixes
+
+* update apollo that has an important fix for app publishing ([#128](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/issues/128)) ([5e9eee9](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/5e9eee9c8eafbe3956ae238d30ddb1bc2ee14a4a))
+
 # [4.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.6.0...4.0.0) (2024-01-25)
 
 
