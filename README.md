@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/input-output-hk/atala-prism-wallet-sdk-swift/badge.svg?branch=main)](https://coveralls.io/github/input-output-hk/atala-prism-wallet-sdk-swift?branch=main)
+
 # Welcome to Atala PRISM Swift SDK
 
 The following will explain how to use the SDK in your project, how to prepare your development environment if you wish to contribute and some basic considerations around the project.
