@@ -58,9 +58,9 @@ jobs:
             <key>MEDIATOR_OOB_URL</key>
             <string>${{env.MEDIATOR_OOB_URL}}</string>
             <key>PRISM_AGENT_URL</key>
-            <string>$${{env.PRISM_AGENT_URL}}</string>
+            <string>${{env.PRISM_AGENT_URL}}</string>
             <key>APIKEY</key>
-            <string>$${{env.APIKEY}}</string>
+            <string>${{env.APIKEY}}</string>
             <key>PUBLISHED_DID</key>
             <string>${{env.PUBLISHED_DID}}</string>
             <key>JWT_SCHEMA_GUID</key>
