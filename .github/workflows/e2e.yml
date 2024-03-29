@@ -19,6 +19,11 @@ jobs:
     runs-on: macos-13
 
     steps:
+      - name: Mask apikey
+        env:
+          APIKEY: ${{ inputs.apiKey || secrets.APIKEY }}
+        run: echo "::add-mask::${{env.APIKEY}}"
+
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -34,6 +39,37 @@ jobs:
 
       - name: Adding Known Hosts
         run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+      - name: Create properties file
+        working-directory: E2E/e2eTests/Resources
+        env:
+          MEDIATOR_OOB_URL: ${{ inputs.mediatorOobUrl || vars.MEDIATOR_OOB_URL }}
+          PRISM_AGENT_URL: ${{ inputs.prismAgentUrl || vars.PRISM_AGENT_URL }}
+          PUBLISHED_DID: ${{ inputs.publishedDid || vars.PUBLISHED_DID }}
+          JWT_SCHEMA_GUID: ${{ inputs.jwtSchemaGuid || vars.JWT_SCHEMA_GUID }}
+          ANONCRED_DEFINITION_GUID: ${{ inputs.anoncredDefinitionGuid || vars.ANONCRED_DEFINITION_GUID }}
+          APIKEY: ${{ inputs.apiKey || secrets.APIKEY }}
+        run: |
+          cat <<EOL > properties.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>MEDIATOR_OOB_URL</key>
+            <string>${{env.MEDIATOR_OOB_URL}}</string>
+            <key>PRISM_AGENT_URL</key>
+            <string>$${{env.PRISM_AGENT_URL}}</string>
+            <key>APIKEY</key>
+            <string>$${{env.APIKEY}}</string>
+            <key>PUBLISHED_DID</key>
+            <string>${{env.PUBLISHED_DID}}</string>
+            <key>JWT_SCHEMA_GUID</key>
+            <string>${{env.JWT_SCHEMA_GUID}}</string>
+            <key>ANONCRED_DEFINITION_GUID</key>
+            <string>${{env.ANONCRED_DEFINITION_GUID}}</string>
+          </dict>
+          </plist>
+          EOL
 
       - name: Run tests
         working-directory: E2E
