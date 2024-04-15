@@ -111,7 +111,7 @@ public class PrismAgent {
             castor: castor,
             secretsStream: secretsStream
         ).build()
-        
+
         let seed = seedData.map { Seed(value: $0) } ?? apollo.createRandomSeed().seed
         self.init(
             apollo: apollo,
@@ -193,7 +193,7 @@ public class PrismAgent {
          state = .stoped
          logger.info(message: "Agent not running")
      }
-    
+
     private func firstLinkSecretSetup() async throws {
         if try await pluto.getLinkSecret().first().await() == nil {
             let secret = try apollo.createNewLinkSecret()
