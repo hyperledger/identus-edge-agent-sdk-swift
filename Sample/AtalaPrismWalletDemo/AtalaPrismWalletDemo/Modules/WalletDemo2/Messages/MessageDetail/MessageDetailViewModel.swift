@@ -77,6 +77,8 @@ final class MessageDetailViewModelImpl: MessageDetailViewModel {
         Task.detached { [weak self] in
             do {
                 switch msgType {
+                case .didcommPresentation:
+                    let presentation = try Presentation(fromMessage: message)
                 case .didcommRequestPresentation:
                     let credential = try await agent.verifiableCredentials().map { $0.first }.first().await()
                     guard let credential else {

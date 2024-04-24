@@ -1,3 +1,4 @@
+import Core
 import Domain
 import Foundation
 
@@ -17,7 +18,7 @@ struct JWTPayload {
         let context: Set<String>
         let type: Set<String>
         let credentialSchema: VerifiableCredentialTypeContainer?
-        let credentialSubject: [String: String]
+        let credentialSubject: AnyCodable
         let credentialStatus: VerifiableCredentialTypeContainer?
         let refreshService: VerifiableCredentialTypeContainer?
         let evidence: VerifiableCredentialTypeContainer?
@@ -40,7 +41,7 @@ struct JWTPayload {
             context: Set<String> = Set(),
             type: Set<String> = Set(),
             credentialSchema: VerifiableCredentialTypeContainer? = nil,
-            credentialSubject: [String: String],
+            credentialSubject: AnyCodable,
             credentialStatus: VerifiableCredentialTypeContainer? = nil,
             refreshService: VerifiableCredentialTypeContainer? = nil,
             evidence: VerifiableCredentialTypeContainer? = nil,
@@ -60,7 +61,7 @@ struct JWTPayload {
     let iss: DID
     let sub: String?
     let verifiableCredential: JWTVerfiableCredential
-    let nbf: Date
+    let nbf: Date?
     let exp: Date?
     let jti: String
     let aud: Set<String>
@@ -82,7 +83,7 @@ struct JWTPayload {
         iss: DID,
         sub: String? = nil,
         verifiableCredential: JWTVerfiableCredential,
-        nbf: Date,
+        nbf: Date?,
         exp: Date? = nil,
         jti: String,
         aud: Set<String> = Set(),
@@ -97,5 +98,4 @@ struct JWTPayload {
         self.aud = aud
         self.originalJWTString = originalJWTString
     }
-
 }

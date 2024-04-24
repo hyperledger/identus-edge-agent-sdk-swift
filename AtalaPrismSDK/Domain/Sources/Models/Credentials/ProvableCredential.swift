@@ -10,6 +10,15 @@ public protocol ProvableCredential {
     /// - Returns: The proof as a `String`.
     /// - Throws: If there is an error creating the proof.
     func presentation(request: Message, options: [CredentialOperationsOptions]) throws -> String
+
+    /// Validates if the credential can be used for the given presentation request, using the specified options.
+    ///
+    /// - Parameters:
+    ///   - request: The presentation request message to be validated against.
+    ///   - options: Options that may influence the validation process.
+    /// - Returns: A Boolean indicating whether the credential is valid for the presentation (`true`) or not (`false`).
+    /// - Throws: If there is an error during the validation process.
+    func isValidForPresentation(request: Message, options: [CredentialOperationsOptions]) throws -> Bool
 }
 
 public extension Credential {

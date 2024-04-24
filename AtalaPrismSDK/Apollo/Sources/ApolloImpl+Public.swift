@@ -58,10 +58,9 @@ extension ApolloImpl: Apollo {
             switch curve {
             case .secp256k1:
                 if
-                    let keyData = parameters[KeyProperties.rawKey.rawValue].flatMap({ Data(base64Encoded: $0) }),
-                    let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue]
+                    let keyData = parameters[KeyProperties.rawKey.rawValue].flatMap({ Data(base64Encoded: $0) })
                 {
-                    let derivationPath = try DerivationPath(string: derivationPathStr)
+                    let derivationPath = try parameters[KeyProperties.derivationPath.rawValue].map { try DerivationPath(string: $0) } ?? DerivationPath(index:0)
                     return Secp256k1PrivateKey(raw: keyData, derivationPath: derivationPath)
                 } else {
                     guard

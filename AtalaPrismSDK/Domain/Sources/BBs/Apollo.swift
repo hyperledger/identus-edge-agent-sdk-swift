@@ -36,5 +36,9 @@ public protocol Apollo {
     /// - Throws: An error if the private key could not be created. The specific error will depend on the underlying key creation process.
     func createPublicKey(parameters: [String: String]) throws -> PublicKey
 
+    /// Creates a new link secret, which is used in anoncreds processes.
+    ///
+    /// - Returns: A newly generated link secret as `Key`.
+    /// - Throws: An error if the key generation fails.
     func createNewLinkSecret() throws -> Key
 }

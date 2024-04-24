@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FuncionalitiesList: View {
     @State var presentWallet2 = false
+    @State var presentVerifier = false
     var body: some View {
         NavigationStack {
             List {
@@ -15,10 +16,18 @@ struct FuncionalitiesList: View {
                 } label: {
                     Text("Wallet Demo")
                 }
+                Button {
+                    self.presentVerifier = true
+                } label: {
+                    Text("Verifier")
+                }
             }
             .buttonStyle(.plain)
             .fullScreenCover(isPresented: $presentWallet2) {
                 Main2View(router: Main2RouterImpl())
+            }
+            .fullScreenCover(isPresented: $presentVerifier) {
+                MainVerifierView(router: MainVerifierRouterImpl())
             }
         }
     }

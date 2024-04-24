@@ -21,6 +21,18 @@
 		EE38135C2938D5B100A3A710 /* Pluto in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135B2938D5B100A3A710 /* Pluto */; };
 		EE38135E2938D5B100A3A710 /* Pollux in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135D2938D5B100A3A710 /* Pollux */; };
 		EE3813602938D5B100A3A710 /* PrismAgent in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135F2938D5B100A3A710 /* PrismAgent */; };
+		EE418AEC2BCFD926008766A6 /* PresentationDetailViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418ADD2BCFD925008766A6 /* PresentationDetailViewState.swift */; };
+		EE418AED2BCFD926008766A6 /* PresentationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418ADE2BCFD925008766A6 /* PresentationDetailViewModel.swift */; };
+		EE418AEE2BCFD926008766A6 /* PresentationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418ADF2BCFD925008766A6 /* PresentationDetailView.swift */; };
+		EE418AEF2BCFD926008766A6 /* PresentationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418AE12BCFD925008766A6 /* PresentationsView.swift */; };
+		EE418AF02BCFD926008766A6 /* PresentationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418AE22BCFD925008766A6 /* PresentationsViewModel.swift */; };
+		EE418AF12BCFD926008766A6 /* PresentationsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418AE32BCFD925008766A6 /* PresentationsRouter.swift */; };
+		EE418AF22BCFD926008766A6 /* PresentationsViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418AE42BCFD925008766A6 /* PresentationsViewState.swift */; };
+		EE418AF32BCFD926008766A6 /* MainVerifierRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418AE62BCFD925008766A6 /* MainVerifierRouter.swift */; };
+		EE418AF42BCFD926008766A6 /* MainVerifierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418AE72BCFD925008766A6 /* MainVerifierView.swift */; };
+		EE418AF52BCFD926008766A6 /* CreatePresentationViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418AE92BCFD925008766A6 /* CreatePresentationViewState.swift */; };
+		EE418AF62BCFD926008766A6 /* CreatePresentationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418AEA2BCFD925008766A6 /* CreatePresentationViewModel.swift */; };
+		EE418AF72BCFD926008766A6 /* CreatePresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418AEB2BCFD925008766A6 /* CreatePresentationView.swift */; };
 		EE549F472ACC1F5E0038ED1D /* CredentialDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE549F462ACC1F5E0038ED1D /* CredentialDetailView.swift */; };
 		EE549F492ACC1F7D0038ED1D /* CredentialDetailViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE549F482ACC1F7D0038ED1D /* CredentialDetailViewState.swift */; };
 		EE6C38DC294626E1006CD2D3 /* String+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38DB294626E1006CD2D3 /* String+extensions.swift */; };
@@ -135,6 +147,18 @@
 		EE0E1FB029473B10003CD7D5 /* SteradianRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SteradianRegular.otf; sourceTree = "<group>"; };
 		EE2D40962ACC470100CF9446 /* CredentialDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialDetailViewModel.swift; sourceTree = "<group>"; };
 		EE38134E2938D55D00A3A710 /* atala-prism-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "atala-prism-swift-sdk"; path = ../..; sourceTree = "<group>"; };
+		EE418ADD2BCFD925008766A6 /* PresentationDetailViewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationDetailViewState.swift; sourceTree = "<group>"; };
+		EE418ADE2BCFD925008766A6 /* PresentationDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationDetailViewModel.swift; sourceTree = "<group>"; };
+		EE418ADF2BCFD925008766A6 /* PresentationDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationDetailView.swift; sourceTree = "<group>"; };
+		EE418AE12BCFD925008766A6 /* PresentationsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationsView.swift; sourceTree = "<group>"; };
+		EE418AE22BCFD925008766A6 /* PresentationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationsViewModel.swift; sourceTree = "<group>"; };
+		EE418AE32BCFD925008766A6 /* PresentationsRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationsRouter.swift; sourceTree = "<group>"; };
+		EE418AE42BCFD925008766A6 /* PresentationsViewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationsViewState.swift; sourceTree = "<group>"; };
+		EE418AE62BCFD925008766A6 /* MainVerifierRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVerifierRouter.swift; sourceTree = "<group>"; };
+		EE418AE72BCFD925008766A6 /* MainVerifierView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVerifierView.swift; sourceTree = "<group>"; };
+		EE418AE92BCFD925008766A6 /* CreatePresentationViewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePresentationViewState.swift; sourceTree = "<group>"; };
+		EE418AEA2BCFD925008766A6 /* CreatePresentationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePresentationViewModel.swift; sourceTree = "<group>"; };
+		EE418AEB2BCFD925008766A6 /* CreatePresentationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePresentationView.swift; sourceTree = "<group>"; };
 		EE549F462ACC1F5E0038ED1D /* CredentialDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialDetailView.swift; sourceTree = "<group>"; };
 		EE549F482ACC1F7D0038ED1D /* CredentialDetailViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialDetailViewState.swift; sourceTree = "<group>"; };
 		EE6C38DB294626E1006CD2D3 /* String+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extensions.swift"; sourceTree = "<group>"; };
@@ -289,6 +313,57 @@
 				EE38134E2938D55D00A3A710 /* atala-prism-swift-sdk */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		EE418ADB2BCFD925008766A6 /* Verifier */ = {
+			isa = PBXGroup;
+			children = (
+				EE418ADC2BCFD925008766A6 /* PresentationsDetail */,
+				EE418AE02BCFD925008766A6 /* Presentations */,
+				EE418AE52BCFD925008766A6 /* Main */,
+				EE418AE82BCFD925008766A6 /* PresentationCreate */,
+			);
+			path = Verifier;
+			sourceTree = "<group>";
+		};
+		EE418ADC2BCFD925008766A6 /* PresentationsDetail */ = {
+			isa = PBXGroup;
+			children = (
+				EE418ADD2BCFD925008766A6 /* PresentationDetailViewState.swift */,
+				EE418ADE2BCFD925008766A6 /* PresentationDetailViewModel.swift */,
+				EE418ADF2BCFD925008766A6 /* PresentationDetailView.swift */,
+			);
+			path = PresentationsDetail;
+			sourceTree = "<group>";
+		};
+		EE418AE02BCFD925008766A6 /* Presentations */ = {
+			isa = PBXGroup;
+			children = (
+				EE418AE12BCFD925008766A6 /* PresentationsView.swift */,
+				EE418AE22BCFD925008766A6 /* PresentationsViewModel.swift */,
+				EE418AE32BCFD925008766A6 /* PresentationsRouter.swift */,
+				EE418AE42BCFD925008766A6 /* PresentationsViewState.swift */,
+			);
+			path = Presentations;
+			sourceTree = "<group>";
+		};
+		EE418AE52BCFD925008766A6 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				EE418AE62BCFD925008766A6 /* MainVerifierRouter.swift */,
+				EE418AE72BCFD925008766A6 /* MainVerifierView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		EE418AE82BCFD925008766A6 /* PresentationCreate */ = {
+			isa = PBXGroup;
+			children = (
+				EE418AE92BCFD925008766A6 /* CreatePresentationViewState.swift */,
+				EE418AEA2BCFD925008766A6 /* CreatePresentationViewModel.swift */,
+				EE418AEB2BCFD925008766A6 /* CreatePresentationView.swift */,
+			);
+			path = PresentationCreate;
 			sourceTree = "<group>";
 		};
 		EE549F452ACC1F400038ED1D /* CredentialDetail */ = {
@@ -615,6 +690,7 @@
 		EEE61FDE2937CE970053AE52 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				EE418ADB2BCFD925008766A6 /* Verifier */,
 				EE6C7F4729C234C200D866AD /* WalletDemo2 */,
 				EEB7D32029420155006E076D /* SetupPrismAgent */,
 				EEE6202C2937FD4B0053AE52 /* AuthenticateWallet */,
@@ -815,6 +891,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE418AF72BCFD926008766A6 /* CreatePresentationView.swift in Sources */,
 				EEECB29029C29F0700BBB4B9 /* MessagesListViewModel.swift in Sources */,
 				EE8F374F2B8749AF00EC0638 /* RequestDetailRouter.swift in Sources */,
 				EE92C42C2B7E1CA200FC0B6E /* NavigationUtils.swift in Sources */,
@@ -827,11 +904,13 @@
 				EEE620132937F1D40053AE52 /* PrintObjects.swift in Sources */,
 				EEECB29929C309FC00BBB4B9 /* MessageDetailViewModel.swift in Sources */,
 				EE92C42E2B7E1CA200FC0B6E /* URL+StringLiterals.swift in Sources */,
+				EE418AF52BCFD926008766A6 /* CreatePresentationViewState.swift in Sources */,
 				EEECB28C29C29A5400BBB4B9 /* MessagesListView.swift in Sources */,
 				EE8F37562B8773F100EC0638 /* SettingsViewState.swift in Sources */,
 				EEE620302937FDE50053AE52 /* AuthenticateWalletViewModel.swift in Sources */,
 				EE92C40C2B7E1CA200FC0B6E /* ClearFullCoverModifier.swift in Sources */,
 				EE92C41B2B7E1CA200FC0B6E /* WordTagGrid.swift in Sources */,
+				EE418AED2BCFD926008766A6 /* PresentationDetailViewModel.swift in Sources */,
 				EE75147E29C376E700FFFAA4 /* DIDDetailView.swift in Sources */,
 				EEE61FE02937CEAA0053AE52 /* SeedViewModel.swift in Sources */,
 				EE92C41E2B7E1CA200FC0B6E /* WebView.swift in Sources */,
@@ -851,15 +930,18 @@
 				EE75A2F9294794F9007D4405 /* FancyToastModifier.swift in Sources */,
 				EE549F492ACC1F7D0038ED1D /* CredentialDetailViewState.swift in Sources */,
 				EE92C43E2B7E1F6A00FC0B6E /* ConfirmConnectionView.swift in Sources */,
+				EE418AF32BCFD926008766A6 /* MainVerifierRouter.swift in Sources */,
 				EE8F37522B87739D00EC0638 /* SettingsView.swift in Sources */,
 				EE92C3D12B7E1C0D00FC0B6E /* QRCodeScannerBuilder.swift in Sources */,
 				EE92C3D02B7E1C0D00FC0B6E /* CameraViewController.swift in Sources */,
 				EE92C3CE2B7E1C0D00FC0B6E /* QRCodeScannerView.swift in Sources */,
+				EE418AEE2BCFD926008766A6 /* PresentationDetailView.swift in Sources */,
 				EE8F37582B87743D00EC0638 /* SettingsViewRouter.swift in Sources */,
 				EE6C7F5429C2754500D866AD /* DIDListView.swift in Sources */,
 				EE6C7F4B29C2357A00D866AD /* MediatorPageStateView.swift in Sources */,
 				EEECB29229C2A37700BBB4B9 /* MessagesListRouter.swift in Sources */,
 				EE92C4182B7E1CA200FC0B6E /* PinInsertView.swift in Sources */,
+				EE418AEF2BCFD926008766A6 /* PresentationsView.swift in Sources */,
 				EE75148029C378DB00FFFAA4 /* DIDDetailViewState.swift in Sources */,
 				EE92C42B2B7E1CA200FC0B6E /* DisablePreferenceKey.swift in Sources */,
 				EE6C7F5129C23A3400D866AD /* MediatorPageView.swift in Sources */,
@@ -872,6 +954,7 @@
 				EE92C4162B7E1CA200FC0B6E /* SelectCheckButton.swift in Sources */,
 				EE92C4072B7E1CA200FC0B6E /* RoundedRectBorderWithText.swift in Sources */,
 				EE6C39012946827B006CD2D3 /* ComponentContainer.swift in Sources */,
+				EE418AF42BCFD926008766A6 /* MainVerifierView.swift in Sources */,
 				EEE61FE42937D5560053AE52 /* DIDFuncionalitiesViewModel.swift in Sources */,
 				EEE6202F2937FDE50053AE52 /* AuthenticateWalletView.swift in Sources */,
 				EEE620182937F6870053AE52 /* SigningVerificationView.swift in Sources */,
@@ -887,11 +970,13 @@
 				EE92C3D22B7E1C0D00FC0B6E /* QRCodeScannerRouter.swift in Sources */,
 				EE92C4212B7E1CA200FC0B6E /* ErrorTextBox.swift in Sources */,
 				EEECB27F29C282A800BBB4B9 /* ConnectionsListView.swift in Sources */,
+				EE418AF12BCFD926008766A6 /* PresentationsRouter.swift in Sources */,
 				EE92C4232B7E1CA200FC0B6E /* DeleteView.swift in Sources */,
 				EE8F374D2B8749A400EC0638 /* RequestDetailViewModel.swift in Sources */,
 				EE8F374B2B87499400EC0638 /* RequestDetailViewState.swift in Sources */,
 				EEECB29529C2A48B00BBB4B9 /* MessageDetailView.swift in Sources */,
 				EE6C390329468288006CD2D3 /* Builder.swift in Sources */,
+				EE418AEC2BCFD926008766A6 /* PresentationDetailViewState.swift in Sources */,
 				EEECB29729C2A4AA00BBB4B9 /* MessageDetailViewState.swift in Sources */,
 				EE549F472ACC1F5E0038ED1D /* CredentialDetailView.swift in Sources */,
 				EE6C7F5829C275C400D866AD /* DIDListViewModel.swift in Sources */,
@@ -900,6 +985,8 @@
 				EE92C4402B7E1F6A00FC0B6E /* AddNewContactState.swift in Sources */,
 				EEECB28329C2831E00BBB4B9 /* ConnectionsListViewModel.swift in Sources */,
 				EE8F37492B87498700EC0638 /* RequestDetailView.swift in Sources */,
+				EE418AF22BCFD926008766A6 /* PresentationsViewState.swift in Sources */,
+				EE418AF62BCFD926008766A6 /* CreatePresentationViewModel.swift in Sources */,
 				EE92C41C2B7E1CA200FC0B6E /* HyperlinkText.swift in Sources */,
 				EEBC938F29C7311C0015A36E /* CredentialListViewState.swift in Sources */,
 				EE92C4242B7E1CA200FC0B6E /* ActivityView.swift in Sources */,
@@ -909,6 +996,7 @@
 				EEECB28829C28CA100BBB4B9 /* Main2Router.swift in Sources */,
 				EE92C4222B7E1CA200FC0B6E /* WordTagEditable.swift in Sources */,
 				EE92C4252B7E1CA200FC0B6E /* AtalaButton.swift in Sources */,
+				EE418AF02BCFD926008766A6 /* PresentationsViewModel.swift in Sources */,
 				EE92C4292B7E1CA200FC0B6E /* IsLoadingEnvironmentValue.swift in Sources */,
 				EE92C4102B7E1CA200FC0B6E /* SpecificRoundedRect.swift in Sources */,
 				EEB7D32229420180006E076D /* SetupPrismAgentView.swift in Sources */,

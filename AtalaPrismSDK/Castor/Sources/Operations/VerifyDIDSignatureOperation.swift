@@ -23,12 +23,12 @@ struct VerifyDIDSignatureOperation {
         guard let multibaseData = method.publicKeyMultibase else {
             throw CastorError.cannotRetrievePublicKeyFromDocument
         }
-        return try await apollo.createPrivateKey(
+        return try apollo.createPublicKey(
             parameters: [
                 KeyProperties.type.rawValue: "EC",
                 KeyProperties.rawKey.rawValue: multibaseData,
                 KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue
-            ]).publicKey()
+            ])
     }
 }
 

@@ -129,4 +129,50 @@ extension CastorImpl: Castor {
         }
         return try await resolver.resolve(did: did)
     }
+
+    public func getDIDPublicKeys(did: DID) async throws -> [PublicKey] {
+        let document = try await resolveDID(did: did)
+
+        return try await document.verificationMethods
+            .asyncMap { verificationMethod -> PublicKey in
+                try await verificationMethodToPublicKey(method: verificationMethod)
+            }
+    }
+
+    private func verificationMethodToPublicKey(method: DIDDocument.VerificationMethod) async throws -> PublicKey {
+        switch method.type {
+        case "EcdsaSecp256k1VerificationKey2019", "secp256k1":
+            guard let multibaseData = method.publicKeyMultibase else {
+                throw CastorError.cannotRetrievePublicKeyFromDocument
+            }
+            return try apollo.createPublicKey(
+                parameters: [
+                    KeyProperties.type.rawValue: "EC",
+                    KeyProperties.rawKey.rawValue: multibaseData,
+                    KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue
+                ])
+        case "Ed25519VerificationKey2018", "ed25519":
+            guard let multibaseData = method.publicKeyMultibase else {
+                throw CastorError.cannotRetrievePublicKeyFromDocument
+            }
+            return try apollo.createPublicKey(
+                parameters: [
+                    KeyProperties.type.rawValue: "EC",
+                    KeyProperties.rawKey.rawValue: multibaseData,
+                    KeyProperties.curve.rawValue: KnownKeyCurves.ed25519.rawValue
+                ])
+        case "X25519KeyAgreementKey2019", "x25519":
+            guard let multibaseData = method.publicKeyMultibase else {
+                throw CastorError.cannotRetrievePublicKeyFromDocument
+            }
+            return try apollo.createPublicKey(
+                parameters: [
+                    KeyProperties.type.rawValue: "EC",
+                    KeyProperties.rawKey.rawValue: multibaseData,
+                    KeyProperties.curve.rawValue: KnownKeyCurves.x25519.rawValue
+                ])
+        default:
+            throw UnknownError.somethingWentWrongError(customMessage: nil, underlyingErrors: nil)
+        }
+    }
 }

@@ -727,13 +727,13 @@ public enum PolluxError: KnownPrismError {
 
     /// An error case representing an invalid JWT credential. This error is thrown when attempting to create a JWT presentation without a valid JWTCredential.
     case invalidJWTCredential
-    
+
     /// An error case when the offer doesnt present enough information like Domain or Challenge
     case offerDoesntProvideEnoughInformation
 
     /// An error case when the issued credential message doesnt present enough information or unsupported attachment
     case unsupportedIssuedMessage
-    
+
     /// An error case there is missing an `ExportableKey`
     case requiresExportableKeyForOperation(operation: String)
 
@@ -742,6 +742,68 @@ public enum PolluxError: KnownPrismError {
 
     /// An requirement is missing for `CredentialOperationsOptions`
     case missingAndIsRequiredForOperation(type: String)
+
+    /// An error indicating that a credential doesn't provide one or more input descriptors.
+    case credentialDoesntProvideOneOrMoreInputDescriptors(path: [String])
+
+    /// An error case indicating that a presentation could not be found in attachments.
+    case couldNotFindPresentationInAttachments
+
+    /// An error case indicating an invalid attachment type, with provided supported types.
+    case invalidAttachmentType(supportedTypes: [String])
+
+    /// An error case indicating that credential type verification is not supported.
+    case credentialTypeVerificationNotSupported(String)
+
+    /// An error case indicating an unsupported attachment format.
+    case unsupportedAttachmentFormat(String?)
+
+    /// An error case indicating that the credential algorithm could not be found.
+    case couldNotFindCredentialAlgorithm
+
+    /// An error case indicating that the credential is not of the required algorithm for presentation definition.
+    case credentialIsNotOfPresentationDefinitionRequiredAlgorithm
+
+    /// An error case indicating that the presentation request could not be found.
+    case couldNotFindPresentationRequest(id: String)
+
+    /// An error case indicating that presentation submission is not available.
+    case presentationSubmissionNotAvailable
+
+    /// An error case indicating an unsupported submitted format, with valid formats provided.
+    case unsupportedSubmittedFormat(string: String, validFormats: [String])
+
+    /// An error case indicating that a credential path is invalid.
+    case credentialPathInvalid(path: String)
+
+    /// An error case indicating that the issuer must exist and be a Prism DID.
+    case requiresThatIssuerExistsAndIsAPrismDID
+
+    /// An error case indicating that an input cannot be verified due to multiple field errors.
+    case cannotVerifyInput(
+        name: String? = nil,
+        purpose: String? = nil,
+        fieldErrors: [Error]
+    )
+
+    /// An error case indicating that a specific field in the input cannot be verified, with internal errors listed.
+    case cannotVerifyInputField(
+        name: String? = nil,
+        paths: [String] = [],
+        internalErrors: [Error]
+    )
+
+    /// An error case indicating that a specified input path was not found.
+    case inputPathNotFound(path: String)
+
+    /// An error case indicating multiple input filter errors.
+    case inputFilterErrors(descriptions: [String])
+
+    /// An error case indicating that presentation inputs cannot be verified.
+    case cannotVerifyPresentationInputs(errors: [Error])
+
+    /// An error case indicating that the signature is invalid, with internal errors specified.
+    case invalidSignature(internalErrors: [Error] = [])
 
     /// The error code returned by the server.
     public var code: Int {
@@ -764,6 +826,42 @@ public enum PolluxError: KnownPrismError {
             return 58
         case .missingAndIsRequiredForOperation:
             return 59
+        case .credentialDoesntProvideOneOrMoreInputDescriptors:
+            return 60
+        case .couldNotFindPresentationInAttachments:
+            return 61
+        case .invalidAttachmentType:
+            return 62
+        case .credentialTypeVerificationNotSupported:
+            return 63
+        case .unsupportedAttachmentFormat:
+            return 64
+        case .couldNotFindCredentialAlgorithm:
+            return 65
+        case .credentialIsNotOfPresentationDefinitionRequiredAlgorithm:
+            return 66
+        case .couldNotFindPresentationRequest:
+            return 67
+        case .presentationSubmissionNotAvailable:
+            return 68
+        case .unsupportedSubmittedFormat:
+            return 69
+        case .credentialPathInvalid:
+            return 70
+        case .requiresThatIssuerExistsAndIsAPrismDID:
+            return 71
+        case .cannotVerifyInput:
+            return 72
+        case .cannotVerifyPresentationInputs:
+            return 73
+        case .inputFilterErrors:
+            return 74
+        case .inputPathNotFound:
+            return 75
+        case .cannotVerifyInputField:
+            return 76
+        case .invalidSignature:
+            return 77
         }
     }
 
@@ -794,6 +892,56 @@ public enum PolluxError: KnownPrismError {
             return "Message provided doesnt have enough information (attachment, type)"
         case .missingAndIsRequiredForOperation(let type):
             return "Operation requires the following parameter \(type)"
+        case .credentialDoesntProvideOneOrMoreInputDescriptors(let path):
+            return "Credential cannot process presentation because it doesnt has the required inputs \(path)"
+        case .couldNotFindPresentationInAttachments:
+            return "Could not find the attachments of the presentation in the message"
+        case .invalidAttachmentType(let supportedTypes):
+            return "Invalid attachment type please use one of the following: \(supportedTypes)"
+        case .credentialTypeVerificationNotSupported(let type):
+            return "Credential of type \(type) doesnt support verification"
+        case .unsupportedAttachmentFormat(let format):
+            return "Unsupported attachment format \(format ?? "")"
+        case .couldNotFindCredentialAlgorithm:
+            return "Could not find cryptographic algorithm for JWT credential"
+        case .credentialIsNotOfPresentationDefinitionRequiredAlgorithm:
+            return "Presentation definition requires a credential of a different algorithm"
+        case .couldNotFindPresentationRequest(let id):
+            return "Could not find presentation request \(id)"
+        case .presentationSubmissionNotAvailable:
+            return "Attachment doesnt provide a presentation submission"
+        case .unsupportedSubmittedFormat(string: let string, validFormats: let validFormats):
+            return "Invalid format type \(string) please use one of the following: \(validFormats.joined(separator: ", "))"
+        case .credentialPathInvalid(path: let path):
+            return "No credential could be found at JSONPath: \(path)"
+        case .requiresThatIssuerExistsAndIsAPrismDID:
+            return "This verification requires JWT issuer to exist and be a valid DID"
+        case .cannotVerifyInput(let name, let purpose, let fieldErrors):
+            let errors = fieldErrors.map { " - \(errorMessage($0))" }.joined(separator: "\n")
+            return
+"""
+Cannot verify input descriptor \(name.map { "with name: \($0)"} ?? ""), \(purpose.map { "for \($0)" } ?? "") with errors: \n \(errors)
+"""
+        case .cannotVerifyPresentationInputs(errors: let errors):
+            let errors = errors.map { " - \(errorMessage($0))" }.joined(separator: "\n")
+            return
+"""
+Cannot verify presentation with errors: \n \(errors)
+"""
+        case .inputFilterErrors(descriptions: let descriptions):
+            return """
+Input filter error: \(descriptions.joined(separator: ", "))
+"""
+        case .inputPathNotFound(path: let path):
+            return "Input value could not be found for path \(path)"
+        case .cannotVerifyInputField(name: let name, paths: let paths, internalErrors: let internalErrors):
+            let errors = internalErrors.map { " - \(errorMessage($0))" }.joined(separator: "\n")
+            return
+"""
+Cannot verify input descriptor field \(name.map { "with name: \($0)"} ?? ""), with paths: \(paths.joined(separator: ", ")) with errors: \n \(errors)
+"""
+        case .invalidSignature:
+            return "Could not verify one or more JWT signatures"
         }
     }
 }
@@ -846,3 +994,14 @@ extension KeyError: Equatable {
     }
 }
 
+private func errorMessage(_ error: Error) -> String {
+    switch error {
+    case let localizable as LocalizedError:
+        guard let message = localizable.errorDescription else {
+            return localizable.localizedDescription
+        }
+        return message
+    default:
+        return error.localizedDescription
+    }
+}

@@ -1,11 +1,12 @@
 import Domain
 import Foundation
+import JSONWebSignature
 
-struct JWTCredential {
+public struct JWTCredential {
     let jwtString: String
     let jwtVerifiableCredential: JWTPayload
 
-    init(data: Data) throws {
+    public init(data: Data) throws {
         guard let jwtString = String(data: data, encoding: .utf8) else { throw PolluxError.invalidJWTString }
         var jwtParts = jwtString.components(separatedBy: ".")
         guard jwtParts.count == 3 else { throw PolluxError.invalidJWTString }
@@ -25,25 +26,30 @@ struct JWTCredential {
 extension JWTCredential: Codable {}
 
 extension JWTCredential: Credential {
-    var id: String {
+    public var id: String {
         jwtString
     }
     
-    var issuer: String {
+    public var issuer: String {
         jwtVerifiableCredential.iss.string
     }
     
-    var subject: String? {
+    public var subject: String? {
         jwtVerifiableCredential.sub
     }
     
-    var claims: [Claim] {
-        jwtVerifiableCredential.verifiableCredential.credentialSubject.map {
+    public var claims: [Claim] {
+        guard
+            let dic = jwtVerifiableCredential.verifiableCredential.credentialSubject.value as? [String: String]
+        else {
+            return []
+        }
+        return dic.map {
             Claim(key: $0, value: .string($1))
         }
     }
     
-    var properties: [String : Any] {
+    public var properties: [String : Any] {
         var properties = [
             "nbf" : jwtVerifiableCredential.nbf,
             "jti" : jwtVerifiableCredential.jti,
@@ -62,6 +68,31 @@ extension JWTCredential: Credential {
         return properties
     }
     
-    var credentialType: String { "JWT" }
+    public var credentialType: String { "JWT" }
 }
 
+extension JWTCredential {
+    func getJSON() throws -> Data {
+        var jwtParts = jwtString.components(separatedBy: ".")
+        jwtParts.removeFirst()
+        guard
+            let credentialString = jwtParts.first,
+            let base64Data = Data(fromBase64URL: credentialString),
+            let jsonString = String(data: base64Data, encoding: .utf8)
+        else { throw PolluxError.invalidJWTString }
+
+        guard let dataValue = jsonString.data(using: .utf8) else { throw PolluxError.invalidCredentialError }
+        return dataValue
+    }
+
+    func getAlg() throws -> String {
+        let jwtParts = jwtString.components(separatedBy: ".")
+        guard
+            let headerString = jwtParts.first,
+            let base64Data = Data(fromBase64URL: headerString),
+            let alg = try JSONDecoder.didComm().decode(DefaultJWSHeaderImpl.self, from: base64Data).algorithm?.rawValue
+        else { throw PolluxError.couldNotFindCredentialAlgorithm }
+
+        return alg
+    }
+}
