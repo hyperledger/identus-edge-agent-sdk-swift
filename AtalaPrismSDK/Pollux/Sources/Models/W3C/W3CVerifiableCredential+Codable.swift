@@ -1,3 +1,4 @@
+import Core
 import Domain
 import Foundation
 
@@ -65,9 +66,9 @@ extension W3CVerifiableCredential: Codable {
         let expirationDate = try? container.decode(Date.self, forKey: .expirationDate)
         let validFrom = try? container.decode(VerifiableCredentialTypeContainer.self, forKey: .validFrom)
         let validUntil = try? container.decode(VerifiableCredentialTypeContainer.self, forKey: .validUntil)
-        let proof = try? container.decode(String.self, forKey: .proof)
+        let proof = try? container.decode(ProofContainer.self, forKey: .proof)
         let aud = (try? container.decode(Set<String>.self, forKey: .proof)) ?? Set()
-        let credentialSubject = try container.decode([String: String].self, forKey: .credentialSubject)
+        let credentialSubject = try container.decode(AnyCodable.self, forKey: .credentialSubject)
         let subjectString = try? container.decode(
             String.self,
             forKey: .subject

@@ -2,18 +2,6 @@ import Core
 import Domain
 import Foundation
 
-public struct ProofTypes: Codable, Equatable {
-    public let schema: String
-    public let requiredFields: [String]?
-    public let trustIssuers: [String]?
-    
-    public init(schema: String, requiredFields: [String]?, trustIssuers: [String]?) {
-        self.schema = schema
-        self.requiredFields = requiredFields
-        self.trustIssuers = trustIssuers
-    }
-}
-
 public struct Presentation {
     public struct Body: Codable, Equatable {
         public let goalCode: String?

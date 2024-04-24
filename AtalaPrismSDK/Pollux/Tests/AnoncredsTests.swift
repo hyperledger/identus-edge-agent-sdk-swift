@@ -4,6 +4,7 @@ import XCTest
 
 final class AnoncredsTests: XCTestCase {
     let pluto = MockPluto()
+    let castor = MockCastor()
     let issuer = MockIssuer()
     var linkSecret: LinkSecret!
 
@@ -18,7 +19,7 @@ final class AnoncredsTests: XCTestCase {
         let defDownloader = MockDownloader(returnData: try credDef.getJson().data(using: .utf8)!)
 
         // No error means it passed
-        _ = try await PolluxImpl(pluto: pluto).processCredentialRequest(
+        _ = try await PolluxImpl(castor: castor, pluto: pluto).processCredentialRequest(
             offerMessage: offer,
             options: [
                 .linkSecret(id: "test", secret: linkSecretValue),
@@ -43,7 +44,7 @@ final class AnoncredsTests: XCTestCase {
         )
         try await pluto.storeCredential(credential: credentialMetadata).first().await()
         let issuedMessage = try issuer.issueCredential(offer: offer, request: request.0)
-        let credential = try await PolluxImpl(pluto: pluto).parseCredential(
+        let credential = try await PolluxImpl(castor: castor, pluto: pluto).parseCredential(
             issuedCredential: issuedMessage,
             options: [
                 .linkSecret(id: "test", secret: linkSecretValue),
@@ -74,7 +75,7 @@ final class AnoncredsTests: XCTestCase {
         )
         try await pluto.storeCredential(credential: credentialMetadata).first().await()
         let issuedMessage = try issuer.issueCredential(offer: offer, request: request.0)
-        let credential = try await PolluxImpl(pluto: pluto).parseCredential(
+        let credential = try await PolluxImpl(castor: castor, pluto: pluto).parseCredential(
             issuedCredential: issuedMessage,
             options: [
                 .linkSecret(id: "test", secret: linkSecretValue),
@@ -96,5 +97,4 @@ final class AnoncredsTests: XCTestCase {
         let value = try issuer.verifyPresentation(presentation: presentation, request: presentationRequest.requestStr)
         XCTAssertTrue(value)
     }
-
 }

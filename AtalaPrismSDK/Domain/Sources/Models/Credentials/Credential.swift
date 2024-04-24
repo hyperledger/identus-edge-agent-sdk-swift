@@ -1,5 +1,14 @@
 import Foundation
 
+/// `CredentialType` is an enumeration that defines the types of credentials supported in the system.
+public enum CredentialType {
+    /// Represents a credential in JWT (JSON Web Token) format.
+    case jwt
+
+    /// Represents a credential in AnonCred (Anonymous Credentials) format.
+    case anoncred
+}
+
 /// `Claim` represents a claim in a credential. Claims are the attributes associated with the subject of a credential.
 public struct Claim {
     /// `ClaimType` represents the type of value a `Claim` can hold. This can be a string, boolean, date, data, or number.

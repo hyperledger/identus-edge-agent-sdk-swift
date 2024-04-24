@@ -43,6 +43,15 @@ struct CredentialListViewState {
                 return id
             }
         }
+
+//        var thid: String {
+//            switch self {
+//            case .credentialRequest(_, let thid):
+//                return thid
+//            case .presentation(_, let thid):
+//                return thid
+//            }
+//        }
     }
 
     struct Credential: Hashable {

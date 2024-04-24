@@ -23,13 +23,13 @@ struct CreateJWTCredentialRequest {
         
         let jwt = try JWT.signed(
             payload: ClaimsRequestSignatureJWT(
-                issuer: didStr,
-                subject: nil,
-                audience: [domain],
-                expirationTime: nil,
-                notBeforeTime: nil,
-                issuedAt: nil,
-                jwtID: nil,
+                iss: didStr,
+                sub: nil,
+                aud: [domain],
+                exp: nil,
+                nbf: nil,
+                iat: nil,
+                jti: nil,
                 nonce: challenge,
                 vp: .init(context: .init([
                     "https://www.w3.org/2018/presentations/v1"
@@ -75,29 +75,17 @@ struct ClaimsRequestSignatureJWT: JWTRegisteredFieldsClaims {
         let type: Set<String>
     }
 
-    let issuer: String?
-    let subject: String?
-    let audience: [String]?
-    let expirationTime: Date?
-    let notBeforeTime: Date?
-    let issuedAt: Date?
-    let jwtID: String?
+    let iss: String?
+    let sub: String?
+    let aud: [String]?
+    let exp: Date?
+    let nbf: Date?
+    let iat: Date?
+    let jti: String?
     let nonce: String
     let vp: VerifiablePresentation
-    
-    func validateExtraClaims() throws {}
 
-    enum CodingKeys: String, CodingKey {
-        case issuer = "iss"
-        case subject = "sub"
-        case audience = "aud"
-        case expirationTime = "exp"
-        case notBeforeTime = "nbf"
-        case issuedAt = "iat"
-        case jwtID = "jti"
-        case nonce
-        case vp
-    }
+    func validateExtraClaims() throws {}
 }
 
 

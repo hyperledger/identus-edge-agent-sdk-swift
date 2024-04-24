@@ -69,6 +69,13 @@ public protocol Castor {
         challenge: Data,
         signature: Data
     ) async throws -> Bool
+
+    /// Retrieves the public keys associated with a specific decentralized identifier (DID).
+    ///
+    /// - Parameter did: The decentralized identifier (DID) whose public keys are to be retrieved.
+    /// - Returns: An array of `PublicKey` objects associated with the given DID.
+    /// - Throws: An error if the retrieval process fails.
+    func getDIDPublicKeys(did: DID) async throws -> [PublicKey]
 }
 
 extension Castor {

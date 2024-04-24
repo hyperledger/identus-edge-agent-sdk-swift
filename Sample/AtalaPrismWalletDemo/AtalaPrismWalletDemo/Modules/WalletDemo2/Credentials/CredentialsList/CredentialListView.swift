@@ -4,6 +4,8 @@ protocol CredentialListViewModel: ObservableObject {
     var requests: [CredentialListViewState.Requests] { get }
     var responses: [CredentialListViewState.Responses] { get }
     var credentials: [CredentialListViewState.Credential] { get }
+    var validCredentials: [CredentialListViewState.Credential] { get }
+    var invalidCredentials: [CredentialListViewState.Credential] { get }
     var requestId: String? { get set }
     func acceptRequest(id: String, credentialId: String?)
     func rejectRequest(id: String)
@@ -137,21 +139,48 @@ struct CredentialSelectionListView<ViewModel: CredentialListViewModel>: View {
 
     var body: some View {
         List {
-            Section("Select Credential") {
-                ForEach(viewModel.credentials, id: \.id) { credential in
-                    Button(action: {
-                        viewModel.acceptRequest(id: viewModel.requestId ?? "", credentialId: credential.id)
-                        dismiss()
-                    }) {
-                        VStack(alignment: .leading) {
-                            Text(credential.issuer)
-                                .font(.headline)
-                                .foregroundStyle(.black)
-                                .lineLimit(1)
-                                .truncationMode(.middle)
-                            Text(credential.type)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
+            Section("Select valid Credential") {
+                if viewModel.credentials.isEmpty {
+                    Text("Empty")
+                } else {
+                    ForEach(viewModel.validCredentials, id: \.id) { credential in
+                        Button(action: {
+                            viewModel.acceptRequest(id: viewModel.requestId ?? "", credentialId: credential.id)
+                            dismiss()
+                        }) {
+                            VStack(alignment: .leading) {
+                                Text(credential.issuer)
+                                    .font(.headline)
+                                    .foregroundStyle(.black)
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
+                                Text(credential.type)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    }
+                }
+            }
+            Section("Invalid Credentials") {
+                if viewModel.invalidCredentials.isEmpty {
+                    Text("Empty")
+                } else {
+                    ForEach(viewModel.invalidCredentials, id: \.id) { credential in
+                        Button(action: {
+                            viewModel.acceptRequest(id: viewModel.requestId ?? "", credentialId: credential.id)
+                            dismiss()
+                        }) {
+                            VStack(alignment: .leading) {
+                                Text(credential.issuer)
+                                    .font(.headline)
+                                    .foregroundStyle(.black)
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
+                                Text(credential.type)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }

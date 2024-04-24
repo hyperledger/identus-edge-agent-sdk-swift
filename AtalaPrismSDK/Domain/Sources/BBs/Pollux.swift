@@ -42,6 +42,36 @@ public protocol Pollux {
         offerMessage: Message,
         options: [CredentialOperationsOptions]
     ) async throws -> String
+
+    /// Creates a presentation request for credentials of a specified type, directed to a specific DID, with additional metadata and filtering options.
+    ///
+    /// - Parameters:
+    ///   - type: The type of credential being requested (e.g., JWT, AnonCred).
+    ///   - toDID: The decentralized identifier (DID) of the entity to which the presentation request is being sent.
+    ///   - name: A descriptive name for the presentation request.
+    ///   - version: The version of the presentation request format or protocol.
+    ///   - claimFilters: A collection of filters specifying the claims required in the credential.
+    /// - Returns: The serialized presentation request as `Data`.
+    /// - Throws: An error if the request creation fails.
+    func createPresentationRequest(
+        type: CredentialType,
+        toDID: DID,
+        name: String,
+        version: String,
+        claimFilters: [ClaimFilter]
+    ) throws -> Data
+
+    /// Verifies the validity of a presentation contained within a message, using specified options.
+    ///
+    /// - Parameters:
+    ///   - message: The message containing the presentation to be verified.
+    ///   - options: An array of options that influence how the presentation verification is conducted.
+    /// - Returns: A Boolean value indicating whether the presentation is valid (`true`) or not (`false`).
+    /// - Throws: An error if there is a problem verifying the presentation.
+    func verifyPresentation(
+        message: Message,
+        options: [CredentialOperationsOptions]
+    ) async throws -> Bool
 }
 
 public extension Pollux {

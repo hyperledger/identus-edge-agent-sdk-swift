@@ -2,6 +2,7 @@ import Core
 import Combine
 import Domain
 import Foundation
+import Logging
 import JSONWebToken
 
 // MARK: Verifiable credentials functionalities
@@ -21,6 +22,80 @@ public extension PrismAgent {
             }
         }
         .eraseToAnyPublisher()
+    }
+
+    /// This function initiates a presentation request for a specific type of credential, specifying the sender's and receiver's DIDs, and any claim filters applicable.
+    ///
+    /// - Parameters:
+    ///   - type: The type of the credential for which the presentation is requested.
+    ///   - fromDID: The decentralized identifier (DID) of the entity initiating the request.
+    ///   - toDID: The decentralized identifier (DID) of the entity to which the request is being sent.
+    ///   - claimFilters: A collection of filters specifying the claims required in the credential.
+    /// - Returns: The initiated request for presentation.
+    /// - Throws: PrismAgentError, if there is a problem initiating the presentation request.
+    func initiatePresentationRequest(
+        type: CredentialType,
+        fromDID: DID,
+        toDID: DID,
+        claimFilters: [ClaimFilter]
+    ) async throws -> RequestPresentation {
+        let request = try self.pollux.createPresentationRequest(
+            type: type,
+            toDID: toDID,
+            name: UUID().uuidString,
+            version: "1.0",
+            claimFilters: claimFilters
+        )
+
+        let rqstStr = try request.tryToString()
+        Logger(label: "").log(level: .info, "Request: \(rqstStr)")
+        let attachment: AttachmentDescriptor
+        switch type {
+        case .jwt:
+            let data = AttachmentBase64(base64: request.base64URLEncoded())
+            attachment = AttachmentDescriptor(
+                mediaType: "application/json",
+                data: data,
+                format: "dif/presentation-exchange/definitions@v1.0"
+            )
+        case .anoncred:
+            let data = AttachmentBase64(base64: request.base64URLEncoded())
+            attachment = AttachmentDescriptor(
+                mediaType: "application/json",
+                data: data,
+                format: "anoncreds/proof-request@v1.0"
+            )
+        }
+
+        return RequestPresentation(
+            body: .init(
+                proofTypes: [ProofTypes(
+                    schema: "",
+                    requiredFields: claimFilters.flatMap(\.paths),
+                    trustIssuers: nil
+                )]
+            ),
+            attachments: [attachment],
+            thid: nil,
+            from: fromDID,
+            to: toDID
+        )
+    }
+
+    /// This function verifies the presentation contained within a message.
+    ///
+    /// - Parameters:
+    ///   - message: The message containing the presentation to be verified.
+    /// - Returns: A Boolean value indicating whether the presentation is valid (`true`) or not (`false`).
+    /// - Throws: PrismAgentError, if there is a problem verifying the presentation.
+
+    func verifyPresentation(message: Message) async throws -> Bool {
+        do {
+            return try await pollux.verifyPresentation(message: message, options: [])
+        } catch {
+            logger.error(error: error)
+            throw error
+        }
     }
 
     /// This function parses an issued credential message, stores and returns the verifiable credential.

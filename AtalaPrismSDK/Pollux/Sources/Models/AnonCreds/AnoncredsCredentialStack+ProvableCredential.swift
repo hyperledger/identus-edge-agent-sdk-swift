@@ -56,6 +56,21 @@ extension AnoncredsCredentialStack: ProvableCredential {
             )
         }
     }
+
+    func isValidForPresentation(request: Message, options: [CredentialOperationsOptions]) throws -> Bool {
+        guard
+            let attachment = request.attachments.first
+        else {
+            throw PolluxError.couldNotFindPresentationInAttachments
+        }
+        
+        switch attachment.format {
+        case "anoncreds/proof-request@v1.0":
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 private func computeAttributes(requestJson: String) throws -> [String: Bool] {

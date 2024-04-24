@@ -99,7 +99,7 @@ public class PrismAgent {
         let apollo = ApolloBuilder().build()
         let castor = CastorBuilder(apollo: apollo).build()
         let pluto = PlutoBuilder().build()
-        let pollux = PolluxBuilder(pluto: pluto).build()
+        let pollux = PolluxBuilder(pluto: pluto, castor: castor).build()
 
         let secretsStream = createSecretsStream(
             keyRestoration: apollo,

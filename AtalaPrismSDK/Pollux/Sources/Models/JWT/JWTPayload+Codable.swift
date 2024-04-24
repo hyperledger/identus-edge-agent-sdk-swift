@@ -1,3 +1,4 @@
+import Core
 import Domain
 import Foundation
 
@@ -38,7 +39,7 @@ extension JWTPayload.JWTVerfiableCredential: Codable {
         } else {
             type = (try? container.decode(Set<String>.self, forKey: .type)) ?? Set<String>()
         }
-        let credentialSubject = try container.decode([String: String].self, forKey: .credentialSubject)
+        let credentialSubject = try container.decode(AnyCodable.self, forKey: .credentialSubject)
         let credentialStatus = try? container.decode(
             VerifiableCredentialTypeContainer.self,
             forKey: .credentialStatus
@@ -102,7 +103,7 @@ extension JWTPayload: Codable {
         let iss = try DID(string: didString)
         let sub = try? container.decode(String.self, forKey: .sub)
         let verifiableCredential = try container.decode(JWTVerfiableCredential.self, forKey: .verfiableCredential)
-        let nbf = try container.decode(
+        let nbf = try? container.decode(
             Date.self,
             forKey: .nbf
         )
