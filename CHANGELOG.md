@@ -1,3 +1,23 @@
+# [6.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/5.0.3...6.0.0) (2024-05-03)
+
+
+* feat!(pollux): add jwt and anoncreds verification ([8e9e959](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/8e9e95921d74c939258916aeb6128d6171af4979))
+
+
+### Features
+
+* **demo:** update demo app with new features ([#133](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/issues/133)) ([931c843](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/931c8438e4603d25f264d8149135f623abf2f8a8))
+
+
+### BREAKING CHANGES
+
+* ProofTypes was replaced by ClaimFilter
+
+- This commit also has a fix with PRISM DID resolution, now it correctly resolves all public keys
+- It adds a new utility method to castor to retrieve all public keys from a DID
+
+Fixes ATL-6627
+
 # [4.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.6.0...4.0.0) (2024-01-25)
 
 
