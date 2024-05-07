@@ -1,13 +1,13 @@
-# Contributing to Atala PRISM Swift SDK
+# Contributing to Edge Agent Swift SDK
 
 :rocket::tada: First off, thanks for taking the time to contribute! :tada::rocket:
-The following guidelines are for contributing to Atala PRISM Swift SDK. These are mostly guidelines. Use your best judgment, and feel free to propose changes to this document in a pull request.
+The following guidelines are for contributing to Edge Agent Swift SDK. These are mostly guidelines. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 #### Table Of Contents
 
 [What should I know before I get started?](#what-should-i-know-before-i-get-started)
-  * [Atala PRISM](#atala-prism)
-  * [Atala PRISM Swift SDK](#atala-prism-swift)
+  * [Identus](#identus)
+  * [Edge Agent Swift SDK](#edge-agent-swift-sdk)
 
 [How Can I Contribute?](#how-can-i-contribute)
   * [Your First Code Contribution](#your-first-code-contribution)
@@ -23,24 +23,25 @@ The following guidelines are for contributing to Atala PRISM Swift SDK. These ar
 
 ## What should I know before I get started?
 
-### Atala PRISM
+### Identus
 
-Atala PRISM is a self-sovereign identity (SSI) platform and service suite for verifiable data and digital identity. Built on Cardano, it offers the core infrastructure for issuing DIDs (Decentralized identifiers) and verifiable credentials alongside tools and frameworks to help expand your ecosystem.
+  Identus is a self-sovereign identity (SSI) platform and service suite for verifiable data and digital identity. Built on Cardano, it offers the core infrastructure for issuing DIDs (Decentralized identifiers) and verifiable credentials alongside tools and frameworks to help expand your ecosystem.
 The complete platform is separated into multiple repositories:
 
-* [atala-prism-apollo](https://github.com/input-output-hk/atala-prism-apollo) - Repo for the Apollo Building Block contains the cryptographic methods used around Atala PRISM.
-* [atala-prism-building-blocks](https://github.com/hyperledger-labs/open-enterprise-agent) - Repo that contains the servers Building Blocks.
-* [atala-prism-mediator](https://github.com/input-output-hk/atala-prism-mediator) - Repo for DIDComm V2 Mediator
-* [atala-prism-kmm-sdk](https://github.com/input-output-hk/atala-prism-wallet-sdk-kmm/) - Repo representing the Kotlin Multiplatform SDK.
-* [atala-prism-ts-sdk](https://github.com/input-output-hk/atala-prism-wallet-sdk-ts/) - Repo representing the TS SDK.
+* [apollo](https://github.com/input-output-hk/atala-prism-apollo) - Repo for the Apollo Building Block contains the cryptographic methods used around Edge Agent.
+* [cloud-agent](https://github.com/hyperledger-labs/open-enterprise-agent) - Repo that contains the servers Building Blocks.
+* [mediator](https://github.com/input-output-hk/atala-prism-mediator) - Repo for DIDComm V2 Mediator
+* [edge-agent-swift-sdk](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/) - Repo representing the Kotlin Multiplatform SDK.
+* [edge-agent-kmm-sdk](https://github.com/input-output-hk/atala-prism-wallet-sdk-kmm/) - Repo representing the Kotlin Multiplatform SDK.
+* [edge-agent-ts-sdk](https://github.com/input-output-hk/atala-prism-wallet-sdk-ts/) - Repo representing the TS SDK.
 
-### Atala PRISM Swift SDK
+### Edge Agent Swift SDK
 
-Atala PRISM Swift software development kit will help adoption within Apple frameworks by providing key functionalities. For more information about the SDK, please have a look at the [Readme](https://github.com/input-output-hk/atala-prism-swift-sdk/blob/main/README.md)
+Edge Agent Swift software development kit will help adoption within Apple frameworks by providing key functionalities. For more information about the SDK, please have a look at the [Readme](https://github.com/input-output-hk/atala-prism-swift-sdk/blob/main/README.md)
 
 ### Your First Code Contribution
 
-Unsure where to begin contributing to Atala PRISM Swift SDK? You can start by looking through the [Readme](https://github.com/input-output-hk/atala-prism-swift-sdk/blob/main/README.md) that provides all the steps to set up your environment.
+Unsure where to begin contributing to Edge Agent Swift SDK? You can start by looking through the [Readme](https://github.com/input-output-hk/atala-prism-swift-sdk/blob/main/README.md) that provides all the steps to set up your environment.
 
 ### Pull Requests
 
@@ -61,7 +62,7 @@ While the prerequisites above must be satisfied before your pull request is revi
 
 ### Reporting Bugs
 
-This section guides you through submitting a bug report for Atala PRISM Swift SDK. Following these guidelines helps maintainers and the community understand your report :pencil:, reproduce the behaviour:computer: :computer:, and find related reports :mag_right:.
+This section guides you through submitting a bug report for Edge Agent Swift SDK. Following these guidelines helps maintainers and the community understand your report :pencil:, reproduce the behaviour:computer: :computer:, and find related reports :mag_right:.
 
 Before creating bug reports, please check [this list](#before-submitting-a-bug-report), as you might not need to create one. When creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report). Fill out [the required template](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/blob/main/.github/ISSUE_TEMPLATE/1-bug-report.yaml), the information it asks for helps us resolve issues faster.
 
@@ -113,7 +114,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com
 
 ### Git Commit Messages
 
-Atala PRISM uses [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#specification). Please always provide a commit following these specifications.
+Edge Agent uses [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#specification). Please always provide a commit following these specifications.
 
 #### Commit Message Format
 

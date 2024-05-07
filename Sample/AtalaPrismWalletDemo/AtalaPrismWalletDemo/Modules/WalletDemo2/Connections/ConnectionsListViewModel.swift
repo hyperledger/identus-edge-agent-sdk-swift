@@ -1,7 +1,7 @@
 import Combine
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 final class ConnectionsListViewModelImpl: ConnectionsListViewModel {
     @Published var connections = [ConnectionsViewState.Connection]()
@@ -10,9 +10,9 @@ final class ConnectionsListViewModelImpl: ConnectionsListViewModel {
     private var cancellables = Set<AnyCancellable>()
     private let castor: Castor
     private let pluto: Pluto
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
 
-    init(castor: Castor, pluto: Pluto, agent: PrismAgent) {
+    init(castor: Castor, pluto: Pluto, agent: EdgeAgent) {
         self.castor = castor
         self.pluto = pluto
         self.agent = agent

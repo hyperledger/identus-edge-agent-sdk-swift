@@ -2,7 +2,7 @@ import Combine
 import Domain
 import Foundation
 import Pollux
-import PrismAgent
+import EdgeAgent
 
 class PresentationDetailViewModelImpl: PresentationDetailViewModel {
     @Published var presentation = PresentationDetailViewState.Presentation(
@@ -15,12 +15,12 @@ class PresentationDetailViewModelImpl: PresentationDetailViewModel {
     @Published var receivedPresentations: [PresentationDetailViewState.ReceivedPresentation] = []
     @Published var isVerified = false
 
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
     private let pluto: Pluto
 
     init(
         id: String,
-        agent: PrismAgent,
+        agent: EdgeAgent,
         pluto: Pluto
     ) {
         self.agent = agent

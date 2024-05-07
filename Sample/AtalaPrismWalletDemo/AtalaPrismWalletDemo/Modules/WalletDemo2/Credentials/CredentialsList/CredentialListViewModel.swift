@@ -2,7 +2,7 @@ import Combine
 import Domain
 import Foundation
 import Pollux
-import PrismAgent
+import EdgeAgent
 import JSONWebAlgorithms
 import JSONWebKey
 import JSONWebSignature
@@ -16,12 +16,12 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
     @Published var invalidCredentials = [CredentialListViewState.Credential]()
     @Published var requestId: String? = nil
 
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
     private let pluto: Pluto
     private let apollo: Apollo & KeyRestoration
 
     init(
-        agent: PrismAgent,
+        agent: EdgeAgent,
         apollo: Apollo & KeyRestoration,
         pluto: Pluto
     ) {

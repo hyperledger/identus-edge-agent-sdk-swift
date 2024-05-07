@@ -1,7 +1,7 @@
 import Combine
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 class ContactsViewModelImpl: ContactsViewModel {
     @Published var createdPeerDIDAlias: String?
@@ -10,10 +10,10 @@ class ContactsViewModelImpl: ContactsViewModel {
     @Published var error: Error?
     private var addingContact = false
 
-    let agent: PrismAgent
+    let agent: EdgeAgent
 
-    init(prismAgent: PrismAgent) {
-        self.agent = prismAgent
+    init(edgeAgent: EdgeAgent) {
+        self.agent = edgeAgent
 
         bind()
     }

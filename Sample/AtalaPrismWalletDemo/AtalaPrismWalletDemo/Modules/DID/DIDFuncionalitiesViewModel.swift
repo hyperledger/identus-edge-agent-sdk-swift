@@ -1,17 +1,17 @@
 import Builders
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 final class DIDFuncionalitiesViewModel: ObservableObject {
     private let castor: Castor
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
 
     init() {
         self.castor = CastorBuilder(
             apollo: ApolloBuilder().build()
         ).build()
-        self.agent = PrismAgent(mediatorDID: DID(method: "peer", methodId: "123"))
+        self.agent = EdgeAgent(mediatorDID: DID(method: "peer", methodId: "123"))
     }
 
     @Published var createdDID: DID?

@@ -1,7 +1,7 @@
 import Combine
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 class CreatePresentationViewModelImpl: CreatePresentationViewModel {
     @Published var selectedConnection: CreatePresentationViewState.Connection? = nil
@@ -10,10 +10,10 @@ class CreatePresentationViewModelImpl: CreatePresentationViewModel {
     @Published var selectedCredentialType: CreatePresentationViewState.CredentialType = .jwt
     @Published var jwtClaims: [CreatePresentationViewState.JWTClaim] = []
     @Published var anoncredsClaims: [CreatePresentationViewState.AnoncredsClaim] = []
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
 
-    init(prismAgent: PrismAgent) {
-        self.agent = prismAgent
+    init(edgeAgent: EdgeAgent) {
+        self.agent = edgeAgent
 
         bind()
     }

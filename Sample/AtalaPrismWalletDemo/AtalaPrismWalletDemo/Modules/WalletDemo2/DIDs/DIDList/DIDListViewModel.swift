@@ -1,7 +1,7 @@
 import Combine
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 final class DIDListViewModelImpl: DIDListViewModel {
     @Published var peerDIDs = [DIDListViewState.DID]()
@@ -9,9 +9,9 @@ final class DIDListViewModelImpl: DIDListViewModel {
     @Published var error: FancyToast?
 
     private let pluto: Pluto
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
 
-    init(pluto: Pluto, agent: PrismAgent) {
+    init(pluto: Pluto, agent: EdgeAgent) {
         self.pluto = pluto
         self.agent = agent
 

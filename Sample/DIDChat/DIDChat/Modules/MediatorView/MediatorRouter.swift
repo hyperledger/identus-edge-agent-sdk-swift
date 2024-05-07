@@ -6,7 +6,7 @@ struct MediatorRouterImpl: MediatorRouter {
 
     func routeToContactsList() -> some View {
         LazyView {
-            let model = ContactsViewModelImpl(prismAgent: viewModel.agent!)
+            let model = ContactsViewModelImpl(edgeAgent: viewModel.agent!)
             return ContactList(
                 viewModel: model,
                 router: ContactsListRouterImpl(viewModel: model)

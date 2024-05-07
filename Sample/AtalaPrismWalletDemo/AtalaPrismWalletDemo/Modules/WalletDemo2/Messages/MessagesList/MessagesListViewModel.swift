@@ -1,13 +1,13 @@
 import Domain
 import Combine
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 final class MessagesListViewModelImpl: MessageListViewModel {
     @Published var messages = [MessagesListViewState.Message]()
     @Published var error: FancyToast?
 
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
     private var messagesDomain = Set<Message>() {
         didSet {
             messages = messagesDomain
@@ -25,7 +25,7 @@ final class MessagesListViewModelImpl: MessageListViewModel {
     }
     private var cancellables = Set<AnyCancellable>()
 
-    init(agent: PrismAgent) {
+    init(agent: EdgeAgent) {
         self.agent = agent
         bind()
     }

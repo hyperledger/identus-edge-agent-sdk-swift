@@ -9,7 +9,7 @@ struct FuncionalitiesList: View {
                 NavigationLink("Seed Funcionalities", destination: SeedFuncionalitiesView(model: .init()))
                 NavigationLink("DID Funcionalities", destination: DIDFuncionalitiesView(model: .init()))
                 NavigationLink("Signing/Verification Funcionalities", destination: SigningVerificationView(model: .init()))
-                NavigationLink("Setup Prism Agent", destination: SetupPrismAgentView(viewModel: SetupPrismAgentViewModelImpl())
+                NavigationLink("Setup Prism Agent", destination: SetupEdgeAgentView(viewModel: SetupEdgeAgentViewModelImpl())
                 )
                 Button {
                     self.presentWallet2 = true

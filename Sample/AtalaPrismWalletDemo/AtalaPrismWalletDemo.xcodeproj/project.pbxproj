@@ -20,7 +20,6 @@
 		EE38135A2938D5B100A3A710 /* Mercury in Frameworks */ = {isa = PBXBuildFile; productRef = EE3813592938D5B100A3A710 /* Mercury */; };
 		EE38135C2938D5B100A3A710 /* Pluto in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135B2938D5B100A3A710 /* Pluto */; };
 		EE38135E2938D5B100A3A710 /* Pollux in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135D2938D5B100A3A710 /* Pollux */; };
-		EE3813602938D5B100A3A710 /* PrismAgent in Frameworks */ = {isa = PBXBuildFile; productRef = EE38135F2938D5B100A3A710 /* PrismAgent */; };
 		EE418AEC2BCFD926008766A6 /* PresentationDetailViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418ADD2BCFD925008766A6 /* PresentationDetailViewState.swift */; };
 		EE418AED2BCFD926008766A6 /* PresentationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418ADE2BCFD925008766A6 /* PresentationDetailViewModel.swift */; };
 		EE418AEE2BCFD926008766A6 /* PresentationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418ADF2BCFD925008766A6 /* PresentationDetailView.swift */; };
@@ -114,6 +113,7 @@
 		EEBC938F29C7311C0015A36E /* CredentialListViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBC938E29C7311C0015A36E /* CredentialListViewState.swift */; };
 		EEBC939529C735910015A36E /* CredentialListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBC939429C735910015A36E /* CredentialListViewModel.swift */; };
 		EEBC939729C737DE0015A36E /* CredentialListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBC939629C737DE0015A36E /* CredentialListRouter.swift */; };
+		EEC5A8392BEA5E3A00AED928 /* EdgeAgent in Frameworks */ = {isa = PBXBuildFile; productRef = EEC5A8382BEA5E3A00AED928 /* EdgeAgent */; };
 		EEE61FBA2937CA280053AE52 /* AtalaPrismWalletDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FB92937CA280053AE52 /* AtalaPrismWalletDemoApp.swift */; };
 		EEE61FBC2937CA280053AE52 /* FuncionalitiesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE61FBB2937CA280053AE52 /* FuncionalitiesList.swift */; };
 		EEE61FC12937CA2A0053AE52 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EEE61FC02937CA2A0053AE52 /* Preview Assets.xcassets */; };
@@ -276,8 +276,8 @@
 				EE38135A2938D5B100A3A710 /* Mercury in Frameworks */,
 				EE3813582938D5B100A3A710 /* Domain in Frameworks */,
 				EE38135E2938D5B100A3A710 /* Pollux in Frameworks */,
+				EEC5A8392BEA5E3A00AED928 /* EdgeAgent in Frameworks */,
 				EE38135C2938D5B100A3A710 /* Pluto in Frameworks */,
-				EE3813602938D5B100A3A710 /* PrismAgent in Frameworks */,
 				EE3813542938D5B100A3A710 /* Builders in Frameworks */,
 				EE3813502938D5B100A3A710 /* Apollo in Frameworks */,
 				EE3813562938D5B100A3A710 /* Castor in Frameworks */,
@@ -828,7 +828,7 @@
 				EE3813592938D5B100A3A710 /* Mercury */,
 				EE38135B2938D5B100A3A710 /* Pluto */,
 				EE38135D2938D5B100A3A710 /* Pollux */,
-				EE38135F2938D5B100A3A710 /* PrismAgent */,
+				EEC5A8382BEA5E3A00AED928 /* EdgeAgent */,
 			);
 			productName = AtalaPrismWalletDemo;
 			productReference = EEE61FB62937CA280053AE52 /* AtalaPrismWalletDemo.app */;
@@ -1244,9 +1244,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Pollux;
 		};
-		EE38135F2938D5B100A3A710 /* PrismAgent */ = {
+		EEC5A8382BEA5E3A00AED928 /* EdgeAgent */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = PrismAgent;
+			productName = EdgeAgent;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

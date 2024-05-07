@@ -1,7 +1,7 @@
 import Combine
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 final class DIDDetailViewModelImpl: DIDDetailViewModel {
     @Published var state: DIDDetailViewState = .init(

@@ -1,12 +1,12 @@
 import Domain
-import PrismAgent
+import EdgeAgent
 import SwiftUI
 
 struct PresentationsViewRouterImpl: PresentationsViewRouter {
     let container: DIContainer
 
     func routeToCreate() -> some View {
-        let viewModel = CreatePresentationViewModelImpl(prismAgent: container.resolve(type: PrismAgent.self)!)
+        let viewModel = CreatePresentationViewModelImpl(edgeAgent: container.resolve(type: EdgeAgent.self)!)
 
         return CreatePresentationView(viewModel: viewModel)
     }
@@ -14,7 +14,7 @@ struct PresentationsViewRouterImpl: PresentationsViewRouter {
     func routeToDetail(id: String) -> some View {
         let viewModel = PresentationDetailViewModelImpl(
             id: id,
-            agent: container.resolve(type: PrismAgent.self)!,
+            agent: container.resolve(type: EdgeAgent.self)!,
             pluto: container.resolve(type: Pluto.self)!
         )
 

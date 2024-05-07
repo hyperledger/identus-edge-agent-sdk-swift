@@ -1,7 +1,7 @@
 import Combine
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 final class MessageDetailViewModelImpl: MessageDetailViewModel {
     @Published var state = MessageDetailViewState(
@@ -25,11 +25,11 @@ final class MessageDetailViewModelImpl: MessageDetailViewModel {
 
     private let messageId: String
     private let pluto: Pluto
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
     private var message: Message?
     private var cancellables = Set<AnyCancellable>()
 
-    init(messageId: String, pluto: Pluto, agent: PrismAgent) {
+    init(messageId: String, pluto: Pluto, agent: EdgeAgent) {
         self.messageId = messageId
         self.pluto = pluto
         self.agent = agent

@@ -1,7 +1,7 @@
 import Combine
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 final class CredentialDetailViewModelImpl: CredentialDetailViewModel {
     @Published var credential = CredentialDetailViewState(
@@ -11,10 +11,10 @@ final class CredentialDetailViewModelImpl: CredentialDetailViewModel {
         schemaId: nil
     )
 
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
     private let credentialId: String
 
-    init(agent: PrismAgent, credentialId: String) {
+    init(agent: EdgeAgent, credentialId: String) {
         self.agent = agent
         self.credentialId = credentialId
         bind()

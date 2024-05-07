@@ -1,7 +1,7 @@
 import Builders
 import Combine
 import Domain
-import PrismAgent
+import EdgeAgent
 import SwiftUI
 
 final class Main2RouterImpl: Main2ViewRouter {
@@ -25,7 +25,7 @@ final class Main2RouterImpl: Main2ViewRouter {
 
         let seed = try! apollo.createSeed(mnemonics: mnemonics, passphrase: "")
 
-        let agent = PrismAgent(
+        let agent = EdgeAgent(
             apollo: apollo,
             castor: castor,
             pluto: pluto,
@@ -38,14 +38,14 @@ final class Main2RouterImpl: Main2ViewRouter {
         container.register(type: Pluto.self, component: pluto)
         container.register(type: Pollux.self, component: pollux)
         container.register(type: Mercury.self, component: mercury)
-        container.register(type: PrismAgent.self, component: agent)
+        container.register(type: EdgeAgent.self, component: agent)
     }
 
     func routeToMediator() -> some View {
         let viewModel = MediatorViewModelImpl(
             castor: container.resolve(type: Castor.self)!,
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: PrismAgent.self)!
+            agent: container.resolve(type: EdgeAgent.self)!
         )
         return MediatorPageView(viewModel: viewModel)
     }
@@ -53,7 +53,7 @@ final class Main2RouterImpl: Main2ViewRouter {
     func routeToDids() -> some View {
         let viewModel = DIDListViewModelImpl(
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: PrismAgent.self)!
+            agent: container.resolve(type: EdgeAgent.self)!
         )
 
         return DIDListView(viewModel: viewModel)
@@ -63,7 +63,7 @@ final class Main2RouterImpl: Main2ViewRouter {
         let viewModel = ConnectionsListViewModelImpl(
             castor: container.resolve(type: Castor.self)!,
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: PrismAgent.self)!
+            agent: container.resolve(type: EdgeAgent.self)!
         )
 
         return ConnectionsListView(
@@ -74,7 +74,7 @@ final class Main2RouterImpl: Main2ViewRouter {
 
     func routeToMessages() -> some View {
         let viewModel = MessagesListViewModelImpl(
-            agent: container.resolve(type: PrismAgent.self)!
+            agent: container.resolve(type: EdgeAgent.self)!
         )
 
         return MessagesListView(
@@ -85,7 +85,7 @@ final class Main2RouterImpl: Main2ViewRouter {
 
     func routeToCredentials() -> some View {
         let viewModel = CredentialListViewModelImpl(
-            agent: container.resolve(type: PrismAgent.self)!,
+            agent: container.resolve(type: EdgeAgent.self)!,
             apollo: container.resolve(type: Apollo.self)! as! Apollo & KeyRestoration,
             pluto: container.resolve(type: Pluto.self)!
         )

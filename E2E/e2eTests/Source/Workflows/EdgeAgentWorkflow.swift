@@ -1,6 +1,6 @@
 import Foundation
 import Domain
-import PrismAgent
+import EdgeAgent
 
 class EdgeAgentWorkflow {
     static func connectsThroughTheInvite(edgeAgent: Actor) async throws {
@@ -10,12 +10,12 @@ class EdgeAgentWorkflow {
         let oob = try edgeAgent.using(
             ability: Sdk.self,
             action: "parses an OOB invitation"
-        ).prismAgent.parseOOBInvitation(url: url)
-        
+        ).edgeAgent.parseOOBInvitation(url: url)
+
         try await edgeAgent.using(
             ability: Sdk.self,
             action: "accepts an invitation"
-        ).prismAgent.acceptDIDCommInvitation(invitation: oob)
+        ).edgeAgent.acceptDIDCommInvitation(invitation: oob)
     }
     
     static func waitToReceiveCredentialsOffer(edgeAgent: Actor, numberOfCredentials: Int) async throws {
@@ -66,14 +66,14 @@ class EdgeAgentWorkflow {
         let did = try await edgeAgent.using(
             ability: Sdk.self,
             action: "create a new prism DID"
-        ).prismAgent.createNewPrismDID()
-        
+        ).edgeAgent.createNewPrismDID()
+
         let requestCredential = try await edgeAgent
             .using(
                 ability: Sdk.self,
                 action: "request a credential"
             )
-            .prismAgent
+            .edgeAgent
             .prepareRequestCredentialWithIssuer(
                 did: did,
                 offer: acceptOfferMessage
@@ -82,7 +82,7 @@ class EdgeAgentWorkflow {
         _ = try await edgeAgent.using(
             ability: Sdk.self,
             action: "send a message"
-        ).prismAgent.sendMessage(message: requestCredential)
+        ).edgeAgent.sendMessage(message: requestCredential)
     }
     
     static func waitToReceiveIssuedCredentials(edgeAgent: Actor, numberOfCredentials: Int) async throws {
@@ -108,7 +108,7 @@ class EdgeAgentWorkflow {
             _ = try await edgeAgent.using(
                 ability: Sdk.self,
                 action: "process the credential"
-            ).prismAgent.processIssuedCredentialMessage(message: issuedCredential)
+            ).edgeAgent.processIssuedCredentialMessage(message: issuedCredential)
         }
     }
     
@@ -125,8 +125,8 @@ class EdgeAgentWorkflow {
         let credential = try await edgeAgent.using(
             ability: Sdk.self,
             action: "get a verifiable credential"
-        ).prismAgent.verifiableCredentials().map { $0.first }.first().await()
-        
+        ).edgeAgent.verifiableCredentials().map { $0.first }.first().await()
+
         let message = try edgeAgent.using(
             ability: Sdk.self,
             action: "get proof request"
@@ -139,12 +139,12 @@ class EdgeAgentWorkflow {
         let sendProofMessage = try await edgeAgent.using(
             ability: Sdk.self,
             action: "make message"
-        ).prismAgent.createPresentationForRequestProof(request: requestPresentationMessage, credential: credential!).makeMessage()
+        ).edgeAgent.createPresentationForRequestProof(request: requestPresentationMessage, credential: credential!).makeMessage()
         do {
             _ = try await edgeAgent.using(
                 ability: Sdk.self,
                 action: "send message"
-            ).prismAgent.sendMessage(message: sendProofMessage)
+            ).edgeAgent.sendMessage(message: sendProofMessage)
         } catch {
             print("error", error)
         }

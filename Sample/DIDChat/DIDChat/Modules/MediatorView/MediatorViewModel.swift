@@ -1,12 +1,12 @@
 import Combine
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 class MediatorViewModelImpl: MediatorViewModel {
     @Published var routeToContactsList = false
 
-    var agent: PrismAgent?
+    var agent: EdgeAgent?
     private var cancellables = Set<AnyCancellable>()
 
     func viewHasAppeared() {
@@ -26,7 +26,7 @@ class MediatorViewModelImpl: MediatorViewModel {
 
     private func startAgentWithMediatorDID(did: DID) {
         Task { [weak self] in
-            let agent = PrismAgent(mediatorDID: did)
+            let agent = EdgeAgent(mediatorDID: did)
             try await agent.start()
             agent.startFetchingMessages()
             self?.agent = agent

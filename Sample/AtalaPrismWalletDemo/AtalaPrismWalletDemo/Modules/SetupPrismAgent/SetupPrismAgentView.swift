@@ -1,6 +1,6 @@
 import SwiftUI
 
-protocol SetupPrismAgentViewModel: ObservableObject {
+protocol SetupEdgeAgentViewModel: ObservableObject {
     var status: String { get }
     var error: String? { get }
     var oobUrl: String { get set }
@@ -11,7 +11,7 @@ protocol SetupPrismAgentViewModel: ObservableObject {
     func startIssueCredentialProtocol() async throws
 }
 
-struct SetupPrismAgentView<ViewModel: SetupPrismAgentViewModel>: View {
+struct SetupEdgeAgentView<ViewModel: SetupEdgeAgentViewModel>: View {
 
     @StateObject var viewModel: ViewModel
 
@@ -86,13 +86,13 @@ struct SetupPrismAgentView<ViewModel: SetupPrismAgentViewModel>: View {
     }
 }
 
-struct SetupPrismAgentView_Previews: PreviewProvider {
+struct SetupEdgeAgentView_Previews: PreviewProvider {
     static var previews: some View {
-        SetupPrismAgentView(viewModel: ViewModel())
+        SetupEdgeAgentView(viewModel: ViewModel())
     }
 }
 
-private class ViewModel: SetupPrismAgentViewModel {
+private class ViewModel: SetupEdgeAgentViewModel {
     func startIssueCredentialProtocol() async throws {}
 
     var oobUrl: String = ""

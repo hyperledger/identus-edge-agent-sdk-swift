@@ -2,7 +2,7 @@ import Combine
 import Domain
 import Foundation
 import Pluto
-import PrismAgent
+import EdgeAgent
 
 final class MediatorViewModelImpl: MediatorPageViewModel {
     @Published var mediator: MediatorPageStateView.Mediator?
@@ -11,9 +11,9 @@ final class MediatorViewModelImpl: MediatorPageViewModel {
     @Published var error: FancyToast?
     private let castor: Castor
     private let pluto: Pluto
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
 
-    init(castor: Castor, pluto: Pluto, agent: PrismAgent) {
+    init(castor: Castor, pluto: Pluto, agent: EdgeAgent) {
         self.castor = castor
         self.pluto = pluto
         self.agent = agent

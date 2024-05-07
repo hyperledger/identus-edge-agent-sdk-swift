@@ -1,6 +1,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/input-output-hk/atala-prism-wallet-sdk-swift/badge.svg?branch=main)](https://coveralls.io/github/input-output-hk/atala-prism-wallet-sdk-swift?branch=main)
 
-# Welcome to Atala PRISM Swift SDK
+# Welcome to Edge agent Swift SDK
 
 The following will explain how to use the SDK in your project, how to prepare your development environment if you wish to contribute and some basic considerations around the project.
 
@@ -8,32 +8,32 @@ This SDK provides a library and documentation for developers to build Apple conn
 
 ## Basic considerations
 
-### Atala PRISM
+### Identus
 
-Atala PRISM is a self-sovereign identity (SSI) platform and service suite for verifiable data and digital identity. Built on Cardano, it offers the core infrastructure for issuing DIDs (Decentralized identifiers) and verifiable credentials alongside tools and frameworks to help expand your ecosystem.
+Identus is a self-sovereign identity (SSI) platform and service suite for verifiable data and digital identity. Built on Cardano, it offers the core infrastructure for issuing DIDs (Decentralized identifiers) and verifiable credentials alongside tools and frameworks to help expand your ecosystem.
 The complete platform is separated into multiple repositories:
 
-* [atala-prism-wallet-sdk-swift]() - Repo that implements Atala PRISM for Apple platforms in Swift.
-* [atala-prism-wallet-sdk-ts](https://github.com/input-output-hk/atala-prism-wallet-sdk-ts) - Repo that implements Atala PRISM for Browser and NodeJS platforms in Typescript.
-* [atala-prism-building-blocks](https://github.com/hyperledger-labs/open-enterprise-agent) - Repo that contains the platform Building Blocks.
-* [atala-prism-mediator](https://github.com/input-output-hk/atala-prism-mediator) - Repo for DIDComm V2 Mediator
+* [edge-agent-sdk-swift](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift) - Repo that implements Edge Agent for Apple platforms in Swift.
+* [edge-agent-wallet-sdk-ts](https://github.com/input-output-hk/atala-prism-wallet-sdk-ts) - Repo that implements Edge Agent for Browser and NodeJS platforms in Typescript.
+* [edge-agent-building-blocks](https://github.com/hyperledger-labs/open-enterprise-agent) - Repo that contains the platform Building Blocks.
+* [mediator](https://github.com/input-output-hk/atala-prism-mediator) - Repo for DIDComm V2 Mediator
 
 ### Modules / APIs
 
-Atala PRISM Swift SDK provides the following building blocks to create, manage and resolve decentralized identifiers; issue, manage and verify verifiable credentials; establish and manage trusted, peer-to-peer connections and interactions between DIDs; and store, manage, and recover verifiable data linked to DIDs.
+Edge Agent Swift SDK provides the following building blocks to create, manage and resolve decentralized identifiers; issue, manage and verify verifiable credentials; establish and manage trusted, peer-to-peer connections and interactions between DIDs; and store, manage, and recover verifiable data linked to DIDs.
 
 * __Apollo__: Building block that provides a suite of cryptographic operations.
 * __Castor__: Building block that provides a suite of DID operations in a user-controlled manner.
 * __Pollux__: Building block that provides a suite of credential operations in a privacy-preserving manner.
 * __Mercury__: Building block that provides a set of secure, standards-based communications protocols in a transport-agnostic and interoperable manner.
 * __Pluto__: Building block that provides an interface for storage operations in a portable, storage-agnostic manner.
-* __PrismAgent__: PrismAgent, using all the building blocks, provides an agent that can provide a set of high-level DID functionalities.
+* __EdgeAgent__: EdgeAgent, using all the building blocks, provides an agent that can provide a set of high-level DID functionalities.
 
 ## Getting Started
 
 ### Setup
 
-To get started with the Atala PRISM Swift SDK, you can set up the SDK and create a new project or integrate the SDK into an existing project. Before you start, make sure you have the following installed on your development machine:
+To get started with the Edge Agent Swift SDK, you can set up the SDK and create a new project or integrate the SDK into an existing project. Before you start, make sure you have the following installed on your development machine:
 
 - Xcode 13.4 or later
 - MacOS 12 or later

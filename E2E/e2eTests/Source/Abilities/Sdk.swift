@@ -1,5 +1,5 @@
 import Foundation
-import PrismAgent
+import EdgeAgent
 import Builders
 import Combine
 import Domain
@@ -36,8 +36,8 @@ class Sdk: Ability {
         var receivedMessages: [String] = []
         var cancellables = Set<AnyCancellable>()
         
-        let prismAgent: PrismAgent
-        
+        let edgeAgent: EdgeAgent
+
         init() async throws {
             let mediatorDID = try await Client.getPrismMediatorDid()
 //            let mediatorDID = try await Client.getRootsMediatorDid()
@@ -51,7 +51,7 @@ class Sdk: Ability {
                 ),
                 keychain: KeychainMock()
             )).build()
-            let pollux = PolluxBuilder(pluto: pluto).build()
+            let pollux = PolluxBuilder(pluto: pluto, castor: castor).build()
             let mercury = MercuryBuilder(
                 castor: castor,
                 secretsStream: Client.createSecretsStream(
@@ -61,11 +61,11 @@ class Sdk: Ability {
                 )
             ).build()
             
-            PrismAgent.setupLogging(logLevels: [
-                .prismAgent: .info
+            EdgeAgent.setupLogging(logLevels: [
+                .edgeAgent: .info
             ])
             
-            prismAgent = PrismAgent(
+            edgeAgent = EdgeAgent(
                 apollo: apollo,
                 castor: castor,
                 pluto: pluto,
@@ -80,9 +80,9 @@ class Sdk: Ability {
         }
         
         func initialize() async throws {
-            try await prismAgent.start()
+            try await edgeAgent.start()
             
-            prismAgent.handleReceivedMessagesEvents()
+            edgeAgent.handleReceivedMessagesEvents()
                 .sink(
                     receiveCompletion: { completion in
                         switch completion {
@@ -111,12 +111,12 @@ class Sdk: Ability {
                 )
                 .store(in: &cancellables)
             
-            prismAgent.startFetchingMessages()
+            edgeAgent.startFetchingMessages()
         }
         
         func tearDown() async throws {
-            prismAgent.stopFetchingMessages()
-            try await prismAgent.stop()
+            edgeAgent.stopFetchingMessages()
+            try await edgeAgent.stop()
         }
         
         static private func getPrismMediatorDid() async throws -> DID {

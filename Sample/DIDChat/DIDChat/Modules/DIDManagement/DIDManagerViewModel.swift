@@ -1,14 +1,14 @@
 import Combine
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 class DIDManagerViewModelImpl: DIDManagerViewModel {
     @Published var dids = [DIDManagerState.DIDInfo]()
 
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
 
-    init(agent: PrismAgent) {
+    init(agent: EdgeAgent) {
         self.agent = agent
 
         bind()

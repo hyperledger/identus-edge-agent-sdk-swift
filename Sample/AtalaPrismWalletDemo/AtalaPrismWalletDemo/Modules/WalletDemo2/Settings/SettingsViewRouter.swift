@@ -1,5 +1,5 @@
 import Domain
-import PrismAgent
+import EdgeAgent
 import SwiftUI
 
 struct SettingsViewRouterImpl: SettingsViewRouter {
@@ -8,7 +8,7 @@ struct SettingsViewRouterImpl: SettingsViewRouter {
     func routeToDIDs() -> some View {
         let viewModel = DIDListViewModelImpl(
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: PrismAgent.self)!
+            agent: container.resolve(type: EdgeAgent.self)!
         )
 
         return DIDListView(viewModel: viewModel)
@@ -18,7 +18,7 @@ struct SettingsViewRouterImpl: SettingsViewRouter {
         let viewModel = MediatorViewModelImpl(
             castor: container.resolve(type: Castor.self)!,
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: PrismAgent.self)!
+            agent: container.resolve(type: EdgeAgent.self)!
         )
         return MediatorPageView(viewModel: viewModel)
     }

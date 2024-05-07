@@ -1,6 +1,6 @@
 import SwiftUI
 import Domain
-import PrismAgent
+import EdgeAgent
 
 struct MessageListRouterImpl: MessageListRouter {
     let container: DIContainer
@@ -9,7 +9,7 @@ struct MessageListRouterImpl: MessageListRouter {
         let viewModel = MessageDetailViewModelImpl(
             messageId: messageId,
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: PrismAgent.self)!
+            agent: container.resolve(type: EdgeAgent.self)!
         )
 
         return MessageDetailView(viewModel: viewModel)

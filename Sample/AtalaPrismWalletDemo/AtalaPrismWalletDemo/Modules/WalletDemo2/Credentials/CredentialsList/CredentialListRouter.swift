@@ -1,4 +1,4 @@
-import PrismAgent
+import EdgeAgent
 import SwiftUI
 
 struct CredentialListRouterImpl: CredentialListRouter {
@@ -6,7 +6,7 @@ struct CredentialListRouterImpl: CredentialListRouter {
 
     func routeToCredentialDetail(id: String) -> some View {
         CredentialDetailView(viewModel: CredentialDetailViewModelImpl(
-            agent: container.resolve(type: PrismAgent.self)!,
+            agent: container.resolve(type: EdgeAgent.self)!,
             credentialId: id
         ))
     }

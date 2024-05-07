@@ -4,7 +4,7 @@ set -e
 
 DERIVED_DATA_DIR="$HOME/.derivedData"
 DESTINATION="platform=iOS Simulator,name=IPhone 14"
-SCHEME="AtalaPRISMSDK-Package"
+SCHEME="EdgeAgentSDK-Package"
 LCOV_DIR="$DERIVED_DATA_DIR/lcov"
 
 echo "Derived data directory: $DERIVED_DATA_DIR"
@@ -22,7 +22,7 @@ mkdir "$LCOV_DIR"
 
 # Run build and test
 echo "Running build and test"
-xcodebuild -scheme "AtalaPRISMSDK-Package" \
+xcodebuild -scheme "EdgeAgentSDK-Package" \
     -destination "$DESTINATION" \
     -derivedDataPath "$DERIVED_DATA_DIR" \
     -enableCodeCoverage YES \
@@ -52,4 +52,4 @@ done
 
 # Merge all coverage
 echo "Merging partials to lcov.info"
-lcov -o lcov.info -a "$LCOV_DIR/*.lcov" --include AtalaPrismSDK/ --exclude Tests > /dev/null
+lcov -o lcov.info -a "$LCOV_DIR/*.lcov" --include EdgeAgentSDK/ --exclude Tests > /dev/null

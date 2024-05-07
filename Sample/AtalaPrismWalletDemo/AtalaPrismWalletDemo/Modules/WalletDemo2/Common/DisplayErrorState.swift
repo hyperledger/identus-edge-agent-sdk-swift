@@ -1,4 +1,4 @@
-import PrismAgent
+import EdgeAgent
 import Foundation
 
 struct DisplayErrorState: DisplayError {

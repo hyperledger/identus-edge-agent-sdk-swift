@@ -2,14 +2,14 @@ import Combine
 import Domain
 import Foundation
 import Pluto
-import PrismAgent
+import EdgeAgent
 
 class PresentationsViewModelImpl: PresentationsViewModel {
     @Published var presentations: [PresentationsViewState.Presentation] = []
     private let pluto: Pluto
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
 
-    init(pluto: Pluto, agent: PrismAgent) {
+    init(pluto: Pluto, agent: EdgeAgent) {
         self.pluto = pluto
         self.agent = agent
         bind()

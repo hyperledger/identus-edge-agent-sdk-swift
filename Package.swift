@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "AtalaPRISMSDK",
+    name: "EdgeAgentSDK",
     platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(
@@ -36,17 +36,17 @@ let package = Package(
             targets: ["Builders"]
         ),
         .library(
-            name: "PrismAgent",
-            targets: ["PrismAgent"]
+            name: "EdgeAgent",
+            targets: ["EdgeAgent"]
         ),
         .library(
             name: "Authenticate",
             targets: ["Authenticate"]
         ),
         .library(
-            name: "AtalaPrismSDK",
+            name: "EdgeAgentSDK",
             targets: [
-                "AtalaPrismSDK",
+                "EdgeAgentSDK",
             ]
         )
     ],
@@ -56,7 +56,7 @@ let package = Package(
             from: "1.4.4"
         ),
         .package(url: "git@github.com:apple/swift-protobuf.git", from: "1.7.0"),
-        .package(url: "https://github.com/beatt83/didcomm-swift.git", from: "0.1.4"),
+        .package(url: "https://github.com/beatt83/didcomm-swift.git", from: "0.1.5"),
         .package(url: "https://github.com/beatt83/jose-swift.git", from: "2.2.2"),
         .package(url: "https://github.com/beatt83/peerdid-swift.git", from: "2.0.2"),
         .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.4.1"),
@@ -66,7 +66,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "AtalaPrismSDK",
+            name: "EdgeAgentSDK",
             dependencies: [
                 "Domain",
                 "Castor",
@@ -74,18 +74,18 @@ let package = Package(
                 "Mercury",
                 "Pluto",
                 "Pollux",
-                "PrismAgent"
+                "EdgeAgent"
             ],
-            path: "AtalaPrismSDK/AtalaPrismSDK/Sources"
+            path: "EdgeAgentSDK/EdgeAgentSDK/Sources"
         ),
         .target(
             name: "Domain",
-            path: "AtalaPrismSDK/Domain/Sources"
+            path: "EdgeAgentSDK/Domain/Sources"
         ),
         .testTarget(
             name: "DomainTests",
             dependencies: ["Domain"],
-            path: "AtalaPrismSDK/Domain/Tests"
+            path: "EdgeAgentSDK/Domain/Tests"
         ),
         .target(
             name: "Apollo",
@@ -95,7 +95,7 @@ let package = Package(
                 .product(name: "AnoncredsSwift", package: "anoncreds-rs"),
                 .product(name: "ApolloLibrary", package: "atala-prism-apollo")
             ],
-            path: "AtalaPrismSDK/Apollo/Sources"
+            path: "EdgeAgentSDK/Apollo/Sources"
         ),
         .target(
             name: "Castor",
@@ -105,12 +105,12 @@ let package = Package(
                 .product(name: "PeerDID", package: "peerdid-swift"),
                 .product(name: "SwiftProtobuf", package: "swift-protobuf")
             ],
-            path: "AtalaPrismSDK/Castor/Sources"
+            path: "EdgeAgentSDK/Castor/Sources"
         ),
         .testTarget(
             name: "CastorTests",
             dependencies: ["Castor", "Apollo"],
-            path: "AtalaPrismSDK/Castor/Tests"
+            path: "EdgeAgentSDK/Castor/Tests"
         ),
         .target(
             name: "Pollux",
@@ -122,12 +122,12 @@ let package = Package(
                 .product(name: "AnoncredsSwift", package: "anoncreds-rs"),
                 .product(name: "JSONSchema", package: "JSONSchema.swift")
             ],
-            path: "AtalaPrismSDK/Pollux/Sources"
+            path: "EdgeAgentSDK/Pollux/Sources"
         ),
         .testTarget(
             name: "PolluxTests",
-            dependencies: ["Pollux", "Apollo", "Castor", "PrismAgent"],
-            path: "AtalaPrismSDK/Pollux/Tests"
+            dependencies: ["Pollux", "Apollo", "Castor", "EdgeAgent"],
+            path: "EdgeAgentSDK/Pollux/Tests"
         ),
         .target(
             name: "Mercury",
@@ -136,12 +136,12 @@ let package = Package(
                 "Core",
                 "didcomm-swift"
             ],
-            path: "AtalaPrismSDK/Mercury/Sources"
+            path: "EdgeAgentSDK/Mercury/Sources"
         ),
         .testTarget(
             name: "MercuryTests",
             dependencies: ["Mercury"],
-            path: "AtalaPrismSDK/Mercury/Tests"
+            path: "EdgeAgentSDK/Mercury/Tests"
         ),
         .target(
             name: "Pluto",
@@ -149,42 +149,42 @@ let package = Package(
                 "Domain",
                 "Core"
             ],
-            path: "AtalaPrismSDK/Pluto/Sources",
+            path: "EdgeAgentSDK/Pluto/Sources",
             resources: [.process("Resources/PrismPluto.xcdatamodeld")]
         ),
         .testTarget(
             name: "PlutoTests",
             dependencies: ["Pluto"],
-            path: "AtalaPrismSDK/Pluto/Tests"
+            path: "EdgeAgentSDK/Pluto/Tests"
         ),
         .target(
             name: "Builders",
             dependencies: ["Domain", "Castor", "Pollux", "Mercury", "Pluto", "Apollo"],
-            path: "AtalaPrismSDK/Builders/Sources"
+            path: "EdgeAgentSDK/Builders/Sources"
         ),
         .target(
-            name: "PrismAgent",
+            name: "EdgeAgent",
             dependencies: [
                 "Domain",
                 "Builders",
                 "Core"
             ],
-            path: "AtalaPrismSDK/PrismAgent/Sources"
+            path: "EdgeAgentSDK/EdgeAgent/Sources"
         ),
         .testTarget(
-            name: "PrismAgentTests",
-            dependencies: ["PrismAgent", "Core"],
-            path: "AtalaPrismSDK/PrismAgent/Tests"
+            name: "EdgeAgentTests",
+            dependencies: ["EdgeAgent", "Core"],
+            path: "EdgeAgentSDK/EdgeAgent/Tests"
         ),
         .target(
             name: "Authenticate",
             dependencies: ["Domain", "Builders", "Core"],
-            path: "AtalaPrismSDK/Authenticate/Sources"
+            path: "EdgeAgentSDK/Authenticate/Sources"
         ),
 //        .testTarget(
 //            name: "AuthenticateTests",
 //            dependencies: ["Authenticate"],
-//            path: "AtalaPrismSDK/Authenticate/Tests"
+//            path: "EdgeAgentSDK/Authenticate/Tests"
 //        ),
 //        Internal core components (ex: logging) not public distributed
         .target(

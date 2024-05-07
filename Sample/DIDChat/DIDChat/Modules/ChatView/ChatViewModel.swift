@@ -1,6 +1,6 @@
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 final class ChatViewModelImpl: ChatViewModel {
     @Published var name = ""
@@ -8,11 +8,11 @@ final class ChatViewModelImpl: ChatViewModel {
     @Published var messages = [ChatViewState.Message]()
     @Published var error: FancyToast?
 
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
     private let pair: DIDPair
     private var messageList = Set<ChatViewState.Message>()
 
-    init(conervsationPair: DIDPair, agent: PrismAgent) {
+    init(conervsationPair: DIDPair, agent: EdgeAgent) {
         self.agent = agent
         self.pair = conervsationPair
         self.name = conervsationPair.name ?? ""

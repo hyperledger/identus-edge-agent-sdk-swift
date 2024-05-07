@@ -1,5 +1,5 @@
 import Domain
-import PrismAgent
+import EdgeAgent
 import SwiftUI
 
 struct AddNewContactComponent: ComponentContainer {
@@ -12,7 +12,7 @@ struct AddNewContactBuilder: Builder {
         let viewModel = getViewModel(component: component) {
             AddNewContactViewModelImpl(
                 token: component.token ?? "",
-                agent: component.container.resolve(type: PrismAgent.self)!,
+                agent: component.container.resolve(type: EdgeAgent.self)!,
                 pluto: component.container.resolve(type: Pluto.self)!
             )
         }

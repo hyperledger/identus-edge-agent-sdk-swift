@@ -1,7 +1,7 @@
 import Combine
 import Domain
 import Foundation
-import PrismAgent
+import EdgeAgent
 
 final class AddNewContactViewModelImpl: AddNewContactViewModel {
     @Published var flowStep: AddNewContactState.AddContacFlowStep
@@ -12,12 +12,12 @@ final class AddNewContactViewModelImpl: AddNewContactViewModel {
     @Published var contactInfo: AddNewContactState.Contact?
 
     private let pluto: Pluto
-    private let agent: PrismAgent
+    private let agent: EdgeAgent
     private var cancellables = Set<AnyCancellable>()
 
     init(
         token: String = "",
-        agent: PrismAgent,
+        agent: EdgeAgent,
         pluto: Pluto
     ) {
         code = token

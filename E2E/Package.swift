@@ -19,7 +19,7 @@ let package = Package(
         .testTarget(
             name: "e2e",
             dependencies: [
-                .product(name: "PrismAgent", package: "atala-prism-wallet-sdk-swift"),
+                .product(name: "EdgeAgent", package: "atala-prism-wallet-sdk-swift"),
                 .product(name: "Domain", package: "atala-prism-wallet-sdk-swift"),
                 .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
                 .product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession"),
