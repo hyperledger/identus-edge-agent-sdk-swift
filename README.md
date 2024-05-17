@@ -15,7 +15,8 @@ The complete platform is separated into multiple repositories:
 
 * [edge-agent-sdk-swift](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift) - Repo that implements Edge Agent for Apple platforms in Swift.
 * [edge-agent-wallet-sdk-ts](https://github.com/input-output-hk/atala-prism-wallet-sdk-ts) - Repo that implements Edge Agent for Browser and NodeJS platforms in Typescript.
-* [edge-agent-building-blocks](https://github.com/hyperledger-labs/open-enterprise-agent) - Repo that contains the platform Building Blocks.
+* [edge-agent-wallet-sdk-kmp](https://github.com/input-output-hk/atala-prism-wallet-sdk-kmm) - Repo that implements Edge Agent for Android and JVM platforms in Kotlin Multi-Platform.
+* [identus-cloud-agent](https://github.com/hyperledger/identus-cloud-agent) - Repo that contains the platform Building Blocks.
 * [mediator](https://github.com/input-output-hk/atala-prism-mediator) - Repo for DIDComm V2 Mediator
 
 ### Modules / APIs

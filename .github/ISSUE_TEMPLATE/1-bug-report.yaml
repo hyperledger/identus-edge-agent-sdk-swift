@@ -1,5 +1,5 @@
 name: Bug Report
-description: Report a bug in the Atala PRISM Swift SDK
+description: Report a bug in the Edge Agent SDK Swift
 
 body:
   - type: dropdown
