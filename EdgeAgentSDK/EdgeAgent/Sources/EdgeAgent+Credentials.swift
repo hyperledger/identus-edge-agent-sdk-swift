@@ -48,7 +48,7 @@ public extension EdgeAgent {
         )
 
         let rqstStr = try request.tryToString()
-        Logger(label: "").log(level: .info, "Request: \(rqstStr)")
+        logger.debug(message: "Request: \(rqstStr)")
         let attachment: AttachmentDescriptor
         switch type {
         case .jwt:

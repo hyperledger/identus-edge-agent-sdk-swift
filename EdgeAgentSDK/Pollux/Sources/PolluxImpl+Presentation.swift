@@ -54,15 +54,34 @@ extension PolluxImpl {
                 .reduce([String: AnoncredsPresentationRequest.RequestedAttribute](), { partialResult, filter in
                     var dic = partialResult
                     let key = filter.name ?? filter.type
+                    guard filter.pattern == nil else {
+                        return dic
+                    }
                     dic[key] = AnoncredsPresentationRequest.RequestedAttribute(name: key, restrictions: [])
                     return dic
                 })
+
+            let requestedPredicates = claimFilters
+                .reduce([String: AnoncredsPresentationRequest.RequestedPredicate](), { partialResult, filter in
+                    var dic = partialResult
+                    guard
+                        let pType = filter.pattern,
+                        let pValueStr = filter.const,
+                        let pValue = Int(pValueStr)
+                    else {
+                        return dic
+                    }
+                    let key = filter.name ?? filter.type
+                    dic[key] = AnoncredsPresentationRequest.RequestedPredicate(name: key, pType: pType, pValue: pValue)
+                    return dic
+                })
+            
             let anoncredsPresentation = AnoncredsPresentationRequest(
                 nonce: try Nonce().getValue(),
                 name: name,
                 version: version,
                 requestedAttributes: requestedFields,
-                requestedPredicates: [:]
+                requestedPredicates: requestedPredicates
             )
 
             return try JSONEncoder.didComm().encode(anoncredsPresentation)
