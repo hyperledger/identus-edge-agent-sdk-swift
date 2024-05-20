@@ -40,7 +40,8 @@ final class AnoncredsPresentationFlowTest: XCTestCase {
             fromDID: DID(method: "test", methodId: "alice"),
             toDID: DID(method: "test", methodId: "bob"),
             claimFilters: [
-                .init(paths: [], type: "sex")
+                .init(paths: [], type: "sex"),
+                .init(paths: [], type: "age", const: "20", pattern: ">=")
             ]
         )
 
