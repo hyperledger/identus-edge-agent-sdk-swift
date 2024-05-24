@@ -46,6 +46,7 @@
 		EE6C7F5429C2754500D866AD /* DIDListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C7F5329C2754500D866AD /* DIDListView.swift */; };
 		EE6C7F5629C2758100D866AD /* DIDListViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C7F5529C2758100D866AD /* DIDListViewState.swift */; };
 		EE6C7F5829C275C400D866AD /* DIDListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C7F5729C275C400D866AD /* DIDListViewModel.swift */; };
+		EE6FE6D22BFE0691001673F3 /* MockAnoncredsIssuer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6FE6D12BFE0691001673F3 /* MockAnoncredsIssuer.swift */; };
 		EE75147C29C3766800FFFAA4 /* DIDDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE75147B29C3766800FFFAA4 /* DIDDetailViewModel.swift */; };
 		EE75147E29C376E700FFFAA4 /* DIDDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE75147D29C376E700FFFAA4 /* DIDDetailView.swift */; };
 		EE75148029C378DB00FFFAA4 /* DIDDetailViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE75147F29C378DB00FFFAA4 /* DIDDetailViewState.swift */; };
@@ -173,6 +174,7 @@
 		EE6C7F5329C2754500D866AD /* DIDListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDListView.swift; sourceTree = "<group>"; };
 		EE6C7F5529C2758100D866AD /* DIDListViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDListViewState.swift; sourceTree = "<group>"; };
 		EE6C7F5729C275C400D866AD /* DIDListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDListViewModel.swift; sourceTree = "<group>"; };
+		EE6FE6D12BFE0691001673F3 /* MockAnoncredsIssuer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAnoncredsIssuer.swift; sourceTree = "<group>"; };
 		EE75147B29C3766800FFFAA4 /* DIDDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDDetailViewModel.swift; sourceTree = "<group>"; };
 		EE75147D29C376E700FFFAA4 /* DIDDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDDetailView.swift; sourceTree = "<group>"; };
 		EE75147F29C378DB00FFFAA4 /* DIDDetailViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIDDetailViewState.swift; sourceTree = "<group>"; };
@@ -643,6 +645,7 @@
 				EEBC938E29C7311C0015A36E /* CredentialListViewState.swift */,
 				EEBC939429C735910015A36E /* CredentialListViewModel.swift */,
 				EEBC939629C737DE0015A36E /* CredentialListRouter.swift */,
+				EE6FE6D12BFE0691001673F3 /* MockAnoncredsIssuer.swift */,
 			);
 			path = CredentialsList;
 			sourceTree = "<group>";
@@ -944,6 +947,7 @@
 				EE418AEF2BCFD926008766A6 /* PresentationsView.swift in Sources */,
 				EE75148029C378DB00FFFAA4 /* DIDDetailViewState.swift in Sources */,
 				EE92C42B2B7E1CA200FC0B6E /* DisablePreferenceKey.swift in Sources */,
+				EE6FE6D22BFE0691001673F3 /* MockAnoncredsIssuer.swift in Sources */,
 				EE6C7F5129C23A3400D866AD /* MediatorPageView.swift in Sources */,
 				EE92C43D2B7E1F6A00FC0B6E /* AlreadyConnectedView.swift in Sources */,
 				EE75A2F729479488007D4405 /* FancyToast.swift in Sources */,

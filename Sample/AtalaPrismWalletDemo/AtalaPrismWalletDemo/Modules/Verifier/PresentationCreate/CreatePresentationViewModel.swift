@@ -85,12 +85,12 @@ class CreatePresentationViewModelImpl: CreatePresentationViewModel {
                 claimFilters: anoncredsClaims.map {
                     ClaimFilter(
                         paths: [],
-                        type: "",
+                        type: $0.name,
                         required: true,
                         name: $0.name,
                         format: nil,
-                        const: nil,
-                        pattern: $0.predicate
+                        const: $0.value.isEmpty ? nil : $0.value,
+                        pattern: $0.predicate.isEmpty ? nil : $0.predicate
                     )
                 }
             )

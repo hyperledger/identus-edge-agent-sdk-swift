@@ -101,7 +101,8 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
 
         Task {
             let credentials = try await self.agent.verifiableCredentials().first().await()
-            guard credentials.isEmpty else {
+            let linkSecret = try await self.agent.pluto.getLinkSecret().first().await()
+            guard credentials.isEmpty, linkSecret != nil else {
                 return
             }
             try await buildMockCredentials()
@@ -174,6 +175,7 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
         try await makeDemoCredentialJWT(value: "aliceTest")
         try await makeDemoCredentialJWT(value: "failed")
         try await makeDemoCredentialJWT(value: "testUser@gmail.com")
+//        try await makeDemoAnoncredsCredential(value: "")
     }
 
     private func makeDemoCredentialJWT(value: String) async throws {
@@ -204,6 +206,37 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
 
         let credential = try JWTCredential(data: jwt.jwtString.tryToData())
         try await pluto.storeCredential(credential: credential).first().await()
+    }
+
+    private func makeDemoAnoncredsCredential(value: String) async throws {
+        let mockedIssuer = MockAnoncredsIssuer()
+        let offer = try mockedIssuer.createOffer()
+        guard let linkSecretStorable = try await pluto.getLinkSecret().first().await() else {
+            throw UnknownError.somethingWentWrongError(customMessage: nil, underlyingErrors: nil)
+        }
+        let linkSecret = try await apollo.restoreKey(linkSecretStorable)
+
+        let credDef = mockedIssuer.credDef
+        let defDownloader = MockDownloader(returnData: try credDef.getJson().data(using: .utf8)!)
+        let schemaDownloader = MockDownloader(returnData: mockedIssuer.getSchemaJson().data(using: .utf8)!)
+        let prover = MockAnoncredsProver(linkSecret: linkSecret, credDef: credDef)
+        let request = try prover.createRequest(offer: offer)
+        let credentialMetadata = try StorableCredentialRequestMetadata(
+            metadataJson: request.1.getJson().tryData(using: .utf8),
+            storingId: "1"
+        )
+        try await pluto.storeCredential(credential: credentialMetadata).first().await()
+        let issuedMessage = try mockedIssuer.issueCredential(offer: offer, request: request.0)
+        let credential = try await agent.pollux.parseCredential(
+            issuedCredential: issuedMessage,
+            options: [
+                .linkSecret(id: "test", secret: linkSecret.raw.tryToString()),
+                .credentialDefinitionDownloader(downloader: defDownloader),
+                .schemaDownloader(downloader: schemaDownloader)
+            ]
+        )
+
+        try await pluto.storeCredential(credential: credential.storable!).first().await()
     }
 }
 

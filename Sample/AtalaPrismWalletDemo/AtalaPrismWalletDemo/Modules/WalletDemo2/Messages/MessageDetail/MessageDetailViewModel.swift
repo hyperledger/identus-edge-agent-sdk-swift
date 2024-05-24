@@ -259,5 +259,9 @@ private func getTitle(for protocolType: ProtocolTypes) -> String {
         return "Pickup Received"
     case .didcommCredentialPreview3_0:
         return "Credential Preview"
+    case .didcommRevocationNotification:
+        return "Revocation Notification"
+    case .didcommReportProblem:
+        return "Problem Reporting"
     }
 }

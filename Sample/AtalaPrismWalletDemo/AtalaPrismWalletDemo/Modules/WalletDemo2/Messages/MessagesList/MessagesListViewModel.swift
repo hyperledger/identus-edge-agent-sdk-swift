@@ -101,6 +101,10 @@ final class MessagesListViewModelImpl: MessageListViewModel {
             return "Pickup Received"
         case .didcommCredentialPreview3_0:
             return "Credential Preview"
+        case .didcommRevocationNotification:
+            return "Revocation Notification"
+        case .didcommReportProblem:
+            return "Report Problem"
         }
     }
 
