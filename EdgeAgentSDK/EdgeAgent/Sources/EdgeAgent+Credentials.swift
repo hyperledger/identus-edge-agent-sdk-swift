@@ -91,7 +91,11 @@ public extension EdgeAgent {
 
     func verifyPresentation(message: Message) async throws -> Bool {
         do {
-            return try await pollux.verifyPresentation(message: message, options: [])
+            let downloader = DownloadDataWithResolver(castor: castor)
+            return try await pollux.verifyPresentation(message: message, options: [
+                .credentialDefinitionDownloader(downloader: downloader),
+                .schemaDownloader(downloader: downloader)
+            ])
         } catch {
             logger.error(error: error)
             throw error

@@ -149,7 +149,10 @@ struct AnoncredsClaimView: View {
 
     var body: some View {
         TextField("Name", text: $claim.name)
+            .textInputAutocapitalization(.never)
         TextField("Predicate", text: $claim.predicate)
+        TextField("Value", text: $claim.value)
+            .keyboardType(.numberPad)
     }
 }
 

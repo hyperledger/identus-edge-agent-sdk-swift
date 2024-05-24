@@ -11,19 +11,24 @@ private struct Schema: Codable {
     let issuerId: String
 }
 
-struct StorableCredentialRequestMetadata: StorableCredential {
-    let metadataJson: Data
-    let storingId: String
-    var recoveryId: String { "anoncreds+metadata"}
-    var credentialData: Data { metadataJson }
-    var queryIssuer: String? { nil }
-    var querySubject: String? { nil }
-    var queryCredentialCreated: Date? { nil }
-    var queryCredentialUpdated: Date? { nil }
-    var queryCredentialSchema: String? { nil }
-    var queryValidUntil: Date? { nil }
-    var queryRevoked: Bool? { nil }
-    var queryAvailableClaims: [String] { [] }
+public struct StorableCredentialRequestMetadata: StorableCredential {
+    public let metadataJson: Data
+    public let storingId: String
+    public var recoveryId: String { "anoncreds+metadata"}
+    public var credentialData: Data { metadataJson }
+    public var queryIssuer: String? { nil }
+    public var querySubject: String? { nil }
+    public var queryCredentialCreated: Date? { nil }
+    public var queryCredentialUpdated: Date? { nil }
+    public var queryCredentialSchema: String? { nil }
+    public var queryValidUntil: Date? { nil }
+    public var queryRevoked: Bool? { nil }
+    public var queryAvailableClaims: [String] { [] }
+
+    public init(metadataJson: Data, storingId: String) {
+        self.metadataJson = metadataJson
+        self.storingId = storingId
+    }
 }
 
 struct CreateAnoncredCredentialRequest {

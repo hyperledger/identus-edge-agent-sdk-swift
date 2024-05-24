@@ -22,6 +22,7 @@ struct CreatePresentationViewState {
     struct AnoncredsClaim {
         var name: String = ""
         var predicate: String = ""
+        var value: String = ""
     }
 
     struct Connection: Identifiable, Hashable {
