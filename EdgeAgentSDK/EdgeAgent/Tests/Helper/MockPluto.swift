@@ -4,6 +4,9 @@ import Domain
 import Foundation
 
 class MockPluto: Pluto {
+    var dids = [(did: DID, privateKeys: [StorableKey], alias: String?)]()
+    var didPairs = [DIDPair]()
+    var mediators = [(peer: Domain.DID, routingDID: Domain.DID, mediatorDID: Domain.DID)]()
     var linkSecret: StorableKey?
     var messages = [Message]()
     var credentials = [StorableCredential]()
@@ -14,16 +17,19 @@ class MockPluto: Pluto {
     }
 
     func storePeerDID(did: Domain.DID, privateKeys: [Domain.StorableKey], alias: String?) -> AnyPublisher<Void, Error> {
-        Just(()).tryMap { $0 }.eraseToAnyPublisher()
+        dids.append((did, privateKeys, alias))
+        return Just(()).tryMap { $0 }.eraseToAnyPublisher()
     }
 
     func storeDID(did: Domain.DID, privateKeys: [Domain.StorableKey], alias: String?) -> AnyPublisher<Void, Error> {
+        dids.append((did, privateKeys, alias))
         keys[did.string] = privateKeys
         return Just(()).tryMap { $0 }.eraseToAnyPublisher()
     }
 
     func storeDIDPair(pair: Domain.DIDPair) -> AnyPublisher<Void, Error> {
-        Just(()).tryMap { $0 }.eraseToAnyPublisher()
+        didPairs.append(pair)
+        return Just(()).tryMap { $0 }.eraseToAnyPublisher()
     }
 
     func storeMessage(message: Domain.Message, direction: Domain.Message.Direction) -> AnyPublisher<Void, Error> {
@@ -37,7 +43,8 @@ class MockPluto: Pluto {
     }
 
     func storeMediator(peer: Domain.DID, routingDID: Domain.DID, mediatorDID: Domain.DID) -> AnyPublisher<Void, Error> {
-        Just(()).tryMap { $0 }.eraseToAnyPublisher()
+        self.mediators = self.mediators + [(peer, routingDID, mediatorDID)]
+        return Just(()).tryMap { $0 }.eraseToAnyPublisher()
     }
 
     func storeCredential(credential: Domain.StorableCredential) -> AnyPublisher<Void, Error> {
@@ -87,7 +94,7 @@ class MockPluto: Pluto {
     }
 
     func getAllDIDs() -> AnyPublisher<[(did: Domain.DID, privateKeys: [Domain.StorableKey], alias: String?)], Error> {
-        Just([]).tryMap { $0 }.eraseToAnyPublisher()
+        Just(dids).tryMap { $0 }.eraseToAnyPublisher()
     }
 
     func getDIDInfo(did: Domain.DID) -> AnyPublisher<(did: Domain.DID, privateKeys: [Domain.StorableKey], alias: String?)?, Error> {
@@ -111,7 +118,7 @@ class MockPluto: Pluto {
     }
 
     func getAllDidPairs() -> AnyPublisher<[Domain.DIDPair], Error> {
-        Just([]).tryMap { $0 }.eraseToAnyPublisher()
+        Just(didPairs).tryMap { $0 }.eraseToAnyPublisher()
     }
 
     func getPair(otherDID: Domain.DID) -> AnyPublisher<Domain.DIDPair?, Error> {
@@ -163,7 +170,7 @@ class MockPluto: Pluto {
     }
 
     func getAllMediators() -> AnyPublisher<[(did: Domain.DID, routingDID: Domain.DID, mediatorDID: Domain.DID)], Error> {
-        Just([]).tryMap { $0 }.eraseToAnyPublisher()
+        Just(mediators).tryMap { $0.map { ($0.peer, $0.routingDID, $0.mediatorDID) } }.eraseToAnyPublisher()
     }
 
     func getAllCredentials() -> AnyPublisher<[Domain.StorableCredential], Error> {

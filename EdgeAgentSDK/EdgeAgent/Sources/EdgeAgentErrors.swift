@@ -33,6 +33,13 @@ public enum EdgeAgentError: KnownPrismError {
     /// An error case representing an invalid attachment format.
     case invalidAttachmentFormat(String?)
 
+    /// An error case representing that a key requires to conform to the Exportable protocol.
+    case keyIsNotExportable
+
+    /// An error case representing that the wallet was not initialized and a Link secret is not set yet.
+    case noLinkSecretConfigured
+
+
     /// The error code returned by the server.
     public var code: Int {
         switch self {
@@ -52,6 +59,11 @@ public enum EdgeAgentError: KnownPrismError {
             return 117
         case .invalidAttachmentFormat:
             return 118
+        case .keyIsNotExportable:
+            return 117
+        case .noLinkSecretConfigured:
+            return 118
+
         }
     }
 
@@ -90,6 +102,10 @@ You need to provide a mediation handler and start the prism agent before doing s
             return "Credential doesnt conform with proof protocol"
         case .invalidAttachmentFormat(let format):
             return "Attachment format is not supported \(format ?? "")"
+        case .keyIsNotExportable:
+            return "The key requires to conform to the Exportable protocol"
+        case .noLinkSecretConfigured:
+            return "The link secret was not initialized, please run start() once"
         }
     }
 }

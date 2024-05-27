@@ -20,4 +20,15 @@ struct CreateX25519KeyPairOperation {
             internalKey: privateKey
         )
     }
+
+    func compute(seed: Seed, keyPath: Domain.DerivationPath) throws -> PrivateKey {
+        let derivedHdKey = ApolloLibrary
+            .EdHDKey
+            .companion
+            .doInitFromSeed(seed: seed.value.toKotlinByteArray())
+            .derive(path: keyPath.keyPathString()
+        )
+
+        return X25519PrivateKey(internalKey: KMMEdPrivateKey(raw: derivedHdKey.privateKey).x25519PrivateKey())
+    }
 }

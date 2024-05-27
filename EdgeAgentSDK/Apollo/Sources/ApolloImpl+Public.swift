@@ -84,6 +84,16 @@ extension ApolloImpl: Apollo {
                     let keyData = Data(base64Encoded: keyStr)
                 {
                     return try CreateEd25519KeyPairOperation(logger: ApolloImpl.logger).compute(fromPrivateKey: keyData)
+                } else if
+                    let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue],
+                    let seedStr = parameters[KeyProperties.seed.rawValue],
+                    let seed = Data(base64Encoded: seedStr)
+                {
+                    let derivationPath = try DerivationPath(string: derivationPathStr)
+                    return try CreateEd25519KeyPairOperation(logger: ApolloImpl.logger).compute(
+                        seed: Seed(value: seed),
+                        keyPath: derivationPath
+                    )
                 }
                 return CreateEd25519KeyPairOperation(logger: ApolloImpl.logger).compute()
             case .x25519:
@@ -92,6 +102,16 @@ extension ApolloImpl: Apollo {
                     let keyData = Data(base64Encoded: keyStr)
                 {
                     return try CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute(fromPrivateKey: keyData)
+                }  else if
+                    let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue],
+                    let seedStr = parameters[KeyProperties.seed.rawValue],
+                    let seed = Data(base64Encoded: seedStr)
+                {
+                    let derivationPath = try DerivationPath(string: derivationPathStr)
+                    return try CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute(
+                        seed: Seed(value: seed),
+                        keyPath: derivationPath
+                    )
                 }
                 return CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute()
             }

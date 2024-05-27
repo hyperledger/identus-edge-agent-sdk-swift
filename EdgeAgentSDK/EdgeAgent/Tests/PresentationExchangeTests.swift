@@ -12,7 +12,7 @@ final class PresentationExchangeFlowTests: XCTestCase {
     var apollo: Apollo & KeyRestoration = ApolloBuilder().build()
     var pluto = MockPluto()
     var castor: Castor!
-    var pollux: Pollux!
+    var pollux: (Pollux & CredentialImporter)!
     var mercury = MercuryStub()
     var edgeAgent: EdgeAgent!
     let logger = Logger(label: "presentation_exchange_test")
