@@ -11,7 +11,7 @@ final class AnoncredsPresentationFlowTest: XCTestCase {
     var apollo: Apollo & KeyRestoration = ApolloBuilder().build()
     var pluto = MockPluto()
     var castor: Castor!
-    var pollux: Pollux!
+    var pollux: (Pollux & CredentialImporter)!
     var mercury = MercuryStub()
     var edgeAgent: EdgeAgent!
     var linkSecret: Key!

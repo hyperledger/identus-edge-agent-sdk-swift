@@ -10,7 +10,7 @@ public struct PolluxBuilder {
         self.castor = castor
     }
 
-    public func build() -> Pollux {
+    public func build() -> Pollux & CredentialImporter {
         PolluxImpl(castor: castor, pluto: pluto)
     }
 }
