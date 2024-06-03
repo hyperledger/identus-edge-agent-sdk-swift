@@ -9,7 +9,8 @@ extension EdgeAgent {
         struct Key: Codable {
             let key: String
             let did: String?
-            let recoveryType: String
+            let index: Int?
+            let recoveryId: String?
         }
 
         struct Credential: Codable {
@@ -19,7 +20,7 @@ extension EdgeAgent {
 
         struct Pair: Codable {
             let holder: String
-            let receiver: String
+            let recipient: String
             let alias: String?
         }
 
@@ -144,7 +145,8 @@ extension EdgeAgent {
                 return Backup.Key(
                     key: keyStr,
                     did: did.did.string,
-                    recoveryType: key.restorationIdentifier
+                    index: key.index,
+                    recoveryId: key.restorationIdentifier
                 )
             }
         }.flatMap { $0 }
@@ -159,7 +161,8 @@ extension EdgeAgent {
                 return Backup.Key(
                     key: keyStr,
                     did: nil,
-                    recoveryType: key.restorationIdentifier
+                    index: key.index,
+                    recoveryId: key.restorationIdentifier
                 )
             }
         return backupKeys + backupDIDKeys
@@ -168,15 +171,18 @@ extension EdgeAgent {
     func recoverDidsWithKeys(dids: [Backup.DIDs], keys: [Backup.Key]) async throws {
         try await dids.asyncForEach { [weak self] did in
             let storableKeys = try await keys
-                .filter { $0.did == did.did }
-                .compactMap {
-                    return Data(base64URLEncoded: $0.key)
+                .filter {
+                    let didurl = $0.did.flatMap { try? DIDUrl(string: $0) }?.did.string
+                    return didurl == did.did
+                }
+                .compactMap { key in
+                    return Data(base64URLEncoded: key.key).map { ($0, key.index) }
                 }
                 .asyncCompactMap {
                     guard let self else {
                         throw UnknownError.somethingWentWrongError(customMessage: nil, underlyingErrors: nil)
                     }
-                    return try await jwkToKey(key: $0, restoration: self.apollo)
+                    return try await jwkToKey(key: $0, restoration: self.apollo, index: $1)
                 }
 
             try await self?.pluto.storeDID(
@@ -193,7 +199,7 @@ extension EdgeAgent {
         try await pairs.asyncForEach { [weak self] in
             try await self?.pluto.storeDIDPair(pair: .init(
                 holder: DID(string: $0.holder),
-                other: DID(string: $0.receiver),
+                other: DID(string: $0.recipient),
                 name: $0.alias
             ))
             .first()
@@ -202,13 +208,13 @@ extension EdgeAgent {
     }
 
     func recoverMessages(messages: [String]) async throws {
-        let messages = messages.compactMap { messageStr -> (Message, Message.Direction)? in
+        let messages = try messages.compactMap { messageStr -> (Message, Message.Direction)? in
             guard
-                let messageData = Data(base64URLEncoded: messageStr),
-                let message = try? JSONDecoder.didComm().decode(Message.self, from: messageData)
+                let messageData = Data(base64URLEncoded: messageStr)
             else {
                 return nil
             }
+            let message = try JSONDecoder.didComm().decode(Message.self, from: messageData)
 
             return (message, message.direction)
         }
@@ -228,7 +234,7 @@ extension EdgeAgent {
                 else {
                     return nil
                 }
-                return try? await pollux.importCredential(
+                return try await pollux.importCredential(
                     credentialData: data,
                     restorationType: bakCredential.recoveryId,
                     options: [
@@ -285,7 +291,7 @@ extension EdgeAgent {
             .first()
             .await()
             .map {
-                Backup.Pair(holder: $0.holder.string, receiver: $0.other.string, alias: $0.name)
+                Backup.Pair(holder: $0.holder.string, recipient: $0.other.string, alias: $0.name)
             }
     }
 
@@ -350,8 +356,8 @@ private func keyToJWK(key: StorableKey, restoration: KeyRestoration) async throw
     return try JSONEncoder().encode(exportable.jwk).base64UrlEncodedString()
 }
 
-private func jwkToKey(key: Data, restoration: KeyRestoration) async throws -> StorableKey? {
+private func jwkToKey(key: Data, restoration: KeyRestoration, index: Int?) async throws -> StorableKey? {
     let jwk = try JSONDecoder().decode(Domain.JWK.self, from: key)
-    let key = try await restoration.restoreKey(jwk, index: nil)
+    let key = try await restoration.restoreKey(jwk, index: index)
     return key.storable
 }

@@ -32,7 +32,9 @@ struct AnoncredsPresentation {
             issuerId: stackSchema.issuerId
         )
 
-        let credentialDefinition = try stack.definition.getAnoncred()
+        guard let credentialDefinition = try stack.definition?.getAnoncred() else {
+            throw UnknownError.somethingWentWrongError(customMessage: nil, underlyingErrors: nil)
+        }
         return try Prover().createPresentation(
             presentationRequest: request,
             credentials: [credentialRequest],

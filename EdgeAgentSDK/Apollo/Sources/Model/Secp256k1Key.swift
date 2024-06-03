@@ -88,7 +88,6 @@ struct Secp256k1PublicKey: PublicKey {
         self.keySpecifications = specs
         self.size = internalKey.raw.toData().count
         self.raw = internalKey.raw.toData()
-
     }
 
     init(x: Data, y: Data) {
