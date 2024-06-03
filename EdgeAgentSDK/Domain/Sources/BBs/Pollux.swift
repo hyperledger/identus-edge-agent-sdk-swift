@@ -13,6 +13,7 @@ public enum CredentialOperationsOptions {
     case signableKey(SignableKey)  // A key that can be used for signing.
     case exportableKey(ExportableKey)  // A key that can be exported.
     case zkpPresentationParams(attributes: [String: Bool], predicates: [String]) // Anoncreds zero-knowledge proof presentation parameters
+    case disclosingClaims(claims: [String])
     case custom(key: String, data: Data)  // Any custom data.
 }
 

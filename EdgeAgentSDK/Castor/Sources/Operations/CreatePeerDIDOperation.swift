@@ -17,15 +17,14 @@ struct CreatePeerDIDOperation {
             agreementKeys: [keyAgreementFromPublicKey(publicKey: agreementPublicKey)],
             services: services.flatMap { service in
                 service.serviceEndpoint.map {
-                    DIDCore.DIDDocument.Service(
-                        id: service.id,
-                        type: service.type.first ?? "",
-                        serviceEndpoint: AnyCodable(
-                            dictionaryLiteral:
-                                ("uri", $0.uri),
-                                ("accept", $0.accept),
-                                ("routing_keys", $0.routingKeys)
-                        )
+                    AnyCodable(dictionaryLiteral:
+                        ("id", service.id),
+                        ("type", service.type.first ?? ""),
+                        ("serviceEndpoint", [
+                            "uri" : $0.uri,
+                            "accept" : $0.accept,
+                            "routing_keys" : $0.routingKeys
+                        ])
                     )
                 }
             }

@@ -62,7 +62,7 @@ extension PolluxImpl {
         try VerifyPresentationSubmission.verifyPresentationSubmissionClaims(
             request: presentationRequest.presentationDefinition,
             credentials: try credentials.map {
-                try JWT<DefaultJWTClaimsImpl>.getPayload(jwtString: $0)
+                try JWT.getPayload(jwtString: $0)
             }
         )
 
@@ -93,7 +93,7 @@ extension PolluxImpl {
         guard let nestedDescriptor = descriptor.pathNested else {
             return jwts
         }
-        let nestedPayload: Data = try JWT<DefaultJWTClaimsImpl>.getPayload(jwtString: jwts)
+        let nestedPayload: Data = try JWT.getPayload(jwtString: jwts)
         return try processJWTPath(descriptor: nestedDescriptor, presentationData: nestedPayload)
     }
 
@@ -116,7 +116,7 @@ extension PolluxImpl {
     }
 
     private func verifyJWT(jwtString: String) async throws -> Bool {
-        let payload: DefaultJWTClaimsImpl = try JWT<DefaultJWTClaimsImpl>.getPayload(jwtString: jwtString)
+        let payload: DefaultJWTClaimsImpl = try JWT.getPayload(jwtString: jwtString)
         guard let issuer = payload.iss else {
             throw PolluxError.requiresThatIssuerExistsAndIsAPrismDID
         }
@@ -129,7 +129,7 @@ extension PolluxImpl {
         let validations = issuerKeys
             .compactMap(\.exporting)
             .compactMap {
-                try? JWT<DefaultJWTClaimsImpl>.verify(jwtString: jwtString, senderKey: $0.jwk.toJoseJWK())
+                try? JWT.verify(jwtString: jwtString, senderKey: $0.jwk.toJoseJWK())
             }
         ES256KVerifier.bouncyCastleFailSafe = false
         return !validations.isEmpty
@@ -203,7 +203,10 @@ extension PolluxImpl {
         case let jsonData as AttachmentJsonData:
             json = jsonData.data
         case let base64Data as AttachmentBase64:
-            json = try base64Data.decoded()
+            guard let data = try Data(fromBase64URL: base64Data.base64.tryToData()) else {
+                throw CommonError.invalidCoding(message: "Could not decode base64 message attchment")
+            }
+            json = data
         default:
             throw PolluxError.invalidAttachmentType(supportedTypes: [])
         }

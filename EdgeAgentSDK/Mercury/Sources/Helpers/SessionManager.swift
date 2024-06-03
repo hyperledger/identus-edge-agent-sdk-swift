@@ -21,7 +21,8 @@ struct SessionManager {
         headers: [String: String] = [:],
         parameters: [String: String] = [:]
     ) async throws -> Data? {
-        try await call(request: try makeRequest(
+        let url = URL(string: url.absoluteString.replacingOccurrences(of: "host.docker.internal", with: "localhost"))!
+        return try await call(request: try makeRequest(
             url: url,
             method: .post,
             body: body,

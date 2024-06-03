@@ -276,7 +276,7 @@ private func getResponses(messages: [Message]) -> [CredentialListViewState.Respo
     }
 }
 
-private struct MockCredentialClaim: JWTRegisteredFieldsClaims {
+private struct MockCredentialClaim: JWTRegisteredFieldsClaims, Codable {
     struct VC: Codable {
         let credentialSubject: [String: String]
     }

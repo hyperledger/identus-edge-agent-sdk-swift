@@ -32,11 +32,11 @@ public class EdgeAgent {
     }
 
     let logger = SDKLogger(category: .edgeAgent)
-    let apollo: Apollo & KeyRestoration
-    let castor: Castor
-    let pluto: Pluto
-    let pollux: Pollux & CredentialImporter
-    let mercury: Mercury
+    public let apollo: Apollo & KeyRestoration
+    public let castor: Castor
+    public let pluto: Pluto
+    public let pollux: Pollux & CredentialImporter
+    public let mercury: Mercury
     var mediationHandler: MediatorHandler?
 
     var connectionManager: ConnectionsManagerImpl?

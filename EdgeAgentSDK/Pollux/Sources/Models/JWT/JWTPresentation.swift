@@ -2,6 +2,7 @@ import Core
 import Domain
 import Foundation
 import JSONWebAlgorithms
+import JSONWebKey
 import JSONWebSignature
 import JSONWebToken
 import Sextant
@@ -198,7 +199,7 @@ struct JWTPresentation {
         let jwt = try JWT.signed(
             payload: payload,
             protectedHeader: DefaultJWSHeaderImpl(algorithm: .ES256K),
-            key: .init(
+            key: JSONWebKey.JWK(
                 keyType: .init(rawValue: keyJWK.kty)!,
                 keyID: keyJWK.kid,
                 x: keyJWK.x.flatMap { Data(fromBase64URL: $0) },
@@ -213,7 +214,7 @@ struct JWTPresentation {
     }
 }
 
-struct ClaimsProofPresentationJWT: JWTRegisteredFieldsClaims {
+struct ClaimsProofPresentationJWT: JWTRegisteredFieldsClaims, Codable {
     struct VerifiablePresentation: Codable {
         enum CodingKeys: String, CodingKey {
             case context = "@context"

@@ -60,7 +60,7 @@ extension DIDCore.DIDDocument {
             assertionMethod: nil,
             capabilityDelegation: nil,
             keyAgreement: keyAgreementIds.map { .stringValue($0) },
-            services: services
+            services: services.map { $0.toAnyCodable() }
         )
     }
 
@@ -98,23 +98,40 @@ extension DIDCore.DIDDocument {
         }
 
         let services = try self.services?.map {
-            guard 
-                let endpoint = $0.serviceEndpoint.value as? [String: Any],
-                let uri = endpoint["uri"] as? String
-            else {
-                throw CastorError.notPossibleToResolveDID(did: $0.id, reason: "Invalid service")
+            let service = try DIDCore.DIDDocument.Service(from: $0)
+            switch service.serviceEndpoint.value {
+            case let endpoint as [String: Any]:
+                guard
+                    let uri = endpoint["uri"] as? String
+                else {
+                    throw CastorError.notPossibleToResolveDID(did: service.id, reason: "Invalid service")
+                }
+                return Domain.DIDDocument.Service(
+                    id: service.id,
+                    type: [service.type],
+                    serviceEndpoint: [
+                        .init(
+                            uri: uri,
+                            accept: endpoint["accept"] as? [String] ?? [],
+                            routingKeys: endpoint["routing_keys"] as? [String] ?? []
+                        )
+                    ]
+                )
+            case let endpoint as String:
+                return Domain.DIDDocument.Service(
+                    id: service.id,
+                    type: [service.type],
+                    serviceEndpoint: [
+                        .init(
+                            uri: endpoint,
+                            accept: ($0.value as? [String: Any])?["accept"] as? [String] ?? [],
+                            routingKeys: ($0.value as? [String: Any])?["routing_keys"] as? [String] ?? []
+                        )
+                    ]
+                )
+            default:
+                throw CastorError.notPossibleToResolveDID(did: service.id, reason: "Invalid service")
             }
-            return Domain.DIDDocument.Service(
-                id: $0.id,
-                type: [$0.type],
-                serviceEndpoint: [
-                    .init(
-                        uri: uri,
-                        accept: endpoint["accept"] as? [String] ?? [],
-                        routingKeys: endpoint["routing_keys"] as? [String] ?? []
-                    )
-                ]
-            )
         } ?? [Domain.DIDDocument.Service]()
 
         return Domain.DIDDocument(
@@ -182,5 +199,52 @@ extension DIDCore.DIDDocument.VerificationMethod {
         default:
             throw CastorError.notPossibleToResolveDID(did: id, reason: "Invalid did peer")
         }
+    }
+}
+
+extension DIDCore.DIDDocument.Service {
+    init(from: AnyCodable) throws {
+        guard
+            let dic = from.value as? [String: Any],
+            let id = dic["id"] as? String,
+            let type = dic["type"] as? String,
+            let serviceEndpoint = dic["serviceEndpoint"]
+        else { throw CommonError.invalidCoding(message: "Could not decode service") }
+        switch serviceEndpoint {
+        case let value as AnyCodable:
+            self = .init(
+                id: id,
+                type: type,
+                serviceEndpoint: value
+            )
+        case let value as String:
+            self = .init(
+                id: id,
+                type: type,
+                serviceEndpoint: AnyCodable(value)
+            )
+        case let value as [String: Any]:
+            self = .init(
+                id: id,
+                type: type,
+                serviceEndpoint: AnyCodable(value)
+            )
+        case let value as [String]:
+            self = .init(
+                id: id,
+                type: type,
+                serviceEndpoint: AnyCodable(value)
+            )
+        default:
+            throw CommonError.invalidCoding(message: "Could not decode service")
+        }
+    }
+
+    func toAnyCodable() -> AnyCodable {
+        AnyCodable(dictionaryLiteral:
+            ("id", self.id),
+            ("type", self.type),
+            ("serviceEndpoint", self.serviceEndpoint.value)
+        )
     }
 }

@@ -44,7 +44,7 @@ public extension EdgeAgent {
                     .linkSecret(id: "", secret: linkSecretString)
                 ]
             )
-        case "prism/jwt", "dif/presentation-exchange/definitions@v1.0":
+        case "prism/jwt", "vc+sd-jwt", "dif/presentation-exchange/definitions@v1.0":
             guard
                 let subjectDIDString = credential.subject
             else {

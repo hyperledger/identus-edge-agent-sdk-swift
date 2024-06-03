@@ -198,6 +198,8 @@ public extension EdgeAgent {
         switch offerFormat {
         case "prism/jwt":
             format = "prism/jwt"
+        case "vc+sd-jwt":
+            format = "vc+sd-jwt"
         case "anoncreds/credential-offer@v1.0":
             format = "anoncreds/credential-request@v1.0"
         default:

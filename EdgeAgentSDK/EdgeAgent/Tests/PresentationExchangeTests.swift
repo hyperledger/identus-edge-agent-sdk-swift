@@ -123,7 +123,7 @@ final class PresentationExchangeFlowTests: XCTestCase {
     }
 }
 
-private struct MockCredentialClaim: JWTRegisteredFieldsClaims {
+private struct MockCredentialClaim: JWTRegisteredFieldsClaims, Codable {
     struct VC: Codable {
         let credentialSubject: [String: String]
     }

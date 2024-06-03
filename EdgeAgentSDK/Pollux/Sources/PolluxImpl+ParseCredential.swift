@@ -17,6 +17,15 @@ extension PolluxImpl {
             default:
                 throw PolluxError.unsupportedIssuedMessage
             }
+        case "vc+sd-jwt":
+            switch issuedAttachment.data {
+            case let json as AttachmentJsonData:
+                return try SDJWTCredential(sdjwtString: json.data.tryToString())
+            case let base64 as AttachmentBase64:
+                return try SDJWTCredential(sdjwtString: try base64.decoded().tryToString())
+            default:
+                throw PolluxError.unsupportedIssuedMessage
+            }
         case "anoncreds", "prism/anoncreds", "anoncreds/credential@v1.0":
             guard let thid = issuedCredential.thid else {
                 throw PolluxError.messageDoesntProvideEnoughInformation

@@ -21,7 +21,14 @@ extension PolluxImpl {
         case "jwt", "prism/jwt", .none:
             switch offerAttachment.data {
             case let json as AttachmentJsonData:
-                return try processJWTCredentialRequest(offerData: json.data, options: options)
+                return try await processJWTCredentialRequest(offerData: json.data, options: options)
+            default:
+                throw PolluxError.offerDoesntProvideEnoughInformation
+            }
+        case "vc+sd-jwt":
+            switch offerAttachment.data {
+            case let json as AttachmentJsonData:
+                return try await processSDJWTCredentialRequest(offerData: json.data, options: options)
             default:
                 throw PolluxError.offerDoesntProvideEnoughInformation
             }
@@ -57,7 +64,7 @@ extension PolluxImpl {
         throw PolluxError.invalidCredentialError
     }
 
-    private func processJWTCredentialRequest(offerData: Data, options: [CredentialOperationsOptions]) throws -> String {
+    private func processJWTCredentialRequest(offerData: Data, options: [CredentialOperationsOptions]) async throws -> String {
         guard
             let subjectDIDOption = options.first(where: {
                 if case .subjectDID = $0 { return true }
@@ -78,9 +85,33 @@ extension PolluxImpl {
             throw PolluxError.requiresExportableKeyForOperation(operation: "Create Credential Request")
         }
         
-        return try CreateJWTCredentialRequest.create(didStr: did.string, key: exportableKey, offerData: offerData)
+        return try await CreateJWTCredentialRequest.create(didStr: did.string, key: exportableKey, offerData: offerData)
     }
-    
+
+    private func processSDJWTCredentialRequest(offerData: Data, options: [CredentialOperationsOptions]) async throws -> String {
+        guard
+            let subjectDIDOption = options.first(where: {
+                if case .subjectDID = $0 { return true }
+                return false
+            }),
+            case let CredentialOperationsOptions.subjectDID(did) = subjectDIDOption
+        else {
+            throw PolluxError.invalidPrismDID
+        }
+
+        guard
+            let exportableKeyOption = options.first(where: {
+                if case .exportableKey = $0 { return true }
+                return false
+            }),
+            case let CredentialOperationsOptions.exportableKey(exportableKey) = exportableKeyOption
+        else {
+            throw PolluxError.requiresExportableKeyForOperation(operation: "Create Credential Request")
+        }
+
+        return try await CreateJWTCredentialRequest.create(didStr: did.string, key: exportableKey, offerData: offerData)
+    }
+
     private func processAnoncredsCredentialRequest(
         offerData: Data,
         thid: String,

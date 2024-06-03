@@ -85,7 +85,7 @@ extension DIDCore.DIDDocument {
             verificationMethods: verificationMethods,
             authentication: authentications.map { .stringValue($0) },
             keyAgreement: keyAgreements.map { .stringValue($0) },
-            services: services
+            services: services.map { $0.toAnyCodable() }
         )
     }
 }
@@ -93,5 +93,52 @@ extension DIDCore.DIDDocument {
 extension Dictionary where Key == String, Value == String {
     func convertToJsonString() throws -> String? {
         try Core.convertToJsonString(dic: self)
+    }
+}
+
+extension DIDCore.DIDDocument.Service {
+    init(from: DIDCore.AnyCodable) throws {
+        guard
+            let dic = from.value as? [String: Any],
+            let id = dic["id"] as? String,
+            let type = dic["type"] as? String,
+            let serviceEndpoint = dic["serviceEndpoint"]
+        else { throw CommonError.invalidCoding(message: "Could not decode service") }
+        switch serviceEndpoint {
+        case let value as DIDCore.AnyCodable:
+            self = .init(
+                id: id,
+                type: type,
+                serviceEndpoint: value
+            )
+        case let value as String:
+            self = .init(
+                id: id,
+                type: type,
+                serviceEndpoint: AnyCodable(value)
+            )
+        case let value as [String: Any]:
+            self = .init(
+                id: id,
+                type: type,
+                serviceEndpoint: AnyCodable(value)
+            )
+        case let value as [String]:
+            self = .init(
+                id: id,
+                type: type,
+                serviceEndpoint: AnyCodable(value)
+            )
+        default:
+            throw CommonError.invalidCoding(message: "Could not decode service")
+        }
+    }
+
+    func toAnyCodable() -> DIDCore.AnyCodable {
+        AnyCodable(dictionaryLiteral:
+            ("id", self.id),
+            ("type", self.type),
+            ("serviceEndpoint", self.serviceEndpoint.value)
+        )
     }
 }

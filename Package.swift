@@ -56,13 +56,14 @@ let package = Package(
             from: "1.4.4"
         ),
         .package(url: "git@github.com:apple/swift-protobuf.git", from: "1.7.0"),
-        .package(url: "https://github.com/beatt83/didcomm-swift.git", from: "0.1.5"),
-        .package(url: "https://github.com/beatt83/jose-swift.git", from: "2.2.2"),
-        .package(url: "https://github.com/beatt83/peerdid-swift.git", from: "2.0.2"),
+        .package(url: "https://github.com/beatt83/didcomm-swift.git", from: "0.1.8"),
+        .package(url: "https://github.com/beatt83/jose-swift.git", from: "3.1.0"),
+        .package(url: "https://github.com/beatt83/peerdid-swift.git", from: "3.0.1"),
         .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.4.1"),
         .package(url: "https://github.com/input-output-hk/atala-prism-apollo.git", exact: "1.3.3"),
         .package(url: "https://github.com/KittyMac/Sextant.git", exact: "0.4.31"),
-        .package(url: "https://github.com/kylef/JSONSchema.swift.git", exact: "0.6.0")
+        .package(url: "https://github.com/kylef/JSONSchema.swift.git", exact: "0.6.0"),
+        .package(url: "https://github.com/goncalo-frade-iohk/eudi-lib-sdjwt-swift.git", from: "0.0.2")
     ],
     targets: [
         .target(
@@ -119,6 +120,7 @@ let package = Package(
                 "Core",
                 "jose-swift",
                 "Sextant",
+                "eudi-lib-sdjwt-swift",
                 .product(name: "AnoncredsSwift", package: "anoncreds-rs"),
                 .product(name: "JSONSchema", package: "JSONSchema.swift")
             ],

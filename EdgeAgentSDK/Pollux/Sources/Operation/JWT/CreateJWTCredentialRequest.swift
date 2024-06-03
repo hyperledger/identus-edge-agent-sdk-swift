@@ -1,6 +1,8 @@
 import Combine
 import Domain
 import Foundation
+import JSONWebAlgorithms
+import JSONWebKey
 import JSONWebToken
 import JSONWebSignature
 
@@ -12,7 +14,7 @@ private struct Schema: Codable {
 }
 
 struct CreateJWTCredentialRequest {
-    static func create(didStr: String, key: ExportableKey, offerData: Data) throws -> String {
+    static func create(didStr: String, key: ExportableKey, offerData: Data) async throws -> String {
         let jsonObject = try JSONSerialization.jsonObject(with: offerData)
         guard
             let domain = findValue(forKey: "domain", in: jsonObject),
@@ -20,25 +22,28 @@ struct CreateJWTCredentialRequest {
         else { throw PolluxError.offerDoesntProvideEnoughInformation }
         
         let keyJWK = key.jwk
-        
+        let claims = ClaimsRequestSignatureJWT(
+            iss: didStr,
+            sub: nil,
+            aud: [domain],
+            exp: nil,
+            nbf: nil,
+            iat: nil,
+            jti: nil,
+            nonce: challenge,
+            vp: .init(context: .init([
+                "https://www.w3.org/2018/presentations/v1"
+            ]), type: .init([
+                "VerifiablePresentation"
+            ]))
+        )
+
+        ES256KSigner.invertedBytesR_S = true
+
         let jwt = try JWT.signed(
-            payload: ClaimsRequestSignatureJWT(
-                iss: didStr,
-                sub: nil,
-                aud: [domain],
-                exp: nil,
-                nbf: nil,
-                iat: nil,
-                jti: nil,
-                nonce: challenge,
-                vp: .init(context: .init([
-                    "https://www.w3.org/2018/presentations/v1"
-                ]), type: .init([
-                    "VerifiablePresentation"
-                ]))
-            ),
+            payload: claims,
             protectedHeader: DefaultJWSHeaderImpl(algorithm: .ES256K),
-            key: .init(
+            key: JSONWebKey.JWK(
                 keyType: .init(rawValue: keyJWK.kty)!,
                 keyID: keyJWK.kid,
                 x: keyJWK.x.flatMap { Data(fromBase64URL: $0) },
@@ -46,25 +51,13 @@ struct CreateJWTCredentialRequest {
                 d: keyJWK.d.flatMap { Data(fromBase64URL: $0) }
             )
         )
-        
-        // We need to do for now this process so the signatures of secp256k1 Bitcoin can be verified by Bouncy castle
-        let jwtString = jwt.jwtString
-        var components = jwtString.components(separatedBy: ".")
-        guard
-            let signature = components.last,
-            let signatureData = Data(fromBase64URL: signature)
-        else {
-            return jwtString
-        }
 
-        let (r, s) = extractRS(from: signatureData)
-        let fipsSignature = (Data(r.reversed()) + Data(s.reversed())).base64UrlEncodedString()
-        _ = components.removeLast()
-        return (components + [fipsSignature]).joined(separator: ".")
+        ES256KSigner.invertedBytesR_S = false
+        return jwt.jwtString
     }
 }
 
-struct ClaimsRequestSignatureJWT: JWTRegisteredFieldsClaims {
+struct ClaimsRequestSignatureJWT: JWTRegisteredFieldsClaims, Codable {
     struct VerifiablePresentation: Codable {
         enum CodingKeys: String, CodingKey {
             case context = "@context"
@@ -108,12 +101,4 @@ func findValue(forKey key: String, in json: Any) -> String? {
         }
     }
     return nil
-}
-
-private func extractRS(from signature: Data) -> (r: Data, s: Data) {
-    let rIndex = signature.startIndex
-    let sIndex = signature.index(rIndex, offsetBy: 32)
-    let r = signature[rIndex..<sIndex]
-    let s = signature[sIndex..<signature.endIndex]
-    return (r, s)
 }

@@ -31,7 +31,7 @@ extension JWTCredential: ProvableCredential {
         switch attachment.format {
         case "dif/presentation-exchange/definitions@v1.0":
             let requestData = try JSONDecoder.didComm().decode(PresentationExchangeRequest.self, from: jsonData)
-            let payload = try JWT<DefaultJWTClaimsImpl>.getPayload(jwtString: jwtString)
+            let payload: Data = try JWT.getPayload(jwtString: jwtString)
             do {
                 try VerifyPresentationSubmission.verifyPresentationSubmissionClaims(
                     request: requestData.presentationDefinition, credentials: [payload]
