@@ -22,7 +22,11 @@ extension Message: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(piuri, forKey: .piuri)
-        try container.encode(body, forKey: .body)
+        if let dic = try? JSONSerialization.jsonObject(with: body) as? [String: Any] {
+            try container.encode(AnyCodable(dic), forKey: .body)
+        } else {
+            try container.encode(body, forKey: .body)
+        }
         try container.encode(extraHeaders, forKey: .extraHeaders)
         try container.encode(createdTime, forKey: .createdTime)
         try container.encode(expiresTimePlus, forKey: .expiresTimePlus)
@@ -40,7 +44,18 @@ extension Message: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let id = try container.decode(String.self, forKey: .id)
         let piuri = try container.decode(String.self, forKey: .piuri)
-        let body = try container.decodeIfPresent(Data.self, forKey: .body)
+        let body: Data?
+        if 
+            let bodyCodable = try? container.decodeIfPresent(AnyCodable.self, forKey: .body),
+            (bodyCodable.value is [String: Any] || bodyCodable.value is [String]),
+            let bodyData = try? JSONSerialization.data(withJSONObject: bodyCodable.value)
+        {
+            body = bodyData
+        } else if let bodyData = try? container.decodeIfPresent(Data.self, forKey: .body) {
+            body = bodyData
+        } else {
+            body = nil
+        }
         let extraHeaders = try container.decodeIfPresent([String: String].self, forKey: .extraHeaders)
         let createdTime = try container.decodeIfPresent(Date.self, forKey: .createdTime)
         let expiresTimePlus = try container.decodeIfPresent(Date.self, forKey: .expiresTimePlus)

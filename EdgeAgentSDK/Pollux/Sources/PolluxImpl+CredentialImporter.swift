@@ -44,13 +44,13 @@ private func importAnoncredCredential(
     schemaDownloader: Downloader
 ) async throws -> Credential {
     let domainCred = try JSONDecoder().decode(AnonCredential.self, from: credentialData)
-    let credentialDefinitionData = try await credentialDefinitionDownloader
+    let credentialDefinitionData = try? await credentialDefinitionDownloader
         .downloadFromEndpoint(urlOrDID: domainCred.credentialDefinitionId)
-    let schemaData = try await schemaDownloader
+    let schemaData = try? await schemaDownloader
         .downloadFromEndpoint(urlOrDID: domainCred.schemaId)
     return AnoncredsCredentialStack(
-        schema: try? JSONDecoder.didComm().decode(AnonCredentialSchema.self, from: schemaData),
-        definition: try JSONDecoder.didComm().decode(AnonCredentialDefinition.self, from: credentialDefinitionData),
+        schema: schemaData.flatMap { try? JSONDecoder.didComm().decode(AnonCredentialSchema.self, from: $0) },
+        definition: try credentialDefinitionData.map { try JSONDecoder.didComm().decode(AnonCredentialDefinition.self, from: $0) },
         credential: domainCred
     )
 }

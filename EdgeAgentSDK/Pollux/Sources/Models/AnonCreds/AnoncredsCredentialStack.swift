@@ -4,7 +4,7 @@ import Foundation
 
 struct AnoncredsCredentialStack: Codable {
     let schema: AnonCredentialSchema?
-    let definition: AnonCredentialDefinition
+    let definition: AnonCredentialDefinition?
     let credential: AnonCredential
 }
 
@@ -20,7 +20,7 @@ extension AnoncredsCredentialStack: Domain.Credential {
     }
     
     var issuer: String {
-        definition.issuerId ?? ""
+        definition?.issuerId ?? ""
     }
     
     var subject: String? {
