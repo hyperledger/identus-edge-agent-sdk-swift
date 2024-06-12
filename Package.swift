@@ -55,7 +55,7 @@ let package = Package(
             url: "https://github.com/apple/swift-log.git",
             from: "1.4.4"
         ),
-        .package(url: "git@github.com:apple/swift-protobuf.git", from: "1.7.0"),
+        .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.7.0"),
         .package(url: "https://github.com/beatt83/didcomm-swift.git", from: "0.1.8"),
         .package(url: "https://github.com/beatt83/jose-swift.git", from: "3.1.0"),
         .package(url: "https://github.com/beatt83/peerdid-swift.git", from: "3.0.1"),
