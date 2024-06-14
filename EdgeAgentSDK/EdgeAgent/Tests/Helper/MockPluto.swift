@@ -47,6 +47,11 @@ class MockPluto: Pluto {
         return Just(()).tryMap { $0 }.eraseToAnyPublisher()
     }
 
+    func storeCredentials(credentials: [any StorableCredential]) -> AnyPublisher<Void, any Error> {
+        self.credentials.append(contentsOf: credentials)
+        return Just(()).tryMap { $0 }.eraseToAnyPublisher()
+    }
+
     func storeCredential(credential: Domain.StorableCredential) -> AnyPublisher<Void, Error> {
         credentials.append(credential)
         return Just(()).tryMap { $0 }.eraseToAnyPublisher()

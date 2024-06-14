@@ -22,4 +22,10 @@ struct SettingsViewRouterImpl: SettingsViewRouter {
         )
         return MediatorPageView(viewModel: viewModel)
     }
+
+    func routeToBackup() -> some View {
+        BackupBuilder().build(component: .init(
+            container: container
+        ))
+    }
 }

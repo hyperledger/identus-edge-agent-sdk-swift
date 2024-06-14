@@ -22,16 +22,22 @@ extension Message: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(piuri, forKey: .piuri)
-        if let dic = try? JSONSerialization.jsonObject(with: body) as? [String: Any] {
-            try container.encode(AnyCodable(dic), forKey: .body)
+        if let dic = try? JSONSerialization.jsonObject(with: body) as? [String: Any?] {
+            var filteredDictionary = dic
+            for (key, value) in dic {
+                if value == nil || value is NSNull  {
+                    filteredDictionary.removeValue(forKey: key)
+                }
+            }
+            try container.encode(AnyCodable(filteredDictionary), forKey: .body)
         } else {
             try container.encode(body, forKey: .body)
         }
-        try container.encode(extraHeaders, forKey: .extraHeaders)
-        try container.encode(createdTime, forKey: .createdTime)
-        try container.encode(expiresTimePlus, forKey: .expiresTimePlus)
-        try container.encode(attachments, forKey: .attachments)
-        try container.encode(ack, forKey: .ack)
+        try container.encodeIfPresent(extraHeaders, forKey: .extraHeaders)
+        try container.encodeIfPresent(createdTime, forKey: .createdTime)
+        try container.encodeIfPresent(expiresTimePlus, forKey: .expiresTimePlus)
+        try container.encodeIfPresent(attachments, forKey: .attachments)
+        try container.encodeIfPresent(ack, forKey: .ack)
         try from.map { try container.encode($0.string, forKey: .from) }
         try to.map { try container.encode($0.string, forKey: .to) }
         try fromPrior.map { try container.encode($0, forKey: .fromPrior) }
@@ -48,6 +54,7 @@ extension Message: Codable {
         if 
             let bodyCodable = try? container.decodeIfPresent(AnyCodable.self, forKey: .body),
             (bodyCodable.value is [String: Any] || bodyCodable.value is [String]),
+            JSONSerialization.isValidJSONObject(bodyCodable.value),
             let bodyData = try? JSONSerialization.data(withJSONObject: bodyCodable.value)
         {
             body = bodyData

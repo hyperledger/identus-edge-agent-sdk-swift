@@ -23,8 +23,25 @@ extension CDCredentialDAO: CredentialStore {
     }
 
     func addCredentials(credentials: [StorableCredential]) -> AnyPublisher<Void, Error> {
-        credentials.publisher.flatMap {
-            self.addCredential(credential: $0)
+        batchUpdateOrCreate(
+            credentials.map(\.storingId),
+            context: writeContext
+        ) { id, cdobj, context in
+            guard let credential = credentials.first(where: { $0.storingId == id}) else {
+                throw PlutoError.unknownCredentialTypeError
+            }
+            let claimsObjs = credential.queryAvailableClaims.map {
+                let obj = CDAvailableClaim(
+                    entity: CDAvailableClaim.entity(),
+                    insertInto: context
+                )
+                obj.value = $0
+                return obj
+            }
+            try cdobj.parseFromDomain(
+                from: credential,
+                withClaims: Set(claimsObjs)
+            )
         }
         .map { _ in }
         .eraseToAnyPublisher()
