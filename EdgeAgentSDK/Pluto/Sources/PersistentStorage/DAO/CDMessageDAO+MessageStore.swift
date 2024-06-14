@@ -6,10 +6,25 @@ extension CDMessageDAO: MessageStore {
     func addMessages(messages: [(Message, Message.Direction)]) -> AnyPublisher<Void, Error> {
         messages
             .publisher
-            .flatMap {
-                self.addMessage(msg: $0.0, direction: $0.1)
+            .flatMap { (message, direction) in
+                self.fetchDIDPair(from: message.from, to: message.to)
+                    .map {
+                        (message, direction, $0)
+                    }
             }
             .collect()
+            .eraseToAnyPublisher()
+            .flatMap { messages in
+                self.batchUpdateOrCreate(
+                    messages.map(\.0.id),
+                    context: writeContext
+                ) { id, cdobj, _ in
+                    guard let domainObjs = messages.first(where: { $0.0.id == id }) else {
+                        return
+                    }
+                    try cdobj.fromDomain(msg: domainObjs.0, direction: domainObjs.1, pair: domainObjs.2)
+                }
+            }
             .map { _ in () }
             .eraseToAnyPublisher()
     }
@@ -37,6 +52,10 @@ extension CDMessageDAO: MessageStore {
                 }
             }
             .map { _ in }
+            .mapError {
+                print($0)
+                return $0
+            }
             .eraseToAnyPublisher()
     }
 
@@ -46,6 +65,23 @@ extension CDMessageDAO: MessageStore {
 
     func removeAll() -> AnyPublisher<Void, Error> {
         deleteAllPublisher(context: writeContext)
+    }
+
+    private func fetchDIDPair(from: DID?, to: DID?) -> AnyPublisher<CDDIDPair?, Error> {
+        pairDAO
+            .fetchController(
+                predicate: NSPredicate(
+                    format: "(holderDID.did == %@) OR (holderDID.did == %@) OR (did == %@) OR (did == %@)",
+                    from?.string ?? "",
+                    to?.string ?? "",
+                    from?.string ?? "",
+                    to?.string ?? ""
+                ),
+                context: writeContext
+            )
+            .first()
+            .map { $0.first }
+            .eraseToAnyPublisher()
     }
 }
 

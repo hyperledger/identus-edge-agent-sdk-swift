@@ -46,11 +46,14 @@ private func importAnoncredCredential(
     let domainCred = try JSONDecoder().decode(AnonCredential.self, from: credentialData)
     let credentialDefinitionData = try? await credentialDefinitionDownloader
         .downloadFromEndpoint(urlOrDID: domainCred.credentialDefinitionId)
-    let schemaData = try? await schemaDownloader
-        .downloadFromEndpoint(urlOrDID: domainCred.schemaId)
+    let cdData = try credentialDefinitionData.map { try JSONDecoder.didComm().decode(AnonCredentialDefinition.self, from: $0) }
+    let schemaData = (try? await schemaDownloader
+        .downloadFromEndpoint(urlOrDID: domainCred.schemaId))
+        .flatMap { try? JSONDecoder.didComm().decode(AnonCredentialSchema.self, from: $0) }
+
     return AnoncredsCredentialStack(
-        schema: schemaData.flatMap { try? JSONDecoder.didComm().decode(AnonCredentialSchema.self, from: $0) },
-        definition: try credentialDefinitionData.map { try JSONDecoder.didComm().decode(AnonCredentialDefinition.self, from: $0) },
+        schema: schemaData,
+        definition: cdData,
         credential: domainCred
     )
 }

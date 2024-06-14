@@ -58,7 +58,7 @@ struct CodableMessage: Codable {
         let fromPrior = try? container.decodeIfPresent(String.self, forKey: .fromPrior)
         let thid = try? container.decodeIfPresent(String.self, forKey: .thid)
         let pthid = try? container.decodeIfPresent(String.self, forKey: .pthid)
-        let directionRaw = try container.decodeIfPresent(String.self, forKey: .direction)
+        let directionRaw = try container.decodeIfPresent(Int.self, forKey: .direction)
         let direction = directionRaw.flatMap { Message.Direction(rawValue: $0) }
 
         self.init(message: .init(

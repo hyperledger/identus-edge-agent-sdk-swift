@@ -50,6 +50,10 @@ extension PlutoImpl: Pluto {
         mediatorDAO.addMediator(peer: peer, routingDID: routingDID, mediatorDID: mediatorDID)
     }
 
+    public func storeCredentials(credentials: [StorableCredential]) -> AnyPublisher<Void, Error> {
+        credentialsDAO.addCredentials(credentials: credentials)
+    }
+
     public func storeCredential(credential: StorableCredential) -> AnyPublisher<Void, Error> {
         credentialsDAO.addCredential(credential: credential)
     }

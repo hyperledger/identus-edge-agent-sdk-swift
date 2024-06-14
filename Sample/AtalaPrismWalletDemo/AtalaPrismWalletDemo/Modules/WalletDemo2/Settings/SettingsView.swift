@@ -7,15 +7,18 @@ protocol SettingsViewModel: ObservableObject {
 protocol SettingsViewRouter {
     associatedtype MediatorV: View
     associatedtype DIDsV: View
+    associatedtype BackupV: View
 
     func routeToMediator() -> MediatorV
     func routeToDIDs() -> DIDsV
+    func routeToBackup() -> BackupV
 }
 
 class SettingsViewModelImpl: SettingsViewModel {
     @Published var menu = [
         SettingsViewState.Menu.mediator,
-        SettingsViewState.Menu.dids
+        SettingsViewState.Menu.dids,
+        SettingsViewState.Menu.backup
     ]
 }
 
@@ -40,6 +43,8 @@ struct SettingsView<ViewModel: SettingsViewModel, Router: SettingsViewRouter>: V
                     router.routeToDIDs()
                 case .mediator:
                     router.routeToMediator()
+                case .backup:
+                    router.routeToBackup()
                 }
             }
         }

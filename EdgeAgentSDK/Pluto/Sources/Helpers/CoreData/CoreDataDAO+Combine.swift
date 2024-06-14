@@ -52,6 +52,19 @@ extension CoreDataDAO {
 }
 
 extension CoreDataDAO where CoreDataObject: Identifiable {
+    func batchUpdateOrCreate(
+        _ ids: [CoreDataObject.ID],
+        context: NSManagedObjectContext,
+        modify: @escaping (CoreDataObject.ID, CoreDataObject, NSManagedObjectContext) throws -> Void
+    ) -> AnyPublisher<[CoreDataObject.ID], Error> {
+        context.write { context in
+            try ids.forEach { id in
+                try modify(id, self.fetchByID(id, context: context) ?? self.newEntity(context: context), context)
+            }
+            return ids
+        }
+        .eraseToAnyPublisher()
+    }
     func updateOrCreate(
         _ id: CoreDataObject.ID,
         context: NSManagedObjectContext,

@@ -120,8 +120,6 @@ extension EdgeAgent {
         let backupData = try JWE(compactString: encrypted)
             .decrypt(recipientKey: try JSONDecoder.didComm().decode(JSONWebKey.JWK.self, from: jwk))
 
-        print(try backupData.tryToString())
-
         let backup = try JSONDecoder.didComm().decode(Backup.self, from: backupData)
 
         try await recoverDidsWithKeys(dids: backup.dids, keys: backup.keys)
@@ -208,26 +206,24 @@ extension EdgeAgent {
     }
 
     func recoverMessages(messages: [String]) async throws {
-        let messages = try messages.compactMap { messageStr -> (Message, Message.Direction)? in
+        let messages = messages.compactMap { messageStr -> (Message, Message.Direction)? in
             guard
-                let messageData = Data(base64URLEncoded: messageStr)
+                let messageData = Data(base64URLEncoded: messageStr),
+                let message = try? JSONDecoder.didComm().decode(Message.self, from: messageData)
             else {
                 return nil
             }
-            let message = try JSONDecoder.didComm().decode(Message.self, from: messageData)
 
             return (message, message.direction)
         }
 
-        try await pluto.storeMessages(messages: messages)
-            .first()
-            .await()
+        try await pluto.storeMessages(messages: messages).first().await()
     }
 
     func recoverCredentials(credentials: [Backup.Credential]) async throws {
         let downloader = DownloadDataWithResolver(castor: castor)
         let pollux = self.pollux
-        return try await credentials
+        let storableCredentials = try await credentials
             .asyncCompactMap { bakCredential -> StorableCredential? in
                 guard
                     let data = Data(base64URLEncoded: bakCredential.data)
@@ -243,9 +239,7 @@ extension EdgeAgent {
                     ]
                 ).storable
             }
-            .asyncForEach { [weak self] in
-                try await self?.pluto.storeCredential(credential: $0).first().await()
-            }
+        try await self.pluto.storeCredentials(credentials: storableCredentials).first().await()
     }
 
     func recoverMediators(mediators: [Backup.Mediator]) async throws {
@@ -330,7 +324,7 @@ extension EdgeAgent {
             .first()
             .await()
             .compactMap {
-                try JSONEncoder.didComm().encode($0).base64UrlEncodedString()
+                return try JSONEncoder.backup().encode($0).base64UrlEncodedString()
             }
     }
 

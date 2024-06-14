@@ -74,6 +74,13 @@ public protocol Pluto {
         mediatorDID: DID
     ) -> AnyPublisher<Void, Error>
 
+    /// Stores multiple verifiable credentials in the data store.
+    /// - Parameter credentials: The credentials to store.
+    /// - Returns: A publisher that completes when the operation finishes.
+    func storeCredentials(
+        credentials: [StorableCredential]
+    ) -> AnyPublisher<Void, Error>
+
     /// Stores a verifiable credential in the data store.
     /// - Parameter credential: The credential to store.
     /// - Returns: A publisher that completes when the operation finishes.

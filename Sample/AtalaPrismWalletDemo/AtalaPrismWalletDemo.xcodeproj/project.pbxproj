@@ -127,6 +127,9 @@
 		EEE620182937F6870053AE52 /* SigningVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE620172937F6870053AE52 /* SigningVerificationView.swift */; };
 		EEE6202F2937FDE50053AE52 /* AuthenticateWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE6202D2937FDE50053AE52 /* AuthenticateWalletView.swift */; };
 		EEE620302937FDE50053AE52 /* AuthenticateWalletViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE6202E2937FDE50053AE52 /* AuthenticateWalletViewModel.swift */; };
+		EEE80CEE2C19B5A2000CB94B /* BackupViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE80CED2C19B5A2000CB94B /* BackupViewBuilder.swift */; };
+		EEE80CF02C19B5AF000CB94B /* BackupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE80CEF2C19B5AF000CB94B /* BackupViewModel.swift */; };
+		EEE80CF22C19B5C3000CB94B /* BackupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE80CF12C19B5C3000CB94B /* BackupView.swift */; };
 		EEECB27F29C282A800BBB4B9 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEECB27E29C282A800BBB4B9 /* ConnectionsListView.swift */; };
 		EEECB28129C282D500BBB4B9 /* ConnectionsViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEECB28029C282D500BBB4B9 /* ConnectionsViewState.swift */; };
 		EEECB28329C2831E00BBB4B9 /* ConnectionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEECB28229C2831E00BBB4B9 /* ConnectionsListViewModel.swift */; };
@@ -256,6 +259,9 @@
 		EEE6202D2937FDE50053AE52 /* AuthenticateWalletView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateWalletView.swift; sourceTree = "<group>"; };
 		EEE6202E2937FDE50053AE52 /* AuthenticateWalletViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateWalletViewModel.swift; sourceTree = "<group>"; };
 		EEE620312937FF2C0053AE52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EEE80CED2C19B5A2000CB94B /* BackupViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupViewBuilder.swift; sourceTree = "<group>"; };
+		EEE80CEF2C19B5AF000CB94B /* BackupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupViewModel.swift; sourceTree = "<group>"; };
+		EEE80CF12C19B5C3000CB94B /* BackupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupView.swift; sourceTree = "<group>"; };
 		EEECB27E29C282A800BBB4B9 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
 		EEECB28029C282D500BBB4B9 /* ConnectionsViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewState.swift; sourceTree = "<group>"; };
 		EEECB28229C2831E00BBB4B9 /* ConnectionsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListViewModel.swift; sourceTree = "<group>"; };
@@ -391,6 +397,7 @@
 		EE6C7F4729C234C200D866AD /* WalletDemo2 */ = {
 			isa = PBXGroup;
 			children = (
+				EEE80CEA2C19B582000CB94B /* Backup */,
 				EE8F37502B87738F00EC0638 /* Settings */,
 				EE92C4422B7E2B9D00FC0B6E /* Common */,
 				EE92C4322B7E1F2E00FC0B6E /* AddNewContact */,
@@ -756,6 +763,16 @@
 			path = AuthenticateWallet;
 			sourceTree = "<group>";
 		};
+		EEE80CEA2C19B582000CB94B /* Backup */ = {
+			isa = PBXGroup;
+			children = (
+				EEE80CED2C19B5A2000CB94B /* BackupViewBuilder.swift */,
+				EEE80CEF2C19B5AF000CB94B /* BackupViewModel.swift */,
+				EEE80CF12C19B5C3000CB94B /* BackupView.swift */,
+			);
+			path = Backup;
+			sourceTree = "<group>";
+		};
 		EEECB27D29C2825400BBB4B9 /* Connections */ = {
 			isa = PBXGroup;
 			children = (
@@ -918,11 +935,13 @@
 				EEE61FE02937CEAA0053AE52 /* SeedViewModel.swift in Sources */,
 				EE92C41E2B7E1CA200FC0B6E /* WebView.swift in Sources */,
 				EEBC939529C735910015A36E /* CredentialListViewModel.swift in Sources */,
+				EEE80CF02C19B5AF000CB94B /* BackupViewModel.swift in Sources */,
 				EE6C38DC294626E1006CD2D3 /* String+extensions.swift in Sources */,
 				EE92C40A2B7E1CA200FC0B6E /* NavigationBarUtilModifiers.swift in Sources */,
 				EE92C4262B7E1CA200FC0B6E /* SearchBoxView.swift in Sources */,
 				EE92C4462B7E2D8500FC0B6E /* ConnectionsListRouter.swift in Sources */,
 				EE92C41A2B7E1CA200FC0B6E /* ButtonNavigationLink.swift in Sources */,
+				EEE80CF22C19B5C3000CB94B /* BackupView.swift in Sources */,
 				EE92C42A2B7E1CA200FC0B6E /* IntrinsicSizePreferenceKey.swift in Sources */,
 				EE92C40D2B7E1CA200FC0B6E /* AtalaNavigationBackButton.swift in Sources */,
 				EE92C4172B7E1CA200FC0B6E /* FlowSuccessfulView.swift in Sources */,
@@ -934,6 +953,7 @@
 				EE549F492ACC1F7D0038ED1D /* CredentialDetailViewState.swift in Sources */,
 				EE92C43E2B7E1F6A00FC0B6E /* ConfirmConnectionView.swift in Sources */,
 				EE418AF32BCFD926008766A6 /* MainVerifierRouter.swift in Sources */,
+				EEE80CEE2C19B5A2000CB94B /* BackupViewBuilder.swift in Sources */,
 				EE8F37522B87739D00EC0638 /* SettingsView.swift in Sources */,
 				EE92C3D12B7E1C0D00FC0B6E /* QRCodeScannerBuilder.swift in Sources */,
 				EE92C3D02B7E1C0D00FC0B6E /* CameraViewController.swift in Sources */,

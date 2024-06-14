@@ -178,13 +178,13 @@ extension AttachmentDescriptor: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
-        try container.encode(mediaType, forKey: .mediaType)
+        try container.encodeIfPresent(mediaType, forKey: .mediaType)
         try container.encode(data, forKey: .data)
-        try container.encode(filename, forKey: .filename)
-        try container.encode(format, forKey: .format)
-        try container.encode(lastmodTime, forKey: .lastmodTime)
-        try container.encode(byteCount, forKey: .byteCount)
-        try container.encode(description, forKey: .description)
+        try container.encodeIfPresent(filename, forKey: .filename)
+        try container.encodeIfPresent(format, forKey: .format)
+        try container.encodeIfPresent(lastmodTime, forKey: .lastmodTime)
+        try container.encodeIfPresent(byteCount, forKey: .byteCount)
+        try container.encodeIfPresent(description, forKey: .description)
     }
 
     public init(from decoder: Decoder) throws {

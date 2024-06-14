@@ -52,6 +52,8 @@ extension AnyCodable: Codable {
         var container = encoder.singleValueContainer()
 
         switch self.value {
+        case is NSNull:
+            try container.encodeNil()
         case is Void:
             try container.encodeNil()
         case let bool as Bool:

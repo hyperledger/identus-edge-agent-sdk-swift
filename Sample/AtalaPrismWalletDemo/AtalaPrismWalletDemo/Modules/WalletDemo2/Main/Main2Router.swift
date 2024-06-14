@@ -21,9 +21,13 @@ final class Main2RouterImpl: Main2ViewRouter {
             )
         ).build()
 
-        let mnemonics = ["pig", "fork", "educate", "gun", "entire", "scatter", "satoshi", "laugh", "project", "buffalo", "race", "enroll", "shiver", "theme", "similar", "thought", "prepare", "velvet", "wild", "mention", "jelly", "match", "document", "rapid"]
+//        let mnemonics = ["pig", "fork", "educate", "gun", "entire", "scatter", "satoshi", "laugh", "project", "buffalo", "race", "enroll", "shiver", "theme", "similar", "thought", "prepare", "velvet", "wild", "mention", "jelly", "match", "document", "rapid"]
+//
+//        let seed = try! apollo.createSeed(mnemonics: mnemonics, passphrase: "")
 
-        let seed = try! apollo.createSeed(mnemonics: mnemonics, passphrase: "")
+        let byteArray: [UInt8] = [69, 191, 35, 232, 213, 102, 3, 93, 180, 106, 224, 144, 79, 171, 79, 223, 154, 217, 235, 232, 96, 30, 248, 92, 100, 38, 38, 42, 101, 53, 2, 247, 56, 111, 148, 220, 237, 122, 15, 120, 55, 82, 89, 150, 35, 45, 123, 135, 159, 140, 52, 127, 239, 148, 150, 109, 86, 145, 77, 109, 47, 60, 20, 16]
+
+        let seed = Seed(value: Data(byteArray))
 
         let agent = EdgeAgent(
             apollo: apollo,
