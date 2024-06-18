@@ -209,7 +209,7 @@ extension EdgeAgent {
         let messages = messages.compactMap { messageStr -> (Message, Message.Direction)? in
             guard
                 let messageData = Data(base64URLEncoded: messageStr),
-                let message = try? JSONDecoder.didComm().decode(Message.self, from: messageData)
+                let message = try? JSONDecoder.backup().decode(Message.self, from: messageData)
             else {
                 return nil
             }

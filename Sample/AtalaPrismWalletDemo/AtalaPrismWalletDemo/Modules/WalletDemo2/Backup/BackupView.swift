@@ -9,10 +9,11 @@ protocol BackupViewModel: ObservableObject {
 
 struct BackupView<ViewModel: BackupViewModel>: View {
     @StateObject var viewModel: ViewModel
+    @Environment(\.dismiss) var dismiss
     @State private var jwe: String = ""
     var body: some View {
-        VStack(spacing: 10) {
-            VStack(spacing: 8) {
+        VStack(spacing: 25) {
+            VStack(spacing: 10) {
                 AtalaButton(
                     configuration: .primary,
                     action: {
@@ -38,6 +39,9 @@ struct BackupView<ViewModel: BackupViewModel>: View {
                     action: {
                         Task {
                             try await self.viewModel.backupWith(jwe)
+                            await MainActor.run {
+                                self.dismiss()
+                            }
                         }
                     },
                     label: {

@@ -19,10 +19,10 @@ struct JWTPayload {
         let type: Set<String>
         let credentialSchema: VerifiableCredentialTypeContainer?
         let credentialSubject: AnyCodable
-        let credentialStatus: VerifiableCredentialTypeContainer?
         let refreshService: VerifiableCredentialTypeContainer?
         let evidence: VerifiableCredentialTypeContainer?
         let termsOfUse: VerifiableCredentialTypeContainer?
+        let credentialStatus: JWTRevocationStatus?
 
         /**
          Initializes a new instance of `JWTVerifiableCredential`.
@@ -42,7 +42,7 @@ struct JWTPayload {
             type: Set<String> = Set(),
             credentialSchema: VerifiableCredentialTypeContainer? = nil,
             credentialSubject: AnyCodable,
-            credentialStatus: VerifiableCredentialTypeContainer? = nil,
+            credentialStatus: JWTRevocationStatus? = nil,
             refreshService: VerifiableCredentialTypeContainer? = nil,
             evidence: VerifiableCredentialTypeContainer? = nil,
             termsOfUse: VerifiableCredentialTypeContainer? = nil

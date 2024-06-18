@@ -1,0 +1,76 @@
+import Domain
+import Foundation
+import Gzip
+import JSONWebSignature
+
+struct JWTRevocationCheck {
+    let credential: JWTCredential
+
+    init(credential: JWTCredential) {
+        self.credential = credential
+    }
+
+    func checkIsRevoked() async throws -> Bool {
+        guard let status = credential.jwtVerifiableCredential.verifiableCredential.credentialStatus else {
+            return false
+        }
+
+        guard status.type == "StatusList2021Entry" else {
+            throw UnknownError.somethingWentWrongError(customMessage: nil, underlyingErrors: nil)
+        }
+
+        let listData = try await DownloadDataWithResolver()
+            .downloadFromEndpoint(urlOrDID: status.statusListCredential)
+        let statusList = try JSONDecoder.didComm().decode(JWTRevocationStatusListCredential.self, from: listData)
+        let encodedList = statusList.credentialSubject.encodedList
+        let index = status.statusListIndex
+        return try verifyRevocationOnEncodedList(encodedList.tryToData(), index: index)
+    }
+
+    func verifyRevocationOnEncodedList(_ list: Data, index: Int) throws -> Bool {
+        let encodedListData = try list.gunzipped()
+        let bitList = encodedListData.bytes.flatMap { $0.toBits() }
+        guard index < bitList.count else {
+            throw UnknownError.somethingWentWrongError(customMessage: "Revocation index out of bounds", underlyingErrors: nil)
+        }
+        return bitList[index]
+    }
+}
+
+extension UInt8 {
+    func toBits() -> [Bool] {
+        var bits = [Bool](repeating: false, count: 8)
+        for i in 0..<8 {
+            bits[7 - i] = (self & (1 << i)) != 0
+        }
+        return bits
+    }
+}
+
+fileprivate struct DownloadDataWithResolver: Downloader {
+
+    public func downloadFromEndpoint(urlOrDID: String) async throws -> Data {
+        let url: URL
+
+        if let validUrl = URL(string: urlOrDID.replacingOccurrences(of: "host.docker.internal", with: "localhost")) {
+            url = validUrl
+        } else {
+            throw CommonError.invalidURLError(url: urlOrDID)
+        }
+
+        let (data, urlResponse) = try await URLSession.shared.data(from: url)
+
+        guard
+            let code = (urlResponse as? HTTPURLResponse)?.statusCode,
+            200...299 ~= code
+        else {
+            throw CommonError.httpError(
+                code: (urlResponse as? HTTPURLResponse)?.statusCode ?? 500,
+                message: String(data: data, encoding: .utf8) ?? ""
+            )
+        }
+
+        return data
+    }
+}
+

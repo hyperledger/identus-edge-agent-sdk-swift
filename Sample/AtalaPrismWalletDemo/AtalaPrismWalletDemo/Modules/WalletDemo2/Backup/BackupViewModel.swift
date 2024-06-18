@@ -6,7 +6,7 @@ final class BackupViewModelImpl: BackupViewModel {
     @Published var newJWE: String? = nil
 
     private let agent: EdgeAgent
-
+    
     init(agent: EdgeAgent) {
         self.agent = agent
     }
@@ -20,6 +20,12 @@ final class BackupViewModelImpl: BackupViewModel {
     }
 
     func backupWith(_ jwe: String) async throws {
-        try await agent.recoverWallet(encrypted: jwe)
+        do {
+            try await agent.recoverWallet(encrypted: jwe)
+        } catch {
+            print(error)
+            print()
+            throw error
+        }
     }
 }
