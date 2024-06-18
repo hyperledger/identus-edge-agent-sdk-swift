@@ -41,7 +41,7 @@ extension JWTPayload.JWTVerfiableCredential: Codable {
         }
         let credentialSubject = try container.decode(AnyCodable.self, forKey: .credentialSubject)
         let credentialStatus = try? container.decode(
-            VerifiableCredentialTypeContainer.self,
+            JWTRevocationStatus.self,
             forKey: .credentialStatus
         )
         let credentialSchema = try? container.decode(

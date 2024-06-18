@@ -805,6 +805,14 @@ public enum PolluxError: KnownPrismError {
     /// An error case indicating that the signature is invalid, with internal errors specified.
     case invalidSignature(internalErrors: [Error] = [])
 
+    /// An error case indicating that the credential is revoked.
+    /// - Parameter jwtString: The JWT string representing the revoked credential.
+    case credentialIsRevoked(jwtString: String)
+
+    /// An error case indicating that the credential is suspended.
+    /// - Parameter jwtString: The JWT string representing the suspended credential.
+    case credentialIsSuspended(jwtString: String)
+
     /// The error code returned by the server.
     public var code: Int {
         switch self {
@@ -862,6 +870,10 @@ public enum PolluxError: KnownPrismError {
             return 76
         case .invalidSignature:
             return 77
+        case .credentialIsRevoked:
+            return 78
+        case .credentialIsSuspended:
+            return 79
         }
     }
 
@@ -942,6 +954,12 @@ Cannot verify input descriptor field \(name.map { "with name: \($0)"} ?? ""), wi
 """
         case .invalidSignature:
             return "Could not verify one or more JWT signatures"
+
+        case .credentialIsRevoked(let jwtString):
+            return "Credential (\(jwtString)) is revoked"
+
+        case .credentialIsSuspended(let jwtString):
+            return "Credential (\(jwtString)) is suspended"
         }
     }
 }
