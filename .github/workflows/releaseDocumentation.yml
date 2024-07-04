@@ -43,7 +43,7 @@ jobs:
           max_attempts: 6
           retry_on: error
           timeout_minutes: 50
-          command: xcodebuild docbuild -scheme EdgeAgentSDK -destination "platform=macOS" -derivedDataPath ./doccBuild OTHER_DOCC_FLAGS="--transform-for-static-hosting --output-path ./docc --hosting-base-path '/atala-prism-wallet-sdk-swift'"
+          command: xcodebuild docbuild -scheme EdgeAgentSDK -destination "platform=macOS" -derivedDataPath ./doccBuild OTHER_DOCC_FLAGS="--transform-for-static-hosting --output-path ./docc --hosting-base-path '/identus-edge-agent-sdk-swift'"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
