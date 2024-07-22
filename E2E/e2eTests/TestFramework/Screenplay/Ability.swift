@@ -1,17 +1,12 @@
 import Foundation
 
 protocol Ability {
-    /// return interface for the ability
-    associatedtype AbilityInstanceType
-    
     var abilityName: String {get}
     var actor: Actor {get}
+    var isInitialized: Bool {get}
     
-    init(_ actor: Actor)
+    init()
 
-    /// object instance returned by the ability
-    func instance() -> AbilityInstanceType
-    
     /// initialization hook, used to create the object instance for ability
     func setUp(_ actor: Actor) async throws
     

@@ -71,7 +71,8 @@ class TestConfiguration: ITestConfiguration {
     
     func beforeFeature(_ feature: Feature) async throws {
         let type: Feature.Type = type(of: feature)
-        
+        try await self.setUpActors()
+
         if (features.contains(where: { $0 == type })) {
             return
         }
@@ -142,6 +143,7 @@ class TestConfiguration: ITestConfiguration {
     }
     
     func afterFeature(_ featureOutcome: FeatureOutcome) async throws {
+        try await tearDownActors()
         report(.AFTER_FEATURE, featureOutcome)
     }
     
@@ -247,7 +249,6 @@ class TestConfiguration: ITestConfiguration {
         try await instance.setUp()
         try await instance.setUpReporters()
         try await instance.setUpSteps()
-        try await instance.setUpActors()
         
         /// setup hamcrest to update variable if failed
         HamcrestReportFunction = { message, file, line in
@@ -299,6 +300,9 @@ class TestConfiguration: ITestConfiguration {
     /// Default parsers
     @ParameterParser
     var actorParser = { (actor: String) in
+        if (!actors.contains(where: { $0.key == actor })) {
+            actors[actor] = Actor(actor)
+        }
         return actors[actor]!
     }
     

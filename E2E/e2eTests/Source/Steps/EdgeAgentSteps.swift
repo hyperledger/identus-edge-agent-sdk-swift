@@ -7,7 +7,7 @@ class EdgeAgentSteps: Steps {
         try await EdgeAgentWorkflow.presentProof(edgeAgent: edgeAgent)
     }
     
-    @Step("{actor} has '{int}' credentials issued by {actor}")
+    @Step("{actor} has '{int}' jwt credentials issued by {actor}")
     var edgeAgentHasCredentialsIssuedByCloudAgent = { (edgeAgent: Actor, numberOfCredentials: Int, cloudAgent: Actor) in
         try await EdgeAgentWorkflow.hasIssuedCredentials(edgeAgent: edgeAgent, numberOfCredentialsIssued: numberOfCredentials, cloudAgent: cloudAgent)
     }
@@ -17,7 +17,7 @@ class EdgeAgentSteps: Steps {
         try await EdgeAgentWorkflow.hasIssuedAnonymousCredentials(edgeAgent: edgeAgent, numberOfCredentialsIssued: numberOfCredentials, cloudAgent: cloudAgent)
     }
     
-    @Step("{actor} accepts {int} credential offer sequentially from {actor}")
+    @Step("{actor} accepts {int} jwt credential offer sequentially from {actor}")
     var edgeAgentAcceptsCredentialsOfferSequentiallyFromCloudAgent = { (edgeAgent: Actor, numberOfCredentials: Int, cloudAgent: Actor) in
         var recordIdList: [String] = []
         for _ in 0..<numberOfCredentials {
@@ -31,7 +31,7 @@ class EdgeAgentSteps: Steps {
         try cloudAgent.remember(key: "recordIdList", value: recordIdList)
     }
     
-    @Step("{actor} accepts {int} credentials offer at once from {actor}")
+    @Step("{actor} accepts {int} jwt credentials offer at once from {actor}")
     var edgeAgentAcceptsCredentialsOfferAtOnceFromCloudAgent = { (edgeAgent: Actor, numberOfCredentials: Int, cloudAgent: Actor) in
         var recordIdList: [String] = []
         for _ in 0..<numberOfCredentials {
@@ -70,5 +70,40 @@ class EdgeAgentSteps: Steps {
     @Step("{actor} connects through the invite")
     var edgeAgentConnectsThroughTheInvite = { (edgeAgent: Actor) in
         try await EdgeAgentWorkflow.connectsThroughTheInvite(edgeAgent: edgeAgent)
+    }
+    
+    @Step("{actor} has created a backup")
+    var edgeAgentHasCreatedABackup = { (edgeAgent: Actor) in
+        try await EdgeAgentWorkflow.createBackup(edgeAgent: edgeAgent)
+    }
+    
+    @Step("a new SDK can be restored from {actor}")
+    var aNewSdkCanBeRestoredFromEdgeAgent = { (edgeAgent: Actor) in
+        try await EdgeAgentWorkflow.createNewWalletFromBackup(edgeAgent: edgeAgent)
+    }
+    
+    @Step("a new SDK cannot be restored from {actor} with wrong seed")
+    var aNewSdkCannotBeRestoredFromEdgeAgentWithWrongSeed = { (edgeAgent: Actor) in
+        try await EdgeAgentWorkflow.createNewWalletFromBackupWithWrongSeed(edgeAgent: edgeAgent)
+    }
+    
+    @Step("{actor} creates '{int}' peer DIDs")
+    var edgeAgentCreatesPeerDids = { (edgeAgent: Actor, numberOfDids: Int) in
+        try await EdgeAgentWorkflow.createPeerDids(edgeAgent: edgeAgent, numberOfDids: numberOfDids)
+    }
+    
+    @Step("{actor} creates '{int}' prism DIDs")
+    var edgeAgentCreatesPrismDids = { (edgeAgent: Actor, numberOfDids: Int) in
+        try await EdgeAgentWorkflow.createPrismDids(edgeAgent: edgeAgent, numberOfDids: numberOfDids)
+    }
+    
+    @Step("a new {actor} is restored from {actor}")
+    var aNewAgentIsRestored = { (newAgent: Actor, oldAgent: Actor) in
+        try await EdgeAgentWorkflow.backupAndRestoreToNewAgent(newAgent: newAgent, oldAgent: oldAgent)
+    }
+    
+    @Step("{actor} should have the expected values from {actor}")
+    var newAgentShouldHaveTheExpectedValuesFromOldAgent = { (newAgent: Actor, oldAgent: Actor) in
+        try await EdgeAgentWorkflow.newAgentShouldMatchOldAgent(newAgent: newAgent, oldAgent: oldAgent)
     }
 }

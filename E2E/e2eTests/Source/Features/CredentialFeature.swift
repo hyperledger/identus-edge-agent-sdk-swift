@@ -23,7 +23,7 @@ final class CredentialTests: Feature {
     func testReceiveMultipleCredentialsSequentially() async throws {
         currentScenario = Scenario("Receive multiple verifiable credentials sequentially")
             .given("Cloud Agent is connected to Edge Agent")
-            .when("Edge Agent accepts 3 credential offer sequentially from Cloud Agent")
+            .when("Edge Agent accepts 3 jwt credential offer sequentially from Cloud Agent")
             .then("Cloud Agent should see all credentials were accepted")
             .and("Edge Agent wait to receive 3 issued credentials")
             .and("Edge Agent process 3 issued credentials")
@@ -32,7 +32,7 @@ final class CredentialTests: Feature {
     func testReceiveMultipleCredentialsAtOnce() async throws {
         currentScenario = Scenario("Receive multiple verifiable credentials at once")
             .given("Cloud Agent is connected to Edge Agent")
-            .when("Edge Agent accepts 3 credentials offer at once from Cloud Agent")
+            .when("Edge Agent accepts 3 jwt credentials offer at once from Cloud Agent")
             .then("Cloud Agent should see all credentials were accepted")
             .and("Edge Agent wait to receive 3 issued credentials")
             .and("Edge Agent process 3 issued credentials")

@@ -31,7 +31,7 @@ class StepRunner {
                     actual: String(describing: actualType)
                 )
             }
-            return try await step.callback(typedInput)
+            return try await step.wrappedValue(typedInput)
         }
         self.stepMatcher = StepRunner.createMatcher(stepDefinition)
         self.parsers = StepRunner.createParsers(stepDefinition)

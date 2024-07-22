@@ -10,11 +10,11 @@ class Feature: XCTestCase {
     func title() -> String {
         fatalError("Set feature title")
     }
-    
+
     func description() -> String {
         return ""
     }
-
+    
     /// our lifecycle starts after xctest is ending
     override func tearDown() async throws {
         try await run()
