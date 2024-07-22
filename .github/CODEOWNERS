@@ -1,8 +1,8 @@
 * @goncalo-frade-iohk @elribonazo
 
 # Test related:
-/Sample/ @amagyar-iohk @todorkoleviohk @goncalo-frade-iohk
-/E2E/ @amagyar-iohk @todorkoleviohk @goncalo-frade-iohk
+/Sample/ @goncalo-frade-iohk
+/E2E/ @amagyar-iohk
 
 # Docs:
 *.md @petevielhaber @goncalo-frade-iohk

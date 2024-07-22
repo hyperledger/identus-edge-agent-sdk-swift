@@ -102,16 +102,13 @@ extension PolluxImpl {
         await credentials
             .asyncForEach {
                 do {
-                    guard try await verifyJWT(jwtString: $0) else {
-                        errors.append(PolluxError.invalidSignature())
-                        return
-                    }
+                    try await verifyJWT(jwtString: $0)
                 } catch {
                     errors.append(error)
                 }
             }
         guard errors.isEmpty else {
-            throw PolluxError.invalidSignature(internalErrors: errors)
+            throw PolluxError.cannotVerifyPresentationInputs(errors: errors)
         }
     }
 
