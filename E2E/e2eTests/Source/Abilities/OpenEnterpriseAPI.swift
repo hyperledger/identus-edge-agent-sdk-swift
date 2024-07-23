@@ -458,6 +458,16 @@ class OpenEnterpriseAPI: Ability {
         }
     }
     
+    func revokeCredential(_ recordId: String) async throws -> Int {
+        let response = try await client.patchCredential_hyphen_statusRevoke_hyphen_credentialId(path: .init(id: recordId))
+        switch(response) {
+        case .ok(let okResponse):
+            return 200
+        default:
+            throw Error.WrongResponse(response)
+        }
+    }
+    
     enum Error: Swift.Error {
         case WrongResponse(_ response: Any)
     }

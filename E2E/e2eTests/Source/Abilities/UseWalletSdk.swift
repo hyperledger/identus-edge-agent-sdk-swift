@@ -26,6 +26,7 @@ class UseWalletSdk: Ability {
     var credentialOfferStack: [Message] = []
     var issueCredentialStack: [Message] = []
     var proofOfRequestStack: [Message] = []
+    var revocationStack: [Message] = []
     var receivedMessages: [String] = []
     var cancellables = Set<AnyCancellable>()
     
@@ -108,7 +109,10 @@ class UseWalletSdk: Ability {
                         self.issueCredentialStack.append(message)
                     case ProtocolTypes.didcommRequestPresentation.rawValue:
                         self.proofOfRequestStack.append(message)
+                    case ProtocolTypes.didcommRevocationNotification.rawValue:
+                        self.revocationStack.append(message)
                     default:
+                        print("Message", message.piuri, "not part of event handler.")
                         break
                     }
                 }

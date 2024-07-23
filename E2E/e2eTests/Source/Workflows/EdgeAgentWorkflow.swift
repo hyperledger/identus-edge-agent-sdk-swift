@@ -8,10 +8,10 @@ import SwiftHamcrest
 
 class EdgeAgentWorkflow {
     static func connectsThroughTheInvite(edgeAgent: Actor) async throws {
-        let invitation: String = try edgeAgent.recall(key: "invitation")
+        let invitation: String = try await edgeAgent.recall(key: "invitation")
         let url = URL(string: invitation)!
         
-        let oob = try edgeAgent.using(
+        let oob = try await edgeAgent.using(
             ability: UseWalletSdk.self,
             action: "parses an OOB invitation"
         ).sdk.parseOOBInvitation(url: url)
@@ -32,36 +32,42 @@ class EdgeAgentWorkflow {
     }
     
     static func hasIssuedCredentials(edgeAgent: Actor, numberOfCredentialsIssued: Int, cloudAgent: Actor) async throws {
+        var recordIdList: [String] = []
         for _ in 0..<numberOfCredentialsIssued {
             try await CloudAgentWorkflow.offersACredential(cloudAgent: cloudAgent)
             try await EdgeAgentWorkflow.waitToReceiveCredentialsOffer(edgeAgent: edgeAgent, numberOfCredentials: 1)
             try await EdgeAgentWorkflow.acceptsTheCredentialOffer(edgeAgent: edgeAgent)
-            let recordId: String = try cloudAgent.recall(key: "recordId")
+            let recordId: String = try await cloudAgent.recall(key: "recordId")
+            recordIdList.append(recordId)
             try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, expectedState: .CredentialSent)
             try await EdgeAgentWorkflow.waitToReceiveIssuedCredentials(edgeAgent: edgeAgent, numberOfCredentials: 1)
-            try await EdgeAgentWorkflow.processIssuedCredentials(edgeAgent: edgeAgent, numberOfCredentials: 1)
+            try await EdgeAgentWorkflow.processIssuedCredential(edgeAgent: edgeAgent, recordId: recordId)
         }
+        try await cloudAgent.remember(key: "recordIdList", value: recordIdList)
     }
     
     static func hasIssuedAnonymousCredentials(edgeAgent: Actor, numberOfCredentialsIssued: Int, cloudAgent: Actor) async throws {
+        var recordIdList: [String] = []
         for _ in 0..<numberOfCredentialsIssued {
             try await CloudAgentWorkflow.offersAnonymousCredential(cloudAgent: cloudAgent)
             try await EdgeAgentWorkflow.waitToReceiveCredentialsOffer(edgeAgent: edgeAgent, numberOfCredentials: 1)
             try await EdgeAgentWorkflow.acceptsTheCredentialOffer(edgeAgent: edgeAgent)
-            let recordId: String = try cloudAgent.recall(key: "recordId")
+            let recordId: String = try await cloudAgent.recall(key: "recordId")
+            recordIdList.append(recordId)
             try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, expectedState: .CredentialSent)
             try await EdgeAgentWorkflow.waitToReceiveIssuedCredentials(edgeAgent: edgeAgent, numberOfCredentials: 1)
-            try await EdgeAgentWorkflow.processIssuedCredentials(edgeAgent: edgeAgent, numberOfCredentials: 1)
+            try await EdgeAgentWorkflow.processIssuedCredential(edgeAgent: edgeAgent, recordId: recordId)
         }
+        try await cloudAgent.remember(key: "recordIdList", value: recordIdList)
     }
     
     static func acceptsTheCredentialOffer(edgeAgent: Actor) async throws {
-        let message: Message = try edgeAgent.using(
+        let message: Message = try await edgeAgent.using(
             ability: UseWalletSdk.self,
             action: "gets the first credential offer"
         ).credentialOfferStack.first!
         
-        try edgeAgent.using(
+        try await edgeAgent.using(
             ability: UseWalletSdk.self,
             action: "removes it from list"
         ).credentialOfferStack.removeFirst()
@@ -98,22 +104,15 @@ class EdgeAgentWorkflow {
         }
     }
     
-    static func processIssuedCredentials(edgeAgent: Actor, numberOfCredentials: Int) async throws {
-        for _ in 0..<numberOfCredentials {
-            let message = try edgeAgent.using(
-                ability: UseWalletSdk.self,
-                action: "get an issued credential"
-            ).issueCredentialStack.first!
-            try edgeAgent.using(
-                ability: UseWalletSdk.self,
-                action: "remove it from list"
-            ).issueCredentialStack.removeFirst()
-            let issuedCredential = try IssueCredential3_0(fromMessage: message)
-            _ = try await edgeAgent.using(
-                ability: UseWalletSdk.self,
-                action: "process the credential"
-            ).sdk.processIssuedCredentialMessage(message: issuedCredential)
-        }
+    static func processIssuedCredential(edgeAgent: Actor, recordId: String) async throws {
+        let message = try await edgeAgent
+            .using(ability: UseWalletSdk.self, action: "get the issued credential message")
+            .issueCredentialStack.removeFirst()
+        let issuedCredential = try IssueCredential3_0(fromMessage: message)
+        _ = try await edgeAgent
+            .using(ability: UseWalletSdk.self, action: "process the credential")
+            .sdk.processIssuedCredentialMessage(message: issuedCredential)
+        try await edgeAgent.remember(key: recordId, value: message.id)
     }
     
     static func waitForProofRequest(edgeAgent: Actor) async throws {
@@ -131,11 +130,11 @@ class EdgeAgentWorkflow {
             action: "get a verifiable credential"
         ).sdk.verifiableCredentials().map { $0.first }.first().await()
         
-        let message = try edgeAgent.using(
+        let message = try await edgeAgent.using(
             ability: UseWalletSdk.self,
             action: "get proof request"
         ).proofOfRequestStack.first!
-        try edgeAgent.using(
+        try await edgeAgent.using(
             ability: UseWalletSdk.self,
             action: "remove it from list"
         ).proofOfRequestStack.removeFirst()
@@ -156,14 +155,14 @@ class EdgeAgentWorkflow {
     
     static func createBackup(edgeAgent: Actor) async throws {
         let backup = try await edgeAgent.using(ability: UseWalletSdk.self, action: "creates a backup").sdk.backupWallet()
-        let seed = try edgeAgent.using(ability: UseWalletSdk.self, action: "gets seed phrase").sdk.seed
-        try edgeAgent.remember(key: "backup", value: backup)
-        try edgeAgent.remember(key: "seed", value: seed)
+        let seed = try await edgeAgent.using(ability: UseWalletSdk.self, action: "gets seed phrase").sdk.seed
+        try await edgeAgent.remember(key: "backup", value: backup)
+        try await edgeAgent.remember(key: "seed", value: seed)
     }
     
     static func createNewWalletFromBackup(edgeAgent: Actor) async throws {
-        let backup: String = try edgeAgent.recall(key: "backup")
-        let seed: Seed = try edgeAgent.recall(key: "seed")
+        let backup: String = try await edgeAgent.recall(key: "backup")
+        let seed: Seed = try await edgeAgent.recall(key: "seed")
         let walletSdk = UseWalletSdk()
         try await walletSdk.createSdk(seed: seed)
         try await walletSdk.sdk.recoverWallet(encrypted: backup)
@@ -172,7 +171,7 @@ class EdgeAgentWorkflow {
     }
     
     static func createNewWalletFromBackupWithWrongSeed(edgeAgent: Actor) async throws {
-        let backup: String = try edgeAgent.recall(key: "backup")
+        let backup: String = try await edgeAgent.recall(key: "backup")
         let seed = UseWalletSdk.wrongSeed
         
         do {
@@ -198,8 +197,8 @@ class EdgeAgentWorkflow {
     }
     
     static func backupAndRestoreToNewAgent(newAgent: Actor, oldAgent: Actor) async throws {
-        let backup: String = try oldAgent.recall(key: "backup")
-        let seed: Seed = try oldAgent.recall(key: "seed")
+        let backup: String = try await oldAgent.recall(key: "backup")
+        let seed: Seed = try await oldAgent.recall(key: "seed")
         let walletSdk = UseWalletSdk()
         try await walletSdk.createSdk(seed: seed)
         try await walletSdk.sdk.recoverWallet(encrypted: backup)
@@ -259,5 +258,34 @@ class EdgeAgentWorkflow {
         expectedDidPairs.forEach { expectedDidPair in
             assertThat(actualDidPairs.contains(where: { $0.name == expectedDidPair.name }), equalTo(true))
         }
+    }
+    
+    static func waitForCredentialRevocationMessage(edgeAgent: Actor, numberOfRevocation: Int) async throws {
+        try await edgeAgent.waitUsingAbility(
+            ability: UseWalletSdk.self,
+            action: "wait for revocation notification"
+        ) { ability in
+            return ability.revocationStack.count == numberOfRevocation
+        }
+    }
+    
+    static func waitUntilCredentialIsRevoked(edgeAgent: Actor, revokedRecordIdList: [String]) async throws {
+//        const revokedIdList = await Promise.all(revokedRecordIdList.map(async recordId => {
+//          return await edgeAgent.answer(Notepad.notes().get(recordId))
+//        }))
+//        await edgeAgent.attemptsTo(
+//          WalletSdk.execute(async (sdk) => {
+//            const credentials = await sdk.verifiableCredentials()
+//            const revokedCredentials = await Utils.asyncFilter(credentials, async credential => {
+//              // checks if it's revoked and part of the revoked ones
+//              return sdk.isCredentialRevoked(credential) &&
+//                credential.isRevoked() &&
+//                revokedIdList.includes(credential.id)
+//            })
+//            await edgeAgent.attemptsTo(
+//              Ensure.that(revokedCredentials.length, equals(revokedRecordIdList.length))
+//            )
+//          })
+//        )
     }
 }

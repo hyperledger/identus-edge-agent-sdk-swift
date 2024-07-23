@@ -1,6 +1,6 @@
 import Foundation
 
-class CloudAgentSteps: Steps {
+class CloudAgentSteps: Steps {    
     @Step("{actor} offers an anonymous credential")
     var cloudAgentOffersAnAnonymousCredential = { (cloudAgent: Actor) in
         try await CloudAgentWorkflow.offersAnonymousCredential(cloudAgent: cloudAgent)
@@ -21,20 +21,26 @@ class CloudAgentSteps: Steps {
         try await CloudAgentWorkflow.verifyPresentProof(cloudAgent: cloudAgent, expectedState: .PresentationVerified)
     }
     
-    @Step("{actor} offers a credential")
-    var cloudAgentOffersACredential = { (cloudAgent: Actor) in
-        try await CloudAgentWorkflow.offersACredential(cloudAgent: cloudAgent)
+    @Step("{actor} offers '{int}' jwt credentials")
+    var cloudAgentOffersACredential = { (cloudAgent: Actor, numberOfCredentials: Int) in
+        var recordIdList: [String] = []
+        for _ in 0..<numberOfCredentials {
+            try await CloudAgentWorkflow.offersACredential(cloudAgent: cloudAgent)
+            let recordId: String = try await cloudAgent.recall(key: "recordId")
+            recordIdList.append(recordId)
+        }
+        try await cloudAgent.remember(key: "recordIdList", value: recordIdList)
     }
     
     @Step("{actor} should see the credential was accepted")
     var cloudAgentShouldSeeTheCredentialWasAccepted = { (cloudAgent: Actor) in
-        let recordId: String = try cloudAgent.recall(key: "recordId")
+        let recordId: String = try await cloudAgent.recall(key: "recordId")
         try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, expectedState: .CredentialSent)
     }
     
     @Step("{actor} should see all credentials were accepted")
     var cloudAgentSeeAllCredentialsWereAccepted = { (cloudAgent: Actor) in
-        let recordIdList: [String] = try cloudAgent.recall(key: "recordIdList")
+        let recordIdList: [String] = try await cloudAgent.recall(key: "recordIdList")
         for recordId in recordIdList {
             try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, expectedState: .CredentialSent)
         }
@@ -58,5 +64,10 @@ class CloudAgentSteps: Steps {
     @Step("{actor} should have the connection status updated to '{}'")
     var cloudAgentShouldHaveTheConnectionStatusUpdatedToConnectionResponseSent = { (cloudAgent: Actor, state: String) in
         try await CloudAgentWorkflow.shouldHaveTheConnectionStatusUpdated(cloudAgent: cloudAgent, expectedState: .ConnectionResponseSent)
+    }
+    
+    @Step("{actor} revokes '{int}' credentials")
+    var cloudAgentRevokesCredentials = { (cloudAgent: Actor, numberOfRevokedCredentials: Int) in
+        try await CloudAgentWorkflow.revokeCredential(cloudAgent: cloudAgent, numberOfRevokedCredentials: numberOfRevokedCredentials)
     }
 }

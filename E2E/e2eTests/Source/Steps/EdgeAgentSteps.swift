@@ -24,11 +24,11 @@ class EdgeAgentSteps: Steps {
             try await CloudAgentWorkflow.offersACredential(cloudAgent: cloudAgent)
             try await EdgeAgentWorkflow.waitToReceiveCredentialsOffer(edgeAgent: edgeAgent, numberOfCredentials: 1)
             try await EdgeAgentWorkflow.acceptsTheCredentialOffer(edgeAgent: edgeAgent)
-            let recordId: String = try cloudAgent.recall(key: "recordId")
+            let recordId: String = try await cloudAgent.recall(key: "recordId")
             try await CloudAgentWorkflow.verifyCredentialState(cloudAgent: cloudAgent, recordId: recordId, expectedState: .CredentialSent)
             recordIdList.append(recordId)
         }
-        try cloudAgent.remember(key: "recordIdList", value: recordIdList)
+        try await cloudAgent.remember(key: "recordIdList", value: recordIdList)
     }
     
     @Step("{actor} accepts {int} jwt credentials offer at once from {actor}")
@@ -36,9 +36,9 @@ class EdgeAgentSteps: Steps {
         var recordIdList: [String] = []
         for _ in 0..<numberOfCredentials {
             try await CloudAgentWorkflow.offersACredential(cloudAgent: cloudAgent)
-            recordIdList.append(try cloudAgent.recall(key: "recordId"))
+            recordIdList.append(try await cloudAgent.recall(key: "recordId"))
         }
-        try cloudAgent.remember(key: "recordIdList", value: recordIdList)
+        try await cloudAgent.remember(key: "recordIdList", value: recordIdList)
         
         try await EdgeAgentWorkflow.waitToReceiveCredentialsOffer(edgeAgent: edgeAgent, numberOfCredentials: 3)
         
@@ -62,9 +62,12 @@ class EdgeAgentSteps: Steps {
         try await EdgeAgentWorkflow.waitToReceiveIssuedCredentials(edgeAgent: edgeAgent, numberOfCredentials: numberOfCredentials)
     }
     
-    @Step("{actor} process {int} issued credentials")
-    var edgeAgentProcessIssuedCredentials = { (edgeAgent: Actor, numberOfCredentials: Int) in
-        try await EdgeAgentWorkflow.processIssuedCredentials(edgeAgent: edgeAgent, numberOfCredentials: numberOfCredentials)
+    @Step("{actor} process issued credentials from {actor}")
+    var edgeAgentProcessIssuedCredentials = { (edgeAgent: Actor, cloudAgent: Actor) in
+        let recordIdList: [String] = try await cloudAgent.recall(key: "recordIdList")
+        for recordId in recordIdList {
+            try  await EdgeAgentWorkflow.processIssuedCredential(edgeAgent: edgeAgent, recordId: recordId)
+        }
     }
     
     @Step("{actor} connects through the invite")
@@ -105,5 +108,23 @@ class EdgeAgentSteps: Steps {
     @Step("{actor} should have the expected values from {actor}")
     var newAgentShouldHaveTheExpectedValuesFromOldAgent = { (newAgent: Actor, oldAgent: Actor) in
         try await EdgeAgentWorkflow.newAgentShouldMatchOldAgent(newAgent: newAgent, oldAgent: oldAgent)
+    }
+    
+    @Step("{actor} waits to receive the revocation notifications from {actor}")
+    var edgeAgentWaitsToReceiveTheRevocationNotificationFromCloudAgent = { (edgeAgent: Actor, cloudAgent: Actor) in
+        let revokedRecordIdList: [String] = try await cloudAgent.recall(key: "revokedRecordIdList")
+        try await EdgeAgentWorkflow.waitForCredentialRevocationMessage(
+            edgeAgent: edgeAgent,
+            numberOfRevocation: revokedRecordIdList.count
+        )
+    }
+    
+    @Step("{actor} should see the credentials were revoked by {actor}")
+    var edgeAgentShouldSeeTheCredentialsWereRevokedByCloudAgent = { (edgeAgent: Actor, cloudAgent: Actor) in
+        let revokedRecordIdList: [String] = try await cloudAgent.recall(key: "revokedRecordIdList")
+        try await EdgeAgentWorkflow.waitUntilCredentialIsRevoked(
+            edgeAgent: edgeAgent,
+            revokedRecordIdList: revokedRecordIdList
+        )
     }
 }

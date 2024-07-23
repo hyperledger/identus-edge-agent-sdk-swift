@@ -41,9 +41,9 @@ class Actor {
     
     func using<T : Ability>(ability: T.Type,
                             action: String // = "executes an action"
-    ) throws -> T {
+    ) async throws -> T {
         let dummy = T.init()
-        return try execute("\(name) \(action) using \(dummy.abilityName)") {
+        return try await execute("\(name) \(action) using \(dummy.abilityName)") {
             if !abilities.contains(where: { $0.key == String(describing: ability.self) }) {
                 throw ActorError.CantUseAbility("Actor [\(name)] don't have the ability to use [\(ability.self)]")
             }
@@ -66,14 +66,14 @@ class Actor {
 
     }
 
-    func remember(key: String, value: Any) throws {
-        return execute("\(name) remembers [\(key)]") {
+    func remember(key: String, value: Any) async throws {
+        return try await execute("\(name) remembers [\(key)]") {
             context[key] = value
         }
     }
     
-    func recall<T>(key: String) throws -> T {
-        return try execute("\(name) recalls [\(key)]") {
+    func recall<T>(key: String) async throws -> T {
+        return try await execute("\(name) recalls [\(key)]") {
             if (context[key] == nil) {
                 throw ActorError.CantFindNote("\(name) don't have any note named [\(key)]")
             }
@@ -81,32 +81,32 @@ class Actor {
         }
     }
     
-    private func execute<T>(_ message: String, _ closure: () async throws -> T) async rethrows -> T {
+    private func execute<T>(_ message: String, _ closure: () async throws -> T) async throws -> T {
         let actionOutcome = ActionOutcome()
         actionOutcome.action = message
         do {
             let result = try await closure()
             actionOutcome.executed = true
-            TestConfiguration.shared().report(.ACTION, actionOutcome)
+            try await TestConfiguration.shared().report(.ACTION, actionOutcome)
             return result
         } catch {
             actionOutcome.error = error
-            TestConfiguration.shared().report(.ACTION, actionOutcome)
+            try await TestConfiguration.shared().report(.ACTION, actionOutcome)
             throw error
         }
     }
     
-    private func execute<T>(_ message: String, _ closure: () throws -> T) rethrows -> T {
+    private func execute<T>(_ message: String, _ closure: () throws -> T) async throws -> T {
         let actionOutcome = ActionOutcome()
         actionOutcome.action = message
         do {
             let result = try closure()
             actionOutcome.executed = true
-            TestConfiguration.shared().report(.ACTION, actionOutcome)
+            try await TestConfiguration.shared().report(.ACTION, actionOutcome)
             return result
         } catch {
             actionOutcome.error = error
-            TestConfiguration.shared().report(.ACTION, actionOutcome)
+            try await TestConfiguration.shared().report(.ACTION, actionOutcome)
             throw error
         }
     }

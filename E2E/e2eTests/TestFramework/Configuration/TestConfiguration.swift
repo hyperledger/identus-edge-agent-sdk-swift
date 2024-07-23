@@ -4,9 +4,9 @@ import SwiftHamcrest
 
 class TestConfiguration: ITestConfiguration {
     static var shared = { instance! }
-
-    let environment: [String: String] = { readEnvironmentVariables() }()
     
+    let environment: [String: String] = { readEnvironmentVariables() }()
+    private var testSuiteFinished: Bool = false
     private static var instance: ITestConfiguration? = nil
     private static var actors: [String: Actor] = [:]
     
@@ -72,7 +72,7 @@ class TestConfiguration: ITestConfiguration {
     func beforeFeature(_ feature: Feature) async throws {
         let type: Feature.Type = type(of: feature)
         try await self.setUpActors()
-
+        
         if (features.contains(where: { $0 == type })) {
             return
         }
@@ -81,15 +81,15 @@ class TestConfiguration: ITestConfiguration {
         currentFeatureOutcome = FeatureOutcome(feature)
         result.featuresOutcome.append(currentFeatureOutcome!)
         
-        report(.BEFORE_FEATURE, feature)
+        try await report(.BEFORE_FEATURE, feature)
     }
     
     func beforeScenario(_ scenario: Scenario) async throws {
-        report(.BEFORE_SCENARIO, scenario)
+        try await report(.BEFORE_SCENARIO, scenario)
     }
     
-    func beforeStep(_ step: ConcreteStep) {
-        report(.BEFORE_STEP, step.action)
+    func beforeStep(_ step: ConcreteStep) async throws {
+        try await report(.BEFORE_STEP, step.action)
     }
     
     func runSteps(_ scenario: Scenario) async throws -> ScenarioOutcome {
@@ -97,7 +97,7 @@ class TestConfiguration: ITestConfiguration {
         
         for step in scenario.steps {
             let stepOutcome: StepOutcome
-            report(.BEFORE_STEP, step)
+            try await report(.BEFORE_STEP, step)
             
             do {
                 try await StepRegistry.run(step)
@@ -119,9 +119,9 @@ class TestConfiguration: ITestConfiguration {
             }
             
             scenarioOutcome.steps.append(stepOutcome)
-            report(.AFTER_STEP, stepOutcome)
+            try await report(.AFTER_STEP, stepOutcome)
             assertionFailure = nil
-
+            
             if (stepOutcome.error != nil) {
                 scenarioOutcome.failedStep = stepOutcome
                 break
@@ -130,8 +130,8 @@ class TestConfiguration: ITestConfiguration {
         return scenarioOutcome
     }
     
-    func afterStep(_ stepOutcome: StepOutcome) {
-        report(.AFTER_STEP, stepOutcome.step.action)
+    func afterStep(_ stepOutcome: StepOutcome) async throws {
+        try await report(.AFTER_STEP, stepOutcome.step.action)
     }
     
     func afterScenario(_ scenarioOutcome: ScenarioOutcome) async throws {
@@ -139,62 +139,52 @@ class TestConfiguration: ITestConfiguration {
         if (scenarioOutcome.failedStep != nil) {
             currentFeatureOutcome!.failedScenarios.append(scenarioOutcome)
         }
-        report(.AFTER_SCENARIO, scenarioOutcome)
+        try await report(.AFTER_SCENARIO, scenarioOutcome)
     }
     
     func afterFeature(_ featureOutcome: FeatureOutcome) async throws {
         try await tearDownActors()
-        report(.AFTER_FEATURE, featureOutcome)
+        try await report(.AFTER_FEATURE, featureOutcome)
     }
     
     func afterFeatures(_ featuresOutcome: [FeatureOutcome]) async throws {
-        report(.AFTER_FEATURES, featuresOutcome)
+        try await report(.AFTER_FEATURES, featuresOutcome)
     }
     
-    private func unsafeSync(_ f: @escaping () async -> ()) {
-        let semaphore = DispatchSemaphore(value: 0)
-        Task.init {
-            await f()
-            semaphore.signal()
-        }
-        semaphore.wait()
-    }
-    
-    func endCurrentFeature() {
-        unsafeSync {
-            try! await self.afterFeature(self.currentFeatureOutcome!)
+    func endCurrentFeature() async throws {
+        try await self.afterFeature(self.currentFeatureOutcome!)
+        
+        if (testSuiteFinished) {
+            try await self.afterFeatures(self.result.featuresOutcome)
+            try await self.tearDownInstance()
+            // TODO: throw exception if it fails
         }
     }
     
+    /// signals the suite has ended
     func end() {
-        unsafeSync {
-            try! await self.afterFeatures(self.result.featuresOutcome)
-            try! await self.tearDownInstance()
-        }
-        // TODO: throw exception if it fails
+        testSuiteFinished = true
     }
     
-    func report(_ phase: Phase, _ object: Any) {
-        self.reporters.forEach { reporter in
-            unsafeSync {
-                switch(phase) {
-                case .BEFORE_FEATURE:
-                    try! await reporter.beforeFeature(object as! Feature)
-                case .AFTER_FEATURE:
-                    try! await reporter.afterFeature(object as! FeatureOutcome)
-                case .BEFORE_SCENARIO:
-                    try! await reporter.beforeScenario(object as! Scenario)
-                case .AFTER_SCENARIO:
-                    try! await reporter.afterScenario(object as! ScenarioOutcome)
-                case .BEFORE_STEP:
-                    try! await reporter.beforeStep(object as! ConcreteStep)
-                case .AFTER_STEP:
-                    try! await reporter.afterStep(object as! StepOutcome)
-                case .ACTION:
-                    try! await reporter.action(object as! ActionOutcome)
-                case .AFTER_FEATURES:
-                    try! await reporter.afterFeatures(object as! [FeatureOutcome])
-                }
+    func report(_ phase: Phase, _ object: Any) async throws {
+        for reporter in reporters {
+            switch(phase) {
+            case .BEFORE_FEATURE:
+                try! await reporter.beforeFeature(object as! Feature)
+            case .AFTER_FEATURE:
+                try! await reporter.afterFeature(object as! FeatureOutcome)
+            case .BEFORE_SCENARIO:
+                try! await reporter.beforeScenario(object as! Scenario)
+            case .AFTER_SCENARIO:
+                try! await reporter.afterScenario(object as! ScenarioOutcome)
+            case .BEFORE_STEP:
+                try! await reporter.beforeStep(object as! ConcreteStep)
+            case .AFTER_STEP:
+                try! await reporter.afterStep(object as! StepOutcome)
+            case .ACTION:
+                try! await reporter.action(object as! ActionOutcome)
+            case .AFTER_FEATURES:
+                try! await reporter.afterFeatures(object as! [FeatureOutcome])
             }
         }
     }

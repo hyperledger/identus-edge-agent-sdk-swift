@@ -6,6 +6,7 @@ import SwiftHamcrest
 class Feature: XCTestCase {
     let id: String = UUID().uuidString
     var currentScenario: Scenario? = nil
+    private static var scenarioEnd: Bool = false
     
     func title() -> String {
         fatalError("Set feature title")
@@ -19,11 +20,14 @@ class Feature: XCTestCase {
     override func tearDown() async throws {
         try await run()
         try await super.tearDown()
+        if (Feature.scenarioEnd) {
+            try await TestConfiguration.shared().endCurrentFeature()
+        }
     }
 
     override class func tearDown() {
         // signal end of feature
-        TestConfiguration.shared().endCurrentFeature()
+        scenarioEnd = true
     }
     
     func run() async throws {

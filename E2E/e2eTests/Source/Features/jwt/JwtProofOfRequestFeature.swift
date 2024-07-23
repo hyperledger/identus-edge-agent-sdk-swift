@@ -1,4 +1,4 @@
-final class ProofOfRequestFeature: Feature {
+final class JwtProofOfRequestFeature: Feature {
     override func title() -> String {
         "Provide proof of request"
     }
