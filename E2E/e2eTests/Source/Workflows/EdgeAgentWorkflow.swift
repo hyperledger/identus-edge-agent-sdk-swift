@@ -270,22 +270,19 @@ class EdgeAgentWorkflow {
     }
     
     static func waitUntilCredentialIsRevoked(edgeAgent: Actor, revokedRecordIdList: [String]) async throws {
-//        const revokedIdList = await Promise.all(revokedRecordIdList.map(async recordId => {
-//          return await edgeAgent.answer(Notepad.notes().get(recordId))
-//        }))
-//        await edgeAgent.attemptsTo(
-//          WalletSdk.execute(async (sdk) => {
-//            const credentials = await sdk.verifiableCredentials()
-//            const revokedCredentials = await Utils.asyncFilter(credentials, async credential => {
-//              // checks if it's revoked and part of the revoked ones
-//              return sdk.isCredentialRevoked(credential) &&
-//                credential.isRevoked() &&
-//                revokedIdList.includes(credential.id)
-//            })
-//            await edgeAgent.attemptsTo(
-//              Ensure.that(revokedCredentials.length, equals(revokedRecordIdList.length))
-//            )
-//          })
-//        )
+        var revokedIdList: [String] = []
+        for revokedRecordId in revokedRecordIdList {
+            revokedIdList.append(try await edgeAgent.recall(key: revokedRecordId))
+        }
+        let credentials = try await edgeAgent.using(ability: UseWalletSdk.self, action: "")
+            .sdk.verifiableCredentials().first().await()
+        
+        var revokedCredentials: [Credential] = []
+        for credential in credentials {
+            if ((try await credential.revocable?.isRevoked) != nil) {
+                revokedCredentials.append(credential)
+            }
+        }
+        assertThat(revokedRecordIdList.count, equalTo(revokedCredentials.count))
     }
 }
