@@ -64,6 +64,37 @@ extension PolluxImpl {
         throw PolluxError.invalidCredentialError
     }
 
+    public func processCredentialRequest(
+        type: String,
+        offerPayload: Data,
+        options: [CredentialOperationsOptions]
+    ) async throws -> String {
+        switch type {
+        case "jwt", "prism/jwt":
+            return try await processJWTCredentialRequest(offerData: offerPayload, options: options)
+        case "vc+sd-jwt":
+            return try await processSDJWTCredentialRequest(offerData: offerPayload, options: options)
+        case "anoncreds/credential-offer@v1.0":
+            guard
+                let thidOption = options.first(where: {
+                    if case .thid = $0 { return true }
+                    return false
+                }),
+                case let CredentialOperationsOptions.thid(thid) = thidOption
+            else {
+                throw PolluxError.missingAndIsRequiredForOperation(type: "thid")
+            }
+            return try await processAnoncredsCredentialRequest(
+                offerData: offerPayload,
+                thid: thid,
+                options: options
+            )
+        default:
+            break
+        }
+        throw PolluxError.invalidCredentialError
+    }
+
     private func processJWTCredentialRequest(offerData: Data, options: [CredentialOperationsOptions]) async throws -> String {
         guard
             let subjectDIDOption = options.first(where: {

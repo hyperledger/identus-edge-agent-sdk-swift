@@ -57,6 +57,43 @@ extension AnoncredsCredentialStack: ProvableCredential {
         }
     }
 
+    func presentation(type: String, requestPayload: Data, options: [CredentialOperationsOptions]) throws -> String {
+        let requestStr = try requestPayload.tryToString()
+        guard
+            let linkSecretOption = options.first(where: {
+                if case .linkSecret = $0 { return true }
+                return false
+            }),
+            case let CredentialOperationsOptions.linkSecret(_, secret: linkSecret) = linkSecretOption
+        else {
+            throw PolluxError.missingAndIsRequiredForOperation(type: "LinkSecret")
+        }
+
+        if
+            let zkpParameters = options.first(where: {
+                if case .zkpPresentationParams = $0 { return true }
+                return false
+            }),
+            case let CredentialOperationsOptions.zkpPresentationParams(attributes, predicates) = zkpParameters
+        {
+            return try AnoncredsPresentation().createPresentation(
+                stack: self,
+                request: requestStr,
+                linkSecret: linkSecret,
+                attributes: attributes,
+                predicates: predicates
+            )
+        } else {
+            return try AnoncredsPresentation().createPresentation(
+                stack: self,
+                request: requestStr,
+                linkSecret: linkSecret,
+                attributes: try computeAttributes(requestJson: requestStr),
+                predicates: try computePredicates(requestJson: requestStr)
+            )
+        }
+    }
+
     func isValidForPresentation(request: Message, options: [CredentialOperationsOptions]) throws -> Bool {
         guard
             let attachment = request.attachments.first
@@ -65,6 +102,19 @@ extension AnoncredsCredentialStack: ProvableCredential {
         }
         
         switch attachment.format {
+        case "anoncreds/proof-request@v1.0":
+            return true
+        default:
+            return false
+        }
+    }
+
+    func isValidForPresentation(
+        type: String,
+        requestPayload: Data,
+        options: [CredentialOperationsOptions]
+    ) throws -> Bool {
+        switch type {
         case "anoncreds/proof-request@v1.0":
             return true
         default:

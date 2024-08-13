@@ -8,7 +8,7 @@ struct BackupComponent: ComponentContainer {
 struct BackupBuilder: Builder {
     func build(component: BackupComponent) -> some View {
         let viewModel = getViewModel(component: component) {
-            BackupViewModelImpl(agent: component.container.resolve(type: EdgeAgent.self)!)
+            BackupViewModelImpl(agent: component.container.resolve(type: DIDCommAgent.self)!)
         }
         return BackupView(viewModel: viewModel)
     }

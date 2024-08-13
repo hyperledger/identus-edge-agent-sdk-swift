@@ -11,9 +11,9 @@ final class MediatorViewModelImpl: MediatorPageViewModel {
     @Published var error: FancyToast?
     private let castor: Castor
     private let pluto: Pluto
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
 
-    init(castor: Castor, pluto: Pluto, agent: EdgeAgent) {
+    init(castor: Castor, pluto: Pluto, agent: DIDCommAgent) {
         self.castor = castor
         self.pluto = pluto
         self.agent = agent

@@ -20,26 +20,28 @@ final class MainVerifierRouterImpl: MainVerifierViewRouter {
                 castor: castor
             )
         ).build()
-        let agent = EdgeAgent(
+        let edgeAgent = EdgeAgent(
             apollo: apollo,
             castor: castor,
             pluto: pluto,
-            pollux: pollux,
-            mercury: mercury
+            pollux: pollux
         )
+        let didcommAgent = DIDCommAgent(edgeAgent: edgeAgent, mercury: mercury)
+        let oidcAgent = OIDCAgent(edgeAgent: edgeAgent)
         container.register(type: Apollo.self, component: apollo)
         container.register(type: Castor.self, component: castor)
         container.register(type: Pluto.self, component: pluto)
         container.register(type: Pollux.self, component: pollux)
         container.register(type: Mercury.self, component: mercury)
-        container.register(type: EdgeAgent.self, component: agent)
+        container.register(type: DIDCommAgent.self, component: didcommAgent)
+        container.register(type: OIDCAgent.self, component: oidcAgent)
     }
 
     func routeToMediator() -> some View {
         let viewModel = MediatorViewModelImpl(
             castor: container.resolve(type: Castor.self)!,
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: EdgeAgent.self)!
+            agent: container.resolve(type: DIDCommAgent.self)!
         )
         return MediatorPageView(viewModel: viewModel)
     }
@@ -47,7 +49,7 @@ final class MainVerifierRouterImpl: MainVerifierViewRouter {
     func routeToDids() -> some View {
         let viewModel = DIDListViewModelImpl(
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: EdgeAgent.self)!
+            agent: container.resolve(type: DIDCommAgent.self)!
         )
 
         return DIDListView(viewModel: viewModel)
@@ -57,7 +59,7 @@ final class MainVerifierRouterImpl: MainVerifierViewRouter {
         let viewModel = ConnectionsListViewModelImpl(
             castor: container.resolve(type: Castor.self)!,
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: EdgeAgent.self)!
+            agent: container.resolve(type: DIDCommAgent.self)!
         )
 
         return ConnectionsListView(
@@ -68,7 +70,7 @@ final class MainVerifierRouterImpl: MainVerifierViewRouter {
 
     func routeToMessages() -> some View {
         let viewModel = MessagesListViewModelImpl(
-            agent: container.resolve(type: EdgeAgent.self)!
+            agent: container.resolve(type: DIDCommAgent.self)!
         )
 
         return MessagesListView(
@@ -88,7 +90,7 @@ final class MainVerifierRouterImpl: MainVerifierViewRouter {
 
     func routeToCredentials() -> some View {
         let viewModel = CredentialListViewModelImpl(
-            agent: container.resolve(type: EdgeAgent.self)!,
+            agent: container.resolve(type: DIDCommAgent.self)!,
             apollo: container.resolve(type: Apollo.self)! as! Apollo & KeyRestoration,
             pluto: container.resolve(type: Pluto.self)!
         )

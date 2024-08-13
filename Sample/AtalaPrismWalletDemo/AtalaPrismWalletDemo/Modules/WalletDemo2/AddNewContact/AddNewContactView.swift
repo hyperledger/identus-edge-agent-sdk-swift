@@ -7,11 +7,16 @@ protocol AddNewContactViewModel: ObservableObject {
     var dismiss: Bool { get }
     var dismissRoot: Bool { get }
     var code: String { get set }
+    var url: URL? { get }
+    var hasUrl: Bool { get set }
     func isContactAlreadyAdded()
     func addContact()
+    func handleLinkCallback(url: URL) async throws
 }
 
 struct AddNewContactView<ViewModel: AddNewContactViewModel>: View {
+    @State var shouldDismissWebView = false
+    @State var deepLinkUrl: URL?
     @StateObject var viewModel: ViewModel
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.rootPresentationMode) var modalPresentation
@@ -85,6 +90,28 @@ struct AddNewContactView<ViewModel: AddNewContactViewModel>: View {
         .onChange(of: viewModel.dismissRoot, perform: { value in
             self.modalPresentation.wrappedValue = value
         })
+        .sheet(
+            isPresented: $viewModel.hasUrl,
+            onDismiss: {
+                if let deepLinkUrl {
+                    Task {
+                        try await self.viewModel.handleLinkCallback(url: deepLinkUrl)
+                    }
+                }
+            },
+            content: {
+                DeepLinkWebView(
+                    url: viewModel.url!,
+                    deepLinkUrl: $deepLinkUrl,
+                    shouldDismiss: $viewModel.hasUrl
+                )
+        })
+        .onOpenURL(perform: { url in
+            Task {
+                print("App was opened via URL: \(url)")
+                try await self.viewModel.handleLinkCallback(url: url)
+            }
+        })
     }
 }
 
@@ -95,6 +122,10 @@ struct AddNewContactView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: AddNewContactViewModel {
+    var url: URL? = nil
+    var hasUrl: Bool = false
+    
+    func handleLinkCallback(url: URL) async throws {}
     var contactInfo: AddNewContactState.Contact?
     var flowStep: AddNewContactState.AddContacFlowStep = .getCode
     var loading = false

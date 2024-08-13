@@ -16,12 +16,12 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
     @Published var invalidCredentials = [CredentialListViewState.Credential]()
     @Published var requestId: String? = nil
 
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
     private let pluto: Pluto
     private let apollo: Apollo & KeyRestoration
 
     init(
-        agent: EdgeAgent,
+        agent: DIDCommAgent,
         apollo: Apollo & KeyRestoration,
         pluto: Pluto
     ) {
@@ -32,7 +32,7 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
     }
 
     private func bind() {
-        self.agent.verifiableCredentials().map {
+        self.agent.edgeAgent.verifiableCredentials().map {
             $0.map {
                 CredentialListViewState.Credential(
                     id: $0.id,
@@ -52,6 +52,7 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
             .dropNil()
             .flatMap { message in
                 self.agent
+                    .edgeAgent
                     .verifiableCredentials()
                     .map {
                         $0.filter { (try? $0.proof?.isValidForPresentation(request: message, options: [])) ?? false}
@@ -77,6 +78,7 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
             .dropNil()
             .flatMap { message in
                 self.agent
+                    .edgeAgent
                     .verifiableCredentials()
                     .map {
                         $0.filter { !((try? $0.proof?.isValidForPresentation(request: message, options: [])) ?? false)}
@@ -100,7 +102,7 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
         finalThreadFlowRequests()
 
         Task {
-            let credentials = try await self.agent.verifiableCredentials().first().await()
+            let credentials = try await self.agent.edgeAgent.verifiableCredentials().first().await()
             let linkSecret = try await self.agent.pluto.getLinkSecret().first().await()
             guard credentials.isEmpty, linkSecret != nil else {
                 return
@@ -146,7 +148,7 @@ final class CredentialListViewModelImpl: CredentialListViewModel {
                     _ = try await self.agent.sendMessage(message: try requestCredential.makeMessage())
 
                 case ProtocolTypes.didcommRequestPresentation.rawValue:
-                    let credential = try await self.agent.verifiableCredentials()
+                    let credential = try await self.agent.edgeAgent.verifiableCredentials()
                         .map { $0.compactMap { $0 as? Credential & ProvableCredential} }
                         .map { $0.first { $0.id == credentialId } }
                         .first()

@@ -7,7 +7,8 @@ import JSONWebKey
 struct SDJWTPresentation {
     func createPresentation(
         credential: SDJWTCredential,
-        request: Message,
+        type: String,
+        requestData: Data,
         options: [CredentialOperationsOptions]
     ) throws -> String{
         guard
@@ -34,23 +35,7 @@ struct SDJWTPresentation {
             disclosingClaims = []
         }
 
-        guard
-            let attachment = request.attachments.first,
-            let requestData = request.attachments.first.flatMap({
-                switch $0.data {
-                case let json as AttachmentJsonData:
-                    return json.data
-                case let bas64 as AttachmentBase64:
-                    return Data(fromBase64URL: bas64.base64)
-                default:
-                    return nil
-                }
-            })
-        else {
-            throw PolluxError.offerDoesntProvideEnoughInformation
-        }
-
-        switch attachment.format {
+        switch type {
         case "dif/presentation-exchange/definitions@v1.0":
             return try presentation(
                 credential: credential,

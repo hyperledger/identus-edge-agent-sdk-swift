@@ -34,6 +34,7 @@
 		EE418AF72BCFD926008766A6 /* CreatePresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE418AEB2BCFD925008766A6 /* CreatePresentationView.swift */; };
 		EE549F472ACC1F5E0038ED1D /* CredentialDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE549F462ACC1F5E0038ED1D /* CredentialDetailView.swift */; };
 		EE549F492ACC1F7D0038ED1D /* CredentialDetailViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE549F482ACC1F7D0038ED1D /* CredentialDetailViewState.swift */; };
+		EE566EDF2C9C4708004C4051 /* DeepLinkWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE566EDE2C9C4708004C4051 /* DeepLinkWebView.swift */; };
 		EE6C38DC294626E1006CD2D3 /* String+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6C38DB294626E1006CD2D3 /* String+extensions.swift */; };
 		EE6C38E3294627B2006CD2D3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE6C38E2294627B2006CD2D3 /* Localizable.strings */; };
 		EE6C38E529462822006CD2D3 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = EE6C38E429462822006CD2D3 /* Localizable.stringsdict */; };
@@ -165,6 +166,7 @@
 		EE418AEB2BCFD925008766A6 /* CreatePresentationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePresentationView.swift; sourceTree = "<group>"; };
 		EE549F462ACC1F5E0038ED1D /* CredentialDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialDetailView.swift; sourceTree = "<group>"; };
 		EE549F482ACC1F7D0038ED1D /* CredentialDetailViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialDetailViewState.swift; sourceTree = "<group>"; };
+		EE566EDE2C9C4708004C4051 /* DeepLinkWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkWebView.swift; sourceTree = "<group>"; };
 		EE6C38DB294626E1006CD2D3 /* String+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extensions.swift"; sourceTree = "<group>"; };
 		EE6C38E2294627B2006CD2D3 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		EE6C38E429462822006CD2D3 /* Localizable.stringsdict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 				EE92C3FA2B7E1CA200FC0B6E /* Environment */,
 				EE92C3FD2B7E1CA200FC0B6E /* PreferenceHelpers */,
 				EE92C4002B7E1CA200FC0B6E /* NavigationUtils.swift */,
+				EE566EDE2C9C4708004C4051 /* DeepLinkWebView.swift */,
 			);
 			path = AtalaSwiftUIComponents;
 			sourceTree = "<group>";
@@ -931,6 +934,7 @@
 				EE92C40C2B7E1CA200FC0B6E /* ClearFullCoverModifier.swift in Sources */,
 				EE92C41B2B7E1CA200FC0B6E /* WordTagGrid.swift in Sources */,
 				EE418AED2BCFD926008766A6 /* PresentationDetailViewModel.swift in Sources */,
+				EE566EDF2C9C4708004C4051 /* DeepLinkWebView.swift in Sources */,
 				EE75147E29C376E700FFFAA4 /* DIDDetailView.swift in Sources */,
 				EEE61FE02937CEAA0053AE52 /* SeedViewModel.swift in Sources */,
 				EE92C41E2B7E1CA200FC0B6E /* WebView.swift in Sources */,
@@ -1164,6 +1168,7 @@
 				INFOPLIST_FILE = AtalaPrismWalletDemo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atala PRISM Wallet Demo";
 				INFOPLIST_KEY_NSCameraUsageDescription = NSCameraUsageDescription;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1196,6 +1201,7 @@
 				INFOPLIST_FILE = AtalaPrismWalletDemo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atala PRISM Wallet Demo";
 				INFOPLIST_KEY_NSCameraUsageDescription = NSCameraUsageDescription;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

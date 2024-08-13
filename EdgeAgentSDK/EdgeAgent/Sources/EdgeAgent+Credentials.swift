@@ -38,7 +38,7 @@ public extension EdgeAgent {
         fromDID: DID,
         toDID: DID,
         claimFilters: [ClaimFilter]
-    ) async throws -> RequestPresentation {
+    ) async throws -> String {
         let request = try self.pollux.createPresentationRequest(
             type: type,
             toDID: toDID,
@@ -49,37 +49,7 @@ public extension EdgeAgent {
 
         let rqstStr = try request.tryToString()
         logger.debug(message: "Request: \(rqstStr)")
-        let attachment: AttachmentDescriptor
-        switch type {
-        case .jwt:
-            let data = AttachmentBase64(base64: request.base64URLEncoded())
-            attachment = AttachmentDescriptor(
-                mediaType: "application/json",
-                data: data,
-                format: "dif/presentation-exchange/definitions@v1.0"
-            )
-        case .anoncred:
-            let data = AttachmentBase64(base64: request.base64URLEncoded())
-            attachment = AttachmentDescriptor(
-                mediaType: "application/json",
-                data: data,
-                format: "anoncreds/proof-request@v1.0"
-            )
-        }
-
-        return RequestPresentation(
-            body: .init(
-                proofTypes: [ProofTypes(
-                    schema: "",
-                    requiredFields: claimFilters.flatMap(\.paths),
-                    trustIssuers: nil
-                )]
-            ),
-            attachments: [attachment],
-            thid: nil,
-            from: fromDID,
-            to: toDID
-        )
+        return rqstStr
     }
 
     /// This function verifies the presentation contained within a message.
@@ -89,13 +59,22 @@ public extension EdgeAgent {
     /// - Returns: A Boolean value indicating whether the presentation is valid (`true`) or not (`false`).
     /// - Throws: EdgeAgentError, if there is a problem verifying the presentation.
 
-    func verifyPresentation(message: Message) async throws -> Bool {
+    func verifyPresentation(
+        type: String,
+        presentationPayload: Data,
+        requestId: String
+    ) async throws -> Bool {
         do {
             let downloader = DownloadDataWithResolver(castor: castor)
-            return try await pollux.verifyPresentation(message: message, options: [
-                .credentialDefinitionDownloader(downloader: downloader),
-                .schemaDownloader(downloader: downloader)
-            ])
+            return try await pollux.verifyPresentation(
+                type: type,
+                presentationPayload: presentationPayload,
+                options: [
+                    .presentationRequestId(requestId),
+                    .credentialDefinitionDownloader(downloader: downloader),
+                    .schemaDownloader(downloader: downloader)
+                ]
+            )
         } catch {
             logger.error(error: error)
             throw error
@@ -108,7 +87,7 @@ public extension EdgeAgent {
     ///   - message: Issue credential Message.
     /// - Returns: The parsed verifiable credential.
     /// - Throws: EdgeAgentError, if there is a problem parsing the credential.
-    func processIssuedCredentialMessage(message: IssueCredential3_0) async throws -> Credential {
+    func processIssuedCredential(type: String, issuedCredentialPayload: Data) async throws -> Credential {
         guard
             let linkSecret = try await pluto.getLinkSecret().first().await()
         else { throw EdgeAgentError.cannotFindDIDKeyPairIndex }
@@ -120,7 +99,8 @@ public extension EdgeAgent {
 
         let downloader = DownloadDataWithResolver(castor: castor)
         let credential = try await pollux.parseCredential(
-            issuedCredential: message.makeMessage(),
+            type: type,
+            credentialPayload: issuedCredentialPayload,
             options: [
                 .linkSecret(id: "", secret: linkSecretString),
                 .credentialDefinitionDownloader(downloader: downloader),
@@ -145,7 +125,11 @@ public extension EdgeAgent {
     ///   - did: Received offer credential.
     /// - Returns: Created request credential
     /// - Throws: EdgeAgentError, if there is a problem creating the request credential.
-    func prepareRequestCredentialWithIssuer(did: DID, offer: OfferCredential3_0) async throws -> RequestCredential3_0? {
+    func prepareRequestCredentialWithIssuer(
+        did: DID,
+        type: String,
+        offerPayload: Data
+    ) async throws -> String {
         guard did.method == "prism" else { throw PolluxError.invalidPrismDID }
         let didInfo = try await pluto
             .getDIDInfo(did: did)
@@ -167,8 +151,9 @@ public extension EdgeAgent {
         else { throw EdgeAgentError.cannotFindDIDKeyPairIndex }
 
         let downloader = DownloadDataWithResolver(castor: castor)
-        let requestString = try await pollux.processCredentialRequest(
-            offerMessage: offer.makeMessage(),
+        return try await pollux.processCredentialRequest(
+            type: type,
+            offerPayload: offerPayload,
             options: [
                 .exportableKey(exporting),
                 .subjectDID(did),
@@ -177,59 +162,5 @@ public extension EdgeAgent {
                 .schemaDownloader(downloader: downloader)
             ]
         )
-
-        guard
-            let offerFormat = offer.attachments.first?.format,
-            let base64String = requestString.data(using: .utf8)?.base64EncodedString()
-        else {
-            throw CommonError.invalidCoding(message: "Could not encode to base64")
-        }
-        guard
-            let offerPiuri = ProtocolTypes(rawValue: offer.type)
-        else {
-            throw EdgeAgentError.invalidMessageType(
-                type: offer.type,
-                shouldBe: [
-                    ProtocolTypes.didcommOfferCredential3_0.rawValue
-                ]
-            )
-        }
-        let format: String
-        switch offerFormat {
-        case "prism/jwt":
-            format = "prism/jwt"
-        case "vc+sd-jwt":
-            format = "vc+sd-jwt"
-        case "anoncreds/credential-offer@v1.0":
-            format = "anoncreds/credential-request@v1.0"
-        default:
-            throw EdgeAgentError.invalidMessageType(
-                type: offerFormat,
-                shouldBe: [
-                    "prism/jwt",
-                    "anoncreds/credential-offer@v1.0"
-                ]
-            )
-        }
-        
-        let type = offerPiuri == .didcommOfferCredential ?
-            ProtocolTypes.didcommRequestCredential :
-            ProtocolTypes.didcommRequestCredential3_0
-        
-        let requestCredential = RequestCredential3_0(
-            body: .init(
-                goalCode: offer.body.goalCode,
-                comment: offer.body.comment
-            ),
-            type: type.rawValue,
-            attachments: [.init(
-                data: AttachmentBase64(base64: base64String),
-                format: format
-            )],
-            thid: offer.thid,
-            from: offer.to,
-            to: offer.from
-        )
-        return requestCredential
     }
 }

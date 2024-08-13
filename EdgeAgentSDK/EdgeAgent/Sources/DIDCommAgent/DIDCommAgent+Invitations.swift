@@ -1,8 +1,7 @@
 import Domain
 import Foundation
 
-// MARK: Invitation funcionalities
-public extension EdgeAgent {
+public extension DIDCommAgent {
     /// Enumeration representing the type of invitation
     enum InvitationType {
         /// Struct representing a Prism Onboarding invitation
@@ -19,6 +18,50 @@ public extension EdgeAgent {
         case onboardingPrism(PrismOnboarding)
         /// Case representing a DIDComm Out-of-Band invitation
         case onboardingDIDComm(OutOfBandInvitation)
+    }
+
+    /// Parses the given string as an Out-of-Band invitation
+    /// - Parameter url: The string to parse
+    /// - Returns: The parsed Out-of-Band invitation
+    /// - Throws: `EdgeAgentError` if the string is not a valid URL
+    func parseOOBInvitation(url: String) throws -> OutOfBandInvitation {
+        guard let url = URL(string: url) else { throw CommonError.invalidURLError(url: url) }
+        return try parseOOBInvitation(url: url)
+    }
+
+    /// Parses the given URL as an Out-of-Band invitation
+    /// - Parameter url: The URL to parse
+    /// - Returns: The parsed Out-of-Band invitation
+    /// - Throws: `EdgeAgentError` if the URL is not a valid Out-of-Band invitation
+    func parseOOBInvitation(url: URL) throws -> OutOfBandInvitation {
+        return try DIDCommInvitationRunner(url: url).run()
+    }
+
+    /// Accepts a Prism Onboarding invitation and performs the onboarding process
+    /// - Parameter invitation: The Prism Onboarding invitation to accept
+    /// - Throws: `EdgeAgentError` if the onboarding process fails
+    func acceptPrismInvitation(invitation: InvitationType.PrismOnboarding) async throws {
+        struct SendDID: Encodable {
+            let did: String
+        }
+        var request = URLRequest(url: invitation.endpoint)
+        request.httpMethod = "POST"
+        request.httpBody = try JSONEncoder().encode(SendDID(did: invitation.ownDID.string))
+        request.setValue("application/json", forHTTPHeaderField: "content-type")
+        do {
+            let response = try await URLSession.shared.data(for: request)
+            guard let urlResponse = response.1 as? HTTPURLResponse else {
+                throw CommonError.invalidCoding(
+                    message: "This should not happen cannot convert URLResponse to HTTPURLResponse"
+                )
+            }
+            guard urlResponse.statusCode == 200 else {
+                throw CommonError.httpError(
+                    code: urlResponse.statusCode,
+                    message: String(data: response.0, encoding: .utf8) ?? ""
+                )
+            }
+        }
     }
 
     /// Parses the given string as an invitation
@@ -64,23 +107,6 @@ public extension EdgeAgent {
         )
     }
 
-    /// Parses the given string as an Out-of-Band invitation
-    /// - Parameter url: The string to parse
-    /// - Returns: The parsed Out-of-Band invitation
-    /// - Throws: `EdgeAgentError` if the string is not a valid URL
-    func parseOOBInvitation(url: String) throws -> OutOfBandInvitation {
-        guard let url = URL(string: url) else { throw CommonError.invalidURLError(url: url) }
-        return try parseOOBInvitation(url: url)
-    }
-
-    /// Parses the given URL as an Out-of-Band invitation
-    /// - Parameter url: The URL to parse
-    /// - Returns: The parsed Out-of-Band invitation
-    /// - Throws: `EdgeAgentError` if the URL is not a valid Out-of-Band invitation
-    func parseOOBInvitation(url: URL) throws -> OutOfBandInvitation {
-        return try DIDCommInvitationRunner(url: url).run()
-    }
-
     /// Accepts an Out-of-Band (DIDComm) invitation and establishes a new connection
     /// - Parameter invitation: The Out-of-Band invitation to accept
     /// - Throws: `EdgeAgentError` if there is no mediator available or other errors occur during the acceptance process
@@ -100,32 +126,5 @@ public extension EdgeAgent {
             connection: connectionManager
         ).run()
         try await connectionManager.addConnection(pair)
-    }
-
-    /// Accepts a Prism Onboarding invitation and performs the onboarding process
-    /// - Parameter invitation: The Prism Onboarding invitation to accept
-    /// - Throws: `EdgeAgentError` if the onboarding process fails
-    func acceptPrismInvitation(invitation: InvitationType.PrismOnboarding) async throws {
-        struct SendDID: Encodable {
-            let did: String
-        }
-        var request = URLRequest(url: invitation.endpoint)
-        request.httpMethod = "POST"
-        request.httpBody = try JSONEncoder().encode(SendDID(did: invitation.ownDID.string))
-        request.setValue("application/json", forHTTPHeaderField: "content-type")
-        do {
-            let response = try await URLSession.shared.data(for: request)
-            guard let urlResponse = response.1 as? HTTPURLResponse else {
-                throw CommonError.invalidCoding(
-                    message: "This should not happen cannot convert URLResponse to HTTPURLResponse"
-                )
-            }
-            guard urlResponse.statusCode == 200 else {
-                throw CommonError.httpError(
-                    code: urlResponse.statusCode,
-                    message: String(data: response.0, encoding: .utf8) ?? ""
-                )
-            }
-        }
     }
 }

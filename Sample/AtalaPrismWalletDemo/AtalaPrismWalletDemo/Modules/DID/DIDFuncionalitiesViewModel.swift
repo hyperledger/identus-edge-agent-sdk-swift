@@ -5,13 +5,13 @@ import EdgeAgent
 
 final class DIDFuncionalitiesViewModel: ObservableObject {
     private let castor: Castor
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
 
     init() {
         self.castor = CastorBuilder(
             apollo: ApolloBuilder().build()
         ).build()
-        self.agent = EdgeAgent(mediatorDID: DID(method: "peer", methodId: "123"))
+        self.agent = DIDCommAgent(mediatorDID: DID(method: "peer", methodId: "123"))
     }
 
     @Published var createdDID: DID?

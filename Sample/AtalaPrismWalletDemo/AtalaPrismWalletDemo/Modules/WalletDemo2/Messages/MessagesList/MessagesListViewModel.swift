@@ -7,7 +7,7 @@ final class MessagesListViewModelImpl: MessageListViewModel {
     @Published var messages = [MessagesListViewState.Message]()
     @Published var error: FancyToast?
 
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
     private var messagesDomain = Set<Message>() {
         didSet {
             messages = messagesDomain
@@ -25,7 +25,7 @@ final class MessagesListViewModelImpl: MessageListViewModel {
     }
     private var cancellables = Set<AnyCancellable>()
 
-    init(agent: EdgeAgent) {
+    init(agent: DIDCommAgent) {
         self.agent = agent
         bind()
     }
@@ -123,7 +123,7 @@ final class MessagesListViewModelImpl: MessageListViewModel {
                         let to = message.to
                     else { return }
 
-                    try await agent.registerDIDPair(pair: .init(
+                    try await agent.edgeAgent.registerDIDPair(pair: .init(
                         holder: from,
                         other: to,
                         name: nil

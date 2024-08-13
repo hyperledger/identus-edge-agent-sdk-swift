@@ -15,12 +15,12 @@ class PresentationDetailViewModelImpl: PresentationDetailViewModel {
     @Published var receivedPresentations: [PresentationDetailViewState.ReceivedPresentation] = []
     @Published var isVerified = false
 
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
     private let pluto: Pluto
 
     init(
         id: String,
-        agent: EdgeAgent,
+        agent: DIDCommAgent,
         pluto: Pluto
     ) {
         self.agent = agent

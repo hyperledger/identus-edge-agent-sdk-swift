@@ -3,14 +3,52 @@ import Foundation
 
 extension SDJWTCredential: ProvableCredential {
     func presentation(request: Domain.Message, options: [Domain.CredentialOperationsOptions]) throws -> String {
-        try SDJWTPresentation().createPresentation(
+        guard
+            let attachment = request.attachments.first,
+            let format = attachment.format,
+            let requestData = request.attachments.first.flatMap({
+                switch $0.data {
+                case let json as AttachmentJsonData:
+                    return json.data
+                case let bas64 as AttachmentBase64:
+                    return Data(fromBase64URL: bas64.base64)
+                default:
+                    return nil
+                }
+            })
+        else {
+            throw PolluxError.offerDoesntProvideEnoughInformation
+        }
+        return try SDJWTPresentation().createPresentation(
             credential: self,
-            request: request, 
+            type: format,
+            requestData: requestData,
             options: options
         )
     }
-    
+
+    func presentation(
+        type: String,
+        requestPayload: Data,
+        options: [CredentialOperationsOptions]
+    ) throws -> String {
+        try SDJWTPresentation().createPresentation(
+            credential: self,
+            type: type,
+            requestData: requestPayload,
+            options: options
+        )
+    }
+
     func isValidForPresentation(request: Domain.Message, options: [Domain.CredentialOperationsOptions]) throws -> Bool {
         request.attachments.first.map { $0.format == "vc+sd-jwt"} ?? true
+    }
+
+    func isValidForPresentation(
+        type: String,
+        requestPayload: Data,
+        options: [CredentialOperationsOptions]
+    ) throws -> Bool {
+        type == "vc+sd-jwt"
     }
 }

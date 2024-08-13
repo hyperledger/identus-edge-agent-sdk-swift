@@ -6,7 +6,7 @@ struct PresentationsViewRouterImpl: PresentationsViewRouter {
     let container: DIContainer
 
     func routeToCreate() -> some View {
-        let viewModel = CreatePresentationViewModelImpl(edgeAgent: container.resolve(type: EdgeAgent.self)!)
+        let viewModel = CreatePresentationViewModelImpl(edgeAgent: container.resolve(type: DIDCommAgent.self)!)
 
         return CreatePresentationView(viewModel: viewModel)
     }
@@ -14,7 +14,7 @@ struct PresentationsViewRouterImpl: PresentationsViewRouter {
     func routeToDetail(id: String) -> some View {
         let viewModel = PresentationDetailViewModelImpl(
             id: id,
-            agent: container.resolve(type: EdgeAgent.self)!,
+            agent: container.resolve(type: DIDCommAgent.self)!,
             pluto: container.resolve(type: Pluto.self)!
         )
 

@@ -5,13 +5,13 @@ import EdgeAgent
 
 final class SigningVerificationViewModel: ObservableObject {
     private let castor: Castor
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
 
     init() {
         self.castor = CastorBuilder(
             apollo: ApolloBuilder().build()
         ).build()
-        self.agent = EdgeAgent(mediatorDID: DID(method: "peer", methodId: "1234"))
+        self.agent = DIDCommAgent(mediatorDID: DID(method: "peer", methodId: "1234"))
     }
 
     @Published var createdDID: DID?
@@ -47,7 +47,7 @@ final class SigningVerificationViewModel: ObservableObject {
         else { return }
 
         // Signs with a valid DID that was created by the agent
-        let signature = try? await agent.signWith(did: did, message: messageData)
+        let signature = try? await agent.edgeAgent.signWith(did: did, message: messageData)
         await MainActor.run {
             self.signedMessage = signature
         }

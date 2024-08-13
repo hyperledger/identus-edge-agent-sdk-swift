@@ -2,8 +2,7 @@ import Combine
 import Domain
 import Foundation
 
-// MARK: Messaging events funcionalities
-public extension EdgeAgent {
+public extension DIDCommAgent {
     /// Start fetching the messages from the mediator
     func startFetchingMessages(timeBetweenRequests: Int = 5) {
         let timeInterval = max(timeBetweenRequests, 5)
@@ -26,10 +25,6 @@ public extension EdgeAgent {
                     logger.error(error: error)
                 }
                 sleep(UInt32(timeInterval))
-                
-                if (messagesStreamTask?.isCancelled == true) {
-                    break
-                }
             }
         }
     }

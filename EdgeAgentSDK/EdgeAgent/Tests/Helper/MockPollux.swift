@@ -25,6 +25,30 @@ struct MockCredential: Credential, StorableCredential, ExportableCredential {
 }
 
 struct MockPollux: Pollux & CredentialImporter {
+    func parseCredential(
+        type: String,
+        credentialPayload: Data,
+        options: [Domain.CredentialOperationsOptions]
+    ) async throws -> any Domain.Credential {
+        return MockCredential(exporting: Data(count: 5), restorationType: "mocked")
+    }
+    
+    func processCredentialRequest(
+        type: String,
+        offerPayload: Data,
+        options: [Domain.CredentialOperationsOptions]
+    ) async throws -> String {
+        ""
+    }
+    
+    func verifyPresentation(
+        type: String,
+        presentationPayload: Data,
+        options: [Domain.CredentialOperationsOptions]
+    ) async throws -> Bool {
+        false
+    }
+    
     func importCredential(
         credentialData: Data,
         restorationType: String,

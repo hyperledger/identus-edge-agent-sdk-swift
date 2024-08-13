@@ -13,19 +13,19 @@ final class AnoncredsPresentationFlowTest: XCTestCase {
     var castor: Castor!
     var pollux: (Pollux & CredentialImporter)!
     var mercury = MercuryStub()
-    var edgeAgent: EdgeAgent!
+    var edgeAgent: DIDCommAgent!
     var linkSecret: Key!
 
     override func setUp() async throws {
         castor = CastorBuilder(apollo: apollo).build()
         pollux = PolluxBuilder(pluto: pluto, castor: castor).build()
-        edgeAgent = EdgeAgent(
+        let edgeAgent = EdgeAgent(
             apollo: apollo,
             castor: castor,
             pluto: pluto,
-            pollux: pollux,
-            mercury: mercury
+            pollux: pollux
         )
+        self.edgeAgent = DIDCommAgent(edgeAgent: edgeAgent, mercury: mercury)
         linkSecret = try apollo.createNewLinkSecret()
     }
 
@@ -51,7 +51,8 @@ final class AnoncredsPresentationFlowTest: XCTestCase {
 
         let presentation = try await edgeAgent.createPresentationForRequestProof(
             request: presentationRequest,
-            credential: credential
+            credential: credential,
+            options: [.disclosingClaims(claims: ["test"])]
         )
 
         let verification = try await edgeAgent.pollux.verifyPresentation(

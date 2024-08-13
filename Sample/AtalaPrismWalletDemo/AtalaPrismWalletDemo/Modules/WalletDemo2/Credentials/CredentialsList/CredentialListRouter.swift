@@ -6,7 +6,7 @@ struct CredentialListRouterImpl: CredentialListRouter {
 
     func routeToCredentialDetail(id: String) -> some View {
         CredentialDetailView(viewModel: CredentialDetailViewModelImpl(
-            agent: container.resolve(type: EdgeAgent.self)!,
+            agent: container.resolve(type: DIDCommAgent.self)!,
             credentialId: id
         ))
     }

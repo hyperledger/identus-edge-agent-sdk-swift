@@ -56,15 +56,16 @@ let package = Package(
             from: "1.4.4"
         ),
         .package(url: "https://github.com/apple/swift-protobuf.git", from: "1.7.0"),
-        .package(url: "https://github.com/beatt83/didcomm-swift.git", from: "0.1.8"),
-        .package(url: "https://github.com/beatt83/jose-swift.git", from: "3.2.0"),
+        .package(url: "https://github.com/beatt83/didcomm-swift.git", from: "0.1.10"),
+        .package(url: "https://github.com/beatt83/jose-swift.git", from: "3.3.1"),
         .package(url: "https://github.com/beatt83/peerdid-swift.git", from: "3.0.1"),
         .package(url: "https://github.com/input-output-hk/anoncreds-rs.git", exact: "0.4.1"),
         .package(url: "https://github.com/hyperledger/identus-apollo.git", exact: "1.4.2"),
         .package(url: "https://github.com/KittyMac/Sextant.git", exact: "0.4.31"),
         .package(url: "https://github.com/kylef/JSONSchema.swift.git", exact: "0.6.0"),
-        .package(url: "https://github.com/goncalo-frade-iohk/eudi-lib-sdjwt-swift.git", from: "0.0.2"),
-        .package(url: "https://github.com/1024jp/GzipSwift.git", exact: "6.0.0")
+        .package(url: "https://github.com/eu-digital-identity-wallet/eudi-lib-sdjwt-swift.git", from: "0.1.0"),
+        .package(url: "https://github.com/1024jp/GzipSwift.git", exact: "6.0.0"),
+        .package(url: "https://github.com/goncalo-frade-iohk/eudi-lib-ios-openid4vci-swift.git", branch: "feature/add-w3cvc-support")
     ],
     targets: [
         .target(
@@ -171,7 +172,8 @@ let package = Package(
             dependencies: [
                 "Domain",
                 "Builders",
-                "Core"
+                "Core",
+                .product(name: "OpenID4VCI", package: "eudi-lib-ios-openid4vci-swift")
             ],
             path: "EdgeAgentSDK/EdgeAgent/Sources"
         ),

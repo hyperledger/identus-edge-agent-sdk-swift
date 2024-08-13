@@ -9,9 +9,9 @@ final class DIDListViewModelImpl: DIDListViewModel {
     @Published var error: FancyToast?
 
     private let pluto: Pluto
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
 
-    init(pluto: Pluto, agent: EdgeAgent) {
+    init(pluto: Pluto, agent: DIDCommAgent) {
         self.pluto = pluto
         self.agent = agent
 

@@ -2,6 +2,7 @@ import Combine
 import Domain
 import Foundation
 import EdgeAgent
+import OpenID4VCI
 
 final class AddNewContactViewModelImpl: AddNewContactViewModel {
     @Published var flowStep: AddNewContactState.AddContacFlowStep
@@ -10,18 +11,26 @@ final class AddNewContactViewModelImpl: AddNewContactViewModel {
     @Published var dismissRoot = false
     @Published var loading = false
     @Published var contactInfo: AddNewContactState.Contact?
+    @Published var url: URL?
+    @Published var hasUrl: Bool = false
 
     private let pluto: Pluto
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
+    private let oidcAgent: OIDCAgent
     private var cancellables = Set<AnyCancellable>()
+    private var issuer: Issuer?
+    private var offer: CredentialOffer?
+    private var request: UnauthorizedRequest?
 
     init(
         token: String = "",
-        agent: EdgeAgent,
+        agent: DIDCommAgent,
+        oidcAgent: OIDCAgent,
         pluto: Pluto
     ) {
         code = token
         self.agent = agent
+        self.oidcAgent = oidcAgent
         self.pluto = pluto
         flowStep = token.isEmpty ? .getCode : .checkDuplication
     }
@@ -36,7 +45,7 @@ final class AddNewContactViewModelImpl: AddNewContactViewModel {
 
             do {
                 if let recipientDID = try? DID(string: self.code) {
-                    let didPairs = try await agent.getAllDIDPairs().first().await()
+                    let didPairs = try await agent.edgeAgent.getAllDIDPairs().first().await()
 
                     await MainActor.run { [weak self] in
                         guard didPairs.first(where: { $0.other.string == recipientDID.string }) == nil else {
@@ -50,9 +59,26 @@ final class AddNewContactViewModelImpl: AddNewContactViewModel {
                         self?.loading = false
                     }
 
+                } else if self.code.contains("openid-credential-offer"){
+                    let offer = try await oidcAgent.parseCredentialOffer(offerUri: self.code)
+                    self.offer = offer
+                    let prePreparedRequest = try await oidcAgent.createAuthorizationRequest(
+                        clientId: "alice-wallet",
+                        redirectUri: URL(string: "edgeagentsdk://oidc")!,
+                        offer: offer
+                    )
+                    self.issuer = prePreparedRequest.0
+                    self.request = prePreparedRequest.1
+                    switch self.request {
+                    case .par(let parRequested):
+                        self.url = parRequested.getAuthorizationCodeURL.url
+                        self.hasUrl = true
+                    default:
+                        throw UnknownError.somethingWentWrongError(customMessage: nil, underlyingErrors: nil)
+                    }
                 } else {
                     let connection = try agent.parseOOBInvitation(url: self.code)
-                    let didPairs = try await agent.getAllDIDPairs().first().await()
+                    let didPairs = try await agent.edgeAgent.getAllDIDPairs().first().await()
 
                     await MainActor.run { [weak self] in
                         guard didPairs.first(where: { $0.other.string == connection.from }) == nil else {
@@ -73,6 +99,23 @@ final class AddNewContactViewModelImpl: AddNewContactViewModel {
                 }
             }
         }
+    }
+
+    func handleLinkCallback(url: URL) async throws {
+        hasUrl = false
+        let response = try await oidcAgent.handleTokenRequest(
+            request: request!,
+            issuer: issuer!,
+            callbackUrl: url
+        )
+        let credential = try await oidcAgent.credentialRequest(
+            issuer: response.0,
+            offer: offer!,
+            request: response.1
+        )
+        loading = false
+        dismiss = true
+        print(credential)
     }
 
     func addContact() {

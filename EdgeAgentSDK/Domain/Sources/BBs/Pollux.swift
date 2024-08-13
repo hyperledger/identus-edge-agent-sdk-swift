@@ -14,6 +14,8 @@ public enum CredentialOperationsOptions {
     case exportableKey(ExportableKey)  // A key that can be exported.
     case zkpPresentationParams(attributes: [String: Bool], predicates: [String]) // Anoncreds zero-knowledge proof presentation parameters
     case disclosingClaims(claims: [String])
+    case thid(String)
+    case presentationRequestId(String)
     case custom(key: String, data: Data)  // Any custom data.
 }
 
@@ -23,7 +25,17 @@ public protocol Pollux {
     /// - Parameter data: The encoded item to parse.
     /// - Throws: An error if the item cannot be parsed or decoded.
     /// - Returns: An object representing the parsed item.
+    @available(*, deprecated, message: "Please use the new method for parseCredential(type: String, credentialPayload: Data, options: [CredentialOperationsOptions])")
     func parseCredential(issuedCredential: Message, options: [CredentialOperationsOptions]) async throws -> Credential
+
+    /// Parses an encoded item and returns an object representing the parsed item.
+    /// - Parameters:
+    ///   - type: The type of the credential, (`jwt`, `prism/jwt`, `vc+sd-jwt`, `anoncreds`, `anoncreds/credential@v1.0`)
+    ///   - credentialPayload: The encoded credential to parse.
+    ///   - options: Options required for some types of credentials.
+    /// - Throws: An error if the item cannot be parsed or decoded.
+    /// - Returns: An object representing the parsed item.
+    func parseCredential(type: String, credentialPayload: Data, options: [CredentialOperationsOptions]) async throws -> Credential
 
     /// Restores a previously stored item using the provided restoration identifier and data.
     /// - Parameters:
@@ -39,8 +51,22 @@ public protocol Pollux {
     ///   - options: The options to use when processing the request.
     /// - Throws: An error if the request cannot be processed.
     /// - Returns: A string representing the result of the request process.
+    @available(*, deprecated, message: "Please use the new method for processCredentialRequest(type: String, offerPayload: Data, options: [CredentialOperationsOptions])")
     func processCredentialRequest(
         offerMessage: Message,
+        options: [CredentialOperationsOptions]
+    ) async throws -> String
+
+    /// Processes a request based on a provided offer message and options.
+    /// - Parameters:
+    ///   - type: The type of the credential, (`jwt`, `prism/jwt`, `vc+sd-jwt`, `anoncreds`, `anoncreds/credential-offer@v1.0`)
+    ///   - offerMessage: The offer message that contains the details of the request.
+    ///   - options: The options to use when processing the request.
+    /// - Throws: An error if the request cannot be processed.
+    /// - Returns: A string representing the result of the request process.
+    func processCredentialRequest(
+        type: String,
+        offerPayload: Data,
         options: [CredentialOperationsOptions]
     ) async throws -> String
 
@@ -69,8 +95,23 @@ public protocol Pollux {
     ///   - options: An array of options that influence how the presentation verification is conducted.
     /// - Returns: A Boolean value indicating whether the presentation is valid (`true`) or not (`false`).
     /// - Throws: An error if there is a problem verifying the presentation.
+    @available(*, deprecated, message: "Please use the new method for verifyPresentation(type: String, presentationPayload: Data, options: [CredentialOperationsOptions])")
     func verifyPresentation(
         message: Message,
+        options: [CredentialOperationsOptions]
+    ) async throws -> Bool
+
+    /// Verifies the validity of a presentation contained within a message, using specified options.
+    ///
+    /// - Parameters:
+    ///   - type: The type of the credential, (`jwt`, `prism/jwt`, `vc+sd-jwt`, `anoncreds`, `anoncreds/credential-presentation@v1.0`)
+    ///   - presentationPayload: The message containing the presentation to be verified.
+    ///   - options: An array of options that influence how the presentation verification is conducted.
+    /// - Returns: A Boolean value indicating whether the presentation is valid (`true`) or not (`false`).
+    /// - Throws: An error if there is a problem verifying the presentation.
+    func verifyPresentation(
+        type: String,
+        presentationPayload: Data,
         options: [CredentialOperationsOptions]
     ) async throws -> Bool
 }

@@ -11,10 +11,10 @@ final class CredentialDetailViewModelImpl: CredentialDetailViewModel {
         schemaId: nil
     )
 
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
     private let credentialId: String
 
-    init(agent: EdgeAgent, credentialId: String) {
+    init(agent: DIDCommAgent, credentialId: String) {
         self.agent = agent
         self.credentialId = credentialId
         bind()
@@ -22,7 +22,7 @@ final class CredentialDetailViewModelImpl: CredentialDetailViewModel {
 
     private func bind() {
         let credentialId = self.credentialId
-        return self.agent
+        return self.agent.edgeAgent
             .verifiableCredentials()
             .map {
                 if let credential = $0.first(where: { $0.id == credentialId }) {

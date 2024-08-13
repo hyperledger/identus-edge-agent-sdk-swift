@@ -25,11 +25,11 @@ final class MessageDetailViewModelImpl: MessageDetailViewModel {
 
     private let messageId: String
     private let pluto: Pluto
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
     private var message: Message?
     private var cancellables = Set<AnyCancellable>()
 
-    init(messageId: String, pluto: Pluto, agent: EdgeAgent) {
+    init(messageId: String, pluto: Pluto, agent: DIDCommAgent) {
         self.messageId = messageId
         self.pluto = pluto
         self.agent = agent
@@ -80,7 +80,7 @@ final class MessageDetailViewModelImpl: MessageDetailViewModel {
                 case .didcommPresentation:
                     let presentation = try Presentation(fromMessage: message)
                 case .didcommRequestPresentation:
-                    let credential = try await agent.verifiableCredentials().map { $0.first }.first().await()
+                    let credential = try await agent.edgeAgent.verifiableCredentials().map { $0.first }.first().await()
                     guard let credential else {
                         throw UnknownError.somethingWentWrongError()
                     }

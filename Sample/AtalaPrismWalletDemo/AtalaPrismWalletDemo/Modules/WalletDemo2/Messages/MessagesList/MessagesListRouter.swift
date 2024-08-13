@@ -9,7 +9,7 @@ struct MessageListRouterImpl: MessageListRouter {
         let viewModel = MessageDetailViewModelImpl(
             messageId: messageId,
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: EdgeAgent.self)!
+            agent: container.resolve(type: DIDCommAgent.self)!
         )
 
         return MessageDetailView(viewModel: viewModel)

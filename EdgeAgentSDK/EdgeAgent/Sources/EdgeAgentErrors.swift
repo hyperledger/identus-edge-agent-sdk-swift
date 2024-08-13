@@ -9,6 +9,67 @@ import Domain
  */
 public enum EdgeAgentError: KnownPrismError {
 
+    public enum OIDCError: KnownPrismError {
+        /// An error case representing that a `CredentialOffer` doesnt contain grants.
+        case noGrantProvided
+
+        /// An error case representing that a flow is not supported.
+        case flowNotSupported
+
+        /// An error case representing an internal error normally originating from a library
+        case internalError(error: Error)
+
+        /// An error case representing an invalid callback url
+        case invalidCallbackURL
+
+        /// An error case representing that some parameters are missing from the callback url
+        case missingQueryParameters(parameters: [String])
+
+        /// An error case representing that a credential request cannot be of deferred type
+        case crendentialResponseDeferredNotSupported
+
+        /// An error case representing that an invalid proof was submited
+        case invalidProof(errorDescription: String?)
+
+        public var code: Int {
+            switch self {
+            case .noGrantProvided:
+                return 1001
+            case .flowNotSupported:
+                return 1002
+            case .internalError:
+                return 1003
+            case .invalidCallbackURL:
+                return 1004
+            case .missingQueryParameters:
+                return 1005
+            case .crendentialResponseDeferredNotSupported:
+                return 1006
+            case .invalidProof:
+                return 1007
+            }
+        }
+
+        public var message: String {
+            switch self {
+            case .noGrantProvided:
+                return "No grant was provided"
+            case .flowNotSupported:
+                return "The flow is not supported"
+            case .internalError(error: let error):
+                return "An internal error occurred: \(error)"
+            case .invalidCallbackURL:
+                return "The callback url is invalid"
+            case .missingQueryParameters(parameters: let parameters):
+                return "The following query parameters are missing on the callback url: \(parameters)"
+            case .crendentialResponseDeferredNotSupported:
+                return "Credential response deferred is not supported"
+            case .invalidProof(errorDescription: let errorDescription):
+                return "The proof is invalid: \(errorDescription ?? "")"
+            }
+        }
+    }
+
     /// An error case representing that a DID key pair index could not be found.
     case cannotFindDIDKeyPairIndex
 

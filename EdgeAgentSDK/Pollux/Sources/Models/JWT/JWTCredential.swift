@@ -40,12 +40,25 @@ extension JWTCredential: Credential {
     
     public var claims: [Claim] {
         guard
-            let dic = jwtVerifiableCredential.verifiableCredential.credentialSubject.value as? [String: String]
+            let dic = jwtVerifiableCredential.verifiableCredential.credentialSubject.value as? [String: Any]
         else {
             return []
         }
-        return dic.map {
-            Claim(key: $0, value: .string($1))
+        return dic.compactMap {
+            switch $1 {
+            case let value as Date:
+                Claim(key: $0, value: .date(value))
+            case let value as Data:
+                Claim(key: $0, value: .data(value))
+            case let value as Bool:
+                Claim(key: $0, value: .bool(value))
+            case let value as String:
+                Claim(key: $0, value: .string(value))
+            case let value as NSNumber:
+                Claim(key: $0, value: .number(value.doubleValue))
+            default:
+                nil
+            }
         }
     }
     

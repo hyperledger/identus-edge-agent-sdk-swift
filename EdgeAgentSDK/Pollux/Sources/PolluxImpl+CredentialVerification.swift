@@ -59,6 +59,38 @@ extension PolluxImpl {
         }
     }
 
+//<<<<<<< HEAD
+//    private func getDefinition(id: String) async throws -> PresentationExchangeRequest {
+//=======
+    public func verifyPresentation(
+        type: String,
+        presentationPayload: Data,
+        options: [CredentialOperationsOptions]
+    ) async throws -> Bool {
+        guard
+            let requestIdOption = options.first(where: {
+                if case .presentationRequestId = $0 { return true }
+                return false
+            }),
+            case let CredentialOperationsOptions.presentationRequestId(requestId) = requestIdOption
+        else {
+            throw PolluxError.invalidPrismDID
+        }
+
+        switch type {
+        case "dif/presentation-exchange/submission@v1.0":
+            return try await verifyPresentationSubmission(json: presentationPayload, requestId: requestId)
+        case "anoncreds/proof@v1.0":
+            return try await verifyAnoncreds(
+                presentation: presentationPayload,
+                requestId: requestId,
+                options: options
+            )
+        default:
+            throw PolluxError.unsupportedAttachmentFormat(type)
+        }
+    }
+
     private func getDefinition(id: String) async throws -> PresentationExchangeRequest {
         guard
             let request = try await pluto.getMessage(id: id).first().await(),
@@ -80,54 +112,20 @@ extension PolluxImpl {
         return try JSONDecoder.didComm().decode(PresentationExchangeRequest.self, from: json)
     }
 
-    private func verifyJWTs(credentials: [String]) async throws {
-        var errors = [Error]()
-        await credentials
-            .asyncForEach {
-                do {
-                    try await verifyJWT(jwtString: $0)
-                } catch {
-                    errors.append(error)
-                }
-            }
-        guard errors.isEmpty else {
-            throw PolluxError.cannotVerifyPresentationInputs(errors: errors)
-        }
-    }
-
-    private func verifyJWT(jwtString: String) async throws -> Bool {
-        try await verifyJWTCredentialRevocation(jwtString: jwtString)
-        let payload: DefaultJWTClaimsImpl = try JWT.getPayload(jwtString: jwtString)
-        guard let issuer = payload.iss else {
-            throw PolluxError.requiresThatIssuerExistsAndIsAPrismDID
+    private func verifyPresentationSubmission(json: Data, requestId: String) async throws -> Bool {
+        let presentationContainer = try JSONDecoder.didComm().decode(PresentationContainer.self, from: json)
+        let presentationRequest = try await getDefinition(id: requestId)
+        guard let submission = presentationContainer.presentationSubmission else {
+            throw PolluxError.presentationSubmissionNotAvailable
         }
 
-        let issuerDID = try DID(string: issuer)
-        let issuerKeys = try await castor.getDIDPublicKeys(did: issuerDID)
-        
-        ES256KVerifier.bouncyCastleFailSafe = true
-
-        let validations = issuerKeys
-            .compactMap(\.exporting)
-            .compactMap {
-                try? JWT.verify(jwtString: jwtString, senderKey: $0.jwk.toJoseJWK())
-            }
-        ES256KVerifier.bouncyCastleFailSafe = false
-        return !validations.isEmpty
-    }
-
-    private func verifyJWTCredentialRevocation(jwtString: String) async throws {
-        guard let credential = try? JWTCredential(data: jwtString.tryToData()) else {
-            return
-        }
-        let isRevoked = try await credential.isRevoked
-        let isSuspended = try await credential.isSuspended
-        guard !isRevoked else {
-            throw PolluxError.credentialIsRevoked(jwtString: jwtString)
-        }
-        guard !isSuspended else {
-            throw PolluxError.credentialIsSuspended(jwtString: jwtString)
-        }
+        return try await VerifyPresentationSubmission(
+            castor: castor,
+            parsers: presentationExchangeParsers
+        ).verifyPresentationSubmission(
+            json: json,
+            presentationRequest: presentationRequest
+        )
     }
 
     private func verifyAnoncreds(

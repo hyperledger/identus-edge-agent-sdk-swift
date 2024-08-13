@@ -12,7 +12,8 @@ struct AddNewContactBuilder: Builder {
         let viewModel = getViewModel(component: component) {
             AddNewContactViewModelImpl(
                 token: component.token ?? "",
-                agent: component.container.resolve(type: EdgeAgent.self)!,
+                agent: component.container.resolve(type: DIDCommAgent.self)!, 
+                oidcAgent: component.container.resolve(type: OIDCAgent.self)!,
                 pluto: component.container.resolve(type: Pluto.self)!
             )
         }

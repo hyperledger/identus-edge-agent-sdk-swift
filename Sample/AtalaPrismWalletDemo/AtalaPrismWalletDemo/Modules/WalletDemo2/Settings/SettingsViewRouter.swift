@@ -8,7 +8,7 @@ struct SettingsViewRouterImpl: SettingsViewRouter {
     func routeToDIDs() -> some View {
         let viewModel = DIDListViewModelImpl(
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: EdgeAgent.self)!
+            agent: container.resolve(type: DIDCommAgent.self)!
         )
 
         return DIDListView(viewModel: viewModel)
@@ -18,7 +18,7 @@ struct SettingsViewRouterImpl: SettingsViewRouter {
         let viewModel = MediatorViewModelImpl(
             castor: container.resolve(type: Castor.self)!,
             pluto: container.resolve(type: Pluto.self)!,
-            agent: container.resolve(type: EdgeAgent.self)!
+            agent: container.resolve(type: DIDCommAgent.self)!
         )
         return MediatorPageView(viewModel: viewModel)
     }

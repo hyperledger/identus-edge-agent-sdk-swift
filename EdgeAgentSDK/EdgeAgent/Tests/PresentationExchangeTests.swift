@@ -15,19 +15,19 @@ final class PresentationExchangeFlowTests: XCTestCase {
     var castor: Castor!
     var pollux: (Pollux & CredentialImporter)!
     var mercury = MercuryStub()
-    var edgeAgent: EdgeAgent!
+    var edgeAgent: DIDCommAgent!
     let logger = Logger(label: "presentation_exchange_test")
 
     override func setUp() async throws {
         castor = CastorBuilder(apollo: apollo).build()
         pollux = PolluxBuilder(pluto: pluto, castor: castor).build()
-        edgeAgent = EdgeAgent(
+        let edgeAgent = EdgeAgent(
             apollo: apollo,
             castor: castor,
             pluto: pluto,
-            pollux: pollux,
-            mercury: mercury
+            pollux: pollux
         )
+        self.edgeAgent = DIDCommAgent(edgeAgent: edgeAgent, mercury: mercury)
     }
 
     func testJWTPresentationRequest() async throws {
@@ -126,7 +126,8 @@ final class PresentationExchangeFlowTests: XCTestCase {
 
         let presentation = try await edgeAgent.createPresentationForRequestProof(
             request: message,
-            credential: credential
+            credential: credential,
+            options: [.disclosingClaims(claims: ["test"])]
         )
 
         let verification = try await edgeAgent.pollux.verifyPresentation(

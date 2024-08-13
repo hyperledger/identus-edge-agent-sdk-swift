@@ -10,9 +10,9 @@ final class ConnectionsListViewModelImpl: ConnectionsListViewModel {
     private var cancellables = Set<AnyCancellable>()
     private let castor: Castor
     private let pluto: Pluto
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
 
-    init(castor: Castor, pluto: Pluto, agent: EdgeAgent) {
+    init(castor: Castor, pluto: Pluto, agent: DIDCommAgent) {
         self.castor = castor
         self.pluto = pluto
         self.agent = agent
@@ -22,6 +22,7 @@ final class ConnectionsListViewModelImpl: ConnectionsListViewModel {
 
     func bind() {
         agent
+            .edgeAgent
             .getAllDIDPairs()
             .map {
                 $0.map {

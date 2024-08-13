@@ -10,9 +10,9 @@ class CreatePresentationViewModelImpl: CreatePresentationViewModel {
     @Published var selectedCredentialType: CreatePresentationViewState.CredentialType = .jwt
     @Published var jwtClaims: [CreatePresentationViewState.JWTClaim] = []
     @Published var anoncredsClaims: [CreatePresentationViewState.AnoncredsClaim] = []
-    private let agent: EdgeAgent
+    private let agent: DIDCommAgent
 
-    init(edgeAgent: EdgeAgent) {
+    init(edgeAgent: DIDCommAgent) {
         self.agent = edgeAgent
 
         bind()
@@ -20,6 +20,7 @@ class CreatePresentationViewModelImpl: CreatePresentationViewModel {
 
     func bind() {
         agent
+            .edgeAgent
             .getAllDIDPairs()
             .map {
                 $0.map {

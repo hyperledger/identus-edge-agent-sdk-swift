@@ -23,7 +23,6 @@ final class BackupWalletTests: XCTestCase {
             castor: castor,
             pluto: pluto,
             pollux: pollux,
-            mercury: MercuryStub(),
             seed: seed
         )
         return (agent, pluto)
@@ -39,7 +38,6 @@ final class BackupWalletTests: XCTestCase {
             castor: castor,
             pluto: pluto,
             pollux: pollux,
-            mercury: MercuryStub(),
             seed: seed
         )
         return (agent, pluto)
@@ -47,7 +45,7 @@ final class BackupWalletTests: XCTestCase {
 
     func testBackup() async throws {
         let (backupAgent, backupPluto) = try createAgent()
-        _ = try await backupAgent.createNewPeerDID(updateMediator: false)
+        _ = try await backupAgent.createNewPrismDID()
         _ = try await backupAgent.createNewPrismDID()
 
         backupPluto.didPairs = [
