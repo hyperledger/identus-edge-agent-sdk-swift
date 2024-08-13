@@ -7,9 +7,9 @@ import Foundation
 struct CreateX25519KeyPairOperation {
     let logger: SDKLogger
 
-    func compute() -> PrivateKey {
+    func compute(identifier: String = UUID().uuidString) -> PrivateKey {
         let privateKey = KMMX25519KeyPair.Companion().generateKeyPair().privateKey
-        return X25519PrivateKey(internalKey: privateKey)
+        return X25519PrivateKey(identifier: identifier, internalKey: privateKey)
 
     }
 
@@ -26,7 +26,7 @@ struct CreateX25519KeyPairOperation {
         )
     }
 
-    func compute(seed: Seed, keyPath: Domain.DerivationPath) throws -> PrivateKey {
+    func compute(identifier: String, seed: Seed, keyPath: Domain.DerivationPath) throws -> PrivateKey {
         let derivedHdKey = ApolloLibrary
             .EdHDKey
             .companion
@@ -35,6 +35,7 @@ struct CreateX25519KeyPairOperation {
         )
 
         return X25519PrivateKey(
+            identifier: identifier,
             internalKey: KMMEdPrivateKey(raw: derivedHdKey.privateKey).x25519PrivateKey(),
             derivationPath: keyPath
         )

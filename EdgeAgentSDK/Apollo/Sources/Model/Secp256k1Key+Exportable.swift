@@ -12,6 +12,7 @@ extension Secp256k1PrivateKey: ExportableKey {
     var jwk: JWK {
         JWK(
             kty: "EC",
+            kid: identifier,
             d: raw.base64UrlEncodedString(),
             crv: getProperty(.curve)?.lowercased(),
             x: publicKey().getProperty(.curvePointX).flatMap { Data(fromBase64URL: $0)?.base64UrlEncodedString() },
@@ -42,6 +43,7 @@ extension Secp256k1PublicKey: ExportableKey {
     var jwk: JWK {
         JWK(
             kty: "EC",
+            kid: identifier,
             crv: getProperty(.curve)?.lowercased(),
             x: getProperty(.curvePointX)
                 .flatMap { Data(fromBase64URL: $0)?.base64UrlEncodedString() } ?? raw.base64UrlEncodedString(),

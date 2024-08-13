@@ -183,7 +183,10 @@ struct JWTPresentation {
 
         let jwt = try JWT.signed(
             payload: payload,
-            protectedHeader: DefaultJWSHeaderImpl(algorithm: .ES256K),
+            protectedHeader: DefaultJWSHeaderImpl(
+                algorithm: .ES256K,
+                keyID: keyJWK.kid
+            ),
             key: JSONWebKey.JWK(
                 keyType: .init(rawValue: keyJWK.kty)!,
                 keyID: keyJWK.kid,

@@ -1,3 +1,4 @@
+import Core
 import Domain
 import Foundation
 
@@ -29,17 +30,13 @@ public extension DIDCommAgent {
     /// - Returns: The parsed Out-of-Band invitation
     /// - Throws: `EdgeAgentError` if the string is not a valid URL
     func parseOOBInvitation(url: String) throws -> OutOfBandInvitation {
-        guard let messageData = Data(fromBase64URL: url) else {
-            guard let url = URL(string: url) else {
-                throw CommonError.invalidURLError(url: url)
-            }
+        if let base64url = Data(base64URLEncoded: url) {
+            return try JSONDecoder.didComm().decode(OutOfBandInvitation.self, from: base64url)
+        } else if let url = URL(string: url) {
             return try parseOOBInvitation(url: url)
+        } else {
+            throw CommonError.invalidURLError(url: url)
         }
-        let message = try JSONDecoder.didComm().decode(OutOfBandInvitation.self, from: messageData)
-        guard message.type == ProtocolTypes.didcomminvitation.rawValue else {
-            throw EdgeAgentError.unknownInvitationTypeError
-        }
-        return message
     }
 
     /// Parses the given URL as an Out-of-Band invitation

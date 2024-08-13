@@ -63,7 +63,7 @@ struct X25519PublicKey: PublicKey {
         self.internalKey = internalKey
     }
 
-    init(raw: Data) {
+    init(identifier: String = UUID().uuidString, raw: Data) {
         self.init(internalKey: .init(raw: raw.toKotlinByteArray()))
     }
 

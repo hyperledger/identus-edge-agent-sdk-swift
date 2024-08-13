@@ -55,7 +55,7 @@ extension DIDCore.DIDDocument {
 
         self.init(
             id: from.id.string,
-            verificationMethods: verificationMethods + authenticationMethods + keyAgreementMethods,
+            verificationMethod: verificationMethods + authenticationMethods + keyAgreementMethods,
             authentication: authenticationIds.map { .stringValue($0) },
             assertionMethod: nil,
             capabilityDelegation: nil,
@@ -65,7 +65,7 @@ extension DIDCore.DIDDocument {
     }
 
     func toDomain() throws -> Domain.DIDDocument {
-        let authenticationUrls = self.verificationMethods
+        let authenticationUrls = self.verificationMethod?
             .filter {
                 guard let type = KnownVerificationMaterialType(rawValue: $0.type) else {
                     return false
@@ -77,9 +77,9 @@ extension DIDCore.DIDDocument {
                     return false
                 }
             }
-            .map { $0.id }
+            .map { $0.id } ?? []
 
-        let keyAgreementUrls = self.verificationMethods
+        let keyAgreementUrls = self.verificationMethod?
             .filter {
                 guard let type = KnownVerificationMaterialType(rawValue: $0.type) else {
                     return false
@@ -91,11 +91,11 @@ extension DIDCore.DIDDocument {
                     return false
                 }
             }
-            .map { $0.id }
+            .map { $0.id } ?? []
 
-        let verificationMethods = try self.verificationMethods.map {
+        let verificationMethods = try self.verificationMethod?.map {
             try $0.toDomain()
-        }
+        } ?? []
 
         let services = try self.services?.map {
             let service = try DIDCore.DIDDocument.Service(from: $0)

@@ -82,7 +82,7 @@ extension DIDCore.DIDDocument {
         }
         self.init(
             id: from.id.string,
-            verificationMethods: verificationMethods,
+            verificationMethod: verificationMethods,
             authentication: authentications.map { .stringValue($0) },
             keyAgreement: keyAgreements.map { .stringValue($0) },
             services: services.map { $0.toAnyCodable() }

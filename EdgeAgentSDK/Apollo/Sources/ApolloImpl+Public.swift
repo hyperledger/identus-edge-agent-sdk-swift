@@ -44,6 +44,7 @@ extension ApolloImpl: Apollo {
         guard
             let keyType = parameters[KeyProperties.type.rawValue]
         else { throw ApolloError.invalidKeyType(invalid: "", valid: ValidCryptographicTypes.allCases.map(\.rawValue)) }
+        let identifier = parameters[KeyProperties.kid.rawValue] ?? UUID().uuidString
         switch keyType {
         case ValidCryptographicTypes.ec.rawValue:
             guard
@@ -63,7 +64,11 @@ extension ApolloImpl: Apollo {
                     let derivationPath = try parameters[KeyProperties.derivationPath.rawValue].map {
                         try DerivationPath(string: $0)
                     } ?? DerivationPath()
-                    return Secp256k1PrivateKey(raw: keyData, derivationPath: derivationPath)
+                    return Secp256k1PrivateKey(
+                        identifier: identifier,
+                        raw: keyData,
+                        derivationPath: derivationPath
+                    )
                 } else {
                     guard
                         let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue],
@@ -76,6 +81,7 @@ extension ApolloImpl: Apollo {
                     }
                     let derivationPath = try DerivationPath(string: derivationPathStr)
                     return try CreateSec256k1KeyPairOperation().compute(
+                        identifier: identifier,
                         seed: Seed(value: seed),
                         keyPath: derivationPath
                     )
@@ -85,7 +91,10 @@ extension ApolloImpl: Apollo {
                     let keyStr = parameters[KeyProperties.rawKey.rawValue],
                     let keyData = Data(base64Encoded: keyStr)
                 {
-                    return try CreateEd25519KeyPairOperation(logger: ApolloImpl.logger).compute(fromPrivateKey: keyData)
+                    return try CreateEd25519KeyPairOperation(logger: ApolloImpl.logger).compute(
+                        identifier: identifier,
+                        fromPrivateKey: keyData
+                    )
                 } else if
                     let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue],
                     let seedStr = parameters[KeyProperties.seed.rawValue],
@@ -93,17 +102,21 @@ extension ApolloImpl: Apollo {
                 {
                     let derivationPath = try DerivationPath(string: derivationPathStr)
                     return try CreateEd25519KeyPairOperation(logger: ApolloImpl.logger).compute(
+                        identifier: identifier,
                         seed: Seed(value: seed),
                         keyPath: derivationPath
                     )
                 }
-                return CreateEd25519KeyPairOperation(logger: ApolloImpl.logger).compute()
+                return CreateEd25519KeyPairOperation(logger: ApolloImpl.logger).compute(identifier: identifier)
             case .x25519:
                 if
                     let keyStr = parameters[KeyProperties.rawKey.rawValue],
                     let keyData = Data(base64Encoded: keyStr)
                 {
-                    return try CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute(fromPrivateKey: keyData)
+                    return try CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute(
+                        identifier: identifier,
+                        fromPrivateKey: keyData
+                    )
                 }  else if
                     let derivationPathStr = parameters[KeyProperties.derivationPath.rawValue],
                     let seedStr = parameters[KeyProperties.seed.rawValue],
@@ -111,11 +124,12 @@ extension ApolloImpl: Apollo {
                 {
                     let derivationPath = try DerivationPath(string: derivationPathStr)
                     return try CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute(
+                        identifier: identifier,
                         seed: Seed(value: seed),
                         keyPath: derivationPath
                     )
                 }
-                return CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute()
+                return CreateX25519KeyPairOperation(logger: ApolloImpl.logger).compute(identifier: identifier)
             }
         default:
             throw ApolloError.invalidKeyType(invalid: keyType, valid: ValidCryptographicTypes.allCases.map(\.rawValue))
@@ -126,6 +140,7 @@ extension ApolloImpl: Apollo {
         guard
             let keyType = parameters[KeyProperties.type.rawValue]
         else { throw ApolloError.invalidKeyType(invalid: "", valid: ValidCryptographicTypes.allCases.map(\.rawValue)) }
+        let identifier = parameters[KeyProperties.kid.rawValue] ?? UUID().uuidString
         switch keyType {
         case ValidCryptographicTypes.ec.rawValue:
             guard
@@ -140,12 +155,12 @@ extension ApolloImpl: Apollo {
             switch curve {
             case .secp256k1:
                 if let keyData = parameters[KeyProperties.rawKey.rawValue].flatMap({ Data(base64Encoded: $0) }) {
-                    return Secp256k1PublicKey(raw: keyData)
+                    return Secp256k1PublicKey(identifier: identifier, raw: keyData)
                 } else if
                     let x = parameters[KeyProperties.curvePointX.rawValue].flatMap({ Data(base64Encoded: $0) }),
                     let y = parameters[KeyProperties.curvePointY.rawValue].flatMap({ Data(base64Encoded: $0) })
                 {
-                    return Secp256k1PublicKey(x: x, y: y)
+                    return Secp256k1PublicKey(identifier: identifier, x: x, y: y)
                 } else {
                     throw ApolloError.missingKeyParameters(missing: [
                         KeyProperties.rawKey.rawValue,
@@ -159,14 +174,14 @@ extension ApolloImpl: Apollo {
                 else {
                     throw ApolloError.missingKeyParameters(missing: [KeyProperties.rawKey.rawValue])
                 }
-                return Ed25519PublicKey(raw: keyData)
+                return Ed25519PublicKey(identifier: identifier, raw: keyData)
             case .x25519:
                 guard
                     let keyData = parameters[KeyProperties.rawKey.rawValue].flatMap({ Data(base64Encoded: $0) })
                 else {
                     throw ApolloError.missingKeyParameters(missing: [KeyProperties.rawKey.rawValue])
                 }
-                return X25519PublicKey(raw: keyData)
+                return X25519PublicKey(identifier: identifier, raw: keyData)
             }
         default:
             throw ApolloError.invalidKeyType(invalid: keyType, valid: ValidCryptographicTypes.allCases.map(\.rawValue))

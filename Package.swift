@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "EdgeAgentSDK",
-    platforms: [.iOS(.v15), .macOS(.v12)],
+    platforms: [.iOS(.v15), .macOS(.v13)],
     products: [
         .library(
             name: "Domain",

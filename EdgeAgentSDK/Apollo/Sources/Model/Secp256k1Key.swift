@@ -29,8 +29,9 @@ struct Secp256k1PrivateKey: PrivateKey {
         self.size = internalKey.raw.toData().count
     }
 
-    init(raw: Data, derivationPath: Domain.DerivationPath) {
+    init(identifier: String, raw: Data, derivationPath: Domain.DerivationPath) {
         self.init(
+            identifier: identifier,
             internalKey: KMMECSecp256k1PrivateKey(raw: raw.toKotlinByteArray()),
             derivationPath: derivationPath
         )
@@ -91,7 +92,7 @@ struct Secp256k1PublicKey: PublicKey {
         self.raw = internalKey.raw.toData()
     }
 
-    init(x: Data, y: Data) {
+    init(identifier: String = UUID().uuidString, x: Data, y: Data) {
         self.init(
             internalKey: .Companion().secp256k1FromByteCoordinates(
                 x: x.toKotlinByteArray(),
@@ -100,7 +101,7 @@ struct Secp256k1PublicKey: PublicKey {
         )
     }
 
-    init(raw: Data) {
+    init(identifier: String = UUID().uuidString, raw: Data) {
         self.init(internalKey: .Companion().secp256k1FromBytes(encoded: raw.toKotlinByteArray()))
     }
 

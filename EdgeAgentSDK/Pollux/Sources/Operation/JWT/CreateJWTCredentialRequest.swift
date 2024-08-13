@@ -20,7 +20,7 @@ struct CreateJWTCredentialRequest {
             let domain = findValue(forKey: "domain", in: jsonObject),
             let challenge = findValue(forKey: "challenge", in: jsonObject)
         else { throw PolluxError.offerDoesntProvideEnoughInformation }
-        
+
         let keyJWK = key.jwk
         let claims = ClaimsRequestSignatureJWT(
             iss: didStr,
@@ -40,11 +40,15 @@ struct CreateJWTCredentialRequest {
 
         ES256KSigner.invertedBytesR_S = true
 
+        guard let kty = JWK.KeyType(rawValue: keyJWK.kty) else { throw PolluxError.invalidPrismDID }
         let jwt = try JWT.signed(
             payload: claims,
-            protectedHeader: DefaultJWSHeaderImpl(algorithm: .ES256K),
+            protectedHeader: DefaultJWSHeaderImpl(
+                algorithm: .ES256K,
+                keyID: keyJWK.kid
+            ),
             key: JSONWebKey.JWK(
-                keyType: .init(rawValue: keyJWK.kty)!,
+                keyType: kty,
                 keyID: keyJWK.kid,
                 x: keyJWK.x.flatMap { Data(fromBase64URL: $0) },
                 y: keyJWK.y.flatMap { Data(fromBase64URL: $0) },
