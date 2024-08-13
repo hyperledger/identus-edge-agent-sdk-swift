@@ -60,6 +60,7 @@ Could not find key in storage please use Castor instead and provide the private 
     ///   - services: an array of services associated to the DID
     /// - Returns: The new created DID
     func createNewPrismDID(
+        masterPrivateKey: PrivateKey? = nil,
         keyPathIndex: Int? = nil,
         alias: String? = nil,
         services: [DIDDocument.Service] = []
@@ -68,31 +69,38 @@ Could not find key in storage please use Castor instead and provide the private 
         let apollo = self.apollo
         let castor = self.castor
 
-        let lastKeyPairIndex = try await pluto
-            .getPrismLastKeyPairIndex()
-            .first()
-            .await()
+        let usingPrivateKey: PrivateKey
 
-        // If the user provided a key path index use it, if not use the last + 1
-        let index = keyPathIndex ?? (lastKeyPairIndex + 1)
-        // Create the key pair
-        let privateKey = try apollo.createPrivateKey(parameters: [
-            KeyProperties.type.rawValue: "EC",
-            KeyProperties.seed.rawValue: seed.value.base64Encoded(),
-            KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue,
-            KeyProperties.derivationPath.rawValue: EdgeAgentDerivationPath(
-                keyPurpose: .master,
-                keyIndex: index
-            ).derivationPath.keyPathString()
-        ])
+        if let masterPrivateKey {
+            usingPrivateKey = masterPrivateKey
+        }
+        else {
+            let lastKeyPairIndex = try await pluto
+                .getPrismLastKeyPairIndex()
+                .first()
+                .await()
 
-        let newDID = try castor.createPrismDID(masterPublicKey: privateKey.publicKey(), services: services)
+            // If the user provided a key path index use it, if not use the last + 1
+            let index = keyPathIndex ?? (lastKeyPairIndex + 1)
+            // Create the key pair
+            usingPrivateKey = try apollo.createPrivateKey(parameters: [
+                KeyProperties.type.rawValue: "EC",
+                KeyProperties.seed.rawValue: seed.value.base64Encoded(),
+                KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue,
+                KeyProperties.derivationPath.rawValue: EdgeAgentDerivationPath(
+                    keyPurpose: .master,
+                    keyIndex: index
+                ).derivationPath.keyPathString()
+            ])
+        }
+
+        let newDID = try castor.createPrismDID(masterPublicKey: usingPrivateKey.publicKey(), services: services)
         logger.debug(message: "Created new Prism DID", metadata: [
             .maskedMetadataByLevel(key: "DID", value: newDID.string, level: .debug),
             .maskedMetadataByLevel(key: "keyPathIndex", value: "\(index)", level: .debug)
         ])
 
-        try await registerPrismDID(did: newDID, privateKey: privateKey, alias: alias)
+        try await registerPrismDID(did: newDID, privateKey: usingPrivateKey, alias: alias)
         return newDID
     }
 

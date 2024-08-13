@@ -61,12 +61,14 @@ struct PrismDIDPublicKey {
 
     let apollo: Apollo
     let id: String
+    let curve: String
     let usage: Usage
     let keyData: PublicKey
 
-    init(apollo: Apollo, id: String, usage: Usage, keyData: PublicKey) {
+    init(apollo: Apollo, id: String, curve: String, usage: Usage, keyData: PublicKey) {
         self.apollo = apollo
         self.id = id
+        self.curve = curve
         self.usage = usage
         self.keyData = keyData
     }
@@ -77,20 +79,22 @@ struct PrismDIDPublicKey {
         usage = proto.usage.fromProto()
         switch proto.keyData {
         case let .ecKeyData(value):
+            curve = value.curve.lowercased()
             keyData = try apollo.createPublicKey(parameters: [
                 KeyProperties.type.rawValue: "EC",
-                KeyProperties.curve.rawValue: "secp256k1",
+                KeyProperties.curve.rawValue: value.curve.lowercased(),
                 KeyProperties.curvePointX.rawValue: value.x.base64EncodedString(),
                 KeyProperties.curvePointY.rawValue: value.y.base64EncodedString()
             ])
         case let .compressedEcKeyData(value):
+            curve = value.curve.lowercased()
             keyData = try apollo.createPublicKey(parameters: [
                 KeyProperties.type.rawValue: "EC",
-                KeyProperties.curve.rawValue: "secp256k1",
+                KeyProperties.curve.rawValue: value.curve.lowercased(),
                 KeyProperties.rawKey.rawValue: value.data.base64EncodedString()
             ])
         default:
-            throw CastorError.invalidPublicKeyCoding(didMethod: "prism", curve: "secp256k1")
+            throw CastorError.invalidPublicKeyCoding(didMethod: "prism", curve: "")
         }
     }
 
@@ -112,7 +116,7 @@ struct PrismDIDPublicKey {
         var protoEC = Io_Iohk_Atala_Prism_Protos_ECKeyData()
         protoEC.x = pointX
         protoEC.y = pointY
-        protoEC.curve = "secp256k1"
+        protoEC.curve = curve
         protoKey.keyData = .ecKeyData(protoEC)
         return protoKey
     }

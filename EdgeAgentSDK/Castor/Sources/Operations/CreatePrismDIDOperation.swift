@@ -10,16 +10,21 @@ struct CreatePrismDIDOperation {
 
     func compute() throws -> DID {
         var operation = Io_Iohk_Atala_Prism_Protos_AtalaOperation()
+        guard let masterKeyCurve = masterPublicKey.getProperty(.curve) else {
+            throw CastorError.invalidPublicKeyCoding(didMethod: "prism", curve: "no curve")
+        }
         operation.createDid = try createDIDAtalaOperation(
             publicKeys: [PrismDIDPublicKey(
                 apollo: apollo,
                 id: PrismDIDPublicKey.Usage.authenticationKey.defaultId,
+                curve: masterKeyCurve,
                 usage: .authenticationKey,
                 keyData: masterPublicKey
             ),
             PrismDIDPublicKey(
                 apollo: apollo,
                 id: PrismDIDPublicKey.Usage.masterKey.defaultId,
+                curve: masterKeyCurve,
                 usage: .masterKey,
                 keyData: masterPublicKey
             )],

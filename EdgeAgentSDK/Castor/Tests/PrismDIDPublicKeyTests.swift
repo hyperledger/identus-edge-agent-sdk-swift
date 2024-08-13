@@ -12,7 +12,7 @@ final class PrismDIDPublicKeyTests: XCTestCase {
     override func setUp() async throws {
         apollo = ApolloImpl()
         seed = apollo.createRandomSeed().seed
-        privateKey = try await apollo.createPrivateKey(parameters: [
+        privateKey = try apollo.createPrivateKey(parameters: [
             KeyProperties.type.rawValue: "EC",
             KeyProperties.curve.rawValue: KnownKeyCurves.secp256k1.rawValue,
             KeyProperties.seed.rawValue: seed.value.base64Encoded(),
@@ -23,7 +23,8 @@ final class PrismDIDPublicKeyTests: XCTestCase {
     func testFromProto() throws {
         let publicKey = PrismDIDPublicKey(
             apollo: apollo,
-            id: PrismDIDPublicKey.Usage.masterKey.id(index: 0),
+            id: PrismDIDPublicKey.Usage.masterKey.id(index: 0), 
+            curve: "secp256k1",
             usage: .masterKey,
             keyData: privateKey.publicKey()
         )
