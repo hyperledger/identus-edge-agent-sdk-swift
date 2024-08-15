@@ -142,10 +142,10 @@ extension PolluxImpl {
         }
         let isRevoked = try await credential.isRevoked
         let isSuspended = try await credential.isSuspended
-        guard isRevoked else {
+        guard !isRevoked else {
             throw PolluxError.credentialIsRevoked(jwtString: jwtString)
         }
-        guard isSuspended else {
+        guard !isSuspended else {
             throw PolluxError.credentialIsSuspended(jwtString: jwtString)
         }
     }
