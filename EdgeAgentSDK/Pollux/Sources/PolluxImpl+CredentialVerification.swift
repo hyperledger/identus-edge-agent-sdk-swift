@@ -39,7 +39,15 @@ extension PolluxImpl {
 
         switch attachment.format {
         case "dif/presentation-exchange/submission@v1.0":
-            return try await verifyPresentationSubmission(json: jsonData, requestId: requestId)
+            let request = try await getDefinition(id: requestId)
+            return try await VerifyPresentationSubmission(
+                castor: castor,
+                parsers: presentationExchangeParsers
+            )
+            .verifyPresentationSubmission(
+                json: jsonData,
+                presentationRequest: request
+            )
         case "anoncreds/proof@v1.0":
             return try await verifyAnoncreds(
                 presentation: jsonData,
@@ -51,50 +59,25 @@ extension PolluxImpl {
         }
     }
 
-    private func verifyPresentationSubmission(json: Data, requestId: String) async throws -> Bool {
-        let presentationContainer = try JSONDecoder.didComm().decode(PresentationContainer.self, from: json)
-        let presentationRequest = try await getDefinition(id: requestId)
-        guard let submission = presentationContainer.presentationSubmission else {
-            throw PolluxError.presentationSubmissionNotAvailable
-        }
-        let credentials = try getCredentialJWT(submission: submission, presentationData: json)
-
-        try VerifyPresentationSubmission.verifyPresentationSubmissionClaims(
-            request: presentationRequest.presentationDefinition,
-            credentials: try credentials.map {
-                try JWT.getPayload(jwtString: $0)
-            }
-        )
-
-        try await verifyJWTs(credentials: credentials)
-        return true
-    }
-
-    private func getCredentialJWT(submission: PresentationSubmission, presentationData: Data) throws -> [String] {
-        return submission.descriptorMap
-            .filter({ $0.format == "jwt" || $0.format == "jwt_vc" || $0.format == "jwt_vp" })
-            .compactMap { try? processJWTPath(descriptor: $0, presentationData: presentationData) }
-    }
-
-    private func processJWTPath(descriptor: PresentationSubmission.Descriptor, presentationData: Data) throws -> String {
-        guard descriptor.format == "jwt" || descriptor.format == "jwt_vc" || descriptor.format == "jwt_vp" else {
-            throw UnknownError.somethingWentWrongError(
-                customMessage: "This should not happen since its filtered before",
-                underlyingErrors: nil
-            )
-        }
-
+    private func getDefinition(id: String) async throws -> PresentationExchangeRequest {
         guard
-            let jwts = presentationData.query(string: descriptor.path)
+            let request = try await pluto.getMessage(id: id).first().await(),
+            let attachmentData = request.attachments.first?.data
         else {
-            throw PolluxError.credentialPathInvalid(path: descriptor.path)
+            throw PolluxError.couldNotFindPresentationRequest(id: id)
         }
 
-        guard let nestedDescriptor = descriptor.pathNested else {
-            return jwts
+        let json: Data
+        switch attachmentData {
+        case let jsonData as AttachmentJsonData:
+            json = jsonData.data
+        case let base64Data as AttachmentBase64:
+            json = try base64Data.decoded()
+        default:
+            throw PolluxError.invalidAttachmentType(supportedTypes: ["base64", "json"])
         }
-        let nestedPayload: Data = try JWT.getPayload(jwtString: jwts)
-        return try processJWTPath(descriptor: nestedDescriptor, presentationData: nestedPayload)
+
+        return try JSONDecoder.didComm().decode(PresentationExchangeRequest.self, from: json)
     }
 
     private func verifyJWTs(credentials: [String]) async throws {
@@ -148,27 +131,6 @@ extension PolluxImpl {
         guard !isSuspended else {
             throw PolluxError.credentialIsSuspended(jwtString: jwtString)
         }
-    }
-
-    private func getDefinition(id: String) async throws -> PresentationExchangeRequest {
-        guard 
-            let request = try await pluto.getMessage(id: id).first().await(),
-            let attachmentData = request.attachments.first?.data
-        else {
-            throw PolluxError.couldNotFindPresentationRequest(id: id)
-        }
-
-        let json: Data
-        switch attachmentData {
-        case let jsonData as AttachmentJsonData:
-            json = jsonData.data
-        case let base64Data as AttachmentBase64:
-            json = try base64Data.decoded()
-        default:
-            throw PolluxError.invalidAttachmentType(supportedTypes: ["base64", "json"])
-        }
-
-        return try JSONDecoder.didComm().decode(PresentationExchangeRequest.self, from: json)
     }
 
     private func verifyAnoncreds(

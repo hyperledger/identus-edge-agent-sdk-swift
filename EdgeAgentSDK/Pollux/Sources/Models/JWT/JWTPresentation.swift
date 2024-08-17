@@ -127,11 +127,11 @@ struct JWTPresentation {
             PresentationSubmission.Descriptor(
                 id: $0.id,
                 path: "$.verifiable_credential[0]",
-                format: "jwt_vp",
+                format: "jwt",
                 pathNested: .init(
                     id: $0.id,
                     path: "$.vp.verifiableCredential[0]",
-                    format: "jwt_vc"
+                    format: "jwt"
                 )
             )
         }

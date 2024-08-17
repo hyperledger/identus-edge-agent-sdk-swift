@@ -71,7 +71,8 @@ public extension EdgeAgent {
                 request: request.makeMessage(),
                 options: [
                     .exportableKey(exporting),
-                    .subjectDID(subjectDID)
+                    .subjectDID(subjectDID),
+                    .disclosingClaims(claims: credential.claims.map(\.key))
                 ]
             )
         default:

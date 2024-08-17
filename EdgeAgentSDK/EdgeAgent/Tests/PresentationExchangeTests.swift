@@ -1,6 +1,7 @@
 import Builders
 import Core
 import Domain
+import eudi_lib_sdjwt_swift
 import Logging
 import JSONWebSignature
 import JSONWebToken
@@ -99,6 +100,44 @@ final class PresentationExchangeFlowTests: XCTestCase {
         }
     }
 
+    func testSDJWTPresentationRequest() async throws {
+        let prismDID = try await edgeAgent.createNewPrismDID()
+        let subjectDID = try await edgeAgent.createNewPrismDID()
+
+        let sdjwt = try await makeCredentialSDJWT(issuerDID: prismDID, subjectDID: subjectDID)
+        let credential = try SDJWTCredential(sdjwtString: sdjwt)
+
+        logger.info("Creating presentation request")
+        let message = try await edgeAgent.initiatePresentationRequest(
+            type: .jwt,
+            fromDID: DID(method: "test", methodId: "alice"),
+            toDID: DID(method: "test", methodId: "bob"),
+            claimFilters: [
+                .init(
+                    paths: ["$.vc.credentialSubject.test"],
+                    type: "string",
+                    required: true,
+                    pattern: "aliceTest"
+                )
+            ]
+        )
+
+        try await edgeAgent.pluto.storeMessage(message: message.makeMessage(), direction: .sent).first().await()
+
+        let presentation = try await edgeAgent.createPresentationForRequestProof(
+            request: message,
+            credential: credential
+        )
+
+        let verification = try await edgeAgent.pollux.verifyPresentation(
+            message: presentation.makeMessage(),
+            options: []
+        )
+
+        logger.info(verification ? "Verification was successful" : "Verification failed")
+        XCTAssertTrue(verification)
+    }
+
     private func makeCredentialJWT(issuerDID: DID, subjectDID: DID) async throws -> String {
         let payload = MockCredentialClaim(
             iss: issuerDID.string,
@@ -120,6 +159,31 @@ final class PresentationExchangeFlowTests: XCTestCase {
             fatalError()
         }
         return try JWT.signed(payload: payload, protectedHeader: jwsHeader, key: jwkD.toJoseJWK()).jwtString
+    }
+
+    private func makeCredentialSDJWT(issuerDID: DID, subjectDID: DID) async throws -> String {
+        guard
+            let key = try await edgeAgent.pluto.getDIDPrivateKeys(did: issuerDID).first().await()?.first,
+            let jwkD = try await edgeAgent.apollo.restorePrivateKey(key).exporting?.jwk
+        else {
+            XCTFail()
+            fatalError()
+        }
+
+        let sdjwt = try SDJWTIssuer.issue(
+            issuersPrivateKey: try jwkD.toJoseJWK(),
+            header: DefaultJWSHeaderImpl(algorithm: .ES256K)
+        ) {
+            ConstantClaims.iss(domain: issuerDID.string)
+            ConstantClaims.sub(subject: subjectDID.string)
+            ObjectClaim("vc") {
+                ObjectClaim("credentialSubject") {
+                    FlatDisclosedClaim("test", "aliceTest")
+                }
+            }
+        }
+
+        return CompactSerialiser(signedSDJWT: sdjwt).serialised
     }
 }
 

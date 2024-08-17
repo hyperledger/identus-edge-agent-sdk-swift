@@ -793,6 +793,12 @@ public enum PolluxError: KnownPrismError {
         internalErrors: [Error]
     )
 
+    /// An error case indicating that a credential cannot be verified..
+    case cannotVerifyCredential(
+        credential: String? = nil,
+        internalErrors: [Error]
+    )
+
     /// An error case indicating that a specified input path was not found.
     case inputPathNotFound(path: String)
 
@@ -874,6 +880,8 @@ public enum PolluxError: KnownPrismError {
             return 78
         case .credentialIsSuspended:
             return 79
+        case .cannotVerifyCredential:
+            return 80
         }
     }
 
@@ -960,6 +968,12 @@ Cannot verify input descriptor field \(name.map { "with name: \($0)"} ?? ""), wi
 
         case .credentialIsSuspended(let jwtString):
             return "Credential (\(jwtString)) is suspended"
+        case .cannotVerifyCredential(let credential, let fieldErrors):
+            let errors = fieldErrors.map { " - \(errorMessage($0))" }.joined(separator: "\n")
+            return
+"""
+Cannot verify credential: \(credential.map { "with name: \($0)"} ?? ""), with errors: \n \(errors)
+"""
         }
     }
 }

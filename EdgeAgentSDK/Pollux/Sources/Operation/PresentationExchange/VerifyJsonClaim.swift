@@ -2,41 +2,12 @@ import Domain
 import Foundation
 import JSONSchema
 
-struct VerifyPresentationSubmission {
-    static func verifyPresentationSubmissionClaims(
-        request: PresentationDefinition,
-        credentials: [Data]
-    ) throws {
-        let requiredInputDescriptors = presentationClaimsRequirements(request: request)
-        try validateCredentialPresentationClaims(inputDescriptors: requiredInputDescriptors, jsonData: credentials)
+struct VerifyJsonClaim {
+    static func verify(inputDescriptor: InputDescriptor, jsonData: Data) throws {
+        try validateCredentialPresentationClaims(inputDescriptor: inputDescriptor, jsonData: jsonData)
     }
 
-    static func validateCredentialPresentationClaims(inputDescriptors: [InputDescriptor], jsonData: [Data]) throws {
-        var inputErrors = [Error]()
-        inputDescriptors.forEach { input in
-            var errors = [Error]()
-            var descriptorValid = false
-            jsonData.forEach {
-                guard !descriptorValid else { return }
-                do {
-                    try validateCredentialPresentationClaims(inputDescriptor: input, jsonData: $0)
-                    descriptorValid = true
-                } catch {
-                    errors.append(error)
-                }
-            }
-
-            if !descriptorValid {
-                inputErrors.append(contentsOf: errors)
-            }
-        }
-
-        guard inputErrors.isEmpty else {
-            throw PolluxError.cannotVerifyPresentationInputs(errors: inputErrors)
-        }
-    }
-
-    static private func validateCredentialPresentationClaims(inputDescriptor: InputDescriptor, jsonData: Data) throws {
+    private static func validateCredentialPresentationClaims(inputDescriptor: InputDescriptor, jsonData: Data) throws {
         struct FieldValidation {
             let valid: Bool
             let error: Error
@@ -78,7 +49,7 @@ struct VerifyPresentationSubmission {
         }
     }
 
-    static private func queryAndValidatePath(_ path: String, filter: String?, jsonData: Data) throws {
+    private static func queryAndValidatePath(_ path: String, filter: String?, jsonData: Data) throws {
         let query = jsonData.query(values: path)?.first
 
         guard query != nil else { throw PolluxError.inputPathNotFound(path: path) }
@@ -96,9 +67,5 @@ struct VerifyPresentationSubmission {
         case .invalid(let errors):
             throw PolluxError.inputFilterErrors(descriptions: errors.map(\.description))
         }
-    }
-
-    static private func presentationClaimsRequirements(request: PresentationDefinition) -> [InputDescriptor] {
-        return request.inputDescriptors.filter { $0.constraints.fields.contains { $0.optional == nil || $0.optional == false } }
     }
 }

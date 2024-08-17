@@ -1,3 +1,4 @@
+import Core
 import Domain
 import eudi_lib_sdjwt_swift
 import Foundation
@@ -50,6 +51,13 @@ struct SDJWTPresentation {
         }
 
         switch attachment.format {
+        case "dif/presentation-exchange/definitions@v1.0":
+            return try presentation(
+                credential: credential,
+                request: requestData,
+                disclosingClaims: disclosingClaims,
+                key: exportableKey
+            )
         default:
             return try vcPresentation(
                 credential: credential,
@@ -58,6 +66,58 @@ struct SDJWTPresentation {
                 key: exportableKey
             )
         }
+    }
+
+    private func presentation(
+        credential: SDJWTCredential,
+        request: Data,
+        disclosingClaims: [String],
+        key: ExportableKey
+    ) throws -> String {
+        let presentationRequest = try JSONDecoder.didComm().decode(PresentationExchangeRequest.self, from: request)
+
+        guard
+            let jwtFormat = presentationRequest.presentationDefinition.format?.sdJwt,
+            try jwtFormat.supportedTypes.contains(where: { try $0 == credential.getAlg() })
+        else {
+            throw PolluxError.credentialIsNotOfPresentationDefinitionRequiredAlgorithm
+        }
+
+        let credentialSubject = try credential.sdjwt.recreateClaims().recreatedClaims.rawData()
+
+        try presentationRequest.presentationDefinition.inputDescriptors.forEach {
+            try $0.constraints.fields.forEach {
+                guard credentialSubject.query(values: $0.path) != nil else {
+                    throw PolluxError.credentialDoesntProvideOneOrMoreInputDescriptors(path: $0.path)
+                }
+            }
+        }
+        let presentationDefinitions = presentationRequest.presentationDefinition.inputDescriptors.map {
+            PresentationSubmission.Descriptor(
+                id: $0.id,
+                path: "$.verifiable_credential[0]",
+                format: "sd_jwt"
+            )
+        }
+
+        let presentationSubmission = PresentationSubmission(
+            definitionId: presentationRequest.presentationDefinition.id,
+            descriptorMap: presentationDefinitions
+        )
+
+        let payload = try vcPresentation(
+            credential: credential,
+            request: request,
+            disclosingClaims: disclosingClaims,
+            key: key
+        )
+
+        let container = PresentationContainer(
+            presentationSubmission: presentationSubmission,
+            verifiableCredential: [AnyCodable(stringLiteral: payload)]
+        )
+
+        return try JSONEncoder.didComm().encode(container).tryToString()
     }
 
     private func vcPresentation(
