@@ -28,20 +28,20 @@ The following guidelines are for contributing to Edge Agent Swift SDK. These are
   Identus is a self-sovereign identity (SSI) platform and service suite for verifiable data and digital identity. Built on Cardano, it offers the core infrastructure for issuing DIDs (Decentralized identifiers) and verifiable credentials alongside tools and frameworks to help expand your ecosystem.
 The complete platform is separated into multiple repositories:
 
-* [apollo](https://github.com/input-output-hk/atala-prism-apollo) - Repo for the Apollo Building Block contains the cryptographic methods used around Edge Agent.
-* [cloud-agent](https://github.com/hyperledger-labs/open-enterprise-agent) - Repo that contains the servers Building Blocks.
-* [mediator](https://github.com/input-output-hk/atala-prism-mediator) - Repo for DIDComm V2 Mediator
-* [edge-agent-swift-sdk](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/) - Repo representing the Kotlin Multiplatform SDK.
-* [edge-agent-kmm-sdk](https://github.com/input-output-hk/atala-prism-wallet-sdk-kmm/) - Repo representing the Kotlin Multiplatform SDK.
-* [edge-agent-ts-sdk](https://github.com/input-output-hk/atala-prism-wallet-sdk-ts/) - Repo representing the TS SDK.
+* [apollo](https://github.com/hyperledger/identus-apollo/) - Repo for the Apollo Building Block contains the cryptographic methods used around Edge Agent.
+* [cloud-agent](https://github.com/hyperledger/identus-cloud-agent/) - Repo that contains the servers Building Blocks.
+* [mediator](https://github.com/hyperledger/identus-mediator/) - Repo for DIDComm V2 Mediator
+* [edge-agent-swift-sdk](https://github.com/hyperledger/identus-edge-agent-sdk-swift/) - Repo representing the Kotlin Multiplatform SDK.
+* [edge-agent-kmp-sdk](https://github.com/hyperledger/identus-edge-agent-sdk-kmp/) - Repo representing the Kotlin Multiplatform SDK.
+* [edge-agent-ts-sdk](https://github.com/hyperledger/identus-edge-agent-sdk-ts/) - Repo representing the TS SDK.
 
 ### Edge Agent Swift SDK
 
-Edge Agent Swift software development kit will help adoption within Apple frameworks by providing key functionalities. For more information about the SDK, please have a look at the [Readme](https://github.com/input-output-hk/atala-prism-swift-sdk/blob/main/README.md)
+Edge Agent Swift software development kit will help adoption within Apple frameworks by providing key functionalities. For more information about the SDK, please have a look at the [Readme](https://github.com/hyperledger/identus-edge-agent-sdk-swift/blob/main/README.md)
 
 ### Your First Code Contribution
 
-Unsure where to begin contributing to Edge Agent Swift SDK? You can start by looking through the [Readme](https://github.com/input-output-hk/atala-prism-swift-sdk/blob/main/README.md) that provides all the steps to set up your environment.
+Unsure where to begin contributing to Edge Agent Swift SDK? You can start by looking through the [Readme](https://github.com/hyperledger/identus-edge-agent-sdk-swift/blob/main/README.md) that provides all the steps to set up your environment.
 
 ### Pull Requests
 
@@ -54,7 +54,7 @@ The process described here has several goals:
 
 Please follow these steps to have your contribution considered by the maintainers:
 
-1. Follow all instructions in [the template](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/blob/main/.github/PULL_REQUEST_TEMPLATE.md)
+1. Follow all instructions in [the template](https://github.com/hyperledger/identus-edge-agent-sdk-swift/blob/main/.github/PULL_REQUEST_TEMPLATE.md)
 2. Follow the [styleguides](#styleguides)
 3. After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing <details><summary>What if the status checks are failing?</summary>If a status check is failing, and you believe that the failure is unrelated to your change, please leave a comment on the pull request explaining why you believe the failure is unrelated. A maintainer will re-run the status check for you. If we conclude that the failure was a false positive, we will open an issue to track that problem with our status check suite.</details>
 
@@ -64,15 +64,15 @@ While the prerequisites above must be satisfied before your pull request is revi
 
 This section guides you through submitting a bug report for Edge Agent Swift SDK. Following these guidelines helps maintainers and the community understand your report :pencil:, reproduce the behaviour:computer: :computer:, and find related reports :mag_right:.
 
-Before creating bug reports, please check [this list](#before-submitting-a-bug-report), as you might not need to create one. When creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report). Fill out [the required template](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/blob/main/.github/ISSUE_TEMPLATE/1-bug-report.yaml), the information it asks for helps us resolve issues faster.
+Before creating bug reports, please check [this list](#before-submitting-a-bug-report), as you might not need to create one. When creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report). Fill out [the required template](https://github.com/hyperledger/identus-edge-agent-sdk-swift/blob/main/.github/ISSUE_TEMPLATE/1-bug-report.yaml), the information it asks for helps us resolve issues faster.
 
 > **Note:** If you find a **Closed** issue that seems like the same thing you're experiencing, open a new issue and include a link to the original issue in the body of your new one.
 
 * **You might be able to find the cause of the problem and fix things yourself by Debugging**. Most importantly, check if you can reproduce the problem in the latest version.
-* **Check the [Readme](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/blob/main/README.md) ** if you have problems with the setup and the [discussions](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/discussions)** for a list of common questions and problems.
+* **Check the [Readme](https://github.com/hyperledger/identus-edge-agent-sdk-swift/blob/main/README.md) if you have problems with the setup and the [discussions](https://github.com/hyperledger/identus-edge-agent-sdk-swift/discussions)** for a list of common questions and problems.
 * **Perform a cursory search to see if the problem has already been reported**. If it has **and the issue is still open**, add a comment to the existing issue instead of opening a new one.
 
-Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). Create an issue on that repository and provide the following information by filling in [the template](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/issues/new/choose).
+Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). Create an issue on that repository and provide the following information by filling in [the template](https://github.com/hyperledger/identus-edge-agent-sdk-swift/issues/new/choose).
 
 Explain the problem and include additional details to help maintainers reproduce the problem:
 
@@ -94,7 +94,7 @@ Provide more context by answering these questions:
 
 This section guides you through submitting an enhancement suggestion for the SDK, including completely new features and minor improvements to existing functionality. Following these guidelines helps maintainers and the community understand your suggestion :pencil: and find related suggestions :mag_right:.
 
-Before creating enhancement suggestions, please check [this list](#before-submitting-an-enhancement-suggestion), as you might find out that you don't need to create one. When creating an enhancement suggestion, please [include as many details as possible](#how-do-i-submit-a-good-enhancement-suggestion). Fill in [the template](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/blob/main/.github/ISSUE_TEMPLATE/2-feature-request.yaml), including the steps that you imagine you would take if the feature you're requesting existed.
+Before creating enhancement suggestions, please check [this list](#before-submitting-an-enhancement-suggestion), as you might find out that you don't need to create one. When creating an enhancement suggestion, please [include as many details as possible](#how-do-i-submit-a-good-enhancement-suggestion). Fill in [the template](https://github.com/hyperledger/identus-edge-agent-sdk-swift/blob/main/.github/ISSUE_TEMPLATE/2-feature-request.yaml), including the steps that you imagine you would take if the feature you're requesting existed.
 
 * Most importantly, **check if you're using the latest version.** 
 * **Perform a cursory search** to see if the enhancement has already been suggested. If it has, comment on the existing issue instead of opening a new one.

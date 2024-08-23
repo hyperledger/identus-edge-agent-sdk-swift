@@ -13,11 +13,11 @@ This SDK provides a library and documentation for developers to build Apple conn
 Identus is a self-sovereign identity (SSI) platform and service suite for verifiable data and digital identity. Built on Cardano, it offers the core infrastructure for issuing DIDs (Decentralized identifiers) and verifiable credentials alongside tools and frameworks to help expand your ecosystem.
 The complete platform is separated into multiple repositories:
 
-* [edge-agent-sdk-swift](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift) - Repo that implements Edge Agent for Apple platforms in Swift.
-* [edge-agent-wallet-sdk-ts](https://github.com/input-output-hk/atala-prism-wallet-sdk-ts) - Repo that implements Edge Agent for Browser and NodeJS platforms in Typescript.
-* [edge-agent-wallet-sdk-kmp](https://github.com/input-output-hk/atala-prism-wallet-sdk-kmm) - Repo that implements Edge Agent for Android and JVM platforms in Kotlin Multi-Platform.
-* [identus-cloud-agent](https://github.com/hyperledger/identus-cloud-agent) - Repo that contains the platform Building Blocks.
-* [mediator](https://github.com/input-output-hk/atala-prism-mediator) - Repo for DIDComm V2 Mediator
+* [edge-agent-sdk-swift](https://github.com/hyperledger/identus-edge-agent-sdk-swift/) - Repo that implements Edge Agent for Apple platforms in Swift.
+* [edge-agent-wallet-sdk-ts](https://github.com/hyperledger/identus-edge-agent-sdk-ts/) - Repo that implements Edge Agent for Browser and NodeJS platforms in Typescript.
+* [edge-agent-wallet-sdk-kmp](https://github.com/hyperledger/identus-edge-agent-sdk-kmp/) - Repo that implements Edge Agent for Android and JVM platforms in Kotlin Multi-Platform.
+* [identus-cloud-agent](https://github.com/hyperledger/identus-cloud-agent/) - Repo that contains the platform Building Blocks.
+* [mediator](https://github.com/hyperledger/identus-mediator/) - Repo for DIDComm V2 Mediator
 
 ### Modules / APIs
 
@@ -45,7 +45,7 @@ To get started with the Edge Agent Swift SDK, you can set up the SDK and create 
 To integrate the SDK into an existing project, you can use the Swift Package Manager, distributed with Xcode.
 
 1. Open your project in Xcode and select **File > Swift Packages > Add Package Dependency**.
-2. Enter the URL for the SDK for Swift Package Manager GitHub repo (`https://github.com/input-output-hk/atala-prism-wallet-sdk-swift`) into the search bar and click **Next**.
+2. Enter the URL for the SDK for Swift Package Manager GitHub repo (`https://github.com/hyperledger/identus-edge-agent-sdk-swift/`) into the search bar and click **Next**.
 3. You'll see the repository rules for which version of the SDK you want Swift Package Manager to install. Choose the first rule, **Version**, and select **Up to Next Minor** as it will use the latest compatible version of the dependency that can be detected from the `main` branch, then click **Next**.
 
 ### Swift Package Manager
