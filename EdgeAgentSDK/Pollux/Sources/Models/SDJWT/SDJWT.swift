@@ -54,3 +54,9 @@ extension SDJWTCredential: Credential {
         return "sd-jwt"
     }
 }
+
+extension SDJWTCredential {
+    func getAlg() throws -> String? {
+        return sdjwt.jwt.protectedHeader.algorithm?.rawValue
+    }
+}

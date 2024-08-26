@@ -88,6 +88,8 @@ public struct PresentationDefinition: Codable {
         public var ldpVp: LDPFormat?
         /// Generic LDP format.
         public var ldp: LDPFormat?
+        /// Generic SDJWT format..
+        public var sdJwt: JWTFormat?
     }
 
     /// Unique identifier for the presentation definition.

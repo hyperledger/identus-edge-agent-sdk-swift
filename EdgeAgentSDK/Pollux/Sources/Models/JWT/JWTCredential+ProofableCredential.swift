@@ -33,7 +33,7 @@ extension JWTCredential: ProvableCredential {
             let requestData = try JSONDecoder.didComm().decode(PresentationExchangeRequest.self, from: jsonData)
             let payload: Data = try JWT.getPayload(jwtString: jwtString)
             do {
-                try VerifyPresentationSubmission.verifyPresentationSubmissionClaims(
+                try VerifyPresentationSubmissionJWT.verifyPresentationSubmissionClaims(
                     request: requestData.presentationDefinition, credentials: [payload]
                 )
                 return true
