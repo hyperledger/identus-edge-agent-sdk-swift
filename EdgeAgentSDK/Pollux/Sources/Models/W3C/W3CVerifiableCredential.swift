@@ -11,7 +11,7 @@ struct W3CVerifiableCredential {
     let issuanceDate: Date
     let expirationDate: Date?
     let credentialSchema: VerifiableCredentialTypeContainer?
-    let credentialSubject: AnyCodable
+    let credentialSubject: Domain.AnyCodable
     let credentialStatus: VerifiableCredentialTypeContainer?
     let refreshService: VerifiableCredentialTypeContainer?
     let evidence: VerifiableCredentialTypeContainer?
@@ -30,7 +30,7 @@ struct W3CVerifiableCredential {
         issuanceDate: Date,
         expirationDate: Date? = nil,
         credentialSchema: VerifiableCredentialTypeContainer? = nil,
-        credentialSubject: AnyCodable,
+        credentialSubject: Domain.AnyCodable,
         credentialStatus: VerifiableCredentialTypeContainer? = nil,
         refreshService: VerifiableCredentialTypeContainer? = nil,
         evidence: VerifiableCredentialTypeContainer? = nil,

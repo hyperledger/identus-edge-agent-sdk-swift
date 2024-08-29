@@ -37,7 +37,7 @@ class PickupRunner {
                     else { return nil }
                     return (base64String, attachment.id)
                 case let json as AttachmentJsonData:
-                    return String(data: json.data, encoding: .utf8).map { ($0, attachment.id) }
+                    return (try JSONEncoder.didComm().encode(json.json).tryToString(), attachment.id)
                 default:
                     return nil
                 }

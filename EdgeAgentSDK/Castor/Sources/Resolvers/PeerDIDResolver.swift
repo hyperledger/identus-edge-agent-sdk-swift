@@ -203,7 +203,7 @@ extension DIDCore.DIDDocument.VerificationMethod {
 }
 
 extension DIDCore.DIDDocument.Service {
-    init(from: AnyCodable) throws {
+    init(from: DIDCore.AnyCodable) throws {
         guard
             let dic = from.value as? [String: Any],
             let id = dic["id"] as? String,
@@ -211,7 +211,7 @@ extension DIDCore.DIDDocument.Service {
             let serviceEndpoint = dic["serviceEndpoint"]
         else { throw CommonError.invalidCoding(message: "Could not decode service") }
         switch serviceEndpoint {
-        case let value as AnyCodable:
+        case let value as DIDCore.AnyCodable:
             self = .init(
                 id: id,
                 type: type,
@@ -240,7 +240,7 @@ extension DIDCore.DIDDocument.Service {
         }
     }
 
-    func toAnyCodable() -> AnyCodable {
+    func toAnyCodable() -> DIDCore.AnyCodable {
         AnyCodable(dictionaryLiteral:
             ("id", self.id),
             ("type", self.type),

@@ -23,7 +23,7 @@ extension JWTCredential: ProvableCredential {
         case let attchedData as AttachmentBase64:
             jsonData = Data(fromBase64URL: attchedData.base64)!
         case let attchedData as AttachmentJsonData:
-            jsonData = attchedData.data
+            jsonData = try JSONEncoder.didComm().encode(attchedData.json)
         default:
             throw PolluxError.invalidAttachmentType(supportedTypes: ["Json", "Base64"])
         }

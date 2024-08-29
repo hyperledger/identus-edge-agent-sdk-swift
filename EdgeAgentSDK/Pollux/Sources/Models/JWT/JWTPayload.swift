@@ -18,7 +18,7 @@ struct JWTPayload {
         let context: Set<String>
         let type: Set<String>
         let credentialSchema: VerifiableCredentialTypeContainer?
-        let credentialSubject: AnyCodable
+        let credentialSubject: Domain.AnyCodable
         let refreshService: VerifiableCredentialTypeContainer?
         let evidence: VerifiableCredentialTypeContainer?
         let termsOfUse: VerifiableCredentialTypeContainer?
@@ -41,7 +41,7 @@ struct JWTPayload {
             context: Set<String> = Set(),
             type: Set<String> = Set(),
             credentialSchema: VerifiableCredentialTypeContainer? = nil,
-            credentialSubject: AnyCodable,
+            credentialSubject: Domain.AnyCodable,
             credentialStatus: JWTRevocationStatus? = nil,
             refreshService: VerifiableCredentialTypeContainer? = nil,
             evidence: VerifiableCredentialTypeContainer? = nil,

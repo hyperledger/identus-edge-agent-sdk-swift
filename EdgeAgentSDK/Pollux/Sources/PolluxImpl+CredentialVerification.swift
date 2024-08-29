@@ -32,7 +32,7 @@ extension PolluxImpl {
             }
             jsonData = decoded
         case let attchedData as AttachmentJsonData:
-            jsonData = attchedData.data
+            jsonData = try JSONEncoder.didComm().encode(attchedData.json)
         default:
             throw PolluxError.invalidAttachmentType(supportedTypes: ["Json", "Base64"])
         }
@@ -70,7 +70,7 @@ extension PolluxImpl {
         let json: Data
         switch attachmentData {
         case let jsonData as AttachmentJsonData:
-            json = jsonData.data
+            json = try JSONEncoder.didComm().encode(jsonData.json)
         case let base64Data as AttachmentBase64:
             json = try base64Data.decoded()
         default:
@@ -175,7 +175,7 @@ extension PolluxImpl {
         let json: Data
         switch attachmentData {
         case let jsonData as AttachmentJsonData:
-            json = jsonData.data
+            json = try JSONEncoder.didComm().encode(jsonData.json)
         case let base64Data as AttachmentBase64:
             guard let data = try Data(fromBase64URL: base64Data.base64.tryToData()) else {
                 throw CommonError.invalidCoding(message: "Could not decode base64 message attchment")
@@ -258,5 +258,5 @@ private struct AnonPresentation: Codable {
 }
 
 private struct ValidateJsonSchemaContainer: Codable {
-    let value: AnyCodable
+    let value: Domain.AnyCodable
 }

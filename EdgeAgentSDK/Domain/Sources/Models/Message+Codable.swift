@@ -3,7 +3,7 @@ import Foundation
 extension Message: Codable {
     enum CodingKeys: String, CodingKey {
         case id
-        case piuri
+        case piuri = "type"
         case from
         case to
         case fromPrior

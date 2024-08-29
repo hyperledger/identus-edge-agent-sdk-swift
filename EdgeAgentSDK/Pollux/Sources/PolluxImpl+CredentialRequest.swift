@@ -21,14 +21,20 @@ extension PolluxImpl {
         case "jwt", "prism/jwt", .none:
             switch offerAttachment.data {
             case let json as AttachmentJsonData:
-                return try await processJWTCredentialRequest(offerData: json.data, options: options)
+                return try await processJWTCredentialRequest(
+                    offerData: try JSONEncoder.didComm().encode(json.json),
+                    options: options
+                )
             default:
                 throw PolluxError.offerDoesntProvideEnoughInformation
             }
         case "vc+sd-jwt":
             switch offerAttachment.data {
             case let json as AttachmentJsonData:
-                return try await processSDJWTCredentialRequest(offerData: json.data, options: options)
+                return try await processSDJWTCredentialRequest(
+                    offerData: try JSONEncoder.didComm().encode(json.json),
+                    options: options
+                )
             default:
                 throw PolluxError.offerDoesntProvideEnoughInformation
             }
@@ -39,7 +45,7 @@ extension PolluxImpl {
                     throw PolluxError.messageDoesntProvideEnoughInformation
                 }
                 return try await processAnoncredsCredentialRequest(
-                    offerData: attachmentData.data,
+                    offerData: try JSONEncoder.didComm().encode(attachmentData.json),
                     thid: thid,
                     options: options
                 )

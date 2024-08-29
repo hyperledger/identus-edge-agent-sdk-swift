@@ -40,7 +40,7 @@ public struct ForwardMessage {
             to: to,
             body: try JSONEncoder.didComm().encode(self.body),
             attachments: [
-                .init(mediaType: "application/json", data: AttachmentJsonData(data: encryptedJsonMessage))
+                .init(mediaType: "application/json", data: AttachmentBase64(base64: encryptedJsonMessage.base64URLEncoded()))
             ]
         )
     }
