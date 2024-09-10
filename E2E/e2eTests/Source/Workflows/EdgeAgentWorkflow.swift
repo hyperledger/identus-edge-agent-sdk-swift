@@ -342,17 +342,16 @@ class EdgeAgentWorkflow {
         let presentation = try await edgeAgent.using(ability: UseWalletSdk.self, action: "retrieves presentation message")
             .presentationStack.removeFirst()
         do {
-            let result = try await edgeAgent.using(ability: UseWalletSdk.self, action: "")
+            let result = try await edgeAgent.using(ability: UseWalletSdk.self, action: "verify the presentation")
                 .sdk.verifyPresentation(message: presentation)
             assertThat(result, equalTo(expected))
-        } catch PolluxError.cannotVerifyPresentationInputs {
-            
-            print("teste")
-            //              if (e.message.includes("credential is revoked")) {
-            //                assert.isTrue(expected === false)
-            //              } else {
-            //                throw e
-            //              }
+        } catch let error as PolluxError {
+            switch error {
+            case .credentialIsRevoked:
+                assertThat(expected == false)
+            default:
+                throw error
+            }
         }
     }
 }
