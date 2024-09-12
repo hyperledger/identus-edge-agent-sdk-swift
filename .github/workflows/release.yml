@@ -7,15 +7,15 @@ on:
 jobs:
   release:
     env:
-      ATALA_GITHUB_ACTOR: ${{ secrets.ATALA_GITHUB_ACTOR }}
-      ATALA_GITHUB_TOKEN: ${{ secrets.ATALA_GITHUB_TOKEN }}
+      ATALA_GITHUB_ACTOR: ${{ github.actor }}
+      ATALA_GITHUB_TOKEN: ${{ secrets.IDENTUS_CI }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.ATALA_GITHUB_TOKEN }}
+          token: ${{ secrets.IDENTUS_CI }}
           fetch-depth: 0
 
       - name: Setup Node.js
