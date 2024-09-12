@@ -1,6 +1,9 @@
 ---
 name: Release sdk
 
+concurrency:
+  group: release
+
 on:
   workflow_dispatch:
 
@@ -10,7 +13,9 @@ jobs:
       ATALA_GITHUB_ACTOR: ${{ github.actor }}
       ATALA_GITHUB_TOKEN: ${{ secrets.IDENTUS_CI }}
       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
+    permissions:
+      contents: write
+      packages: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,12 +28,15 @@ jobs:
         with:
           node-version: "lts/*"
 
-      - uses: crazy-max/ghaction-import-gpg@v5
+      - uses: crazy-max/ghaction-import-gpg@v6
         id: import_gpg
         with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg_private_key: ${{ secrets.HYP_BOT_GPG_PRIVATE }}
+          passphrase: ${{ secrets.HYP_BOT_GPG_PASSWORD }}
           git_user_signingkey: true
           git_commit_gpgsign: true
+          git_config_global: true
+          git_tag_gpgsign: false
 
       - name: Release
         env:
@@ -36,6 +44,7 @@ jobs:
           GIT_COMMITTER_EMAIL: ${{ steps.import_gpg.outputs.email }}
           GIT_AUTHOR_NAME: ${{ steps.import_gpg.outputs.name }}
           GIT_COMMITTER_NAME: ${{ steps.import_gpg.outputs.name }}
+          GITHUB_TOKEN: ${{ secrets.IDENTUS_CI }}
         run: |
           npm install
           npx semantic-release
