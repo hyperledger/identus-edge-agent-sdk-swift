@@ -1,3 +1,27 @@
+# [6.1.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/6.0.1...6.1.0) (2024-09-12)
+
+
+### Bug Fixes
+
+* documentation generation failure and renaming update ([1d7b906](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/1d7b906ee0e9389e0d8819d325ae59139057a639))
+* issues with interoperability with other sdks ([f042691](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/f04269161d9f9769b3cdf58ce57a172a719fc691))
+* update apollo library for new version and fix a test case ([4c88360](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/4c88360a2997b87d55545f9c20bdd52b6384d290))
+
+
+### Features
+
+* **agent:** add new agent derivation path ([0b302f5](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/0b302f5ab22d77e62fd759eb25c806d8cd8fdc26))
+* **agent:** report problem message ([5573ef4](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/5573ef4f0d6cefa6e837d99f773605f1797a69f0))
+* **agent:** revocation notification ([33d700b](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/33d700b590ad120f5939d106fdb5dca4e5316661))
+* **backup:** allow backup and import of prism wallet ([e519192](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/e519192798876611b02b8c762660d968afbbfa28))
+* **castor:** add capacity so you can create and resolve prism dids with ed25519 and x25519 keys ([3ec399a](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/3ec399adc6e908f421cdae671659d938ae2747d2))
+* **pollux:** add anoncreds predicate on requests ([423daf4](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/423daf44b4217f0eea17aa5ff1fca39126c6b62e))
+* **pollux:** add jwt credential revocation support ([3f2a698](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/3f2a6983ce948ebf5e65b13614a964cc16151bd8))
+* **pollux:** add sdjwt verifier flow ([ff403aa](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/ff403aa73bdb3a323dd7636b253012c4ef5e30e0))
+* **pollux:** add support for sd-jwt ([afca01b](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/afca01b281086fce118ef0ee9235e6b15c216be5))
+* **sample:** add backup to sample app ([88a2312](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/88a23122cd0e34c89195d7bb402b2ebcec861f37))
+* **sample:** enable sample app for anoncreds verification ([f071fe7](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/f071fe719e61b35aac3df32f240191b0a5236c36))
+
 # [4.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.6.0...4.0.0) (2024-01-25)
 
 
