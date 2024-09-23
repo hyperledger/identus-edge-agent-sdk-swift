@@ -69,7 +69,7 @@ Could not find key in storage please use Castor instead and provide the private 
         let apollo = self.apollo
         let castor = self.castor
 
-        let usingPrivateKey: PrivateKey
+        var usingPrivateKey: PrivateKey
 
         if let masterPrivateKey {
             usingPrivateKey = masterPrivateKey
@@ -94,7 +94,12 @@ Could not find key in storage please use Castor instead and provide the private 
             ])
         }
 
-        let newDID = try castor.createPrismDID(masterPublicKey: usingPrivateKey.publicKey(), services: services)
+        var publicKey = usingPrivateKey.publicKey()
+
+        let newDID = try castor.createPrismDID(masterPublicKey: publicKey, services: services)
+        let kid = DIDUrl(did: newDID, fragment: "#authentication0").string
+        usingPrivateKey.identifier = kid
+        publicKey.identifier = kid
         logger.debug(message: "Created new Prism DID", metadata: [
             .maskedMetadataByLevel(key: "DID", value: newDID.string, level: .debug),
             .maskedMetadataByLevel(key: "keyPathIndex", value: "\(index)", level: .debug)

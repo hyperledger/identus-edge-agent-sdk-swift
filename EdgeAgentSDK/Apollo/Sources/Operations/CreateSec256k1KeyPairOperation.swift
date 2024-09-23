@@ -10,13 +10,16 @@ struct CreateSec256k1KeyPairOperation {
         self.logger = logger
     }
 
-    func compute(seed: Seed, keyPath: Domain.DerivationPath) throws -> PrivateKey {
+    func compute(identifier: String, seed: Seed, keyPath: Domain.DerivationPath) throws -> PrivateKey {
         let derivedHdKey = ApolloLibrary.HDKey(
             seed: seed.value.toKotlinByteArray(),
             depth: 0,
             childIndex: 0
         ).derive(path: keyPath.keyPathString())
-        return Secp256k1PrivateKey(internalKey: derivedHdKey.getKMMSecp256k1PrivateKey(), derivationPath: keyPath)
-
+        return Secp256k1PrivateKey(
+            identifier: identifier,
+            internalKey: derivedHdKey.getKMMSecp256k1PrivateKey(),
+            derivationPath: keyPath
+        )
     }
 }
