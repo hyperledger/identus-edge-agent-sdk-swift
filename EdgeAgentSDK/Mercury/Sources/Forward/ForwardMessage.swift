@@ -40,7 +40,12 @@ public struct ForwardMessage {
             to: to,
             body: try JSONEncoder.didComm().encode(self.body),
             attachments: [
-                .init(mediaType: "application/json", data: AttachmentJsonData(data: encryptedJsonMessage))
+                .init(
+                    mediaType: "application/json",
+                    data: AttachmentJsonData(
+                        json: try JSONDecoder.didComm().decode(AnyCodable.self, from: encryptedJsonMessage)
+                    )
+                )
             ]
         )
     }

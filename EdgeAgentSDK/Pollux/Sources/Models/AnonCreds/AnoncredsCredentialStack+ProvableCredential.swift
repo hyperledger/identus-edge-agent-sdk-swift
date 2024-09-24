@@ -12,7 +12,7 @@ extension AnoncredsCredentialStack: ProvableCredential {
         }
         switch attachment.data {
         case let attachmentData as AttachmentJsonData:
-            requestStr = try attachmentData.data.toString()
+            requestStr = try JSONEncoder.didComm().encode(attachmentData.json).toString()
         case let attachmentData as AttachmentBase64:
             guard let data = Data(fromBase64URL: attachmentData.base64) else {
                 throw PolluxError.messageDoesntProvideEnoughInformation

@@ -93,7 +93,7 @@ extension Domain.AttachmentData {
             return try JsonAttachmentData(
                 hash: nil,
                 jws: nil,
-                json: jsonData.data.tryToString()
+                json: try JSONEncoder.didComm().encode(jsonData.json).tryToString()
             )
         } else if let jwsData = self as? AttachmentJwsData {
             return Base64AttachmentData(
@@ -121,7 +121,7 @@ extension DIDCommSwift.AttachmentData {
             guard let jsonData = value.json.data(using: .utf8) else {
                 throw MercuryError.unknownAttachmentDataTypeError
             }
-            return AttachmentJsonData(data: jsonData)
+            return AttachmentJsonData(json: try JSONDecoder().decode(AnyCodable.self, from: jsonData))
         default:
             throw MercuryError.unknownAttachmentDataTypeError
         }

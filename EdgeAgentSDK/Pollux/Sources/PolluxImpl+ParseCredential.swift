@@ -11,7 +11,9 @@ extension PolluxImpl {
         case "jwt", "", "prism/jwt", .none:
             switch issuedAttachment.data {
             case let json as AttachmentJsonData:
-                return try ParseJWTCredentialFromMessage.parse(issuerCredentialData: json.data)
+                return try ParseJWTCredentialFromMessage.parse(
+                    issuerCredentialData: try JSONEncoder.didComm().encode(json.json)
+                )
             case let base64 as AttachmentBase64:
                 return try ParseJWTCredentialFromMessage.parse(issuerCredentialData: try base64.decoded())
             default:
@@ -20,7 +22,7 @@ extension PolluxImpl {
         case "vc+sd-jwt":
             switch issuedAttachment.data {
             case let json as AttachmentJsonData:
-                return try SDJWTCredential(sdjwtString: json.data.tryToString())
+                return try SDJWTCredential(sdjwtString: JSONEncoder.didComm().encode(json.json).tryToString())
             case let base64 as AttachmentBase64:
                 return try SDJWTCredential(sdjwtString: try base64.decoded().tryToString())
             default:
@@ -63,7 +65,7 @@ extension PolluxImpl {
             switch issuedAttachment.data {
             case let json as AttachmentJsonData:
                 return try await ParseAnoncredsCredentialFromMessage.parse(
-                    issuerCredentialData: json.data,
+                    issuerCredentialData: JSONEncoder.didComm().encode(json.json),
                     linkSecret: linkSecret,
                     credentialDefinitionDownloader: definitionDownloader,
                     schemaDownloader: schemaDownloader,

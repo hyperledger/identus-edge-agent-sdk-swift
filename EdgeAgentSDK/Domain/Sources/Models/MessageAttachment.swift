@@ -96,12 +96,12 @@ public struct AttachmentLinkData: AttachmentData {
 /// The `AttachmentJsonData` struct represents a DIDComm attachment containing JSON data.
 public struct AttachmentJsonData: AttachmentData {
     /// The JSON data associated with the attachment.
-    public let data: Data
+    public let json: AnyCodable
 
     /// Initializes a new `AttachmentJsonData` object with the specified properties.
     /// - Parameter data: The JSON data associated with the attachment.
-    public init(data: Data) {
-        self.data = data
+    public init(json: AnyCodable) {
+        self.json = json
     }
 }
 

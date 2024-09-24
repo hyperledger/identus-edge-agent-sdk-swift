@@ -18,6 +18,10 @@ public extension DIDCommAgent {
         case onboardingPrism(PrismOnboarding)
         /// Case representing a DIDComm Out-of-Band invitation
         case onboardingDIDComm(OutOfBandInvitation)
+        /// Case representing a DIDComm Connectionless Presentation
+        case connectionlessPresentation(RequestPresentation)
+        /// Case representing a DIDComm Connectionless Issuance
+        case connectionlessIssuance(OfferCredential3_0)
     }
 
     /// Parses the given string as an Out-of-Band invitation
@@ -25,8 +29,17 @@ public extension DIDCommAgent {
     /// - Returns: The parsed Out-of-Band invitation
     /// - Throws: `EdgeAgentError` if the string is not a valid URL
     func parseOOBInvitation(url: String) throws -> OutOfBandInvitation {
-        guard let url = URL(string: url) else { throw CommonError.invalidURLError(url: url) }
-        return try parseOOBInvitation(url: url)
+        guard let messageData = Data(fromBase64URL: url) else {
+            guard let url = URL(string: url) else {
+                throw CommonError.invalidURLError(url: url)
+            }
+            return try parseOOBInvitation(url: url)
+        }
+        let message = try JSONDecoder.didComm().decode(OutOfBandInvitation.self, from: messageData)
+        guard message.type == ProtocolTypes.didcomminvitation.rawValue else {
+            throw EdgeAgentError.unknownInvitationTypeError
+        }
+        return message
     }
 
     /// Parses the given URL as an Out-of-Band invitation
@@ -71,8 +84,26 @@ public extension DIDCommAgent {
     func parseInvitation(str: String) async throws -> InvitationType {
         if let prismOnboarding = try? await parsePrismInvitation(str: str) {
             return .onboardingPrism(prismOnboarding)
-        } else if let message = try? parseOOBInvitation(url: str) {
-            return .onboardingDIDComm(message)
+        } else if let oobMessage = try? parseOOBInvitation(url: str) {
+            if let attachment = oobMessage.attachments?.first {
+                let invitationType = try await parseAttachmentConnectionlessMessage(oob: oobMessage, attachment: attachment)
+                switch invitationType {
+                case .connectionlessPresentation(let message):
+                    try await pluto.storeMessage(
+                        message: message.makeMessage(),
+                        direction: .received
+                    ).first().await()
+                case .connectionlessIssuance(let message):
+                    try await pluto.storeMessage(
+                        message: message.makeMessage(),
+                        direction: .received
+                    ).first().await()
+                default:
+                    break
+                }
+                return invitationType
+            }
+            return .onboardingDIDComm(oobMessage)
         }
         throw EdgeAgentError.unknownInvitationTypeError
     }
@@ -126,5 +157,36 @@ public extension DIDCommAgent {
             connection: connectionManager
         ).run()
         try await connectionManager.addConnection(pair)
+    }
+
+    private func parseAttachmentConnectionlessMessage(
+        oob: OutOfBandInvitation,
+        attachment: AttachmentDescriptor
+    ) async throws -> InvitationType {
+        let newDID = try await createNewPeerDID(updateMediator: true)
+        switch attachment.data {
+        case let value as AttachmentJsonData:
+            let normalizeJson = try JSONEncoder.didComm().encode(value.json)
+            let message = try JSONDecoder.didComm().decode(Message.self, from: normalizeJson)
+            if let request = try? RequestPresentation(fromMessage: message, toDID: newDID) {
+                return .connectionlessPresentation(request)
+            }
+            else if let offer = try? OfferCredential3_0(fromMessage: message, toDID: newDID){
+                return .connectionlessIssuance(offer)
+            }
+            return .onboardingDIDComm(oob)
+
+        case let value as AttachmentBase64:
+            let message = try JSONDecoder.didComm().decode(Message.self, from: try value.decoded())
+            if let request = try? RequestPresentation(fromMessage: message, toDID: newDID) {
+                return .connectionlessPresentation(request)
+            }
+            else if let offer = try? OfferCredential3_0(fromMessage: message, toDID: newDID){
+                return .connectionlessIssuance(offer)
+            }
+            return .onboardingDIDComm(oob)
+        default:
+            return .onboardingDIDComm(oob)
+        }
     }
 }

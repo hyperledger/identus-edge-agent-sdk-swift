@@ -113,22 +113,22 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
             )
         }
 
-        let decodedPublicKeys = publicKeys.map {
+        let decodedPublicKeys = publicKeys.enumerated().map {
             let didUrl = DIDUrl(
                 did: did,
-                fragment: $0.id
+                fragment: $0.element.usage.id(index: $0.offset - 1)
             )
 
             let method = DIDDocument.VerificationMethod(
                 id: didUrl,
                 controller: did,
-                type: $0.keyData.getProperty(.curve) ?? "",
-                publicKeyMultibase: $0.keyData.raw.base64EncodedString()
+                type: $0.element.keyData.getProperty(.curve) ?? "",
+                publicKeyMultibase: $0.element.keyData.raw.base64EncodedString()
             )
 
             return PublicKeyDecoded(
                 id: didUrl.string,
-                keyType: .init(usage: $0.usage),
+                keyType: .init(usage: $0.element.usage),
                 method: method
             )
         }

@@ -7,10 +7,10 @@ extension JWTCredential: ProvableCredential {
         guard
             let attachment = request.attachments.first,
             let format = attachment.format,
-            let requestData = request.attachments.first.flatMap({
+            let requestData = try request.attachments.first.flatMap({
                 switch $0.data {
                 case let json as AttachmentJsonData:
-                    return json.data
+                    return try JSONEncoder.didComm().encode(json.json)
                 case let bas64 as AttachmentBase64:
                     return Data(fromBase64URL: bas64.base64)
                 default:
@@ -53,7 +53,7 @@ extension JWTCredential: ProvableCredential {
         case let attchedData as AttachmentBase64:
             jsonData = Data(fromBase64URL: attchedData.base64)!
         case let attchedData as AttachmentJsonData:
-            jsonData = attchedData.data
+            jsonData = try JSONEncoder.didComm().encode(attchedData.json)
         default:
             throw PolluxError.invalidAttachmentType(supportedTypes: ["Json", "Base64"])
         }

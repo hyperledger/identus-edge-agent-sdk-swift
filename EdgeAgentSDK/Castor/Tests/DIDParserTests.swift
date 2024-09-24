@@ -1,3 +1,5 @@
+import Apollo
+@testable import Castor
 @testable import Domain
 import XCTest
 

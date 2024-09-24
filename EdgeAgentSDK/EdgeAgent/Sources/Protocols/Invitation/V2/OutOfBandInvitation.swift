@@ -27,6 +27,7 @@ public struct OutOfBandInvitation: Decodable {
     public let type = ProtocolTypes.didcomminvitation.rawValue
     public let from: String
     public let body: Body
+    public let attachments: [AttachmentDescriptor]?
 
     /**
      Creates a new `OutOfBandInvitation` object.
@@ -42,11 +43,13 @@ public struct OutOfBandInvitation: Decodable {
     init(
         id: String = UUID().uuidString,
         body: Body,
-        from: DID
+        from: DID,
+        attachments: [AttachmentDescriptor]? = nil
     ) {
         self.id = id
         self.body = body
         self.from = from.string
+        self.attachments = attachments
     }
 }
 

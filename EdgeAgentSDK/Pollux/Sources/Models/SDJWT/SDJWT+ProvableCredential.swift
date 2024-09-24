@@ -6,10 +6,10 @@ extension SDJWTCredential: ProvableCredential {
         guard
             let attachment = request.attachments.first,
             let format = attachment.format,
-            let requestData = request.attachments.first.flatMap({
+            let requestData = try request.attachments.first.flatMap({
                 switch $0.data {
                 case let json as AttachmentJsonData:
-                    return json.data
+                    return try JSONEncoder.didComm().encode(json.json)
                 case let bas64 as AttachmentBase64:
                     return Data(fromBase64URL: bas64.base64)
                 default:

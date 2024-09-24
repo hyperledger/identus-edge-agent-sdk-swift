@@ -4,6 +4,7 @@ extension Message: Codable {
     enum CodingKeys: String, CodingKey {
         case id
         case piuri
+        case type
         case from
         case to
         case fromPrior
@@ -21,7 +22,7 @@ extension Message: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
-        try container.encode(piuri, forKey: .piuri)
+        try container.encode(piuri, forKey: .type)
         if let dic = try? JSONSerialization.jsonObject(with: body) as? [String: Any?] {
             var filteredDictionary = dic
             for (key, value) in dic {
@@ -49,7 +50,12 @@ extension Message: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let id = try container.decode(String.self, forKey: .id)
-        let piuri = try container.decode(String.self, forKey: .piuri)
+        let piuri: String
+        if let type = try container.decodeIfPresent(String.self, forKey: .piuri) {
+            piuri = type
+        } else {
+            piuri = try container.decode(String.self, forKey: .type)
+        }
         let body: Data?
         if 
             let bodyCodable = try? container.decodeIfPresent(AnyCodable.self, forKey: .body),

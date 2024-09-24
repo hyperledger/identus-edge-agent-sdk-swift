@@ -182,12 +182,12 @@ public struct OfferCredential3_0 {
         self.to = to
     }
 
-    public init(fromMessage: Message) throws {
+    public init(fromMessage: Message, toDID: DID? = nil) throws {
         guard
             let piuri = ProtocolTypes(rawValue: fromMessage.piuri),
              piuri == ProtocolTypes.didcommOfferCredential3_0,
             let fromDID = fromMessage.from,
-            let toDID = fromMessage.to
+            let toDID = fromMessage.to ?? toDID
         else { throw EdgeAgentError.invalidMessageType(
             type: fromMessage.piuri,
             shouldBe: [ProtocolTypes.didcommOfferCredential.rawValue]

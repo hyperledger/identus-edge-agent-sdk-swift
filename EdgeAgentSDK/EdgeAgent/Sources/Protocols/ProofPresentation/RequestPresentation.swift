@@ -45,11 +45,11 @@ public struct RequestPresentation {
         self.to = to
     }
 
-    public init(fromMessage: Message) throws {
+    public init(fromMessage: Message, toDID: DID? = nil) throws {
         guard
             fromMessage.piuri == ProtocolTypes.didcommRequestPresentation.rawValue,
             let fromDID = fromMessage.from,
-            let toDID = fromMessage.to
+            let toDID = fromMessage.to ?? toDID
         else { throw EdgeAgentError.invalidMessageType(
             type: fromMessage.piuri,
             shouldBe: [ProtocolTypes.didcommRequestPresentation.rawValue]

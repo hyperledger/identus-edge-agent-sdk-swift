@@ -86,7 +86,7 @@ public extension DIDCommAgent {
                 }
                 jsonData = decoded
             case let attchedData as AttachmentJsonData:
-                jsonData = attchedData.data
+                jsonData = try JSONEncoder.didComm().encode(attchedData.json)
             default:
                 throw EdgeAgentError.invalidAttachmentFormat(nil)
             }
@@ -141,7 +141,7 @@ public extension DIDCommAgent {
             }
             jsonData = decoded
         case let attchedData as AttachmentJsonData:
-            jsonData = attchedData.data
+            jsonData = try JSONEncoder.didComm().encode(attchedData.json)
         default:
             throw EdgeAgentError.invalidAttachmentFormat(nil)
         }
@@ -210,7 +210,7 @@ public extension DIDCommAgent {
             }
             jsonData = decoded
         case let attchedData as AttachmentJsonData:
-            jsonData = attchedData.data
+            jsonData = try JSONEncoder.didComm().encode(attchedData.json)
         default:
             throw EdgeAgentError.invalidAttachmentFormat(nil)
         }
