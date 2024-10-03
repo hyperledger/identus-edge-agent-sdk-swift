@@ -151,14 +151,17 @@ final class PresentationExchangeFlowTests: XCTestCase {
             vc: .init(credentialSubject: ["test": "aliceTest"])
         )
 
-        let jwsHeader = DefaultJWSHeaderImpl(algorithm: .ES256K)
-        guard 
+        guard
             let key = try await edgeAgent.pluto.getDIDPrivateKeys(did: issuerDID).first().await()?.first,
             let jwkD = try await edgeAgent.apollo.restorePrivateKey(key).exporting?.jwk
         else {
             XCTFail()
             fatalError()
         }
+        let jwsHeader = DefaultJWSHeaderImpl(
+            algorithm: .ES256K,
+            keyID: jwkD.kid
+        )
         return try JWT.signed(payload: payload, protectedHeader: jwsHeader, key: jwkD.toJoseJWK()).jwtString
     }
 

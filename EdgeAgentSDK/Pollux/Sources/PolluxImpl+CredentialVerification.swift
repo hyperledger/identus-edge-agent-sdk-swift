@@ -58,9 +58,6 @@ extension PolluxImpl {
         }
     }
 
-//<<<<<<< HEAD
-//    private func getDefinition(id: String) async throws -> PresentationExchangeRequest {
-//=======
     public func verifyPresentation(
         type: String,
         presentationPayload: Data,
