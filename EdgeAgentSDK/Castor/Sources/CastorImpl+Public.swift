@@ -171,6 +171,19 @@ extension CastorImpl: Castor {
                     KeyProperties.rawKey.rawValue: multibaseData,
                     KeyProperties.curve.rawValue: KnownKeyCurves.x25519.rawValue
                 ])
+        case "JsonWebKey2020":
+            guard let jwk = method.publicKeyJwk else {
+                throw CastorError.cannotRetrievePublicKeyFromDocument
+            }
+            let key = try await apollo.restoreKey(jwk, index: nil)
+            switch key {
+            case let pubbKey as PublicKey:
+                return pubbKey
+            case let pribKey as PrivateKey:
+                return pribKey.publicKey()
+            default:
+                throw CastorError.cannotRetrievePublicKeyFromDocument
+            }
         default:
             throw UnknownError.somethingWentWrongError(customMessage: nil, underlyingErrors: nil)
         }

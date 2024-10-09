@@ -42,7 +42,7 @@ struct LongFormPrismDIDResolver: DIDResolverDomain {
     let apollo: Apollo
     let logger: SDKLogger
 
-    var method = "prism"
+    let method = "prism"
 
     func resolve(did: DID) throws -> DIDDocument {
         let prismDID = try LongFormPrismDID(did: did)

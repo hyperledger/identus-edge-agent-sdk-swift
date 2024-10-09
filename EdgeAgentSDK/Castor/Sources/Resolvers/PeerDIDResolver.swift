@@ -4,7 +4,7 @@ import Foundation
 import PeerDID
 
 struct PeerDIDResolver: DIDResolverDomain {
-    var method = "peer"
+    let method = "peer"
 
     func resolve(did: Domain.DID) async throws -> Domain.DIDDocument {
         try PeerDIDHelper.resolve(peerDIDStr: did.string).toDomain()
@@ -55,7 +55,7 @@ extension DIDCore.DIDDocument {
 
         self.init(
             id: from.id.string,
-            verificationMethods: verificationMethods + authenticationMethods + keyAgreementMethods,
+            verificationMethod: verificationMethods + authenticationMethods + keyAgreementMethods,
             authentication: authenticationIds.map { .stringValue($0) },
             assertionMethod: nil,
             capabilityDelegation: nil,
@@ -65,7 +65,7 @@ extension DIDCore.DIDDocument {
     }
 
     func toDomain() throws -> Domain.DIDDocument {
-        let authenticationUrls = self.verificationMethods
+        let authenticationVerificationMethodsFiltered = self.verificationMethod?
             .filter {
                 guard let type = KnownVerificationMaterialType(rawValue: $0.type) else {
                     return false
@@ -77,9 +77,19 @@ extension DIDCore.DIDDocument {
                     return false
                 }
             }
-            .map { $0.id }
+            .map { $0.id } ?? []
 
-        let keyAgreementUrls = self.verificationMethods
+        let authenticationFiltered = self.authentication?
+            .map {
+                switch $0 {
+                case .stringValue(let id):
+                    return id
+                case .verificationMethod(let method):
+                    return method.id
+                }
+            } ?? [String]()
+
+        let keyAgreementVerificationMethodsFiltered = self.verificationMethod?
             .filter {
                 guard let type = KnownVerificationMaterialType(rawValue: $0.type) else {
                     return false
@@ -91,9 +101,23 @@ extension DIDCore.DIDDocument {
                     return false
                 }
             }
-            .map { $0.id }
+            .map { $0.id } ?? []
 
-        let verificationMethods = try self.verificationMethods.map {
+        let keyAgreementFiltered = self.keyAgreement?
+            .map {
+                switch $0 {
+                case .stringValue(let id):
+                    return id
+                case .verificationMethod(let method):
+                    return method.id
+                }
+            } ?? [String]()
+
+        let authenticationUrls = Set(authenticationFiltered).union(authenticationVerificationMethodsFiltered).subtracting(keyAgreementFiltered)
+
+        let keyAgreementUrls = Set(keyAgreementFiltered).union(keyAgreementVerificationMethodsFiltered).subtracting(authenticationFiltered)
+
+        let verificationMethods = try self.verificationMethod?.map {
             try $0.toDomain()
         }
 
@@ -138,14 +162,14 @@ extension DIDCore.DIDDocument {
             id: try DID(string: self.id),
             coreProperties: [
                 Domain.DIDDocument.Authentication(
-                    urls: authenticationUrls,
+                    urls: Array(authenticationUrls),
                     verificationMethods: []
                 ),
                 Domain.DIDDocument.KeyAgreement(
-                    urls: keyAgreementUrls,
+                    urls: Array(keyAgreementUrls),
                     verificationMethods: []
                 ),
-                Domain.DIDDocument.VerificationMethods(values: verificationMethods),
+                Domain.DIDDocument.VerificationMethods(values: verificationMethods ?? []),
                 Domain.DIDDocument.Services(values: services)
             ]
         )
@@ -187,7 +211,7 @@ extension DIDCore.DIDDocument.VerificationMethod {
                 id: try DIDUrl(string: id),
                 controller: try DID(string: controller),
                 type: type,
-                publicKeyJwk: try JSONSerialization.jsonObject(with: material.value) as? [String: String]
+                publicKeyJwk: try JSONDecoder.jwt.decode(Domain.JWK.self, from: material.value)
             )
         case .multibase:
             return Domain.DIDDocument.VerificationMethod(

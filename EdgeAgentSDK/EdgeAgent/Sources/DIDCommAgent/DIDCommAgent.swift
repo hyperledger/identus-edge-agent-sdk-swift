@@ -48,16 +48,31 @@ public class DIDCommAgent {
     ///   - mediatorServiceEnpoint: The endpoint of the Mediator service to use.
     public init(
         edgeAgent: EdgeAgent,
-        mercury: Mercury,
+        mercury: Mercury? = nil,
         mediationHandler: MediatorHandler? = nil
     ) {
+        let mercuryComponent: Mercury
         self.edgeAgent = edgeAgent
-        self.mercury = mercury
+        if let mercury {
+            mercuryComponent = mercury
+        } else {
+            let secretsStream = createSecretsStream(
+                keyRestoration: edgeAgent.apollo,
+                pluto: edgeAgent.pluto,
+                castor: edgeAgent.castor
+            )
+
+            mercuryComponent = MercuryBuilder(
+                castor: edgeAgent.castor,
+                secretsStream: secretsStream
+            ).build()
+        }
+        self.mercury = mercuryComponent
         self.mediationHandler = mediationHandler
         mediationHandler.map {
             self.connectionManager = ConnectionsManagerImpl(
                 castor: edgeAgent.castor,
-                mercury: mercury,
+                mercury: mercuryComponent,
                 pluto: edgeAgent.pluto,
                 mediationHandler: $0,
                 pairings: []

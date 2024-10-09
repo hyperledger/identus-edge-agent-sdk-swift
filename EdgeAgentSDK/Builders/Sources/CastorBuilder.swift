@@ -2,9 +2,9 @@ import Castor
 import Domain
 
 public struct CastorBuilder {
-    let apollo: Apollo
+    let apollo: Apollo & KeyRestoration
 
-    public init(apollo: Apollo) {
+    public init(apollo: Apollo & KeyRestoration) {
         self.apollo = apollo
     }
 

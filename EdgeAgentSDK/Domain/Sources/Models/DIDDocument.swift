@@ -23,7 +23,7 @@ public struct DIDDocument {
         public let type: String
 
         /// The public key of the verification method, represented as a JSON Web Key (JWK).
-        public let publicKeyJwk: [String: String]?
+        public let publicKeyJwk: JWK?
 
         /// The public key of the verification method, represented as a multibase encoded string.
         public let publicKeyMultibase: String?
@@ -32,7 +32,7 @@ public struct DIDDocument {
             id: DIDUrl,
             controller: DID,
             type: String,
-            publicKeyJwk: [String: String]? = nil,
+            publicKeyJwk: JWK? = nil,
             publicKeyMultibase: String? = nil
         ) {
             self.id = id

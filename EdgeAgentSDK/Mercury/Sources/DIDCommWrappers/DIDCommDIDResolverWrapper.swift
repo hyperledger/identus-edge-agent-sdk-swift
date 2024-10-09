@@ -45,14 +45,13 @@ extension DIDCore.DIDDocument {
                 return nil
             }
 
-            if
-                let jsonKeys = try $0.publicKeyJwk?.convertToJsonString()
-            {
+            if let jsonKeys = $0.publicKeyJwk {
+                let encoded = try JSONEncoder.jwt.encode(jsonKeys)
                 return .init(
                     id: $0.id.string,
                     controller: $0.controller.string,
                     type: $0.type,
-                    material: try .fromJWK(jwk: JSONDecoder().decode(JWK.self, from: jsonKeys.tryToData()))
+                    material: try .fromJWK(jwk: JSONDecoder().decode(JWK.self, from: encoded))
                 )
             } else if let multibase = $0.publicKeyMultibase {
                 return .init(
@@ -82,7 +81,7 @@ extension DIDCore.DIDDocument {
         }
         self.init(
             id: from.id.string,
-            verificationMethods: verificationMethods,
+            verificationMethod: verificationMethods,
             authentication: authentications.map { .stringValue($0) },
             keyAgreement: keyAgreements.map { .stringValue($0) },
             services: services.map { $0.toAnyCodable() }

@@ -149,7 +149,7 @@ extension ApolloImpl: KeyRestoration {
                     }
                     return Secp256k1PublicKey(
                         identifier: key.kid ?? UUID().uuidString,
-                        internalKey: .init(raw: (xData + yData).toKotlinByteArray())
+                        internalKey: .init(raw: ([0x04] + xData + yData).toKotlinByteArray())
                     )
                 }
                 return Secp256k1PrivateKey(

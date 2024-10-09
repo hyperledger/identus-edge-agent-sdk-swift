@@ -27,7 +27,7 @@ public struct RequestPresentation {
     public let attachments: [AttachmentDescriptor]
     public let thid: String?
     public let from: DID
-    public let to: DID
+    public let to: DID?
 
     public init(
         id: String = UUID().uuidString,
@@ -35,7 +35,7 @@ public struct RequestPresentation {
         attachments: [AttachmentDescriptor],
         thid: String?,
         from: DID,
-        to: DID
+        to: DID?
     ) {
         self.id = id
         self.body = body
