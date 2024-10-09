@@ -83,6 +83,13 @@ public extension DIDCommAgent {
 
         let base64String = try presentationString.tryToData().base64URLEncoded()
 
+        let useToDID: DID
+        if let toDID = request.to {
+            useToDID = toDID
+        } else {
+            useToDID = try await createNewPeerDID(updateMediator: true)
+        }
+
         return Presentation(
             body: .init(
                 goalCode: request.body.goalCode,
@@ -93,7 +100,7 @@ public extension DIDCommAgent {
                 format: format
             )],
             thid: request.thid ?? request.id,
-            from: request.to,
+            from: useToDID,
             to: request.from
         )
     }

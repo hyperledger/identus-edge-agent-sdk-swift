@@ -83,6 +83,10 @@ public extension EdgeAgent {
 
         let base64String = try presentationString.tryToData().base64URLEncoded()
 
+        guard
+            let toDID = request.to
+        else { throw MercuryError.noRecipientDIDSetError }
+
         return Presentation(
             body: .init(
                 goalCode: request.body.goalCode,
@@ -93,7 +97,7 @@ public extension EdgeAgent {
                 format: format
             )],
             thid: request.thid ?? request.id,
-            from: request.to,
+            from: toDID,
             to: request.from
         )
     }

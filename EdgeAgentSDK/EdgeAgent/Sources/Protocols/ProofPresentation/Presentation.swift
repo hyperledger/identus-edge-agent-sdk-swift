@@ -73,8 +73,12 @@ public struct Presentation {
         )
     }
 
-    public static func makePresentationFromRequest(msg: Message) throws -> Presentation {
+    public static func makePresentationFromRequest(msg: Message, toDID: DID? = nil) throws -> Presentation {
         let request = try RequestPresentation(fromMessage: msg)
+
+        guard
+            let toDID = msg.to ?? toDID
+        else { throw MercuryError.noRecipientDIDSetError }
 
         return Presentation(
             body: Body(
@@ -83,7 +87,7 @@ public struct Presentation {
             ),
             attachments: request.attachments,
             thid: msg.id,
-            from: request.to,
+            from: toDID,
             to: request.from)
     }
 }
