@@ -38,7 +38,7 @@ public extension EdgeAgent {
         fromDID: DID,
         toDID: DID,
         claimFilters: [ClaimFilter]
-    ) async throws -> String {
+    ) throws -> String {
         let request = try self.pollux.createPresentationRequest(
             type: type,
             toDID: toDID,
