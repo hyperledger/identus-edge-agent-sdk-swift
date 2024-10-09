@@ -21,8 +21,8 @@ public extension DIDCommAgent {
         fromDID: DID,
         toDID: DID,
         claimFilters: [ClaimFilter]
-    ) async throws -> RequestPresentation {
-        let rqstStr = try await edgeAgent.initiatePresentationRequest(
+    ) throws -> RequestPresentation {
+        let rqstStr = try edgeAgent.initiatePresentationRequest(
             type: type,
             fromDID: fromDID,
             toDID: toDID,
