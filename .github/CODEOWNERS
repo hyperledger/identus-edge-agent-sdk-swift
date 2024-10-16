@@ -1,8 +1,1 @@
-* @goncalo-frade-iohk @elribonazo
-
-# Test related:
-/Sample/ @goncalo-frade-iohk
-/E2E/ @amagyar-iohk
-
-# Docs:
-*.md @petevielhaber @goncalo-frade-iohk
+* @hyperledger/identus-maintainers
