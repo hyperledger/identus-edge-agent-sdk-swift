@@ -39,4 +39,9 @@ struct SDJWTPresentationExchangeParser: SubmissionDescriptorFormatParser {
             submissionDescriptor: descriptor
         )
     }
+
+    func parseCredential(descriptor: PresentationSubmission.Descriptor, presentationData: Data) async throws -> any Credential {
+        let sdjwt = try await parse(path: descriptor.path, presentationData: presentationData)
+        return try SDJWTCredential(sdjwtString: sdjwt)
+    }
 }

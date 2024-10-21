@@ -114,6 +114,12 @@ public protocol Pollux {
         presentationPayload: Data,
         options: [CredentialOperationsOptions]
     ) async throws -> Bool
+
+    func presentedCredentials(
+        type: String,
+        presentationPayload: Data,
+        options: [CredentialOperationsOptions]
+    ) async throws -> [Domain.Credential]
 }
 
 public extension Pollux {

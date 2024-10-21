@@ -109,6 +109,47 @@ public extension DIDCommAgent {
         }
     }
 
+    func getCredentialsForPresentation(message: Message) async throws -> [Credential] {
+        do {
+            let downloader = DownloadDataWithResolver(castor: castor)
+            guard
+                let attachment = message.attachments.first,
+                let requestId = message.thid
+            else {
+                throw PolluxError.couldNotFindPresentationInAttachments
+            }
+
+            let jsonData: Data
+            switch attachment.data {
+            case let attchedData as AttachmentBase64:
+                guard let decoded = Data(fromBase64URL: attchedData.base64) else {
+                    throw CommonError.invalidCoding(message: "Invalid base64 url attachment")
+                }
+                jsonData = decoded
+            case let attchedData as AttachmentJsonData:
+                jsonData = try JSONEncoder.didComm().encode(attchedData.json)
+            default:
+                throw EdgeAgentError.invalidAttachmentFormat(nil)
+            }
+
+            guard let format = attachment.format else {
+                throw EdgeAgentError.invalidAttachmentFormat(nil)
+            }
+
+            return try await pollux.presentedCredentials(
+                type: format,
+                presentationPayload: jsonData,
+                options: [
+                    .presentationRequestId(requestId),
+                    .credentialDefinitionDownloader(downloader: downloader),
+                    .schemaDownloader(downloader: downloader)
+            ])
+        } catch {
+            logger.error(error: error)
+            throw error
+        }
+    }
+
     /// This function parses an issued credential message, stores and returns the verifiable credential.
     ///
     /// - Parameters:

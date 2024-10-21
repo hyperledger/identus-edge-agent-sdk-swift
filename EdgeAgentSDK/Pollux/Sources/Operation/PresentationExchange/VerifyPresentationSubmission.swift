@@ -29,6 +29,17 @@ struct VerifyPresentationSubmission {
         return true
     }
 
+    func getPresentedCredentials(json: Data) async throws -> [Credential] {
+        let presentationContainer = try JSONDecoder.didComm().decode(PresentationContainer.self, from: json)
+        guard let submission = presentationContainer.presentationSubmission else {
+            throw PolluxError.presentationSubmissionNotAvailable
+        }
+        return try await submission.descriptorMap.asyncMap { descriptor in
+            return try await SubmissionDescriptorParser(parsers: parsers)
+                .parseCredential(descriptor: descriptor, presentationData: json)
+        }
+    }
+
     private func verifyPresentationSubmissionClaims(
         request: PresentationDefinition,
         claimVerifiers: [PresentationExchangeClaimVerifier]

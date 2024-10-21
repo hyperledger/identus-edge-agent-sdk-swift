@@ -34,4 +34,9 @@ struct JWTVCPresentationExchangeParser: SubmissionDescriptorFormatParser {
             submissionDescriptor: descriptor
         )
     }
+
+    func parseCredential(descriptor: PresentationSubmission.Descriptor, presentationData: Data) async throws -> any Credential {
+        let jwt = try await parse(path: descriptor.path, presentationData: presentationData)
+        return try JWTCredential(data: jwt.tryToData())
+    }
 }

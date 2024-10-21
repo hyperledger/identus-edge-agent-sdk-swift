@@ -34,4 +34,8 @@ struct JWTVPPresentationExchangeParser: SubmissionDescriptorFormatParser {
             submissionDescriptor: descriptor
         )
     }
+
+    func parseCredential(descriptor: PresentationSubmission.Descriptor, presentationData: Data) async throws -> any Credential {
+        throw PolluxError.unsupportedSubmittedFormat(string: format, validFormats: ["jwt", "sd_jwt"])
+    }
 }

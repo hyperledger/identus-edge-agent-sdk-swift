@@ -58,9 +58,19 @@ extension PolluxImpl {
         }
     }
 
-//<<<<<<< HEAD
-//    private func getDefinition(id: String) async throws -> PresentationExchangeRequest {
-//=======
+    public func presentedCredentials(
+        type: String,
+        presentationPayload: Data,
+        options: [CredentialOperationsOptions]
+    ) async throws -> [Domain.Credential] {
+        switch type {
+        case "dif/presentation-exchange/submission@v1.0":
+            return try await getPresentationCredentials(json: presentationPayload)
+        default:
+            throw PolluxError.unsupportedAttachmentFormat(type)
+        }
+    }
+
     public func verifyPresentation(
         type: String,
         presentationPayload: Data,
@@ -111,12 +121,15 @@ extension PolluxImpl {
         return try JSONDecoder.didComm().decode(PresentationExchangeRequest.self, from: json)
     }
 
+    private func getPresentationCredentials(json: Data) async throws -> [Domain.Credential] {
+        return try await VerifyPresentationSubmission(
+            castor: castor,
+            parsers: presentationExchangeParsers
+        ).getPresentedCredentials(json: json)
+    }
+
     private func verifyPresentationSubmission(json: Data, requestId: String) async throws -> Bool {
-        let presentationContainer = try JSONDecoder.didComm().decode(PresentationContainer.self, from: json)
         let presentationRequest = try await getDefinition(id: requestId)
-        guard let submission = presentationContainer.presentationSubmission else {
-            throw PolluxError.presentationSubmissionNotAvailable
-        }
 
         return try await VerifyPresentationSubmission(
             castor: castor,
