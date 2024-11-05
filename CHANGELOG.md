@@ -1,3 +1,31 @@
+# [7.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/6.1.1...7.0.0) (2024-11-05)
+
+
+### Bug Fixes
+
+* removing unneeded async from func ([807d3d5](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/807d3d5cad4bee1dbecd7aa327c577cc4354be37))
+
+
+* feat!(agent): agent separation of concerns ([65ff99d](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/65ff99d66d9d44c1cbe133b387ea64c379de09c2))
+
+
+### Features
+
+* **edgeagent:** adds support for connectionless issuance and presentation ([7a5398e](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/7a5398eeac572585a71246682d4e88c7982a17f4))
+* **edgeAgent:** KID will be present on any signed JWTs ([b8a6855](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/commit/b8a68559605d3d36f7bfa29706116dbc745e8492))
+
+
+### BREAKING CHANGES
+
+* This is a refactor, from now on the EdgeAgent will not have any reference with DIDComm and a DIDCommAgent will replace this.
+EdgeAgent now will scope all the logic that is inherent to it removing any transport layer association, and new agents like DIDCommAgent will scope the EdgeAgent functionalities for a transport layer.
+
+With this Pollux also has some significant changes so it is not aggregated to the DIDComm Message.
+
+OIDCAgent will take part of OIDC transport layer communication.
+
+Signed-off-by: goncalo-frade-iohk <goncalo.frade@iohk.io>
+
 # [4.0.0](https://github.com/input-output-hk/atala-prism-wallet-sdk-swift/compare/3.6.0...4.0.0) (2024-01-25)
 
 
