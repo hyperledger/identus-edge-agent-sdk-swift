@@ -38,8 +38,8 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-      - name: Install lcov
-        run: brew install lcov
+#      - name: Install lcov
+#        run: brew install lcov@1.15.0 && brew link --overwrite --force lcov@1.15.0
 
       - name: Build and test
         env:
@@ -47,9 +47,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./build_test.sh
 
-      - name: Publish to coveralls
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        uses: coverallsapp/github-action@v2
-        with:
-          file: "lcov.info"
+#      - name: Publish to coveralls
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        uses: coverallsapp/github-action@v2
+#        with:
+#          file: "lcov.info"

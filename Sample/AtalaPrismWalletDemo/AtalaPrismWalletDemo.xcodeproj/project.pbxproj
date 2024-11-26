@@ -151,7 +151,6 @@
 		EE0E1FAF29473B10003CD7D5 /* SteradianMedium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SteradianMedium.otf; sourceTree = "<group>"; };
 		EE0E1FB029473B10003CD7D5 /* SteradianRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SteradianRegular.otf; sourceTree = "<group>"; };
 		EE2D40962ACC470100CF9446 /* CredentialDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialDetailViewModel.swift; sourceTree = "<group>"; };
-		EE38134E2938D55D00A3A710 /* atala-prism-swift-sdk */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "atala-prism-swift-sdk"; path = ../..; sourceTree = "<group>"; };
 		EE418ADD2BCFD925008766A6 /* PresentationDetailViewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationDetailViewState.swift; sourceTree = "<group>"; };
 		EE418ADE2BCFD925008766A6 /* PresentationDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationDetailViewModel.swift; sourceTree = "<group>"; };
 		EE418ADF2BCFD925008766A6 /* PresentationDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentationDetailView.swift; sourceTree = "<group>"; };
@@ -315,14 +314,6 @@
 				EE0E1FB029473B10003CD7D5 /* SteradianRegular.otf */,
 			);
 			path = fonts;
-			sourceTree = "<group>";
-		};
-		EE38134D2938D55D00A3A710 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				EE38134E2938D55D00A3A710 /* atala-prism-swift-sdk */,
-			);
-			name = Packages;
 			sourceTree = "<group>";
 		};
 		EE418ADB2BCFD925008766A6 /* Verifier */ = {
@@ -663,7 +654,6 @@
 		EEE61FAD2937CA280053AE52 = {
 			isa = PBXGroup;
 			children = (
-				EE38134D2938D55D00A3A710 /* Packages */,
 				EEE61FB82937CA280053AE52 /* AtalaPrismWalletDemo */,
 				EEE61FB72937CA280053AE52 /* Products */,
 				EEE61FEB2937DCBE0053AE52 /* Frameworks */,
@@ -882,6 +872,7 @@
 			);
 			mainGroup = EEE61FAD2937CA280053AE52;
 			packageReferences = (
+				EE86C3C82CF5EC750072BEB7 /* XCRemoteSwiftPackageReference "identus-edge-agent-sdk-swift" */,
 			);
 			productRefGroup = EEE61FB72937CA280053AE52 /* Products */;
 			projectDirPath = "";
@@ -1242,6 +1233,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EE86C3C82CF5EC750072BEB7 /* XCRemoteSwiftPackageReference "identus-edge-agent-sdk-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hyperledger/identus-edge-agent-sdk-swift";
+			requirement = {
+				kind = exactVersion;
+				version = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		EE38134F2938D5B100A3A710 /* Apollo */ = {
