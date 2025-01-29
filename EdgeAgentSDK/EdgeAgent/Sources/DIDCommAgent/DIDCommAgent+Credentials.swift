@@ -265,8 +265,8 @@ public extension DIDCommAgent {
 
         let requestCredential = RequestCredential3_0(
             body: .init(
-                goalCode: offer.body.goalCode,
-                comment: offer.body.comment
+                goalCode: offer.body?.goalCode,
+                comment: offer.body?.comment
             ),
             type: type.rawValue,
             attachments: [.init(
